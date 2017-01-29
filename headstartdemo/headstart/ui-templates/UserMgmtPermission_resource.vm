@@ -1,0 +1,117 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         192.168.1.10:8080
+${appname}        ${applicationName}
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      ${appDeployUrl}/${applicationName}
+${WELCOMEURL}    ${appDeployUrl}/${applicationName}/jsp/index.jsp
+${ERRORURL}      ${appDeployUrl}/${applicationName}/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+    
+Input Searchpermission_permissionname
+    [Arguments]    ${permissionname}
+    Input Text    //form[@id='fiql_permission_form']//input[@id='permissionname']    ${permissionname}
+
+Input Searchpermission_description
+    [Arguments]    ${description}
+    Input Text    //form[@id='fiql_permission_form']//input[@id='description']    ${description}
+
+Input permission_permissionname
+    [Arguments]    ${permissionname}
+    Input Text    //form[@id='add_permission_form']//input[@id='permissionname']    ${permissionname}
+
+Input permission_description
+    [Arguments]    ${description}
+    Input Text    //form[@id='add_permission_form']//input[@id='description']    ${description}
+
+Input editPermission_description
+    [Arguments]    ${description}
+    Input Text    //form[@id='edit_permission_form']//input[@id='description']    ${description}
+
+Open UserManagement_Tab
+    Click Element    xpath=//a/span[contains(text(),'User Management')]
+
+Create permission_btn
+    Assign Id To Element    xpath=//button[@onclick="createNewPermission('add_permission_form')"]    permbtn
+    Click Element    permbtn
+
+Click permission_filter button
+    Click Element    permission_filter
+
+Click permission_Backbtn
+    Click Element    xpath=//div[@onclick="openListScreen('permission')"]
+
+Create updatePermission_btn
+    Assign Id To Element    xpath=//button[@onclick="updatePermission(form.id); return false;"]    updatepermbtn
+    Click Element    updatepermbtn
+
+Click editCancel_btn
+    Assign Id To Element    xpath=//button[@onclick="openListScreen('permission')"]    cancelpermbtn
+    Click Element    cancelpermbtn
+
+Open permission_Tab
+    Click Link    index_tab_permissions
+
+Open permission_CreatePage
+    Click Button    id=plus
+
+Click searchpermission_btn
+    Click Link    searchPermissionBtn
+
+Click permission_Viewbtn
+    Click Element    xpath=//div[@id='permissions_details_act']
+
+Click permission_Editbtn
+    Assign Id To Element    xpath=//a[@onclick="checkeditpermissioncall()"]    editperm
+    Click Element    editperm
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Wait for UserManagement_Tab
+    Wait Until Page Contains Element    xpath=//a/span[contains(text(),'User Management')]    1 min
+
+Open Administration_Tab
+    Click Element    index_administration
+
+Wait for Administration_Tab
+    Wait Until Page Contains Element    index_administration    1 min

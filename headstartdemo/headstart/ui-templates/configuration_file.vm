@@ -1,0 +1,11 @@
+ NameVirtualHost ${host}:80
+<VirtualHost ${host}:80>
+	ServerName ${host}
+	ProxyPass /${appName}/ ${appDeployUrl}/${appName}/
+	ProxyPassReverse /${appName}/ ${appDeployUrl}/${appName}/
+	ProxyPassReverseCookiePath /${appName} /
+	ErrorLog logs/${appName}_error.log
+	CustomLog logs/${appName}_access.log common
+	RewriteEngine on
+	RewriteRule ^/${appName}${dollar} ${appName}/ [R]
+</VirtualHost>

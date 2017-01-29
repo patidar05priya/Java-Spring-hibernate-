@@ -1,0 +1,84 @@
+*** Settings ***
+Documentation     A test suite containing tests related to Apply Setting.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          setting_resource.txt
+
+*** Test Cases ***
+Valid SMTPConfiguration
+    Open Browser To Login Page
+    #if($AuthenticationType.equalsIgnoreCase("true"))Input Domain    default#end
+    
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for Settings button
+    Open Setting_Tab
+    Open SMTPConfiguration_Tab
+    Open SMTPPort
+    Click SMTPPort_Submit_btn
+    Open SMTPPort
+    Click SMTPPort_Cancel_btn
+    Open SMTPPort
+    Click SMTPPort_Clear_btn
+    Input SMTPPort
+    Click SMTPPort_Submit_btn
+    Click hostName
+    Click SMTPHost_Submit_btn
+    Click hostName
+    Click SMTPHost_Cancel_btn
+    Click hostName
+    Click SMTPHost_Clear_btn
+    Input SMTPHost
+    Click SMTPHost_Submit_btn
+    Click userName
+    Click SMTPUsername_Submit_btn
+    Click userName
+    Click SMTPUsername_Cancel_btn
+    Click userName
+    Click SMTPUsername_Clear_btn
+    Input SMTPUsername
+    Click SMTPUsername_Submit_btn
+    Click password
+    Click SMTPPassword_Submit_btn
+    Click password
+    Click SMTPPassword_Cancel_btn
+    Click password
+    Click SMTPPassword_Clear_btn
+    Input SMTPPassword
+    Click SMTPPassword_Submit_btn
+    Click SMTPConfiguration_Submit_btn
+    
+Valid Miscellaneous
+    Open miscellaneous_Tab
+    Select pagination_Value
+    Click miscellaneousSave_btn
+    
+Valid AdvanceSoxConfiguration
+    Open Sox_Configuration_Tab
+    Input SoxConfiguration_expiryNotificationDuration    5
+    Input SoxConfiguration_defaultExpiryInterval    15
+    Input SoxConfiguration_maxAttempts    4
+    Click SaveSoxPaging_btn
+#if($AuthenticationType.equalsIgnoreCase("true"))      
+Valid DomainCreator
+    Open domain_Creator
+    Input domain_name    Testing
+    Input domain_admin_username    apptest
+    Input domain_admin_password    apptest
+    Input domain_primary_email    ab@g.com
+    Input domain_description    Domain Description
+    Create domain_btn   
+    
+Valid DomainUser Create
+    Wait for AddUser button
+    Open addUser_btn
+    Input domain_addUser_name    Testing
+    Input domain_addUser_password    apptest
+    Input domain_addUser_email    apptest@c.com
+    Select roles
+    Create addUser_btn
+  #end   

@@ -1,0 +1,28 @@
+@startuml
+title Update Employee Scenario
+participant User
+User -> CXFServlet: PUT, Employee
+activate CXFServlet
+CXFServlet -> Employee: << create >>
+activate Employee
+Employee -> CXFServlet: << instance >>
+deactivate Employee
+CXFServlet -> EmployeeRestImpl: update(:employee)
+activate EmployeeRestImpl
+EmployeeRestImpl -> EmployeeServiceDao: update(:employee)
+activate EmployeeServiceDao
+EmployeeServiceDao -> EmployeeJPADao: update(:employee)
+activate EmployeeJPADao
+EmployeeJPADao -> EntityManager: merge(:employee)
+activate EntityManager
+EntityManager -> EmployeeJPADao: << persisted employee >>
+deactivate EntityManager
+EmployeeJPADao -> EmployeeServiceDao: << persisted employee >>
+deactivate EmployeeJPADao
+EmployeeServiceDao -> EmployeeRestImpl: << persisted employee >>
+deactivate EmployeeServiceDao
+EmployeeRestImpl -> CXFServlet: << persisted employee >>
+deactivate EmployeeRestImpl
+CXFServlet -> User: marshalled employee XML
+deactivate CXFServlet
+@enduml

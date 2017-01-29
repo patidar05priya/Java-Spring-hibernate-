@@ -1,0 +1,63 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to customer Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          customer_resource.txt
+
+*** Test Cases ***
+Valid customer Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for customer_tab 
+    Open customer_Tab
+    Open customer_CreatePage
+    Select prioritystatus
+    Input customer_name    TestString
+    Input customer_lastName    TestString
+    Input customer_phone    TestString
+    Input customer_firstName    TestString
+        Select employee
+    	Input customer_creditLimit    111						   
+         Click addcustomeraddress
+     Wait for customer_address_street
+     Input customer_address_street   street
+     Input customer_address_city   city
+     Input customer_address_state   state
+     Input customer_address_country    Country
+     Input customer_address_latitude   72.22
+     Input customer_address_addressline1   addressline1
+     Input customer_address_addressline2   addressline2
+     Input customer_address_landmark   landmark
+     Input customer_address_pincode    09837
+     Input customer_address_longitude   22.00
+     Click customer_add_address
+        Create customer_btn
+    Open customer_Tab
+Valid customer Update
+    Wait for Update button
+    Open customer_UpdatePage
+    Input customer_name_update    TestString
+    Input customer_lastName_update    TestString
+    Input customer_phone_update    TestString
+    Input customer_firstName_update    TestString
+	Input customer_creditLimit_update    11.11						   
+    Update customer_btn
+    Welcome Page Should Be Open
+    
+valid customer Search
+    Click filter button
+    Search customer_btn
+	Welcome Page Should Be Open
+
+valid customer Delete    
+    Wait for delete button
+    Delete customer_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

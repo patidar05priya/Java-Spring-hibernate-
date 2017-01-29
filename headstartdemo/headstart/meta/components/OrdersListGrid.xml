@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">OrdersDataSource</attr>
+    <attr name="id">OrdersListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Orders"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Orders",record.orderNumber,"orderNumber")}
+		}	
+			
+			if(deleteOrders) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">comments</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">comments</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">customer</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">customer</attr>
+        <attr name="dataPath">/customer/customerNumber</attr>
+        <attr name="entityDataSource">CustomerDataSource</attr>
+        <attr name="entityDisplayField">customerNumber</attr>
+        <attr name="entityValueField">customerNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">timestamp</attr>
+        <attr name="title">orderDate</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderStatus</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">orderStatus</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">requiredDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">timestamp</attr>
+        <attr name="title">requiredDate</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">shippedDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">timestamp</attr>
+        <attr name="title">shippedDate</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">totalCost</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">totalCost</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

@@ -1,0 +1,260 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        ${applicationName}
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      ${appDeployUrl}/${applicationName}
+${WELCOMEURL}    ${appDeployUrl}/${applicationName}/jsp/index.jsp
+${ERRORURL}      ${appDeployUrl}/${applicationName}/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby") && !$includeFile.name.contains("domain"))#if($includeFile.type.equals("text") )
+
+Input ${tableName}_${includeFile.dataName}
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='add_${tableName}_form']//input[@id='$includeFile.dataName']    ${dollarstart}${includeFile.dataName}${dollarend}
+    
+#end#if($includeFile.type.equals("number"))
+
+Input ${tableName}_${includeFile.dataName}
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='add_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+    
+#end#if($includeFile.type.equals("integer") || $includeFile.type.equals("long") ||  $includeFile.type.equals("float") ||  $includeFile.type.equals("double"))
+
+Input ${tableName}_${includeFile.dataName}
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='add_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+    
+#end#if($includeFile.type.equals("richText"))
+
+Input ${tableName}_${includeFile.dataName}
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='add_${tableName}_form']//div[@id='${includeFile.dataName}']    ${dollarstart}${includeFile.dataName}${dollarend}
+  
+Click add${includeFile.dataName}
+    Click Element    //form[@id='add_${tableName}_form']//div[@id='${includeFile.dataName}']
+    
+#end#if($includeFile.type.equals("select") )#if(!$includeFile.isForeignKey)
+
+Select $includeFile.name
+    Select From List By Index    //form[@id='add_${tableName}_form']//select[@id='$includeFile.viewerName']    1 
+    
+#else
+   #if($includeFile.name.equals("address") || $includeFile.name.equals("address1") || $includeFile.name.equals("address2") || $includeFile.name.equals("address3") || $includeFile.name.equals("address4"))
+   
+Click add${tableName}${includeFile.name}
+    Click Link    add_address_${tableName}_Address_act
+ 
+Input ${tableName}_${includeFile.name}_street
+    [Arguments]    ${street}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='street']    ${street}
+    
+        
+Wait for ${tableName}_${includeFile.name}_street
+    Wait Until Page Contains Element     //div[@id='address_add_${tableName}_Address_modal']//input[@id='street']    1 min
+    
+    
+Input ${tableName}_${includeFile.name}_city
+    [Arguments]    ${city}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='city']    ${city}
+    
+Input ${tableName}_${includeFile.name}_state
+    [Arguments]    ${state}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='state']    ${state}
+    
+    
+Input ${tableName}_${includeFile.name}_country
+    [Arguments]    ${country}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='country']    ${country}
+    
+Input ${tableName}_${includeFile.name}_latitude
+    [Arguments]    ${latitude}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='latitude']    ${latitude}
+    
+Input ${tableName}_${includeFile.name}_addressLine1
+    [Arguments]    ${addressLine1}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='addressLine1']    ${addressLine1}
+    
+Input ${tableName}_${includeFile.name}_addressLine2
+    [Arguments]    ${addressLine2}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='addressLine2']    ${addressLine2}
+    
+Input ${tableName}_${includeFile.name}_landmark
+    [Arguments]    ${landmark}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='landmark']    ${landmark}
+    
+Input ${tableName}_${includeFile.name}_pincode
+    [Arguments]    ${pincode}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='pincode']    ${pincode}
+    
+Input ${tableName}_${includeFile.name}_longitude
+    [Arguments]    ${longitude}
+    Input Text    //div[@id='address_add_${tableName}_Address_modal']//input[@id='longitude']    ${longitude}
+    
+Click ${tableName}_add_${includeFile.name}
+    Click Button   //div[@id='address_add_${tableName}_Address_modal']//Button[@id='create_add'] 
+     
+    
+    #else
+    
+Select $includeFile.name
+    Select From List By Index    //form[@id='add_${tableName}_form']//select[@id='${includeFile.name}.${includeFile.viewerName}']    1
+     
+    #end
+#end#end#end#end#end
+
+Open ${tableName}_Tab
+    Click Link    ${tableName}_tab
+
+Open ${tableName}_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open ${tableName}_UpdatePage
+    Click Element    id=${tableName}_edit_act
+
+Create ${tableName}_btn
+    Click Button    add_${tableName}_btn
+
+Update ${tableName}_btn
+    Click Button    edit_${tableName}_btn
+
+Delete ${tableName}_btn
+    Click Element    ${tableName}_delete_act
+
+Search ${tableName}_btn
+    Click Link   filterApply
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby") && !$includeFile.name.contains("domain"))
+#if($includeFile.type.equals("text") )
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']    ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("number"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']    ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("integer"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("long"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("float"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("double"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//input[@id='$includeFile.dataName']   ${dollarstart}${includeFile.dataName}${dollarend}
+#end#if($includeFile.type.equals("richText"))
+Input ${tableName}_${includeFile.dataName}_update
+    [Arguments]    ${dollarstart}${includeFile.dataName}${dollarend}
+    Input Text    //form[@id='edit_${tableName}_form']//div[@id='${includeFile.dataName}']   ${dollarstart}${includeFile.dataName}${dollarend}
+    
+Click edit${includeFile.dataName}
+    Click Element    //form[@id='edit_${tableName}_form']//div[@id='${includeFile.dataName}']
+#end#end#end#end
+#set( $var = 0 )
+#foreach ($includeFile in $bootsStrapList)
+#if(!$includeFile.name.equals("$primarykey"))
+#if(!$includeFile.name.equals("createdTime")&&!$includeFile.name.contains("domain")&&!$includeFile.name.equals("modifiedTime"))
+#if($var>=1)
+#else
+#if($includeFile.type.equals("text"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}
+#end#if($includeFile.type.equals("number"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}                                               
+#end#if($includeFile.type.equals("integer"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}
+#end#if($includeFile.type.equals("long"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}
+#end#if($includeFile.type.equals("float"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}
+#end#if($includeFile.type.equals("double"))
+Search ${includeFile.name}
+    [Arguments]   ${dollarstart}${includeFile.name}${dollarend}
+    Input Text    //form[@id='fiql_${tableName}_form']//input[@id='${includeFile.name}']    ${dollarstart}${includeFile.name}${dollarend}
+#end#if($includeFile.type.equals("date"))#end#if($includeFile.type.equals("select") )#end#end#set( $var = $var + 1 )#end#end
+#end
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    ${tableName}_back
+
+Wait for delete button
+    Wait Until Page Contains Element        ${tableName}_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        ${tableName}_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for ${tableName}_tab 
+    Wait Until Page Contains Element    ${tableName}_tab    1 min
+
+    
+Click filter button
+    click Element    ${tableName}_filter

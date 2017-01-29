@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8"?><Package name="com.inn.headstartdemo.service.impl">
+    <ExceptionMappings>
+        <Exception class="java.lang.Throwable" msgExpression="*abc*">
+            <Properties>
+                <Property name="mode">RETHROW</Property>
+                <Property name="loglevel">warn</Property>
+                <Property name="message">Error. User operation failed. Please verify logs for details.</Property>
+            </Properties>
+        </Exception>
+    </ExceptionMappings>
+    <Clazzes>
+		<Clazz name="com.inn.headstartdemo.service.impl.RolesServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">Exception occured during roles operation.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+		
+		</Clazz>
+		 <Clazz name="com.inn.headstartdemo.service.impl.UsersServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">Exception occured during Users operation.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+		
+		</Clazz>
+		 <Clazz name="com.inn.headstartdemo.service.impl.PermissionsServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">Exception occured during Permissions operation.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+		
+		</Clazz>
+		
+    <Clazz name="com.inn.headstartdemo.service.impl.CustomerServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(ICustomerDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Customer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Customer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Customer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Customer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.OfficeServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IOfficeDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Office)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Office)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Office)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Office)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.OrderdetailServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IOrderdetailDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Orderdetail)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Orderdetail)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Orderdetail)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Orderdetail)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.EmployeeServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IEmployeeDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Employee)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Employee)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Employee)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Employee)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.OrdersServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IOrdersDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Orders)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Orders)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Orders)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Orders)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.ProductServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IProductDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Product)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Product)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Product)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Product)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Integer)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+<Clazz name="com.inn.headstartdemo.service.impl.PaymentServiceImpl">
+			<ExceptionMappings>
+				<Exception class="java.lang.Throwable" msgExpression="*abc*">
+					<Properties>
+						<Property name="mode">RETHROW</Property>
+						<Property name="loglevel">warn</Property>
+						<Property name="message">User operation failed. Please verify logs for details.</Property>
+					</Properties>
+				</Exception>
+			</ExceptionMappings>
+			<Methods>
+				<Method name="setDao(IPaymentDao)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="search(com.inn.headstartdemo.model.Payment)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findById(java.lang.Long)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="findAll()">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="create(com.inn.headstartdemo.model.Payment)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">User operation failed. Please verify logs for details.</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="update(com.inn.headstartdemo.model.Payment)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during update operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="remove(com.inn.headstartdemo.model.Payment)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+				<Method name="removeById(java.lang.Long)">
+					<ExceptionMappings>
+						<Exception class="java.lang.Throwable" msgExpression="*abc*">
+							<Properties>
+								<Property name="mode">RETHROW</Property>
+								<Property name="loglevel">warn</Property>
+								<Property name="message">Exception occured during delete operation</Property>
+							</Properties>
+						</Exception>
+					</ExceptionMappings>
+				</Method>
+			</Methods>
+		</Clazz>
+</Clazzes>
+</Package>

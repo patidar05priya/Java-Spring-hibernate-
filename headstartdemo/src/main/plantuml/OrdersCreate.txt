@@ -1,0 +1,28 @@
+@startuml
+title Create Orders Scenario
+participant User
+User -> CXFServlet: POST, Orders
+activate CXFServlet
+CXFServlet -> Orders: << create >>
+activate Orders
+Orders -> CXFServlet: << instance >>
+deactivate Orders
+CXFServlet -> OrdersRestImpl: create(:orders)
+activate OrdersRestImpl
+OrdersRestImpl -> OrdersServiceDao: create(:orders)
+activate OrdersServiceDao
+OrdersServiceDao -> OrdersJPADao: create(:orders)
+activate OrdersJPADao
+OrdersJPADao -> EntityManager: save(:orders)
+activate EntityManager
+EntityManager -> OrdersJPADao: << persisted orders >>
+deactivate EntityManager
+OrdersJPADao -> OrdersServiceDao: << persisted orders >>
+deactivate OrdersJPADao
+OrdersServiceDao -> OrdersRestImpl: << persisted orders >>
+deactivate OrdersServiceDao
+OrdersRestImpl -> CXFServlet: << persisted orders >>
+deactivate OrdersRestImpl
+CXFServlet -> User: marshalled orders XML
+deactivate CXFServlet
+@enduml

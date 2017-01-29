@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:style="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf" xmlns:wizard="http://reporting.pentaho.org/namespaces/engine/attributes/wizard">
+  <report-header>
+    <root-level-content>
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+      
+    </root-level-content>
+  </report-header>
+  <group>
+    <fields>
+    </fields>
+    <group-header>
+      <root-level-content>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-header>
+    <group-body core:element-type="group-data-body">
+      <group core:name="prioritystatus">
+        <fields>
+          <field>customer-prioritystatus VS customer-lastName</field>
+        </fields>
+        <group-header>
+          <root-level-content>
+            <style:element-style>
+              <style:common-styles avoid-page-break="true"/>
+              <style:text-styles font-face="Arial" bold="true" italic="false" font-size="11"/>
+            </style:element-style>
+            <rectangle>
+              <style:element-style>
+                <style:content-styles draw-shape="false" fill-shape="true" scale="true" keep-aspect-ratio="false" dynamic-height="false" color="#5985b6" stroke-weight="1" stroke-style="solid"/>
+                <style:spatial-styles x="0" y="0" min-width="100%" min-height="100%"/>
+              </style:element-style>
+            </rectangle>
+            <message>
+              <style:element-style>
+                <style:content-styles color="white"/>
+                <style:text-styles font-size="12"/>
+                <style:spatial-styles x="0" y="4" min-width="100%" min-height="18"/>
+                
+              </style:element-style>
+              <core:value>prioritystatus:  $(prioritystatus)</core:value>
+            </message>
+            <label>
+              <style:element-style>
+                <style:spatial-styles x="19" y="25" min-width="227" min-height="14"/>
+                
+              </style:element-style>
+              <core:value>lastName </core:value>
+            </label>
+            
+            
+          </root-level-content>
+        </group-header>
+        <data-body>
+          <details-header>
+            <style:element-style>
+              <style:common-styles avoid-page-break="true"/>
+            </style:element-style>
+          </details-header>
+          <details>
+            <root-level-content>
+              <style:element-style>
+                <style:common-styles avoid-page-break="true"/>
+                <style:text-styles font-face="Arial" font-size="10"/>
+              </style:element-style>
+              <text-field core:field="lastName" wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="false" core:element-type="text-field">
+                <style:element-style>
+                  <style:spatial-styles x="19" y="0" min-width="227" min-height="12"/>
+                </style:element-style>
+              </text-field>
+             
+            </root-level-content>
+          </details>
+          <no-data>
+            <root-level-content>
+              <style:element-style>
+                <style:common-styles avoid-page-break="true"/>
+              </style:element-style>
+            </root-level-content>
+          </no-data>
+          <details-footer>
+            <style:element-style>
+              <style:common-styles avoid-page-break="true"/>
+            </style:element-style>
+          </details-footer>
+        </data-body>
+        <group-footer>
+          <root-level-content>
+            <style:element-style>
+              <style:common-styles avoid-page-break="true"/>
+              <style:text-styles font-face="Arial" bold="true" italic="false" font-size="11"/>
+              <style:spatial-styles min-height="24"/>
+            </style:element-style>
+            <rectangle>
+              <style:element-style>
+                <style:content-styles draw-shape="true" fill-shape="true" scale="true" keep-aspect-ratio="false" dynamic-height="false" color="#f0f0f0" stroke-weight="1" stroke-style="solid"/>
+                <style:spatial-styles x="19" y="0" min-width="100%" min-height="14"/>
+              </style:element-style>
+            </rectangle>
+            
+                   </root-level-content>
+        </group-footer>
+      </group>
+    </group-body>
+    <group-footer>
+      <root-level-content>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-footer>
+  </group>
+  <report-footer>
+    <root-level-content>
+      <style:element-style>
+        <style:band-styles pagebreak-after="true"/>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+      <rectangle>
+        <style:element-style>
+          <style:content-styles draw-shape="false" fill-shape="true" scale="true" keep-aspect-ratio="false" dynamic-height="false" color="#009999" stroke-weight="1" stroke-style="solid"/>
+          <style:spatial-styles x="0" y="0" min-width="100%" min-height="100%"/>
+        </style:element-style>
+      </rectangle>
+      <message>
+        <style:element-style>
+          <style:content-styles color="white"/>
+          <style:spatial-styles x="0" y="0" min-width="246" min-height="15"/>
+        </style:element-style>
+        <core:value> Total :$(count)</core:value>
+      </message>
+      
+    </root-level-content>
+  </report-footer>
+</layout>

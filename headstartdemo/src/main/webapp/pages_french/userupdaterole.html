@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <script>
+        $(document).ready(function() {
+            showRegularLoading();
+            sendGETRequest(context + "/rest/Roles/", "getRolesDataUser", "");
+            sendGETRequest(context + "/rest/Users/rolesbyid/" + userid, "getUsersRoleDataById", "");
+        });
+    </script>
+</head>
+
+<body>
+
+    <div style="margin-left:0px;margin-top:0px;" class="row-fluid">
+
+        <div>
+            <div id="AllRolesTableUser" style="overflow-x: hidden;"></div>
+        </div>
+
+        <br>
+
+        <div class="clearfix pull-right">
+            <button class="btn btn-small btn-info" data-toggle="tooltip" title="update" data-placement="top" data-animation="true" onclick="update_roles()">Update</button>
+            <button type="button" class="btn btn-small btn-info " data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

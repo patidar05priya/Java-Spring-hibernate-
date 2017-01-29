@@ -1,0 +1,99 @@
+<script src="../js/generated/${methodPath}Api.js"></script>
+<div class="breadcrumbs" id="breadcrumbs">
+	<ul class="breadcrumb">
+		<li class="home"><a href="#"></a></li>
+		<li class="right-home"><a href="#"></a></li>
+		<li><a href="#" id="">${methodPath}</a></li>
+		<li class="right"><a href="#"></a></li>
+	</ul>
+	<!--.breadcrumb-->
+</div>
+<div class="page-content row-fluid" >
+	<div class="span2"></div>
+	<div class="span4">
+		<form class="form-horizontal formular" id="${methodPath}_form" align="center">
+			#if(${jsonInput})
+			#foreach($input in $inputForm)
+			<div class="control-group">
+				<label class="control-label" for="$input.id" id="">$input.fieldName :</label>
+				<div class="controls row-fluid">
+					 <input type="text" id="$input.id" class="validate[required]  text-field">
+				</div>
+			</div>  
+			#end
+			#else
+			#foreach($input in $queryParamInputList)
+			<div class="control-group">
+				<label class="control-label" for="$input.name" id="">$input.name :</label>
+				<div class="controls row-fluid">
+					 <input type="text" id="$input.name" class="validate[required]  text-field">
+				</div>
+			</div>  
+			#end
+			#foreach($input in $formParamInputList)
+			<div class="control-group">
+				<label class="control-label" for="$input.name" id="">$input.name :</label>
+				<div class="controls row-fluid">
+					 <input type="text" id="$input.name" class="validate[required]  text-field">
+				</div>
+			</div>  
+			#end
+			#foreach($input in $pathParamInputList)
+			<div class="control-group">
+				<label class="control-label" for="$input.name" id="">$input.name :</label>
+				<div class="controls row-fluid">
+					 <input type="text" id="$input.name" class="validate[required]  text-field">
+				</div>
+			</div>  
+			#end
+			#end
+							</form>
+	</div>
+	<div class="span9" align="right">
+		<button class="btn btn-mini btn-primary" type="button" onclick="${methodPath}('${methodPath}_form')" >
+		<i class="icon-save bigger-110"></i>
+		<span class="bigger-110 no-text-shadow" id="${methodPath}Button">${methodPath}</span>
+		</button>
+		<button class="btn btn-mini btn-warning" onclick="resetTestEditor('${methodPath}_form')"  type="reset"  >
+		<i class="icon-save bigger-110"></i>
+		<span class="bigger-110 no-text-shadow" id="reset">Reset</span>
+		</button>
+	</div>
+	<div class="span4"></div>
+
+		<div class="profile-user-info profile-user-info-striped span12" style="margin-left: 0px;display:none;" id="details_${methodPath}_div">
+				<div class="page-header-custom">
+							<h1 class="newheader">
+								View ${methodPath}
+							</h1>
+				</div>
+				
+							
+		</div>
+		
+	#if($outputType.equalsIgnoreCase("JSON"))
+		<div class="profile-user-info profile-user-info-striped span12" style="margin-left: 0px;" id="details_${methodPath}_div">
+					<div id="${methodPath}tablediv" style="max-width: 1143px;overflow-x: scroll;"></div>
+		</div>
+	#else
+		<div class="span11" id="response_${methodPath}_div" style="display:none;">
+		<div class="page-header">
+			<h1>
+				Response
+			</h1>
+		</div>
+		<div class="col-xs-12">
+			<blockquote class="pull-left">
+			<p id="response_${methodPath}_text"></p>
+			<small>
+			</small>
+			</blockquote>
+		</div>
+	</div>
+	#end
+	</div>
+<script>
+$(document).ready(function() {
+	$("#${methodPath}_form").validationEngine();
+});
+</script>

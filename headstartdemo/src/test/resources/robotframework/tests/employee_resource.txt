@@ -1,0 +1,152 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+       
+Select office
+    Select From List By Index    //form[@id='add_employee_form']//select[@id='office.cityName']    1
+     
+    
+Input employee_lastName
+    [Arguments]    ${lastName}
+    Input Text    //form[@id='add_employee_form']//input[@id='lastName']    ${lastName}
+    
+
+Input employee_email
+    [Arguments]    ${email}
+    Input Text    //form[@id='add_employee_form']//input[@id='email']    ${email}
+    
+
+Input employee_firstName
+    [Arguments]    ${firstName}
+    Input Text    //form[@id='add_employee_form']//input[@id='firstName']    ${firstName}
+    
+
+Input employee_extension
+    [Arguments]    ${extension}
+    Input Text    //form[@id='add_employee_form']//input[@id='extension']    ${extension}
+    
+
+Input employee_jobTitle
+    [Arguments]    ${jobTitle}
+    Input Text    //form[@id='add_employee_form']//input[@id='jobTitle']    ${jobTitle}
+    
+
+Input employee_reportsTo
+    [Arguments]    ${reportsTo}
+    Input Text    //form[@id='add_employee_form']//input[@id='reportsTo']   ${reportsTo}
+    
+
+Open employee_Tab
+    Click Link    employee_tab
+
+Open employee_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open employee_UpdatePage
+    Click Element    id=employee_edit_act
+
+Create employee_btn
+    Click Button    add_employee_btn
+
+Update employee_btn
+    Click Button    edit_employee_btn
+
+Delete employee_btn
+    Click Element    employee_delete_act
+
+Search employee_btn
+    Click Link   filterApply
+Input employee_lastName_update
+    [Arguments]    ${lastName}
+    Input Text    //form[@id='edit_employee_form']//input[@id='lastName']    ${lastName}
+Input employee_email_update
+    [Arguments]    ${email}
+    Input Text    //form[@id='edit_employee_form']//input[@id='email']    ${email}
+Input employee_firstName_update
+    [Arguments]    ${firstName}
+    Input Text    //form[@id='edit_employee_form']//input[@id='firstName']    ${firstName}
+Input employee_extension_update
+    [Arguments]    ${extension}
+    Input Text    //form[@id='edit_employee_form']//input[@id='extension']    ${extension}
+Input employee_jobTitle_update
+    [Arguments]    ${jobTitle}
+    Input Text    //form[@id='edit_employee_form']//input[@id='jobTitle']    ${jobTitle}
+Input employee_reportsTo_update
+    [Arguments]    ${reportsTo}
+    Input Text    //form[@id='edit_employee_form']//input[@id='reportsTo']   ${reportsTo}
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    employee_back
+
+Wait for delete button
+    Wait Until Page Contains Element        employee_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        employee_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for employee_tab 
+    Wait Until Page Contains Element    employee_tab    1 min
+
+    
+Click filter button
+    click Element    employee_filter

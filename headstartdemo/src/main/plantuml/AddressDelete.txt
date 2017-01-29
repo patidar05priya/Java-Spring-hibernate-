@@ -1,0 +1,28 @@
+@startuml
+title Delete Address Scenario
+participant User
+User -> CXFServlet: DELETE, Address
+activate CXFServlet
+CXFServlet -> Address: << create >>
+activate Address
+Address -> CXFServlet: << instance >>
+deactivate Address
+CXFServlet -> AddressRestImpl: delete(:address)
+activate AddressRestImpl
+AddressRestImpl -> AddressServiceDao: delete(:address)
+activate AddressServiceDao
+AddressServiceDao -> AddressJPADao: delete(:address)
+activate AddressJPADao
+AddressJPADao -> EntityManager: remove(:address)
+activate EntityManager
+EntityManager -> AddressJPADao: << persisted address >>
+deactivate EntityManager
+AddressJPADao -> AddressServiceDao: << persisted address >>
+deactivate AddressJPADao
+AddressServiceDao -> AddressRestImpl: << persisted address >>
+deactivate AddressServiceDao
+AddressRestImpl -> CXFServlet: << persisted address >>
+deactivate AddressRestImpl
+CXFServlet -> User: marshalled address XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Delete Office Scenario
+participant User
+User -> CXFServlet: DELETE, Office
+activate CXFServlet
+CXFServlet -> Office: << create >>
+activate Office
+Office -> CXFServlet: << instance >>
+deactivate Office
+CXFServlet -> OfficeRestImpl: delete(:office)
+activate OfficeRestImpl
+OfficeRestImpl -> OfficeServiceDao: delete(:office)
+activate OfficeServiceDao
+OfficeServiceDao -> OfficeJPADao: delete(:office)
+activate OfficeJPADao
+OfficeJPADao -> EntityManager: remove(:office)
+activate EntityManager
+EntityManager -> OfficeJPADao: << persisted office >>
+deactivate EntityManager
+OfficeJPADao -> OfficeServiceDao: << persisted office >>
+deactivate OfficeJPADao
+OfficeServiceDao -> OfficeRestImpl: << persisted office >>
+deactivate OfficeServiceDao
+OfficeRestImpl -> CXFServlet: << persisted office >>
+deactivate OfficeRestImpl
+CXFServlet -> User: marshalled office XML
+deactivate CXFServlet
+@enduml

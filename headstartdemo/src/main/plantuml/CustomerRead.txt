@@ -1,0 +1,28 @@
+@startuml
+title Find Customer Scenario
+participant User
+User -> CXFServlet: GET, Customer Search Critera XML
+activate CXFServlet
+CXFServlet -> Customer: << create >>
+activate Customer
+Customer -> CXFServlet: << instance >>
+deactivate Customer
+CXFServlet -> CustomerRestImpl: getAll(:customer)
+activate CustomerRestImpl
+CustomerRestImpl -> CustomerServiceDao: getAll(:customer)
+activate CustomerServiceDao
+CustomerServiceDao -> CustomerJPADao: getAll(:customer)
+activate CustomerJPADao
+CustomerJPADao -> EntityManager: getResultList(:customer)
+activate EntityManager
+EntityManager -> CustomerJPADao: List<Customer>
+deactivate EntityManager
+CustomerJPADao -> CustomerServiceDao: List<Customer>
+deactivate CustomerJPADao
+CustomerServiceDao -> CustomerRestImpl: List<Customer>
+deactivate CustomerServiceDao
+CustomerRestImpl -> CXFServlet: List<Customer>
+deactivate CustomerRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

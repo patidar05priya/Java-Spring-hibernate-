@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:layout="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf">
+  <page-definition horizontal-span="1" vertical-span="1" pageformat="LETTER" orientation="portrait" margin-top="36" margin-left="36" margin-bottom="36" margin-right="36"/>
+  <layout:watermark>
+  </layout:watermark>
+  <layout:page-header>
+    <element-style>
+      <page-band-styles display-on-first-page="true" sticky="true"/>
+      <text-styles font-face="Serif" bold="true" italic="false" font-size="10"/>
+      <spatial-styles min-height="32"/>
+    </element-style>
+    <layout:horizontal-line>
+      <element-style>
+        <content-styles draw-shape="true" scale="true" keep-aspect-ratio="false" stroke-weight="0.5" stroke-style="solid"/>
+        <spatial-styles x="0" y="30" min-width="100%" min-height="0"/>
+      </element-style>
+    </layout:horizontal-line>
+    
+  </layout:page-header>
+  <layout:page-footer>
+    <element-style>
+      <page-band-styles display-on-first-page="true" display-on-last-page="true" sticky="true"/>
+      <text-styles font-face="Serif" bold="false" italic="false" font-size="9"/>
+      <spatial-styles min-height="24"/>
+    </element-style>
+    <layout:horizontal-line>
+      <element-style>
+        <content-styles draw-shape="true" scale="true" keep-aspect-ratio="false" stroke-weight="0.5" stroke-style="solid"/>
+        <spatial-styles x="0" y="0" min-width="100%" min-height="0"/>
+      </element-style>
+    </layout:horizontal-line>
+    <layout:date-field core:format-string="d-MMM-yyyy" core:field="report.date">
+      <element-style>
+        <common-styles alignment="left"/>
+        <spatial-styles x="0" y="4" min-width="25%" min-height="18"/>
+      </element-style>
+    </layout:date-field>
+    <layout:message>
+      <element-style>
+        <common-styles alignment="right"/>
+        <spatial-styles x="75%" y="4" min-width="25%" min-height="18"/>
+      </element-style>
+      <core:value>$(page) / $(pages)</core:value>
+    </layout:message>
+  </layout:page-footer>
+</style>

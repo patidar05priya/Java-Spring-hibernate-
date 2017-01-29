@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudTabSet" type="PageContainer">
+  <attributes>
+    <attr name="id">CrudTabSet</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="tabSelected">function (){
+				
+						}</attr>
+    <attr name="closeClick">function(tab) {
+							    CrudTabSet.updateTab(tab,null);
+								CrudTabSet.removeTab(tab);
+							}</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component name="ChartTab" type="Page">
+      <attributes>
+        <attr name="id">ChartTab</attr>
+        <attr name="title">getMessage('tabtitles','tab.charts','Dashboard')</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+      <ComponentContainer>
+        <Component ref="ChartsTabVLayout.xml"/>
+      </ComponentContainer>
+    </Component>
+  </ComponentContainer>
+</Component>
+

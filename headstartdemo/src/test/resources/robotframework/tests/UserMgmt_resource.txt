@@ -1,0 +1,289 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         192.168.1.10:8080
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+
+Input user_username
+    [Arguments]    ${username}
+    Input Text    //form[@id='add_user_form']//input[@id='username']    ${username}
+
+Input user_password
+    [Arguments]    ${password}
+    Input Text    //form[@id='add_user_form']//input[@id='password']    ${password}
+
+Input user_firstname
+    [Arguments]    ${firstname}
+    Input Text    //form[@id='add_user_form']//input[@id='firstname']    ${firstname}
+
+Input user_lastname
+    [Arguments]    ${lastname}
+    Input Text    //form[@id='add_user_form']//input[@id='lastname']    ${lastname}
+
+Input user_email
+    [Arguments]    ${email}
+    Input Text    //form[@id='add_user_form']//input[@id='email']    ${email}
+
+Input user_mobile
+    [Arguments]    ${telephone}
+    Input Text    //form[@id='add_user_form']//input[@id='telephone']    ${telephone}
+
+Input userAddress_street
+    [Arguments]    ${street}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='street']    ${street}
+
+Input userAddress_addressLine1
+    [Arguments]    ${addressLine1}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='addressLine1']    ${addressLine1}
+
+Input userAddress_city
+    [Arguments]    ${city}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='city']    ${city}
+
+Input userAddress_addressLine2
+    [Arguments]    ${addressLine2}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='addressLine2']    ${addressLine2}
+
+Input userAddress_state
+    [Arguments]    ${state}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='state']    ${state}
+
+Input userAddress_landmark
+    [Arguments]    ${landmark}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='landmark']    ${landmark}
+
+Input userAddress_country
+    [Arguments]    ${country}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='country']    ${country}
+
+Input userAddress_pincode
+    [Arguments]    ${pincode}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='pincode']    ${pincode}
+
+Input userAddress_latitude
+    [Arguments]    ${latitude}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='latitude']    ${latitude}
+
+Input userAddress_longitude
+    [Arguments]    ${longitude}
+    Input Text    //form[@id='add_user_Address_form']//input[@id='longitude']    ${longitude}
+
+Input editUser_username
+    [Arguments]    ${username}
+    Input Text    //form[@id='edit_user_form']//input[@id='username']    ${username}
+
+Input editUser_firstname
+    [Arguments]    ${firstname}
+    Input Text    //form[@id='edit_user_form']//input[@id='firstname']    ${firstname}
+
+Input editUser_lastname
+    [Arguments]    ${lastname}
+    Input Text    //form[@id='edit_user_form']//input[@id='lastname']    ${lastname}
+
+Input editUser_email
+    [Arguments]    ${email}
+    Input Text    //form[@id='edit_user_form']//input[@id='email']    ${email}
+
+Input editUser_mobile
+    [Arguments]    ${telephone}
+    Input Text    //form[@id='edit_user_form']//input[@id='telephone']    ${telephone}
+
+Input editUserAddress_street
+    [Arguments]    ${street}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='street']    ${street}
+
+Input editUserAddress_addressLine1
+    [Arguments]    ${addressLine1}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='addressLine1']    ${addressLine1}
+
+Input editUserAddress_city
+    [Arguments]    ${city}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='city']    ${city}
+
+Input editUserAddress_addressLine2
+    [Arguments]    ${addressLine2}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='addressLine2']    ${addressLine2}
+
+Input editUserAddress_state
+    [Arguments]    ${state}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='state']    ${state}
+
+Input editUserAddress_landmark
+    [Arguments]    ${landmark}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='landmark']    ${landmark}
+
+Input editUserAddress_country
+    [Arguments]    ${country}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='country']    ${country}
+
+Input editUserAddress_pincode
+    [Arguments]    ${pincode}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='pincode']    ${pincode}
+
+Input editUserAddress_latitude
+    [Arguments]    ${latitude}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='latitude']    ${latitude}
+
+Input editUserAddress_longitude
+    [Arguments]    ${longitude}
+    Input Text    //form[@id='edit_user_Address_form']//input[@id='longitude']    ${longitude}
+
+Input resetPassword_newpassword
+    [Arguments]    ${newPass}
+    Input Text    //form[@id='htmlForm']//input[@id='newPass']    ${newPass}
+
+Input resetPassword_confirmpassword
+    [Arguments]    ${confirmPass}
+    Input Text    //form[@id='htmlForm']//input[@id='confirmPass']    ${confirmPass}
+
+Input SearchUser_username
+    [Arguments]    ${username}
+    Input Text    //form[@id='fiql_user_form']//input[@id='username']    ${username}
+
+Input SearchUser_email
+    [Arguments]    ${email}
+    Input Text    //form[@id='fiql_user_form']//input[@id='email']    ${email}
+
+Input searchUser_firstname
+    [Arguments]    ${firstname}
+    Input Text    //form[@id='fiql_user_form']//input[@id='firstname']    ${firstname}
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open Administration_Tab
+    Click Element    index_administration
+
+Open UserManagement_Tab
+    Click Element    xpath=//a/span[contains(text(),'User Management')]
+
+Open user_Tab
+    Click Link    index_tab_users
+
+Open user_CreatePage
+    Click Button    id=plus
+
+Open userAddress
+    Click Link    AddUser_Address_act
+
+Select userRole_checkbox
+    Select Checkbox    xpath=//input[@type='checkbox']
+
+Create createAddress_btn
+    Assign Id To Element    xpath=//button[@onclick="addAddressforUsernew()"]    addressAdd
+    Click Element    addressAdd
+
+Create editUser_btn
+    Assign Id To Element    xpath=//a[@onclick="checkeditusercall();"]    edituser
+    Click Element    edituser
+
+Click resetPassword_btn
+    Assign Id To Element    xpath=//button[@onclick="changeUserPassword();"]    changepwd
+    Click Element    changepwd
+
+Create editAddressUpdate_btn
+    Click Element    xpath=//span[@id='Update']
+
+Create createUser_btn
+    Assign Id To Element    xpath=//button[@onclick="createNewUser('add_user_form')"]    createuser
+    Click Element    createuser
+
+Click filter button
+    click Element    user_filter
+
+Search user_btn
+    Click Link    filterApply
+
+Click back_btn
+    Click Button    user_back
+
+Click disableUser_btn
+    Click Link    xpath=//li[@id='deactiveli']/a[@id='EnableDisable']
+
+Click delete ok
+    Assign Id To Element    xpath=//a[@onclick="disableUser(useridForEdit);"]    deleteOK
+    Click Element    deleteOK
+
+Click updateRole_btn
+    Click Link    update_role_act
+
+Select updateRole_checkbox
+    Select Checkbox    xpath=//input[@type='checkbox']
+
+Update updateUserRole_btn
+    Click Element    create
+
+Click resetPassword
+    Click Link    reset_password_act
+
+Create editSave_btn
+    Click Link    save_button
+
+Open viewUserED
+    Assign Id To Element    xpath=//a[@onclick="openUserDetailPage(1)"]    viewUsrED
+    Click Element    viewUsrED
+
+Open viewUser
+    Assign Id To Element    xpath=//a[@onclick="openUserDetailPage(1)"]    viewUsr
+    Click Element    viewUsr
+
+Open editUser_address
+    Click Link    editUser_Address_act
+
+Click userBack_btn
+    Click Button    user_back
+
+Wait for disableUser_btn
+    Wait Until Page Contains Element    xpath=//li[@id='deactiveli']/a[@id='EnableDisable']    1 min
+
+Wait for userSearch
+    Wait Until Page Contains Element    user_filter    1 min
+
+Wait for Administration_Tab
+    Wait Until Page Contains Element    index_administration    1 min
+
+Wait for updateRole_btn
+    Wait Until Page Contains Element    update_role_act    2 min

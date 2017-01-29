@@ -1,0 +1,28 @@
+@startuml
+title Update Users Scenario
+participant User
+User -> CXFServlet: PUT, Users
+activate CXFServlet
+CXFServlet -> Users: << create >>
+activate Users
+Users -> CXFServlet: << instance >>
+deactivate Users
+CXFServlet -> UsersRestImpl: update(:users)
+activate UsersRestImpl
+UsersRestImpl -> UsersServiceDao: update(:users)
+activate UsersServiceDao
+UsersServiceDao -> UsersJPADao: update(:users)
+activate UsersJPADao
+UsersJPADao -> EntityManager: merge(:users)
+activate EntityManager
+EntityManager -> UsersJPADao: << persisted users >>
+deactivate EntityManager
+UsersJPADao -> UsersServiceDao: << persisted users >>
+deactivate UsersJPADao
+UsersServiceDao -> UsersRestImpl: << persisted users >>
+deactivate UsersServiceDao
+UsersRestImpl -> CXFServlet: << persisted users >>
+deactivate UsersRestImpl
+CXFServlet -> User: marshalled users XML
+deactivate CXFServlet
+@enduml

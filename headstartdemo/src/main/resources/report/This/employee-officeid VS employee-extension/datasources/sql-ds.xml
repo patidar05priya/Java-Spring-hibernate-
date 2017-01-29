@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><data:sql-datasource xmlns:data="http://jfreereport.sourceforge.net/namespaces/datasources/sql">
+  <data:config label-mapping="true"/>
+  <data:connection>
+    <data:driver>com.mysql.jdbc.Driver</data:driver>
+    <data:url>jdbc:mysql://localhost:3306/headstartdemo</data:url>
+    <data:properties>
+      <data:property name="user">root</data:property>
+      <data:property name="password">root</data:property>
+      <data:property name="::pentaho-reporting::port">3306</data:property>
+      <data:property name="::pentaho-reporting::name">headstartdemo</data:property>
+      <data:property name="::pentaho-reporting::database-name">headstartdemo</data:property>
+      <data:property name="::pentaho-reporting::hostname">localhost</data:property>
+      <data:property name="::pentaho-reporting::database-type">MYSQL</data:property>
+    </data:properties>
+  </data:connection>
+  <data:query-definitions>
+    <data:query name="get_col2">
+		<data:static-query>
+			select  employee.extension as extension , (select count(*) from employee where officeid=${officeid}) as count  from employee where  employee.officeid=${officeid};
+	</data:static-query>
+	</data:query>
+	<data:query name="get_col3">
+		<data:static-query>
+			select employee.officeid as officeid  from employee  group by employee.officeid asc;
+		</data:static-query>
+	</data:query>
+
+  </data:query-definitions>
+  
+</data:sql-datasource>

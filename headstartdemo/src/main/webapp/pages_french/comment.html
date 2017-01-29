@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title</title>
+<meta charset="utf-8">
+</head>
+
+<body style='overflow:visible'>
+		<div style="text-align:center;">
+		<form id="formcomment" >
+			<div class="form-actions input-append">
+				<input placeholder="Type your comment here ..." class="validate[required] width-75" type="text" name="comment" id="comment">
+				<button class="btn btn-small btn-info no-radius" onclick="commentAdd();return false;">
+					<i class="icon-share-alt"></i>
+					<span class="hidden-phone">Post</span>
+				</button>
+			</div>
+		</form>						
+		
+						
+		</div>					
+<script type="text/javascript">		
+	$(document).ready(function() {
+		jQuery("#formcomment").validationEngine();
+		
+	});
+
+
+</script>
+			
+			
+</body>
+</html>

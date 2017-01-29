@@ -1,0 +1,9 @@
+<project name="MavenAntProject" default="integrateBPM">
+	<target name="integrateBPM">
+		<copy todir="src/main/resources/BPM/flows" preservelastmodified="true">
+					<fileset dir="headstart/BPM/flows/">
+						<include name="**"/>
+					</fileset>
+		</copy>
+	</target>
+</project>

@@ -1,0 +1,28 @@
+@startuml
+title Update Comment Scenario
+participant User
+User -> CXFServlet: PUT, Comment
+activate CXFServlet
+CXFServlet -> Comment: << create >>
+activate Comment
+Comment -> CXFServlet: << instance >>
+deactivate Comment
+CXFServlet -> CommentRestImpl: update(:comment)
+activate CommentRestImpl
+CommentRestImpl -> CommentServiceDao: update(:comment)
+activate CommentServiceDao
+CommentServiceDao -> CommentJPADao: update(:comment)
+activate CommentJPADao
+CommentJPADao -> EntityManager: merge(:comment)
+activate EntityManager
+EntityManager -> CommentJPADao: << persisted comment >>
+deactivate EntityManager
+CommentJPADao -> CommentServiceDao: << persisted comment >>
+deactivate CommentJPADao
+CommentServiceDao -> CommentRestImpl: << persisted comment >>
+deactivate CommentServiceDao
+CommentRestImpl -> CXFServlet: << persisted comment >>
+deactivate CommentRestImpl
+CXFServlet -> User: marshalled comment XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,25 @@
+.tablegridview{
+width:100%;
+display:block; 
+height:100% !important;
+
+}
+
+				.tooltipster-punk {
+						
+					border-radius: 5px; 
+					border-bottom: 3px solid #08c;
+					background: #2a2a2a;
+					color: #fff;
+				}
+				.tooltipster-punk .tooltipster-content {
+					width:auto; 
+
+				text-wrap:none;
+					font-family: 'Courier', monospace;
+					font-size: 14px;
+					white-space: wrap;
+					line-height: 16px;
+					padding: 8px 10px;
+				}
+					

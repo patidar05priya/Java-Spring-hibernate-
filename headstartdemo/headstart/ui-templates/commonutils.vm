@@ -1,0 +1,985 @@
+var applicationBackColor = "#FFFFFFF";
+var dyFAllowFieldTypes = ["text", "select", "hidden", "checkbox", "radioGroup", "textArea", "date", "time", "password","YesNoCheckboxItem","spinner","selectOther"];
+var dyFAllowFieldCons = ["TextItem", "SelectItem", "HiddenItem", "CheckboxItem", "RadioItem", "TextAreaItem", "DateItem", "TimeItem", "PasswordItem","SelectOtherItem","CanvasItem"];
+var uploader;
+var filesCounter = 0;
+var filesname = new Array();
+
+
+isc.SimpleType.create({
+    name: "timestamp",
+    editorType: "date",
+    shortDisplayFormatter:function(value){return formatAsDateandTime(value)},
+    normalDisplayFormatter:function(value){return formatAsDateandTime(value)}	
+   });
+   
+   
+   
+function showDetailInWindow(record, grid)
+{
+    isc.Window.create
+    ({
+        title: "View",
+        autoSize: true,
+        autoCenter: true,
+        canDragReposition: true,
+        canDragResize: true,
+        height:220,
+        width: 520,
+        items: 
+        [
+            isc.DetailViewer.create
+            ({
+                ID:"DetailsViewer",
+                width:500,
+                autoDraw:false,
+                top:250,
+                emptyMessage:"Click a row from the grid"
+            })
+
+        ]
+    });
+    DetailsViewer.fields = grid.fields;
+    DetailsViewer.setData(record);
+}
+
+function getTab (tabTitle, tabset)
+{
+    var tabs = tabset.tabs;
+    for (var i=0; i < tabs.length ; i++)
+    {
+        if (tabs[i].title == tabTitle)
+            return tabs[i];
+    }
+    return null;
+}
+
+function genID(gridType)
+{
+    var currDateTime = new Date();
+    return currDateTime.getTime()+"";
+}
+
+function getFetchURL(formVar)
+{
+	var result="?";
+	if(formVar){
+		var fields = formVar.getFields();
+		if(fields){
+			for ( var i=0 ; i<fields.length ; i++ )
+			{
+				if(fields[i].getValue())
+				{
+					result = result + fields[i].getFieldName() + "=" + fields[i].getValue() + "&";
+				}
+			}
+			return result;
+		}
+	}
+}
+
+function sendXMLRequest (url, httpMethodVal, xmldata, callbackFunc, addlParam, showPrompt)
+{
+    var  requestProperties = { "httpHeaders": {"enctype" : "application/xml",  "Content-Type" : "application/xml", "Accept": "application/xml"}};
+    var rpc =
+            isc.RPCManager.sendRequest
+            ({
+                containsCredentials: false,
+                actionURL: url,
+                willHandleError: true,
+                useSimpleHttp: true,
+                contentType: "application/xml",
+                httpMethod:  httpMethodVal ,
+				showPrompt: showPrompt,
+				bypassCache:true,
+                prompt: "Please wait...",
+                data: xmldata,
+                callback: function (rpcResponse, data, rpcRequest) {
+                    if (isAuthorize (rpcResponse, data, rpcRequest)) {
+                        eval (callbackFunc + "(rpcResponse, data, rpcRequest, \"" + addlParam+"\")");
+                    }
+                }
+            });
+}
+
+function getResponseData (data, xpath)
+{
+    var doc = XMLTools.parseXML(data);
+    return isc.XMLTools.selectString(doc, xpath);
+}
+
+function hasValue (val)
+{
+    return (val != null && val != undefined && val != "null" &&  val != "undefined" &&  val != "");
+}
+
+function hasValue (form, fieldId)
+{
+    if (form == null) return false;
+    var val = form.getValue(fieldId);
+    return hasValue (val);
+}
+
+function hasValue (val)
+{
+    return (val != null && val != undefined && val != "null" && val != "undefined" &&  (val != "" || String(val) == "0"));
+}
+
+function makeJSONStr (json, indent) {
+    return isc.JSON.encode (json, {prettyPrint: indent,skipInternalProperties :true});
+}
+
+
+function isAuthorize (rpcResponse, data, rpcRequest, url, callbackFunc) {
+    try {
+        //alert ("isAuth");
+        //alert (rpcResponse.httpResponseCode + "--xxx  isauth  xxxxxxx--")
+        //alert (data + "----" + url + "----" + callbackFunc)
+			
+        if (rpcResponse.httpResponseCode == 0) {
+            // 500 is server error
+//            showNotification ("Oh!! Server unavailable. Try after some time.");
+            showNotification ("No session available.  Please login.");
+            // addlParam can be sent too
+            try {eval (callbackFunc + "(rpcResponse, data, rpcRequest)")} catch (e) {}
+            return false;
+        }
+        if (rpcResponse.httpResponseCode == 500) {
+			
+            // 500 is server error, checking msg in this category only
+            var msg = "Error: Data and Action mismatch!!Either correct the data or choose the right action.";
+            var msgForUser = getErrorMsg (rpcResponse.httpResponseText);
+            if (hasValue(msgForUser)) // here url represents err msg
+                msg = msgForUser;
+            isc.say(msg);
+            // addlParam can be sent too
+           // try {eval (callbackFunc + "(rpcResponse, data, rpcRequest)")} catch (e) {}
+            return false;
+        }
+        if (rpcResponse.httpResponseCode == 403) {
+			
+            // 403 is server error, checking msg in this category only
+            var msg = "Access is denied.";
+            var msgForUser = getErrorMsg (rpcResponse.httpResponseText);
+            if (hasValue(msgForUser)) // here url represents err msg
+                msg = msgForUser;
+            isc.say(msg);
+            // addlParam can be sent too
+           // try {eval (callbackFunc + "(rpcResponse, data, rpcRequest)")} catch (e) {}
+            return false;
+        }
+        
+        else if (rpcResponse.httpResponseCode == 404) {
+            // 404 is server error, ***this should not occur***
+            showNotification ("Server error. Error code: " + rpcResponse.httpResponseCode + ", Url: " + url);
+            return false;
+        }
+        else if (rpcResponse.httpResponseCode == 401) {
+            showNotification ("No session available.  Please login.");
+            logout();
+            return false;
+        }
+    } catch (e) {}
+    return true;
+}
+
+function logout ()
+{
+    sendXMLRequest ("login.jsp", "GET", "", "logoutCallback", "")
+}
+
+function showNotification (msg)
+{
+    GlblNotificationLbl.setContents (msg);
+    GlblNotificationLbl.animateFade (100);
+    isc.Timer.setTimeout (function () {GlblNotificationLbl.animateFade (0); /*GlblNotificationLbl.setVisibility ("hidden");*/}, 5000);
+}
+
+var errorMsgs = [
+    {name: "constraint", msg: "Error: Data and Action mismatch!! Either correct the data or choose the right action."},
+	{name: "BadCredentialsException", msg: "Error: Bad Credentials!! Please correct the username and password."},
+    {name: "TestConstraint", msg: "Error: Test!!"} ];
+
+function getErrorMsg (data) {
+    var msg = "";
+    for (var i=0; i < errorMsgs.length; i++) {
+        var key = errorMsgs [i];
+        if (data.indexOf(key.name) != -1) {
+            msg = key.msg;
+        }
+    }
+    return msg;
+}
+
+function setCookie(c_name,value,expiredays)
+{
+var exdate=new Date();
+exdate.setDate(exdate.getDate()+expiredays);
+document.cookie=c_name+ "=" +escape(value)+
+((expiredays==null) ? "" : ";expires="+exdate.toUTCString());
+}
+
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=");
+  if (c_start!=-1)
+    {
+    c_start=c_start + c_name.length+1;
+    c_end=document.cookie.indexOf(";",c_start);
+    if (c_end==-1) c_end=document.cookie.length;
+    return unescape(document.cookie.substring(c_start,c_end));
+    }
+  }
+return "";
+}
+
+function get_url_parameter( param )
+{
+	param = param.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+	var r1 = "[\\?&]"+param+"=([^&#]*)";
+	var r2 = new RegExp( r1 );
+	var r3 = r2.exec( window.location.href );
+	if( r3 == null ) return "";
+	else return r3[1];
+}
+
+function isDateSearch(field)
+{
+	if(hasValue(field.valueMap))
+	{
+		if(hasValue(field.valueMap.today)){
+			return true;
+		}
+		else
+			return false;
+	}
+	return false;
+}
+					
+function getFIQLURL(formVar)
+{
+	var result="?";
+	var flag=false;
+	if(formVar){
+		var fields = formVar.getFields();
+		
+		if(fields.length>0){
+			result=result+"_s=";
+			for ( var i=0 ; i<fields.length ; i++ )
+			{
+			if(fields[i].getValue())
+				{
+				if(fields[i].getType()=="select")
+					{
+
+						if(isDateSearch(fields[i]))
+							{
+						
+							result = result + fields[i].getFieldName() + "=ge=" + getSearchDateValue(fields[i].getValue()) + ";";
+							
+							
+							}
+						else
+							result = result + fields[i].getFieldName() +"."+fields[i].getValueFieldName() +"==" + fields[i].getValue() + ";";
+						
+						
+					
+					}else
+					{
+						result = result + fields[i].getFieldName() + "==" + fields[i].getValue() + ";";
+				
+					}	
+							flag=true;
+				}	
+			}
+			if(flag)
+				return result.substr(0,result.length-1);
+			else
+				return "?";
+		}
+		
+	}
+}
+
+/*supportive function for json response*/
+function isError (rpcResponse, data, rpcRequest)
+{
+  var isError = ((rpcResponse.httpResponseCode != 200) && (rpcResponse.status == -90)) + "";
+    //alarm ("is err -- "+res)
+  return (rpcResponse.httpResponseCode != 200) && (rpcResponse.status == -90);
+}
+
+function createRDS(id, url, xpath, fields)
+{
+    try {
+    return isc.RestDataSource.create({
+            ID:id+"Data",
+            fetchDataURL:url,
+            dataFormat:"json",
+            showPrompt:false,
+            preventHTTPCaching: true,
+            cacheMaxAge: 1, /*time in seconds*/
+            handleError: function (response, request) {return isAuthorize (response, "", request, url, "");},
+            recordXPath: xpath,
+            operationBindings:[
+               {operationType:"fetch", dataProtocol:"getParams", requestProperties:{ ignoreTimeout: true }},
+               {operationType:"add", dataProtocol:"postMessage", requestProperties:{httpMethod:"POST", httpHeaders: {"Content-Type" : "application/json", "enctype" : "application/json", "Accept" : "application/json"}}},
+               {operationType:"remove", dataProtocol:"getParams", requestProperties:{httpMethod:"DELETE"}, httpHeaders: {"Content-Type" : "application/json", "enctype" : "application/json", "Accept" : "application/json"}},
+               {operationType:"update", dataProtocol:"postMessage", requestProperties:{httpMethod:"PUT", httpHeaders: {"Content-Type" : "application/json", "enctype" : "application/json", "Accept" : "application/json"}}}
+            ],
+            fields: fields
+        });
+    } catch (e) {
+        /*404 is page not found*/
+        showNotification ("Server error in retrieving data. Please contact System Administrator Url: " + url, true);
+    }
+}
+
+
+function sendJSONRequest (url, httpMethodVal, jsonParams, callbackFunc, addlParam, showPrompt)
+{
+    //if(isActiveWindow)
+    {
+        if (!hasValue(showPrompt))
+            showPrompt = false;
+
+        var  requestProperties = { "httpHeaders": {"enctype" : "application/json",  "Content-Type" : "application/*+json", "Accept": "application/json"}};
+        try {
+        var rpc =
+                isc.RPCManager.sendRequest
+                ({
+                    containsCredentials: false,
+                    actionURL: url,
+                    willHandleError: true,
+                    serverOutputAsString: true,
+                    useSimpleHttp: true,
+                    contentType: "application/json",
+                    httpMethod:  httpMethodVal ,
+                    showPrompt: showPrompt,
+                    prompt:  " Please wait...",
+                    data: jsonParams,
+                    callback: function (rpcResponse, data, rpcRequest) {
+                        if (isAuthorize (rpcResponse, data, rpcRequest, url, callbackFunc)) {
+                            eval (callbackFunc + "(arguments[0], arguments[1], arguments[2], \"" + addlParam+"\")");
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+        } 
+        catch (e) {
+            /*showNotification ("Server error for Url: " + url)*/
+            return false;
+        }
+    }
+}
+
+
+/*this function is to assign color the application based on selected theme*/
+function getHeaderColorForTheme()
+{
+if(ImageDir=="EnterpriseBlue")
+	applicationBackColor = "#D0E8EA";
+if(ImageDir=="BlackOps")
+	applicationBackColor = "#000000";
+if(ImageDir=="Cupertino")
+	applicationBackColor = "#eeeeee";
+if(ImageDir=="Enterprise")
+	applicationBackColor = "#e1e1e1";
+if(ImageDir=="Simplicity")
+	applicationBackColor = "#e1e1e1";
+if(ImageDir=="Graphite")
+	applicationBackColor = "#787e8a";
+if(ImageDir=="SilverWave")
+	applicationBackColor = "#deebf1";
+if(ImageDir=="TreeFrog")
+	applicationBackColor = "#D9FFE2";
+if(ImageDir=="GoGreen")
+	applicationBackColor = "#D9FFE2";
+}
+
+function prepareFormJSON (dyF, excludeParams)
+{
+    var flds = dyF.fields;
+
+    var jsonStr = "{";
+    for (var i=0; i < flds.length; i++)
+    {
+        var fld = flds[i];
+        var name = fld.name;
+        var type = fld.type;
+        var constr = fld._constructor;
+
+        if (isDyFFieldEligible (fld, excludeParams))
+        {
+            val = dyF.getValue (name);
+            if (type == "date" || constr == "DateItem") {
+                if (hasValue(val)) {
+                    val = new Date (val).toJapanShortDate ();
+                    val = replaceAll ("/", val, "-");
+                }
+            }
+            else if (type == "YesNoCheckboxItem") {
+                /* Stringify each value to handle boolean condition */
+                val = (dyF.getValue (name) == false) ? "false" : "true";
+            }
+
+            if (hasValue(val)) {
+                jsonStr += "\""+name+"\": \""+val+"\",";
+            }
+
+        }
+    }
+
+    if (jsonStr.length > 1)
+        jsonStr = jsonStr.substring (0, jsonStr.length-1);
+
+    jsonStr += "}";
+
+    return jsonStr;
+}
+
+function isDyFFieldEligible (fld, excludeParams)
+{
+    if (excludeParams == null || !isInArray(excludeParams, fld.name)) {
+        var type = fld.type;
+        var constructor = fld._constructor;
+
+        if (type != null && type != '' && type != undefined && type != 'undefined')
+        {
+            return dyFAllowFieldTypes.indexOf (type) != -1;
+        }
+        else if (constructor != null && constructor != '' && constructor != undefined && constructor != 'undefined')
+        {
+            return dyFAllowFieldCons.indexOf (constructor) != -1;
+        }
+    }
+    return false;
+}
+
+/*this function is to find and replace the substring in the string
+ * oldStrPattern: the substring that has to be find and replaced
+ * str: the string in which substring is finded
+ * newStrPattern: new string to replace the old substring
+ * */
+function replaceAll(oldStrPattern,str,newStrPattern)
+{
+  var temp="";
+  if(str!=null && oldStrPattern!=null)
+   {
+     var idx = str.indexOf(oldStrPattern);
+     while (idx > -1)
+     {
+         temp += str.substr (0, idx);
+         temp += newStrPattern;
+         str=str.substr (idx+oldStrPattern.length,str.length);
+         idx = str.indexOf(oldStrPattern);
+     }
+     temp += str;
+   }
+   return temp;
+}
+
+function isInArray (array, toFind) {
+    if (array != null && hasValue(toFind)) {
+        var result = (array.toString().indexOf(toFind) > -1);
+        if (result)
+            return result;
+        else {
+            /* If result is false we would search in traditional way as this is reported bug for IE6 */
+            if (!result) {
+                var arrLen = array.length;
+                for (var i=0; i < arrLen; i++) {
+                    if (toFind == array[i])
+                        return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+function showUploadModalWindow(entityName,id)
+{	
+	var mdlWindId = entityName + "MWin";
+
+	isc.Window.create({
+		ID: mdlWindId,
+		showMinimizeButton:false,
+		showMaximizeButton:false,
+		canDragReposition:false,
+		autoSize:false,
+		redrawOnResize: false, /* Once the contents are drawn no need to redraw them */
+		showShadow:false,
+		autoDraw:false,
+		dragAppearance:"outline",
+		dragOpacity:30,
+		showCloseButton:true,
+		dismissOnEscape: true,
+		autoSize:true,
+		canDragResize: true,
+		autoCenter: true,
+		autoDraw: false,
+		isModal: true,
+		showModalMask: true,
+		height: 400,
+		width: 600,
+		title: "Upload multiple files",
+		items: [
+			isc.HTMLPane.create({
+				overflow:"auto",
+				contentsType:"page",
+				redrawOnResize: true, /* Once the contents are drawn draw them again, its slow but required*/
+				showShadow:false,
+				autoDraw:false,
+				width:600,
+				height:400,
+				contents:"<div id=\"fine-uploader\"></div><div id=\"divMovieContainer\" align=\"center\"><input type=\"button\" class=\"blue_buttom_ex marginR20\" id=\"triggerUpload\" value=\"Start Upload\" onclick='uploader.uploadStoredFiles()'/><span id=\"initiate_basic\" style=\"color: grey;float:none;\" ></span></div>"
+			})
+		]
+	}).show();
+   
+	createUploader(entityName,id);	
+}
+
+function createUploader(entityName,id)
+{
+	uploader = new qq.FileUploader({
+		element: document.getElementById('fine-uploader'),        
+		action: "./rest/"+ entityName +"Attach/addattachment/"+id,
+		//params:{"name":""},
+		debug:true,
+		autoUpload: false,
+		multiple: true,
+		uploadButtonText: '<i class="icon-plus icon-white"></i> Select Files',
+		onSubmit: function(id, fileName){
+		filesCounter = filesCounter + 1;
+		},
+		onCancel: function(id, fileName){
+		removeFileNameFromArray(fileName);
+		filesCounter = filesCounter - 1;
+		},
+		onComplete: function(id, fileName, responseJSON) {
+			
+		filesCounter = filesCounter - 1;
+		
+		var displayName = fileName;
+		if (displayName.length > 33){
+		displayName = displayName.slice(0, 19) + '...' + displayName.slice(-13);
+		}
+		var myResponse = responseJSON.data;
+		if(myResponse==null || myResponse=='' || myResponse ==undefined || myResponse=="null" || myResponse =="undefined")
+		myResponse = responseJSON;
+
+		jQuery(".qq-upload-success").each(function(index){
+		if(index.toString() == id.toString()){        
+		jQuery(this).html('<div class="left txtgrey">' + displayName + '</div> ' + '<div class="fltrt"> ' + myResponse + '</div> <div class="clear"></div>' );
+		}
+		if(jQuery(this).find('span').length > 0){
+		var items = jQuery(this).find('span');
+		//alert(items.eq(1).text());
+		if(items.eq(1).html().toString() == fileName.toString());
+		jQuery(this).html('<div class="left txtgrey">' + displayName + '</div> ' + '<div class="fltrt"> ' + myResponse + '</div> <div class="clear"></div>' );                                                                                         
+		}
+		})                                      
+		if(filesCounter==0 || filesCounter=="0" )
+		{
+			eval(entityName + "MWin").hide();
+		}             
+
+		},
+		showMessage: function(id,message) {
+		// Using Bootstrap's classes and jQuery selector and DOM manipulation16.
+		jQuery('#file-' + id).append('<div class="alert alert-success">' + message + '</div>');
+		}
+	});
+}
+
+
+                    
+function emptyArrayofFileName()
+{
+	for(var cnt1 = 0; cnt1 < filesname.length; cnt1++)
+	{
+		filesname[cnt1] = '';
+	}
+}
+   
+function checkForFileNameInArray(fileName)
+{
+	for(var cnt2 = 0; cnt2 < filesname.length; cnt2++)
+	{
+		if(filesname[cnt2] == fileName)
+			return true;
+	}
+	
+	return false;
+}
+   
+function checkForFileNameForVersion(fileName)
+{
+	fileName = fileName.replace(/\s/gi,"_");
+	fileName = fileName.replace(/[&\/\\#,+()$~%'":*?<>{}]/g,"_");
+	fileName = '\''+fileName+'\'';
+
+	if(version_file_name == fileName)
+	{
+		filesCounter = filesCounter + 1;
+		return true;
+	}
+	else{
+		alert("File name needs to be same for being uploaded as new version. Please upload correct file");
+		return false;
+		}
+}
+   
+function removeFileNameFromArray(fileName)
+{
+	for(var cnt3 = 0; cnt3 < filesname.length; cnt3++)
+	{
+		if(filesname[cnt3] == fileName)
+		{
+			filesname[cnt3] = '';
+			return true;
+		}
+	}
+}
+
+function getImageStr (imgName, altStr, clickFunc, size) {
+    var width=0; var height=0;
+    if (!hasValue(size)) {
+        size = 16;
+    }
+    if (isA.Array(size)) { width=size[0]; height=size[1]; } else {width=size; height=size;}
+
+    var func = "";
+    if (hasValue(clickFunc)) {
+        func = " class='link' onclick='"+clickFunc+"'";
+    }
+
+    return "<img border=0 align=center;width="+width+" height="+height+" alt='"+altStr+"' title='"+altStr+"' src='"+getImgPath(imgName)+"' "+func+"/>";
+}
+
+/*return the image root path*/
+function getImgPath (imgName)
+{
+    return "./images/" + imgName;
+}
+
+/*this function is create the button and menu for the row of list grid*/
+function getAttachActionButton(id,AttachId,name,rowId,entityName,primaryKey)
+{
+	elemtA =  isc.Label.create({height:20,width: 20,contents:getImageStr('downloads.png',"Download","downloadAttachment(\""+AttachId+"\",\""+ name +"\")")});
+	elemtB =  isc.Label.create({height:20,width: 20,contents:getImageStr('close.png',"Delete","confirmDeleteFile(\""+ id+"\",\""+ rowId+"\",\""+ entityName +"\",\""+ primaryKey +"\")")});
+	
+	return isc.HStack.create({width:88,height:24,membersMargin:0,members:[elemtA,elemtB] });
+
+}
+
+function confirmDeleteFile(id,rowId,entityName,primaryKey)
+{
+	isc.confirm("Do you want to delete this file?", function (value) {if(value){ deleteFile(id,rowId,entityName,primaryKey) }}, {isModal: true, title: "Are you sure?"});
+}
+
+function deleteFile(id,rowId,entityName,primaryKey)
+{
+	var param = id + "#" + rowId + "#" + entityName + "#" + primaryKey;
+	sendJSONRequest(context+"/rest/"+ entityName +"Attach/" + id,"DELETE","","deleteFileCallback",param)
+}
+
+/*callback for the create ticket*/
+function deleteFileCallback(rpcRequest,data,rpcResponse,param)
+{
+    if( !isError(rpcRequest,data,rpcResponse))
+    {
+		var arr = param.split("#");
+		var id = arr[0];
+		var rowId = arr[1];
+		var entityName = arr[2];
+		var primaryKey = arr[3];
+        isc.say("File deleted successfully");
+        var grid = entityName + "Attach_" + rowId;
+        eval(grid).invalidateCache();
+        eval(grid).dataSource.fetchDataURL =   context+"/rest/"+ entityName +"Attach/search?_s="+ primaryKey +"=="+rowId+"&ulimit=49&llimit=0"
+        eval(grid).fetchData();
+    }
+    else
+		isc.say("Error in deleting this file",true);
+}
+
+//Download attachment by AttachmentID
+function downloadAttachment(attachmentID,fileName)
+{		
+	var url =  "./attachment.jsp?attachment="+attachmentID+"&filename="+fileName;
+    window.open(url);	
+}
+
+function generatePrimaryKeyString(entityName,primaryKey)
+{
+	var a = entityName.charAt(0).toLowerCase() + entityName.slice(1);
+	var b = primaryKey;
+	var c = a + "." + b;
+	return c;
+}
+
+function getFileListExpansion(entityName,rowid,primaryKey)
+{
+	var gridId = entityName + "Attach_" + rowid;
+	var fieldsArr = [
+			{name:"filename",title:"Name",width:"80%"},
+			{name:"actions",title:"Actions",width:"20%"}
+		];
+
+	primaryKey = generatePrimaryKeyString(entityName,primaryKey);
+		
+	var grid = isc.ListGrid.create({
+		ID:gridId,
+		autoDraw:false,
+		width:"30%",
+		showHeader:false,
+		cellHeight:35,
+		dataSource: createRDS (gridId, context+"/rest/"+ entityName +"Attach/search?_s="+ primaryKey +"=="+rowid+"&ulimit=49&llimit=0", "/", fieldsArr),
+		autoFetchData:true,
+		showRecordComponents: true,
+        showRecordComponentsByCell: true,
+        createRecordComponent : function (record, colNum) {
+			var fieldName = this.getFieldName(colNum);
+			if (fieldName == "actions") {
+				if(hasValue(record))
+					var button = getAttachActionButton(record.id,record.fileUploads.id,record.filename,rowid,entityName,primaryKey);
+				else
+					button = null;
+				
+				return button;
+			}
+		},
+		height:150,
+		fields:fieldsArr
+		})
+			
+	return grid;
+}
+
+//function to convert date inputs to sending Date format
+function convertToSendFormatFordate(dateObj)
+{
+    var currentDate = dateObj.getDate();
+    var currentMonth = dateObj.getMonth()+1;
+    var currentYear = dateObj.getFullYear();
+    
+    var currentHour = dateObj.getHours();
+    var currentMinute = dateObj.getMinutes();
+    var currentSecond = dateObj.getSeconds();
+    
+    var dateToSend = currentYear + "-" + currentMonth + "-" +  currentDate; 
+    return 	dateToSend;
+}
+
+/*this function is to return the date based on the value selected*/
+function getSearchDateValue(value)
+{
+	var val = "";
+	if(value=="Any_time")
+		val =  "";
+	if(value=="0")
+		val =  new Date();
+	if(value=="1")
+		val =  getBeforeDate('1');
+	if(value=="7")
+		val =  getCurrentWeek();
+	if(value=="15")
+		val =  getBeforeDate('15');
+	if(value=="30")
+		val =  getCurrentMonth();
+	if(value=="90")
+		val =  getCurrentQuarter();
+	if(value=="365")
+		val =  getCurrentYear();
+
+	if(hasValue(val)){
+		return convertToSendFormatFordate(val);
+	}
+	else
+		return "";
+
+}
+
+/*this function is to get the before date from the passed days*/
+function getBeforeDate(days)
+{
+	var today = new Date();
+	var todayTime = today.getTime();
+	var one_day=1000*60*60*24;
+	
+	var beforeTime = todayTime - (parseInt(days)*one_day)
+	var beforeDate = new Date(beforeTime);
+	return beforeDate;
+}
+
+/*this function is to get the current week start date*/
+function getCurrentWeek()
+{
+	var curr = new Date();
+	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+	var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
+
+	return firstday;
+}
+
+/*this function is to get the current month start date*/
+function getCurrentMonth()
+{
+	var date = new Date();
+	var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+	
+	return firstDay;
+}
+
+/*this function is to get the current quarter start date*/
+function getCurrentQuarter()
+{
+	var today = new Date();
+	var month = today.getMonth();
+	
+	if(month==0 || month==1 || month==2)
+		return new Date(today.getFullYear(), 0, 1);
+	if(month==3 || month==4 || month==5)
+		return new Date(today.getFullYear(), 3, 1);
+	if(month==6 || month==7 || month==8)
+		return new Date(today.getFullYear(), 6, 1);
+	if(month==9 || month==10 || month==11)
+		return new Date(today.getFullYear(), 9, 1);
+
+}
+
+/*this function is to get the current year start date*/
+function getCurrentYear()
+{
+	var today = new Date();
+	return new Date(today.getFullYear(), 0, 1);
+}
+
+function formatAsDateandTime (dt,separator,showYear)
+{
+    if (hasValue(dt)){
+        if (!hasValue(separator)) separator = "-";
+        var newDate = new Date(dt);
+        var date = newDate.getDate()+ separator + getMonthName(newDate.getMonth()) ;
+        if (showYear)
+            date += separator+newDate.getFullYear();
+        date += "&nbsp;"+ Time.toShortTime(newDate)
+        return date;
+    }
+    else return "-";
+}
+
+/*determine the monthname based on value*/
+function getMonthName (monthNum)
+{
+    var monthName = "Unknown";
+    switch(monthNum)
+    {
+        case 0: monthName = "Jan"; break;
+        case 1: monthName = "Feb"; break;
+        case 2: monthName = "Mar"; break;
+        case 3: monthName = "Apr"; break;
+        case 4: monthName = "May"; break;
+        case 5: monthName = "Jun"; break;
+        case 6: monthName = "Jul"; break;
+        case 7: monthName = "Aug"; break;
+        case 8: monthName = "Sep"; break;
+        case 9: monthName = "Oct"; break;
+        case 10: monthName = "Nov"; break;
+        case 11: monthName = "Dec"; break;
+    }
+    return monthName;
+}
+
+
+
+function logoutRequest()
+{
+	sendJSONRequest(context + "/j_spring_security_logout","POST","","logoutRequestCallback") 
+}
+
+function logoutRequestCallback(rpcRequest,data,rpcResponse,param)
+{
+    if( !isError(rpcRequest,data,rpcResponse))
+    {
+		window.location = context + "/login.jsp";
+    }
+}
+
+function getLoginUserDetail()
+{
+	sendJSONRequest(context +"/rest/Users/userincontext","GET","","getLoginUserDetailCallback",'',true);
+}
+
+function getLoginUserDetailCallback(rpcResquest, data, rpcResponse)
+{
+    if(!isError(rpcResquest, data, rpcResponse)){
+		var newData = eval("["+data+"]");
+		setAppUsername(newData[0].username);
+    }
+    else
+		alert("Error")
+}
+
+
+
+function setAppUsername(username)
+{
+	if(!hasValue(username))
+		username = "";
+
+	UserInfoLbl.setContents("<span style='font-weight: bold;color:#0000FF;font-size: 12px;text-decoration:underline;' >"+getMessage('label','label.welcome','Welcome')+" </span><span  style='color:#0000FF;font-weight: bold;font-size: 12px;text-decoration:underline;'>"+username + "</span>");
+	
+}
+
+var isDbFirst = true;
+var DbColOneTop = true;
+var DbColTwoTop = true;
+
+function showChartInDashboard(id)
+{
+	DbChartForm.clearValues()
+	if(isDbFirst){
+		var i;
+		var memberposA;
+		if(DbColOneTop){
+			memberposA = 0;
+			i = simplePortalColumn1.getMember(memberposA);
+			DbColOneTop = false;
+		}
+		else{
+			memberposA = 1;
+			i = simplePortalColumn1.getMember(memberposA);
+			DbColOneTop = true;
+		}
+		
+		simplePortalColumn1.removeMember(i);
+		simplePortalColumn1.addMember(addMembers(id),memberposA);
+		isDbFirst = false;
+	}
+	else
+	{
+		var j;
+		var memberposB;
+		if(DbColTwoTop){
+			memberposB = 0;
+			j = simplePortalColumn2.getMember(memberposB);
+			DbColTwoTop = false;
+		}
+		else{
+			memberposB = 1;
+			j = simplePortalColumn2.getMember(memberposB);
+			DbColTwoTop = true;
+		}
+		
+		simplePortalColumn2.removeMember(j);
+		simplePortalColumn2.addMember(addMembers(id),memberposB);
+		isDbFirst = true;
+	}
+	
+}

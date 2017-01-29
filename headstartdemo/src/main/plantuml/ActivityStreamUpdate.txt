@@ -1,0 +1,28 @@
+@startuml
+title Update ActivityStream Scenario
+participant User
+User -> CXFServlet: PUT, ActivityStream
+activate CXFServlet
+CXFServlet -> ActivityStream: << create >>
+activate ActivityStream
+ActivityStream -> CXFServlet: << instance >>
+deactivate ActivityStream
+CXFServlet -> ActivityStreamRestImpl: update(:activitystream)
+activate ActivityStreamRestImpl
+ActivityStreamRestImpl -> ActivityStreamServiceDao: update(:activitystream)
+activate ActivityStreamServiceDao
+ActivityStreamServiceDao -> ActivityStreamJPADao: update(:activitystream)
+activate ActivityStreamJPADao
+ActivityStreamJPADao -> EntityManager: merge(:activitystream)
+activate EntityManager
+EntityManager -> ActivityStreamJPADao: << persisted activitystream >>
+deactivate EntityManager
+ActivityStreamJPADao -> ActivityStreamServiceDao: << persisted activitystream >>
+deactivate ActivityStreamJPADao
+ActivityStreamServiceDao -> ActivityStreamRestImpl: << persisted activitystream >>
+deactivate ActivityStreamServiceDao
+ActivityStreamRestImpl -> CXFServlet: << persisted activitystream >>
+deactivate ActivityStreamRestImpl
+CXFServlet -> User: marshalled activitystream XML
+deactivate CXFServlet
+@enduml

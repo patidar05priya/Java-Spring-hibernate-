@@ -1,0 +1,6 @@
+<html>
+
+  #foreach ($alink in $builderlinks)
+    <a href="$alink.link">$alink.title</a><br/>
+  #end
+</html>

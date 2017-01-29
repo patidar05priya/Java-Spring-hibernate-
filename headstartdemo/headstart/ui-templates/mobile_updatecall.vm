@@ -1,0 +1,27 @@
+Titanium.include("common.js");
+function updatecall(json,tableName)
+{
+
+var clientupdate = Ti.Network.createHTTPClient({
+ 	
+     // function called when the response data is available
+     onload : function() {
+         Ti.API.info("Received text info: ggg" + this.responseText);
+         alert("Data Updated sucessfully");
+         
+             },
+             // function called when an error occurs, including a timeout
+     onerror : function(e) {
+         Ti.API.debug("Received text: " + this.responseData);
+         alert('error');
+     },
+     timeout : 5000  // in milliseconds
+ });
+ var url=deployurl+"/rest/"+tableName+"/update/";
+ clientupdate.open("PUT", url);
+ // Send the request.
+ clientupdate.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+ clientupdate.send(json);
+
+ 	
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title</title>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="edit_user_divDb" >
+				
+				<form class="form-horizontal" id="edit_user_form_Db">		
+						
+							
+										<input class="hide" type="number" id="userid">	
+										<input class="hide" type="text" id="enabled">
+								
+							<div class="span3" >
+								
+							<div class="control-group">
+									<label class="control-label" >Username</label>
+								<div class="controls">
+									<input type="text" id="username" disabled>
+								</div>
+								
+							</div>
+								
+						
+							<div class="control-group">
+									<label class="control-label" for="firstname">FirstName</label>
+
+									<div class="controls">
+										<input type="text" id="firstname" placeholder="FirstName" class="validate[required]">
+									</div>
+							</div>
+							
+							<div class="control-group">
+									<label class="control-label" for="lastname">LastName</label>
+								
+
+									<div class="controls">
+										<input type="text" id="lastname" placeholder="LastName" class="validate[required]">
+									</div>
+							</div>
+					
+							<div class="control-group">
+									<label class="control-label" for="telephone">Telephone</label>
+
+									<div class="controls">
+										<input type="text" id="telephone" placeholder="Telephone" class="validate[required,custom[onlyNumberSp],maxSize[10],minSize[10]]">
+									</div>
+							</div>
+							
+						
+								<div class="control-group">
+									<label class="control-label" for="city">City</label>
+
+									<div class="controls">
+										<input type="text" id="city" placeholder="City">
+									</div>
+							</div>
+						</div>	
+							<div class="span3" >
+							<div class="control-group">
+									<label class="control-label" for="country">Country</label>
+
+									<div class="controls">
+										<input type="text" id="country" placeholder="Country">
+									</div>
+							</div>
+							
+							
+							<div class="control-group">
+									<label class="control-label" for="zip">Pincode</label>
+
+									<div class="controls">
+										<input type="text" id="zip" placeholder="Pincode" class="validate[required,custom[onlyNumberSp]]">
+									</div>
+							</div>
+							<div class="control-group">
+									<label class="control-label" for="state">State</label>
+
+									<div class="controls">
+										<input type="text" id="state" placeholder="State">
+									</div>
+							</div>
+							<div class="control-group">
+									<label class="control-label" for="email">Email</label>
+
+									<div class="controls">
+										<input type="text" id="email" placeholder="Email" class="validate[required,custom[email]]">
+									</div>
+									
+								</div>
+							
+								<button class="btn btn-mini  btn-success" id="update" data-placement="top" data-animation="true" type="button" onclick="updateUserDb(form.id)" style="float: right; margin-right: 14%;">Update</button>
+								
+
+						
+							
+							</div>
+						
+				
+							
+					
+								
+								
+										
+									
+			</form>
+							
+			
+	   	
+	   	</div> <!-- Start of editUserDiv-->	
+	   	
+	   	<script>
+	   	$(document).ready(function()
+			{
+				
+				js2form(document.getElementById('edit_user_form_Db'),jsdata,".","",true);
+				jQuery("#edit_user_form_Db").validationEngine();
+				
+			});
+	   	function updateUserDb(formid)
+{
+	if(jQuery('#'+formid).validationEngine('validate'))
+		{
+	
+
+				var edituserjson=convertFormDataToJSON(formid);				
+				sendPUTRequest(context+"/rest/Users/updateUser/",JSON.stringify(edituserjson),"updateUserCallBackDb","");
+		}
+	}
+	
+	function updateUserCallBackDb(XMLHttpRequest,data,rpcRequest)
+		{
+	
+			if(XMLHttpRequest.status == 200)
+			
+				{	 		
+					$('.modal-backdrop').css('z-index',-3);
+		$('#edit_user_Db_modal').fadeOut();	 
+					 showSuccessMessage("User Successfully updated");
+					 
+				}
+		}
+	   	</script>
+</body>
+</html>

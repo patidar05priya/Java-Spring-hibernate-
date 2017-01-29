@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">ProductDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">ProductAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">buyPrice</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">buyPrice</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productDescription</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productDescription</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productVendor</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productVendor</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">quantityInStock</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">quantityInStock</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">sellPrice</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">sellPrice</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productline</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">select</attr>
+        <attr name="title">productline</attr>
+        <attr name="valueMap">
+"Trucks":"Trucks",
+"Motorcycles":"Motorcycles",
+"Cars":"Cars",
+"Planes":"Planes",
+"Ships":"Ships",
+"Trains":"Trains"
+</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    ProductAddForm.addProperties({saveOperationType:"add"});
+						ProductAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetProduct = true;
+					    ProductAddForm.clearValues();
+						resetProduct = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

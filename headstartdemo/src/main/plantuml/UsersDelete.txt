@@ -1,0 +1,28 @@
+@startuml
+title Delete Users Scenario
+participant User
+User -> CXFServlet: DELETE, Users
+activate CXFServlet
+CXFServlet -> Users: << create >>
+activate Users
+Users -> CXFServlet: << instance >>
+deactivate Users
+CXFServlet -> UsersRestImpl: delete(:users)
+activate UsersRestImpl
+UsersRestImpl -> UsersServiceDao: delete(:users)
+activate UsersServiceDao
+UsersServiceDao -> UsersJPADao: delete(:users)
+activate UsersJPADao
+UsersJPADao -> EntityManager: remove(:users)
+activate EntityManager
+EntityManager -> UsersJPADao: << persisted users >>
+deactivate EntityManager
+UsersJPADao -> UsersServiceDao: << persisted users >>
+deactivate UsersJPADao
+UsersServiceDao -> UsersRestImpl: << persisted users >>
+deactivate UsersServiceDao
+UsersRestImpl -> CXFServlet: << persisted users >>
+deactivate UsersRestImpl
+CXFServlet -> User: marshalled users XML
+deactivate CXFServlet
+@enduml

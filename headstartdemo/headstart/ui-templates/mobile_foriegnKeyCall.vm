@@ -1,0 +1,64 @@
+
+Titanium.include("common.js");
+Titanium.include("${tableName}Create.js");
+ var count=[];
+ 
+																								 
+		
+ #foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey)
+			
+			count.push('${includeFile.name}');
+			#else
+			#end
+			#end
+ var newcount= count.length+1;
+#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey)
+			
+		function ${tableName}foriegnKey${includeFile.name}Call(foriegnkey)
+			{
+
+           
+			var clientforiegn = Ti.Network.createHTTPClient({
+				
+				 // function called when the response data is available
+				 onload : function() {
+					 Ti.API.info("Received text info: ggg" + this.responseText);
+					 
+				 
+				   
+					${includeFile.name}_foriegn_${tableName}=JSON.parse(this.responseText);
+					  ${tableName}NoofForiegnkey++;
+						
+					   if( ${tableName}NoofForiegnkey == newcount){
+					   
+						${tableName}Create(); 
+						}  	
+				  
+					  
+						 },
+						 // function called when an error occurs, including a timeout
+				 onerror : function(e) {
+					 Ti.API.debug("Received text: " + this.responseData);
+					 alert('error');
+				 },
+				 timeout : 5000  // in milliseconds
+			 });
+			 var url= deployurl+"/rest/"+foriegnkey;
+			 clientforiegn.open("GET", url);
+			 // Send the request.
+			 clientforiegn.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+			 clientforiegn.send();
+
+				
+			}
+					
+		#else
+
+		
+		#end 
+		#end	
+
+
+

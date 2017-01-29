@@ -1,0 +1,28 @@
+@startuml
+title Create Comment Scenario
+participant User
+User -> CXFServlet: POST, Comment
+activate CXFServlet
+CXFServlet -> Comment: << create >>
+activate Comment
+Comment -> CXFServlet: << instance >>
+deactivate Comment
+CXFServlet -> CommentRestImpl: create(:comment)
+activate CommentRestImpl
+CommentRestImpl -> CommentServiceDao: create(:comment)
+activate CommentServiceDao
+CommentServiceDao -> CommentJPADao: create(:comment)
+activate CommentJPADao
+CommentJPADao -> EntityManager: save(:comment)
+activate EntityManager
+EntityManager -> CommentJPADao: << persisted comment >>
+deactivate EntityManager
+CommentJPADao -> CommentServiceDao: << persisted comment >>
+deactivate CommentJPADao
+CommentServiceDao -> CommentRestImpl: << persisted comment >>
+deactivate CommentServiceDao
+CommentRestImpl -> CXFServlet: << persisted comment >>
+deactivate CommentRestImpl
+CXFServlet -> User: marshalled comment XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Find FileUploads Scenario
+participant User
+User -> CXFServlet: GET, FileUploads Search Critera XML
+activate CXFServlet
+CXFServlet -> FileUploads: << create >>
+activate FileUploads
+FileUploads -> CXFServlet: << instance >>
+deactivate FileUploads
+CXFServlet -> FileUploadsRestImpl: getAll(:fileuploads)
+activate FileUploadsRestImpl
+FileUploadsRestImpl -> FileUploadsServiceDao: getAll(:fileuploads)
+activate FileUploadsServiceDao
+FileUploadsServiceDao -> FileUploadsJPADao: getAll(:fileuploads)
+activate FileUploadsJPADao
+FileUploadsJPADao -> EntityManager: getResultList(:fileuploads)
+activate EntityManager
+EntityManager -> FileUploadsJPADao: List<FileUploads>
+deactivate EntityManager
+FileUploadsJPADao -> FileUploadsServiceDao: List<FileUploads>
+deactivate FileUploadsJPADao
+FileUploadsServiceDao -> FileUploadsRestImpl: List<FileUploads>
+deactivate FileUploadsServiceDao
+FileUploadsRestImpl -> CXFServlet: List<FileUploads>
+deactivate FileUploadsRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

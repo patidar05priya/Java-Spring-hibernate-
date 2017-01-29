@@ -1,0 +1,28 @@
+@startuml
+title Find Payment Scenario
+participant User
+User -> CXFServlet: GET, Payment Search Critera XML
+activate CXFServlet
+CXFServlet -> Payment: << create >>
+activate Payment
+Payment -> CXFServlet: << instance >>
+deactivate Payment
+CXFServlet -> PaymentRestImpl: getAll(:payment)
+activate PaymentRestImpl
+PaymentRestImpl -> PaymentServiceDao: getAll(:payment)
+activate PaymentServiceDao
+PaymentServiceDao -> PaymentJPADao: getAll(:payment)
+activate PaymentJPADao
+PaymentJPADao -> EntityManager: getResultList(:payment)
+activate EntityManager
+EntityManager -> PaymentJPADao: List<Payment>
+deactivate EntityManager
+PaymentJPADao -> PaymentServiceDao: List<Payment>
+deactivate PaymentJPADao
+PaymentServiceDao -> PaymentRestImpl: List<Payment>
+deactivate PaymentServiceDao
+PaymentRestImpl -> CXFServlet: List<Payment>
+deactivate PaymentRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

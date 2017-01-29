@@ -1,0 +1,55 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to office Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          office_resource.txt
+
+*** Test Cases ***
+Valid office Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for office_tab 
+    Open office_Tab
+    Open office_CreatePage
+    Input office_phone    TestString
+    Input office_addressLine1    TestString
+    Input office_country    TestString
+    Input office_cityName    TestString
+    Input office_territory    TestString
+    Input office_postalCode    TestString
+    Input office_addressLine2    TestString
+    Input office_state    TestString
+    Create office_btn
+    Open office_Tab
+Valid office Update
+    Wait for Update button
+    Open office_UpdatePage
+    Input office_phone_update    TestString
+    Input office_addressLine1_update    TestString
+    Input office_country_update    TestString
+    Input office_cityName_update    TestString
+    Input office_territory_update    TestString
+    Input office_postalCode_update    TestString
+    Input office_addressLine2_update    TestString
+    Input office_state_update    TestString
+    Update office_btn
+    Welcome Page Should Be Open
+    
+valid office Search
+    Click filter button
+    Search phone     TestString
+    Search office_btn
+	Welcome Page Should Be Open
+
+valid office Delete    
+    Wait for delete button
+    Delete office_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

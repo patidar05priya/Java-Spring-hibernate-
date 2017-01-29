@@ -1,0 +1,46 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to orderdetail Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          orderdetail_resource.txt
+
+*** Test Cases ***
+Valid orderdetail Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for orderdetail_tab 
+    Open orderdetail_Tab
+    Open orderdetail_CreatePage
+	Input orderdetail_quantityOrdered    111						   
+        Select product
+    	Input orderdetail_priceEach    111						   
+        Select orders
+    	Input orderdetail_orderLineNumber    111						   
+    Create orderdetail_btn
+    Open orderdetail_Tab
+Valid orderdetail Update
+    Wait for Update button
+    Open orderdetail_UpdatePage
+	Input orderdetail_quantityOrdered_update    111						   
+	Input orderdetail_priceEach_update    11.11						   
+	Input orderdetail_orderLineNumber_update    111						   
+    Update orderdetail_btn
+    Welcome Page Should Be Open
+    
+valid orderdetail Search
+    Click filter button
+    Search orderdetail_btn
+	Welcome Page Should Be Open
+
+valid orderdetail Delete    
+    Wait for delete button
+    Delete orderdetail_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

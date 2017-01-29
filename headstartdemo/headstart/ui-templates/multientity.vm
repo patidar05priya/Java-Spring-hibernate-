@@ -1,0 +1,105 @@
+isc.ClassFactory.defineClass("multiEntity", "CanvasItem");
+
+isc.multiEntity.addProperties
+({
+    height:200, 
+    endRow:false, startRow:true,
+    shouldSaveValue:true,
+     validators: 
+        [
+            {
+                type:"custom", 
+                condition: function(item, validator, value, record){
+					var listgrid = item.canvas.members[1];
+                    item.setValue(listgrid.data);
+					if(item.entityRequired){
+						if(listgrid.data && listgrid.data.length>0){
+							return true;
+						}
+						else { 
+							return false;
+						}
+					}
+					return true;
+                },
+                errorMessage: 'Validation failed.'
+            }
+        ],
+    init:function () 
+    {
+		var entityDataSource = this.entityDataSource;
+        var entityValueField = this.entityValueField;
+        var entityDisplayField = this.entityDisplayField;
+		
+		var randomID = genID();
+        this.canvas = isc.VLayout.create
+        ({
+            members:
+            [
+                isc.ToolStrip.create
+                ({
+                    align:'right',
+                    width: 250,
+                    members:
+                    [
+                        isc.DynamicForm.create
+                        ({
+                            numCols:6,
+                            fields: 
+                            [
+                                {name: 'Select', type:'select',endRow: false, optionDataSource: entityDataSource, valueField: entityValueField, displayField: entityDisplayField},
+                                {
+                                    name: "+", type:'button', width: 20, startRow: false, endRow: false, 
+                                    click:function(form, item){
+										var listGrid = eval('list'+randomID);
+										var selectItem = form.getItem('Select');
+
+									   	eval("listGrid.addData({"+selectItem.getValueFieldName()+":'"+selectItem.getValue()+"',"+selectItem.getDisplayFieldName()+":'"+selectItem.getDisplayValue()+"'})");
+									} 
+                                },
+                                {
+                                    name: "-", type:'button', width: 20, startRow: false, click:function(form, item){
+                                        var listGrid = eval('list'+randomID);
+                                        listGrid.data.remove(listGrid.getSelectedRecord());
+                                    }
+                                }
+                            ]
+                        })
+                    ]
+                }),
+                isc.ListGrid.create
+                ({
+                    ID: 'list'+randomID,
+                    autoDraw:true,
+                    width:250,
+                    height:100,
+                    fields: this.fields,
+                    selectionType:"single"
+                })
+
+            ]
+        });
+
+        var listgrid = this.canvas.members[1];
+
+		return this.Super("init", arguments);
+    },
+    setValue : function (newValue) 
+    {
+        var listgrid = this.canvas.members[1];
+
+		if (newValue === undefined || newValue === null){
+			
+        }
+		else if(newValue && newValue.length === undefined && newValue!=""){
+			listgrid.setData(new Array(newValue));
+        }
+        else
+		{
+			listgrid.setData(newValue);
+        }
+
+        return this.Super("setValue", [newValue]);
+    }
+
+});

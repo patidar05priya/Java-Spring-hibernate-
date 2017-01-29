@@ -1,0 +1,81 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to User Management.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          UserMgmt_resource.txt
+
+*** Test Cases ***
+Valid ViewEditUser
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for Administration_Tab
+    Open Administration_Tab
+    Open UserManagement_Tab
+    Open user_Tab
+    Open viewUser
+    Create editUser_btn
+    Input editUser_firstname    App
+    Input editUser_lastname    Admin
+    Input editUser_email    admin@changeit.com
+    Input editUser_mobile    9827427013
+    Open editUser_address
+    Input editUserAddress_street    Carine
+    Input editUserAddress_addressLine1    54, rue Royale
+    Input editUserAddress_city    Nantes
+    Input editUserAddress_addressLine2    TestString
+    Input editUserAddress_state    SA
+    Input editUserAddress_landmark    TestString
+    Input editUserAddress_country    FRANCE
+    Input editUserAddress_pincode    44000
+    Input editUserAddress_latitude    0
+    Create editAddressUpdate_btn
+    Create editSave_btn
+
+Valid updateRolesUser
+    Wait for updateRole_btn
+    Click updateRole_btn
+    Update updateUserRole_btn
+
+Valid resetPasswordUser
+    Click resetPassword
+    Input resetPassword_newpassword    admin
+    Input resetPassword_confirmpassword    admin
+    Click resetPassword_btn
+
+Valid user search
+    Wait for userSearch
+    Click filter button
+    Input SearchUser_username    admin
+    Input SearchUser_email    admin@changeit.com
+    Input searchUser_firstname    App
+    Search user_btn
+
+Valid user create
+    Open user_CreatePage
+    Input user_username    AppCreator
+    Input user_password    india123
+    Input user_firstname    Bruice
+    Input user_lastname    Scott
+    Input user_email    bruice@gmail.com
+    Input user_mobile    9993343054
+    Open userAddress
+    Input userAddress_street    Broom Street
+    Input userAddress_addressLine1    Cattle Inn
+    Input userAddress_city    Tokyo
+    Input userAddress_addressLine2    TestString
+    Input userAddress_state    beizing
+    Input userAddress_landmark    old gate
+    Input userAddress_country    CHINA
+    Input userAddress_pincode    485001
+    Input userAddress_latitude    0
+    Input userAddress_longitude    0
+    Create createAddress_btn
+    Select userRole_checkbox
+    Create createUser_btn
+    

@@ -1,0 +1,28 @@
+@startuml
+title Update UserConfig Scenario
+participant User
+User -> CXFServlet: PUT, UserConfig
+activate CXFServlet
+CXFServlet -> UserConfig: << create >>
+activate UserConfig
+UserConfig -> CXFServlet: << instance >>
+deactivate UserConfig
+CXFServlet -> UserConfigRestImpl: update(:userconfig)
+activate UserConfigRestImpl
+UserConfigRestImpl -> UserConfigServiceDao: update(:userconfig)
+activate UserConfigServiceDao
+UserConfigServiceDao -> UserConfigJPADao: update(:userconfig)
+activate UserConfigJPADao
+UserConfigJPADao -> EntityManager: merge(:userconfig)
+activate EntityManager
+EntityManager -> UserConfigJPADao: << persisted userconfig >>
+deactivate EntityManager
+UserConfigJPADao -> UserConfigServiceDao: << persisted userconfig >>
+deactivate UserConfigJPADao
+UserConfigServiceDao -> UserConfigRestImpl: << persisted userconfig >>
+deactivate UserConfigServiceDao
+UserConfigRestImpl -> CXFServlet: << persisted userconfig >>
+deactivate UserConfigRestImpl
+CXFServlet -> User: marshalled userconfig XML
+deactivate CXFServlet
+@enduml

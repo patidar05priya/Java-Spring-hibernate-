@@ -1,0 +1,164 @@
+Titanium.include("Dashboard.js");
+Titanium.include("common.js");
+var self = Ti.UI.createView(
+ 	{
+ 		backgroundColor:'#07A8E7',
+ 		backgroundImage:'back1.jpg'
+		
+ 		
+ 	}
+ );
+function Login() {
+ //create object instance, a parasitic subclass of Observable
+ 
+ 
+  var head = Ti.UI.createLabel({
+  color: 'white',
+  shadowColor:"aqua",
+  font: { fontSize:"24%"},	
+  shadowOffset: {x:5, y:5},
+  text: 'APPLICATION NAME',
+  textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+  top: "2%",
+  width: 'auto',
+  height: 'auto'
+  
+});
+
+var login = Ti.UI.createLabel({
+  color: 'white',
+  shadowColor:"aqua",
+  font: { fontSize:"22%"},	
+  shadowOffset: {x:5, y:5},
+  text: 'LOGIN',
+  textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+  top: "11%",
+  width: 'auto',
+  height: 'auto'
+  
+});
+self.add(login);
+ self.add(head);
+
+ 
+ 
+var username = Ti.UI.createTextField({
+  borderStyle: Ti.UI.INPUT_BORDERSTYLE_BEZEL,
+  color: '#336699', 
+  value:'admin',
+  top: "22%", left: "10%",
+  right:"10%",
+ 
+  
+  width: "80%", height: "12%"
+});
+
+ 
+var password = Ti.UI.createTextField({
+  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+  color: '#336699',
+  value:'admin',
+  top: "35%", left: "10%",
+  right:"10%",
+  width: "80%", height:"12%"
+});
+
+
+var loginBtn = Titanium.UI.createButton({
+   title: 'Login',
+   top:"50%",
+   width: "80%",
+   font: { fontSize:"18%"},
+   left: "10%",
+   borderRadius:"5",
+   right:"10%",
+    backgroundGradient:{type:'linear',
+colors:['#6EAA13','#666666'],
+startPoint:{x:"100%",y:"0%"},
+endPoint:{x:"100%",y:"80%"},
+backFillStart:false},
+   opacity:"2%",
+   height: "11%"
+});
+var exit = Titanium.UI.createButton({
+   title: 'Exit',
+   font: {fontSize:"18%"},
+   borderRadius:"5",
+   top:"65%",
+   width: "80%",
+   color:'white',
+   backgroundGradient:{type:'linear',
+colors:['#000001','#666666'],
+startPoint:{x:0,y:0},
+endPoint:{x:2,y:50},
+backFillStart:false},
+   left: "10%",
+   right:"10%",
+   
+   height: "11%"
+});
+    
+    
+    var window = Titanium.UI.createWindow();
+    var callwindow = Titanium.UI.createWindow();
+     var webview = Titanium.UI.createWebView();
+  
+loginBtn.addEventListener('click',function(e)  
+{  
+		if(username.value==""||password.value=="")
+	{
+		alert('Please enter you credentials');
+		return;
+		
+	}
+   var url=deployurl+"/rest/unauthorize/mobileAppAuth";
+   var param={
+   				userid:username.value,
+   				password:password.value
+   				
+   };
+   
+ var client = Ti.Network.createHTTPClient({
+ 	
+     // function called when the response data is available
+     onload : function() {
+         Ti.API.info("Received text info: " + this.responseText);
+         var username=this.responseText;
+         if(username!=null)
+         {         
+         Dashboard(username);
+         self.hide();
+         }
+         else
+        { alert('Invalid Username/Passowrd');
+        return;}
+             },
+             // function called when an error occurs, including a timeout
+     onerror : function(e) {
+         Ti.API.debug("Received text: " + this.responseData);
+         alert('error');
+     },
+     timeout : 5000  // in milliseconds
+ });
+ // Prepare the connection.
+ client.open("POST", url);
+ // Send the request.
+
+ client.send(param);
+});       
+
+exit.addEventListener('click', function(e){
+
+Ti.Android.currentActivity.finish();
+
+});
+
+ 
+ self.add(username);
+ self.add(password); 
+ self.add(loginBtn);
+ self.add(exit); 
+ return self;
+ 
+};
+module.exports = Login

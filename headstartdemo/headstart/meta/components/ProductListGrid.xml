@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">ProductDataSource</attr>
+    <attr name="id">ProductListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Product"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Product",record.productCode,"productCode")}
+		}	
+			
+			if(deleteProduct) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">buyPrice</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">buyPrice</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productDescription</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productDescription</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productName</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productVendor</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">productVendor</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">quantityInStock</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">quantityInStock</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">sellPrice</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">sellPrice</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productline</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">select</attr>
+        <attr name="title">productline</attr>
+        <attr name="valueMap">
+"Trucks":"Trucks",
+"Motorcycles":"Motorcycles",
+"Cars":"Cars",
+"Planes":"Planes",
+"Ships":"Ships",
+"Trains":"Trains"
+</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

@@ -1,0 +1,398 @@
+<%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	String locale=request.getParameter("locale");
+	if(locale==null){
+		session.setAttribute("locale","en");	
+	}
+	else{
+		session.setAttribute("locale",locale);
+	}
+	String ctx = request.getContextPath();
+%>
+<c:if test="<%=locale!=null%>">
+  <fmt:setLocale value="<%=locale%>" scope="session" />
+</c:if>
+
+<%@ include file="messages.jsp"%>
+<fmt:bundle basename="message">
+<HTML>
+<HEAD>
+<link rel="shortcut icon" href="images/favicon.ico">
+<SCRIPT>var isomorphicDir="../isomorphic/";</SCRIPT>
+<SCRIPT>var projectDir='<%=ctx%>'+'/';</SCRIPT>
+<SCRIPT>var context = '<%=ctx%>';</SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/skins/EnterpriseBlue/load_skin.js></SCRIPT>
+ <script src="https://apis.google.com/js/client:plusone.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<SCRIPT SRC=./scripts/commonutils.js></SCRIPT>
+<link href="./styles/login.css" rel="stylesheet" type="text/css">
+<SCRIPT type='text/javascript'>
+			
+var retUser = "<c:out value="${param.userid}"/>";
+var attemptsLeft = "<c:out value="${param.attempts_left}"/>";
+var isErrorExists = "<c:out value="${ not empty param.login_error}"/>";
+var errorType = "<c:out value="${param.login_error}"/>";
+var title='<%=ctx%>'
+document.title= "Login to "+title.substring(1,title.length);
+function setLocale(locale)
+{
+	window.location.assign('<%=ctx%>/login.jsp?locale='+locale);
+}
+	
+function getErrorMessage(error_type){
+	if(error_type == 1){
+		if(attemptsLeft){
+		return "<font color=\"red\">Authentication failed. You have "+attemptsLeft+" more attempts left. </font>";
+		}else{
+		return "<font color=\"red\">Authentication failed. Try again</font>";
+		}
+	}
+	else if(error_type == 2){
+		return "<font color=\"red\">Your account is locked, please contact adminstrator for unlocking.</font>";
+	}
+	else if(error_type == 3){
+		return "<font color=\"red\">"+retUser+" Invalid User Credentials.</font>";
+	}
+
+	return "";
+}
+function render() {
+	
+	gapi.signin.render('customBtn', {
+      'callback':'signinCallback',
+      'clientid': '987949698787.apps.googleusercontent.com',
+      'cookiepolicy': 'http://localhost:8048',
+      'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+      'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/urlshortener'
+        
+    });
+}
+function get_url_parameter( param )
+{
+	param = param.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+	var r1 = "[\\?&]"+param+"=([^&#]*)";
+	var r2 = new RegExp( r1 );
+	var r3 = r2.exec( window.location.href );
+	if( r3 == null ) 
+		return "";
+	else 
+		return r3[1];
+}
+
+/*check the value*/
+function hasValue (val)
+{
+    return (val != null && val != undefined && val != "null" &&  val != "undefined" &&  val != "");
+}
+			
+function setCookie(c_name,value,expiredays)
+{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate()+expiredays);
+	document.cookie=c_name+ "=" +escape(value)+
+	((expiredays==null) ? "" : ";expires="+exdate.toUTCString());
+}
+
+function getCookie(c_name)
+{
+   if (document.cookie.length>0)
+   {
+	 c_start=document.cookie.indexOf(c_name + "=");
+	  if (c_start!=-1)
+	  {
+	   c_start=c_start + c_name.length+1;
+	   c_end=document.cookie.indexOf(";",c_start);
+	   if (c_end==-1) c_end=document.cookie.length;
+		return unescape(document.cookie.substring(c_start,c_end));
+	 }
+   }
+   return "";
+}
+		
+function submitLoginForm(form,item)
+{
+	if(loginForm.validate()){
+		document.forms['htmlForm'].elements['j_domain'].value = 'DEFAULT';
+		document.forms['htmlForm'].elements['j_username'].value = loginForm.getField('username').getValue();
+		document.forms['htmlForm'].elements['j_password'].value = loginForm.getField('password').getValue();
+		setCookie("ag_username",loginForm.getField('username').getValue() + '::' + loginForm.getField('domain').getValue(),1);
+		document.forms['htmlForm'].submit();
+	}
+}
+
+function validateLoginForm()
+{
+	if(loginForm.validate()){
+		try{
+			document.forms['htmlForm'].elements['j_domain'].value = 'DEFAULT';
+			document.forms['htmlForm'].elements['j_username'].value = loginForm.getField('username').getValue();
+			document.forms['htmlForm'].elements['j_password'].value = loginForm.getField('password').getValue();
+			setCookie("ag_username",loginForm.getField('username').getValue() + '::' + 'DEFAULT',1);
+			document.forms['htmlForm'].submit();
+		}
+		catch(e){}
+	}	
+}		
+
+function forgotPassword()
+{
+	if(forgetPasswordDYF.validate())
+	{	 
+		sendJSONRequest(context + "/rest/unauthorize/forgetPassword?username=" + forgetPasswordDYF.getValue("username") ,"PUT","","forgotPasswordCallback"); 
+	}
+	
+}
+
+function forgotPasswordCallback(rpcRequest,data,rpcResponse)
+{
+    if( !isError(rpcRequest,data,rpcResponse))
+    {
+		isc.say("Password has been sent to your email");
+    }
+    else
+		isc.say("Their is some error. Please try again");
+
+	ForgotPasswordWin.hide();
+	forgetPasswordDYF.clearValues();
+}
+function signinCallback(authResult) {
+
+  if (authResult['access_token']) {
+	  
+	//  alert(authResult['access_token']);
+	  createGmailUserOnPlatForm(authResult['access_token'])
+	  
+	   
+  } else if (authResult['error']) { 
+      if(authResult['error']=="immediate_failed"){ 
+            render(); 
+    } 
+   
+  }
+}
+function showForgotPassword()
+{
+	isc.DynamicForm.create({
+		numCols:"6",
+		ID:"forgetPasswordDYF",
+		autoDraw:false,
+		padding:10,
+		fields:[
+			{type:"rowSpacer"},
+			{title:"User Name",name:"username",type:"text",required:true,length:30},
+			{type:"rowSpacer"},
+			{name:"CreateButton",type:"button",width:100,title:'Change',startRow:true,rowSpan:4,
+			click:function() {
+				forgotPassword()
+			//document.forms['forgetPassword'].elements['username'].value= forgetPasswordDYF.getField('username').getValue();
+			//document.forms['forgetPassword'].submit();
+			}},
+			{name:"ResetButton",type:"button",width:100,title:getMessage('button','createtab.section.button.reset','Reset'),startRow:true,rowSpan:2,click:function() {forgetPasswordDYF.clearValues();}}
+		]
+	});
+
+	isc.Window.create({
+	ID: "ForgotPasswordWin",
+	height: 200,
+	width: 400,
+	showCloseButton:true,
+	isModal: true,
+	showModalMask: true,
+	showMinimizeButton:false,
+	autoCenter: true,
+	animateMinimize:true,
+	minimizeAcceleration: "SmoothStartEnd",
+	membersMargin: 5,
+	layoutLeftMargin: 5,
+	showFooter:false,
+	canDragReposition:false,
+	autoSize:false,
+	redrawOnResize: false, /* Once the contents are drawn no need to redraw them */
+	title: "Forget Password",
+	items: [ forgetPasswordDYF	]
+	}).show();
+}
+window.fbAsyncInit = function() {
+    FB.init({
+        appId   : 574401075924396,
+        oauth   : true,
+        status  : true, // check login status
+        cookie  : true, // enable cookies to allow the server to access the session
+        xfbml   : true // parse XFBML
+        
+    });
+
+  };
+  
+
+function handleAuthResult(resp) { 
+    alert("made it!"); 
+} 
+  
+  
+function fb_login(){
+	
+    FB.login(function(response) {
+
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            //console.log(response); // dump complete info
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+			
+            FB.api('/me', function(response) {
+				
+				
+              createFbUserOnPlatForm(response,access_token,user_id);
+                //get user email
+          // you can store this data into your database   
+         
+            });
+
+        } else {
+            //user hit cancel button
+            console.log('User cancelled login or did not fully authorize.');
+
+        }
+    }, {
+        scope: 'publish_stream,email'
+    });
+}
+
+    
+    
+
+function createGmailUserOnPlatForm(access_token)
+{	
+	
+	 jQuery.ajax({
+						url: "rest/Users/registeredgoogleuser?gmailaccessToken="+access_token,
+						type: "POST",
+			contentType: "application/json; charset=utf-8",
+			dataType: "application/json",
+			success: function(response, textStatus, jqXHR){
+				alert("Details Successfully matched")
+				window.location.href = "index.jsp";
+				//validateAppUserLoginForm(response.name);
+				
+			},
+			error: function(response,XMLHttpRequest, textStatus, errorThrown){		
+			
+				window.location.href = "index.jsp";		
+				},
+			complete: function(){
+			}
+		})
+	
+	
+	}	
+function createFbUserOnPlatForm(response,access_token,user_id)
+{
+	
+	
+	 jQuery.ajax({
+						url: "rest/Users/registerFacebookUser?UserID="+user_id+"&faceaccessToken="+access_token,
+						type: "POST",
+			contentType: "application/json; charset=utf-8",
+			dataType: "application/json",
+			success: function(response, textStatus, jqXHR){
+				alert("OK");
+				window.location.href = "index.jsp";
+				//validateAppUserLoginForm(response.name);
+				
+			},
+			error: function(response,XMLHttpRequest, textStatus, errorThrown){				
+			
+				window.location.href = "index.jsp";
+			 
+			
+				
+			},
+			complete: function(){
+			}
+		})
+	
+	
+	}
+
+
+
+
+</SCRIPT>
+</HEAD>
+<body>
+<div id="fb-root"></div>
+	<form id='htmlForm' action='<%=ctx%>/j_spring_security_check' method='post'>
+		<input type='hidden' name='j_password' />
+		<input type='hidden' name='j_username' />
+		<input type='hidden' name='j_domain' />
+	</form>
+
+	<form id='forgetPassword' action='./rest/unauthorize/forgetPassword' method='post'>
+		<input type='hidden' name='username' />
+	</form>
+
+	<div>
+
+	<section class="modalDialog scaleAnimation defaultStyle modalLayer1" style="display: block; margin-left: -327.5px; ">
+	<div class="modalContentContainer">
+		<section class="content">
+			<div class="loginContainer">
+				<div class="inputsOuterContainer clearfix">
+					<div class="viaFBorLIContainer">
+						<br/>
+						<br/>
+						<a href="#" id="fblog" onclick="fb_login()" class="actionFBLogin btn facebook"><i class="sptMain sptFBookLetter13"></i><span class="text">Login with Facebook</span></a>
+						
+						<div id="customBtn">
+						<a href="#" id="gmail" onclick="render()" style='margin-top:15px' class="actionLILogin btn gmail"><img src='<%=ctx%>/images/gmail.png' width='21px' height='21px'/><span  class="text" style='width:137px;'>&nbsp;&nbsp;Login with Gmail</span></a>
+						</div>
+						<span class="infoText">Login if your account is<br> connected with Facebook or Google.</span>
+					</div>
+					<div class="viaEmailContainer">
+						<h1>Login</h1>
+						<div id='login_error' style='height:13px;padding:3px;text-align:center;width:240px;'></div>
+					<form id='htmlForm' action='<%=ctx%>/j_spring_security_check' method='post'>
+					                    <div class="inputRow">
+						<input type='hidden' name='j_domain' value='default'/>
+						<input class="txt" type="text" name="j_username" maxlength="80" placeholder="Username">
+					</div>
+										<div class="inputRow">
+						<input class="txt" type="password" name="j_password" maxlength="20" placeholder="Password">
+					</div>
+					<div class="actionsContainer">
+						<input type="submit" class="actionLogin btn pink" value="Login">
+						<a href="javascript:void()" onclick='showForgotPassword()' class="actionGoToForgotPassword">Forgot Password?</a>
+					</div>				
+				</form>
+
+
+	
+				</div>
+			</div>
+			<hr>
+			<footer>Good to know you <!--<a href="javascript:void()" class="actionGoToJoin">Privacy Policy</a>--></footer>
+	</section>
+	</div>
+	</section>
+	</div>
+
+<script>
+
+var error = getErrorMessage(errorType);
+if(hasValue(error))
+	document.getElementById("login_error").innerHTML = error;
+</script>
+ 
+   <script src="//connect.facebook.net/en_US/all.js"></script>
+</BODY>
+
+</HTML>
+</fmt:bundle>

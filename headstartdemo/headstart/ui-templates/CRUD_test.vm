@@ -1,0 +1,108 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to ${tableName} Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          ${tableName}_resource.txt
+
+*** Test Cases ***
+Valid ${tableName} Create
+    Open Browser To Login Page
+    #if($AuthenticationType.equalsIgnoreCase("true"))Input Domain    default#end
+    
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for ${tableName}_tab 
+    Open ${tableName}_Tab
+    Open ${tableName}_CreatePage
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby") && !$includeFile.name.contains("domain"))#if($includeFile.type.equals("text") )
+    Input ${tableName}_$includeFile.dataName    TestString
+#end#if($includeFile.type.equals("number"))
+    Input ${tableName}_$includeFile.dataName    111
+#end#if($includeFile.type.equals("integer") || $includeFile.type.equals("long") ||  $includeFile.type.equals("float") ||  $includeFile.type.equals("double"))
+	Input ${tableName}_$includeFile.dataName    111						   
+#end#if($includeFile.type.equals("richText"))
+    Click add${includeFile.dataName}
+    Input ${tableName}_$includeFile.dataName    TestData
+#end#if($includeFile.type.equals("select") )#if(!$includeFile.isForeignKey)
+    Select $includeFile.name
+#else
+    #if($includeFile.name.equals("address") || $includeFile.name.equals("address1") || $includeFile.name.equals("address2") || $includeFile.name.equals("address3") || $includeFile.name.equals("address4"))
+     Click add${tableName}${includeFile.name}
+     Wait for ${tableName}_${includeFile.name}_street
+     Input ${tableName}_${includeFile.name}_street   street
+     Input ${tableName}_${includeFile.name}_city   city
+     Input ${tableName}_${includeFile.name}_state   state
+     Input ${tableName}_${includeFile.name}_country    Country
+     Input ${tableName}_${includeFile.name}_latitude   72.22
+     Input ${tableName}_${includeFile.name}_addressline1   addressline1
+     Input ${tableName}_${includeFile.name}_addressline2   addressline2
+     Input ${tableName}_${includeFile.name}_landmark   landmark
+     Input ${tableName}_${includeFile.name}_pincode    09837
+     Input ${tableName}_${includeFile.name}_longitude   22.00
+     Click ${tableName}_add_${includeFile.name}
+    #else
+    Select $includeFile.name
+    #end
+#end#end#end#end#end
+    Create ${tableName}_btn
+    Open ${tableName}_Tab
+Valid ${tableName} Update
+    Wait for Update button
+    Open ${tableName}_UpdatePage
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby") && !$includeFile.name.contains("domain"))#if($includeFile.type.equals("text") )
+    Input ${tableName}_${includeFile.dataName}_update    TestString
+#end#if($includeFile.type.equals("number"))
+    Input ${tableName}_${includeFile.dataName}_update     11
+#end#if($includeFile.type.equals("integer"))
+	Input ${tableName}_${includeFile.dataName}_update    111						   
+#end#if($includeFile.type.equals("long"))
+	Input ${tableName}_${includeFile.dataName}_update    11.11					   
+#end#if($includeFile.type.equals("float"))
+	Input ${tableName}_${includeFile.dataName}_update    11.11						   
+#end#if($includeFile.type.equals("double"))
+	Input ${tableName}_${includeFile.dataName}_update    11.11						   
+#end#if($includeFile.type.equals("richText"))
+    Click edit${includeFile.dataName}
+    Input ${tableName}_${includeFile.dataName}_update     TestData
+#end#end#end#end
+    Update ${tableName}_btn
+    Welcome Page Should Be Open
+    
+valid ${tableName} Search
+    Click filter button
+#set( $var = 0 )#foreach ($includeFile in $bootsStrapList)#if(!$includeFile.name.equals("$primarykey"))#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.contains("domain") && !$includeFile.name.equals("modifiedTime"))
+#if($var>=1)
+#else
+#if($includeFile.type.equals("text"))
+    Search ${includeFile.name}     TestString
+#end
+#if($includeFile.type.equals("number"))
+    Search ${includeFile.name}      122                                          
+#end
+#if($includeFile.type.equals("Integer"))
+    Search ${includeFile.name}       11
+#end
+#if($includeFile.type.equals("long"))
+    Search ${includeFile.name}       11.11
+#end
+#if($includeFile.type.equals("float"))
+    Search ${includeFile.name}       11.11
+#end
+#if($includeFile.type.equals("double"))
+    Search ${includeFile.name}       11.11
+#end
+#if($includeFile.type.equals("date"))#end
+#if($includeFile.type.equals("select") )#end#end#set( $var = $var + 1 )#end#end#end
+    Search ${tableName}_btn
+	Welcome Page Should Be Open
+
+valid ${tableName} Delete    
+    Wait for delete button
+    Delete ${tableName}_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

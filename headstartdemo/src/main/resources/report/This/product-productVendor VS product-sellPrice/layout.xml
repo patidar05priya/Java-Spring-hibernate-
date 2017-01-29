@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:style="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf" xmlns:wizard="http://reporting.pentaho.org/namespaces/engine/attributes/wizard" xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:zoom="1.0" report-designer:preview-dialog-bounds="331.0,62.0,700.0,700.0" report-designer:HorizontalGuideLines="(false,3.0)" xmlns:pentaho="http://reporting.pentaho.org/namespaces/engine/attributes/pentaho" pentaho:report-cache="false" wizard:template="C:\prd-ce-3.8.3-GA\report-designer\templates\cobalt_4_left_aligned_grid.prpt" core:element-type="master-report">
+  <style:element-style>
+    <style:text-styles font-face="Arial" font-size="14"/>
+  </style:element-style>
+  <report-header>
+    <root-level-content report-designer:visual-height="29.908" wizard:generated-content-marker="true" core:element-type="report-header">
+      <style:element-style>
+        <style:common-styles avoid-page-break="true" vertical-alignment="middle"/>
+        <style:content-styles color="#5985b6"/>
+      </style:element-style>
+      <message core:element-type="message" core:name="" core:null-value="">
+        <style:element-style>
+          <style:common-styles alignment="left" vertical-alignment="middle"/>
+          <style:content-styles dynamic-height="true"/>
+          <style:text-styles font-face="Arial" bold="false" embedded="false" excel-text-wrapping="false" font-size="18" min-letter-spacing="2"/>
+          <style:spatial-styles x="0" y="0" min-width="48%" min-height="25" max-width="32767" max-height="32767"/>
+          <style:border-styles border-width="1" border-break-width="0" border-color="white" border-break-color="black" border-style="solid" border-break-style="none" border-radius-width="0" border-radius-height="0"/>
+        </style:element-style>
+        <core:value>product-productVendor V/S product-sellPrice</core:value>
+      </message>
+    </root-level-content>
+  </report-header>
+  <group core:element-type="relational-group" core:group-fields="">
+    <style:element-style>
+    </style:element-style>
+    <fields>
+    </fields>
+    <group-header>
+      <root-level-content report-designer:visual-height="11.207786083221436" core:element-type="group-header">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-header>
+    <data-body core:element-type="group-data-body">
+      <style:element-style>
+        <style:text-styles font-size="12"/>
+      </style:element-style>
+      <details-header report-designer:hideInLayoutGUI="false" report-designer:visual-height="20.0" core:element-type="details-header">
+        <style:element-style>
+          <style:page-band-styles repeat="true"/>
+          <style:common-styles avoid-page-break="true"/>
+          <style:content-styles color="black"/>
+          <style:text-styles font-size="12"/>
+          <style:spatial-styles min-height="2"/>
+          <style:border-styles background-color="#776a5b"/>
+        </style:element-style>
+        <band wizard:generated-content-marker="true" core:element-type="band">
+          <style:element-style>
+            <style:band-styles layout="row"/>
+            <style:common-styles alignment="left" vertical-alignment="middle"/>
+            <style:content-styles dynamic-height="true" color="white"/>
+            <style:spatial-styles x="0" y="0" min-width="100%" min-height="20"/>
+            <style:border-styles background-color="#5985b6"/>
+          </style:element-style>
+          <label core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:spatial-styles x="478.36" y="4" min-width="87" min-height="20"/>
+            </style:element-style>
+            <core:value>productVendor</core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="false" core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:text-styles bold="false"/>
+              <style:spatial-styles min-width="17%" min-height="100%"/>
+              <style:border-styles border-top-width="0" border-style="none"/>
+            </style:element-style>
+            <core:value>count_sellPrice</core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="135.76" min-width="25%" min-height="100%"/>
+            </style:element-style>
+            <core:value>sum_sellPrice</core:value>
+            
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="true" core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="234.92" y="0" min-width="18%" min-height="100%"/>
+            </style:element-style>
+            <core:value>average_sellPrice</core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="135.76" min-width="12.5%" min-height="100%"/>
+            </style:element-style>
+            <core:value>max_sellPrice</core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" core:element-type="label">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="469.84" min-width="12%" min-height="100%"/>
+            </style:element-style>
+            <core:value>min_sellPrice</core:value>
+          </label>
+        </band>
+      </details-header>
+      <details>
+        <root-level-content report-designer:visual-height="49.0" wizard:generated-content-marker="true" wizard:grid-style="solid" wizard:grid-color="#b2a79a" wizard:grid-width="1.0" core:element-type="itemband" core:name="detailrows">
+          <style:element-style>
+            <style:band-styles layout="row"/>
+            <style:common-styles avoid-page-break="true" vertical-alignment="middle"/>
+            <style:content-styles color="#5985b6"/>
+            <style:text-styles font-size="10"/>
+            <style:spatial-styles min-width="100%" min-height="20"/>
+          </style:element-style>
+          <text-field core:element-type="text-field" core:field="productVendor">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="478.36" y="3" min-width="87" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+          <text-field wizard:allow-metadata-attributes="true" wizard:allow-metadata-styling="true" wizard:only-show-changing-values="false" wizard:enable-style-alignment="false" core:element-type="text-field" core:field="count_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="475" y="1" min-width="100.32" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+          <text-field wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="false" core:element-type="text-field" core:field="sum_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="132.48" y="0" min-width="25%" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+          <text-field wizard:enable-style-alignment="false" wizard:allow-metadata-attributes="true" wizard:allow-metadata-styling="true" core:element-type="text-field" core:field="average_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="247.88" y="0" min-width="103.48" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+          <text-field wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="false" core:element-type="text-field" core:field="max_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="480.84" y="0" min-width="12%" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+          <text-field wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="true" wizard:enable-style-alignment="false" core:element-type="text-field" core:field="min_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center"/>
+              <style:content-styles dynamic-height="true"/>
+              <style:spatial-styles x="498.12" y="0" min-width="12.5%" min-height="100%"/>
+              <style:border-styles border-width="1" border-color="#b2a79a" border-style="solid"/>
+            </style:element-style>
+          </text-field>
+         
+        </root-level-content>
+      </details>
+      <no-data>
+        <root-level-content report-designer:hideInLayoutGUI="true" report-designer:visual-height="0.0" wizard:generated-content-marker="false" core:element-type="no-data-band">
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+        </root-level-content>
+      </no-data>
+      <details-footer report-designer:hideInLayoutGUI="false" report-designer:visual-height="20.0" core:element-type="details-footer">
+        <style:element-style>
+          <style:band-styles layout="row"/>
+          <style:page-band-styles repeat="true"/>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+        <band wizard:generated-content-marker="true" core:element-type="band">
+          <style:element-style>
+            <style:band-styles layout="row"/>
+            <style:common-styles alignment="left" vertical-alignment="middle"/>
+            <style:content-styles dynamic-height="true" color="white"/>
+            <style:text-styles bold="true"/>
+            <style:spatial-styles x="0" y="0" min-width="100%" min-height="100%"/>
+            <style:border-styles background-color="#5985b6"/>
+          </style:element-style>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="false" core:element-type="label">
+            <style:element-style>
+              <style:spatial-styles min-width="16%" min-height="100%"/>
+            </style:element-style>
+            <core:value></core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="false" core:element-type="label">
+            <style:element-style>
+              <style:spatial-styles min-width="16%" min-height="100%"/>
+            </style:element-style>
+            <core:value></core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="false" core:element-type="label">
+            <style:element-style>
+              <style:spatial-styles min-width="16%" min-height="100%"/>
+            </style:element-style>
+            <core:value></core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="false" core:element-type="label">
+            <style:element-style>
+              <style:spatial-styles min-width="16%" min-height="100%"/>
+            </style:element-style>
+            <core:value></core:value>
+          </label>
+          <label wizard:allow-metadata-styling="true" wizard:allow-metadata-attributes="false" core:element-type="label">
+            <style:element-style>
+              <style:spatial-styles min-width="16%" min-height="100%"/>
+            </style:element-style>
+            <core:value></core:value>
+          </label>
+        </band>
+      </details-footer>
+    </data-body>
+    <group-footer>
+      <root-level-content report-designer:visual-height="100.0" core:element-type="group-footer">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-footer>
+  </group>
+  <report-footer>
+    <root-level-content report-designer:visual-height="46.0" core:element-type="report-footer">
+      <style:element-style>
+        <style:band-styles layout="block"/>
+        <style:common-styles avoid-page-break="true" alignment="center" vertical-alignment="top"/>
+        <style:content-styles color="#5985b6"/>
+        <style:text-styles font-size="12"/>
+        <style:spatial-styles min-height="20"/>
+      </style:element-style>
+      <band wizard:generated-content-marker="true" core:element-type="band">
+        <style:element-style>
+          <style:common-styles vertical-alignment="middle"/>
+          <style:spatial-styles min-width="100%" min-height="20"/>
+        </style:element-style>
+      </band>
+      <horizontal-line core:element-type="horizontal-line">
+        <style:element-style>
+          <style:content-styles draw-shape="true" scale="true" stroke-weight="2" stroke-style="solid"/>
+          <style:spatial-styles x="0" y="8" min-width="100%" min-height="0"/>
+        </style:element-style>
+      </horizontal-line>
+      <horizontal-line core:element-type="horizontal-line">
+        <style:element-style>
+          <style:content-styles draw-shape="true" scale="true"/>
+          <style:spatial-styles x="0" y="42" min-width="100%" min-height="3"/>
+        </style:element-style>
+      </horizontal-line>
+    </root-level-content>
+  </report-footer>
+</layout>

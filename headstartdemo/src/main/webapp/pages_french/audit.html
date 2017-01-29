@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title> </title>
+<script src="../js/static/Audit.js"></script>
+<script src="../js/chosen.jquery.min.js"></script>
+<style>
+	.paramWordWrap {
+		max-width1:300px !important;		
+		word-wrap:break-word !important;	
+	}
+	.inline {
+		position:fixed;		
+		bottom:30px;
+	}
+	#auditViewGrid table tbody td {
+		text-align:center !important;
+	}
+	#auditViewGrid table thead th {
+		text-align:center !important;
+	}
+	.headerAlign {
+		text-align:center !important;
+	}		
+</style>
+
+<script src="../js/chosen.jquery.min.js"></script>
+	<div class="newbreadcumb">
+        <div class="breadcrumb-button">
+			<i class="icon-edit bredCrumICon"></i>
+          <span class="breadcrumb-label" >Audit</span>
+
+        </div>
+
+      </div>
+ <div class="nav-search" id="nav-search" style="top: 12px; top: 13px\9 !important; right: 13px;">
+    
+   <!--
+    	<span style='padding:3px;display:block;cursor: pointer;'  id="audit_filter"  data-toggle="tooltip" title="Search" data-animation="true" > 
+											<i class="icon-filter icon-only"></i>
+							    </span>
+	-->
+   <i class="icon-custom-search nav-search-icon" data-toggle="tooltip" data-animation="true" style='cursor: pointer;' title="Search" id="audit_filter"></i>   
+    
+  </div>
+ 			<div id="audit_main_div">
+<div id="list_audit_div" style="padding: 10px;">
+<div class="" id="auditViewGrid"></div>
+</div>		
+
+
+<!--grid pager start-->
+<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+    <div id="audit_pagination" class="ui-pager-control" role="group">
+        <table class="ui-pg-table paginationDivClass">
+            <tbody>
+                <tr>
+                    <td id="grid-pager_left" style="text-align:left;">
+                        <div dir="ltr" style="text-align:left;margin-left:10px; font-size:15px;" class="ui-paging-info">
+							<span id="audit_pagination_totalRecord"></span>
+							<span id="audit_totalCount"></span>
+						</div>
+                    </td>
+                    <td id="grid-pager_center" style="text-align:center; white-space: nowrap; width: 341px;">
+                        <table style="table-layout:auto;border:0px;padding:0px;" class="ui-pg-table">
+                            <tbody>
+                                <tr>
+                                    <td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="audit_pagination_pre" onclick="pagPrev('audit_pagination','Audit','getAuditData','audit_page_llimit','audit_page_ulimit','auditpagenovalue','audit_grid')"></span></td>
+                                    <td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+                                    
+                                    <td dir="ltr"><a id="audit_pagination_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="auditpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span>
+									<!--<input class="ui-pg-input text-field-pagination" id="permissionpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>-->
+									</td>
+
+                                    <td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+                                    <td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="audit_pagination_next" onclick="pagNext('audit_pagination','Audit','getAuditData','audit_page_llimit','audit_page_ulimit','auditpagenovalue','audit_grid')"></span></td>
+                                    <td dir="ltr">
+                                        <select style='width: 60px; margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox" onChange="setAuditPaginationValue(); return false;" id="audit_pagination_value">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td id="grid-pager_right" style="text-align:right;">
+                        <!--<div dir="ltr" id="content" style="text-align:right;margin-right:10px;" class="ui-paging-info"></div>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="hidden" id="audit_page_llimit" value="">
+        <input type="hidden" id="audit_page_ulimit" value="">
+    </div>
+</div>
+
+<!--grid pager end-->
+		
+		
+	   				
+	</div>	
+	</div>
+
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="auditfilterTab" style="display:none; height: 205px; right: 1%;"> 
+       	<form class="form-horizontal" id="searchAuditForm" style="text-align:center;" >					
+			  <button type="button" class="close" onclick='$("#auditfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="auditFilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+
+			<div class="filterListlevel" >
+				<div class="column left" style="width: 200px;">
+					<span style="float: left;" id="audit_time">Time:</span>
+
+						<ul>
+							<div class="row-fluid input-prepend" style="width: 200px;" >
+															<span class="add-on">
+																<i class="icon-calendar"></i>
+															</span>
+
+															<input class="" style="width: 156px;" type="text" name="date" id="id-date-range-picker-1" data-date-format="yyyy-mm-dd" readonly>
+														</div>
+										
+						</ul> 	
+					</div>		
+
+				<div class="column left">
+					<span style="float: left;" id="audit_userName">User Name</span>
+						<ul> 		
+							<input type="text" class="alphanumericallowsearchform text-field" name="user.username" id="userFullName" placeholder="User Name"/>
+					
+						</ul> 	
+					</div>	
+						
+			</div>
+
+			<div class="filterListlevel" >
+
+				<div class="column left">
+					<span style="float: left;" id="audit_action">Action:</span>
+
+						<ul> 		
+							<select  id="auditActionName">
+											<option value="">All</option>
+			
+			
+																							 <option value="PRODUCT_CREATE">	 Product create</option>
+										<option value="PRODUCT_UPDATE">	Product update </option>
+										<option value="PRODUCT_DELETE">	Product delete </option>
+																				 <option value="OFFICE_CREATE">	 Office create</option>
+										<option value="OFFICE_UPDATE">	Office update </option>
+										<option value="OFFICE_DELETE">	Office delete </option>
+																				 <option value="PAYMENT_CREATE">	 Payment create</option>
+										<option value="PAYMENT_UPDATE">	Payment update </option>
+										<option value="PAYMENT_DELETE">	Payment delete </option>
+																				 <option value="ORDERS_CREATE">	 Orders create</option>
+										<option value="ORDERS_UPDATE">	Orders update </option>
+										<option value="ORDERS_DELETE">	Orders delete </option>
+																				 <option value="ORDERDETAIL_CREATE">	 Orderdetail create</option>
+										<option value="ORDERDETAIL_UPDATE">	Orderdetail update </option>
+										<option value="ORDERDETAIL_DELETE">	Orderdetail delete </option>
+																				 <option value="EMPLOYEE_CREATE">	 Employee create</option>
+										<option value="EMPLOYEE_UPDATE">	Employee update </option>
+										<option value="EMPLOYEE_DELETE">	Employee delete </option>
+																				 <option value="CUSTOMER_CREATE">	 Customer create</option>
+										<option value="CUSTOMER_UPDATE">	Customer update </option>
+										<option value="CUSTOMER_DELETE">	Customer delete </option>
+																				<option value="LOGIN">Login</option>
+										<option value="LOGOUT">Logout</option>
+										<option value="USERS_CREATE">Users create</option>
+										<option value="USERS_UPDATE">Users update</option>
+										<option value="ROLES_CREATE">Roles create</option>
+										<option value="ROLES_UPDATE">Roles update</option>
+										<option value="PERMISSION_CREATE">Permission create</option>
+										<option value="PERMISSION_UPDATE">Permission update</option>
+										
+										</select>
+						</ul> 	
+					</div>
+					<div class="column left" style="width: 200px;height: 82px;">
+			</div>		
+			</div>
+
+			
+			<div class="filterListlevel" style="margin-top: -20px;" >
+
+				<div class="column left">
+					<span style="float: left;" id="audit_result">Result:</span>
+
+						<ul> 		
+							<select id="success">
+								<option value="true">Success</option>
+								<option value="false">Failure</option>
+							</select>
+						</ul> 	
+					</div>		
+		
+						<div class="column left" style="width: 200px;height: 82px;"><br>
+				  <a href="#" onclick="searchAuditData('searchAuditForm'); " style="float: left;" id="filterApply"  class="btn btn-mini btn-info" > <!-- btn-primary NEW UI -->
+				  Apply<!--<i class="icon-filter"></i>-->
+				  </a>
+				</div> 
+					
+			</div>		
+	
+	
+              </form>
+             
+</div>
+<!--Filter Tab div ends here-->		
+
+	<script>
+		
+		if(hasValue(audit_label_action))
+		{	 
+			$("#audit_action").html(audit_label_action);
+		}
+		if(hasValue(audit_label_result))
+		{	 
+			$("#audit_result").html(audit_label_result);
+		}
+		if(hasValue(audit_label_time))
+		{	 
+			$("#audit_time").html(audit_label_time);
+		}
+		if(hasValue(audit_label_username))
+		{	 
+			$("#audit_userName").html(audit_label_username);
+		}
+		
+	$(document).ready(function() 
+	{
+		$("#audit_filter").click(function (){
+				$("#searchAuditForm").trigger('reset');
+			   $("#auditfilterTab").slideToggle();
+	});	
+		pagellimit=0;
+		pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+		$("#audit_pagination #content").text("showing "+(pagellimit+1)+" to "+(pageulimit+1)+" enteries");
+
+		sendGETRequest(context+"/rest/Audit/search?_s=success==true&ulimit="+(pageulimit)+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&date="+new Date(),"getAuditData","");
+			});
+
+var pageulimit;
+var pagellimit=0;
+  var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+
+$('#audit_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+var Auditflag=0;
+		var fiqlAuditParam="?_s=success==true&ulimit="+pageulimit+"&llimit="+pagellimit;	
+		
+ $('#audit_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+ 
+   function setAuditPaginationValue() {
+	    $('#auditpagenovalue').html(1); 
+		uperLimit= eval($('#audit_pagination_value').val())-1;
+		pageulimit= eval($('#audit_pagination_value').val())-1;
+		pagellimit=0;
+		$("#audit_pagination_next").css("display", "");
+		$("#audit_pagination_pre").css("display", "");
+		$('#audit_pagination #audit_page_llimit').val(pagellimit);
+		$('#audit_pagination #audit_page_ulimit').val(pageulimit);
+		$("#audit_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		sendGETRequest(context+"/rest/Audit/search?_s=success==true;domain.domainid=="+currentDomainId+"&ulimit="+uperLimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getAuditData","");
+		}
+			
+
+//$('#id-date-range-picker-1').daterangepicker().prev().on(ace.click_event, function(){
+//					$(this).next().focus();
+//				});
+$('#id-date-range-picker-1').daterangepicker({format:dateFormat });
+$('#audit_pagination #audit_page_llimit').val(pagellimit);
+$('#audit_pagination #audit_page_ulimit').val(pageulimit);
+
+$("#auditFilterCrossImg").attr("src", getImagePath('red_cross.png'));
+	</script>

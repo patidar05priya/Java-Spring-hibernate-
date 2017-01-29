@@ -1,0 +1,28 @@
+@startuml
+title Create Office Scenario
+participant User
+User -> CXFServlet: POST, Office
+activate CXFServlet
+CXFServlet -> Office: << create >>
+activate Office
+Office -> CXFServlet: << instance >>
+deactivate Office
+CXFServlet -> OfficeRestImpl: create(:office)
+activate OfficeRestImpl
+OfficeRestImpl -> OfficeServiceDao: create(:office)
+activate OfficeServiceDao
+OfficeServiceDao -> OfficeJPADao: create(:office)
+activate OfficeJPADao
+OfficeJPADao -> EntityManager: save(:office)
+activate EntityManager
+EntityManager -> OfficeJPADao: << persisted office >>
+deactivate EntityManager
+OfficeJPADao -> OfficeServiceDao: << persisted office >>
+deactivate OfficeJPADao
+OfficeServiceDao -> OfficeRestImpl: << persisted office >>
+deactivate OfficeServiceDao
+OfficeRestImpl -> CXFServlet: << persisted office >>
+deactivate OfficeRestImpl
+CXFServlet -> User: marshalled office XML
+deactivate CXFServlet
+@enduml

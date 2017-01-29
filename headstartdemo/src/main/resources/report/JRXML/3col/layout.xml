@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:style="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf" xmlns:wizard="http://reporting.pentaho.org/namespaces/engine/attributes/wizard" xmlns:internal="http://reporting.pentaho.org/namespaces/engine/attributes/internal" internal:compatibility-level="3.9.1" core:element-type="master-report">
+  <style:element-style>
+  </style:element-style>
+  <report-header>
+    <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="104.0" core:element-type="report-header">
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:spatial-styles x="0" y="81" min-width="173" min-height="20"/>
+        </style:element-style>
+        <core:value>Head1</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:spatial-styles x="177" y="84" min-width="149.191" min-height="20"/>
+        </style:element-style>
+        <core:value>Head2</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:spatial-styles x="326.191" y="81" min-width="132.191" min-height="20"/>
+        </style:element-style>
+        <core:value>Head3</core:value>
+      </label>
+    </root-level-content>
+  </report-header>
+  <group core:element-type="relational-group" core:group-fields="">
+    <style:element-style>
+    </style:element-style>
+    <fields>
+    </fields>
+    <group-header>
+      <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="group-header">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-header>
+    <data-body core:element-type="group-data-body">
+      <style:element-style>
+      </style:element-style>
+      <details-header xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="details-header">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-header>
+      <details>
+        <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="108.0" core:element-type="itemband">
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+          <text-field core:element-type="text-field" core:field="col1">
+            <style:element-style>
+              <style:spatial-styles x="0" y="0" min-width="173" min-height="20"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="col2">
+            <style:element-style>
+              <style:spatial-styles x="173" y="0" min-width="153.191" min-height="20"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="col3">
+            <style:element-style>
+              <style:spatial-styles x="326.191" y="0" min-width="125" min-height="20"/>
+            </style:element-style>
+          </text-field>
+        </root-level-content>
+      </details>
+      <no-data>
+        <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="no-data-band">
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+        </root-level-content>
+      </no-data>
+      <details-footer xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="details-footer">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-footer>
+    </data-body>
+    <group-footer>
+      <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="group-footer">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-footer>
+  </group>
+  <report-footer>
+    <root-level-content xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="108.0" core:element-type="report-footer">
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+    </root-level-content>
+  </report-footer>
+</layout>

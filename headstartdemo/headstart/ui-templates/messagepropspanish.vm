@@ -1,0 +1,405 @@
+domain_list_label=Domain List
+edit_role_cancel=Cancel
+edit_permission_cancel=Cancel
+profile_ChangeAddress=Edit Address
+dashboard_tab_li_a=Home
+notifications_tab_li_a=Notifications
+emailnotifications_tab_li_a=Emailnotifications
+worklist_tab_li_a=Worklist
+audit_tab_li_a=Audit
+report_tab_li_a=Report
+profile_tab_li_a=Profile
+settings_tab_li_a=Settings
+analytics_tab_li_a=Analytics
+user_tab_li_a=User
+permission_tab_li_a=Permission
+role_tab_li_a=Role
+login_span_generated=Generated
+login_span_application=Application
+login_span_socialLogin=Or Login Using
+login_h4_headstart=Headstart
+login_h4_loginInfo=Please Enter Your Information
+login_h4_resetPassword=Retrieve Password
+login_a_newUser=New User Registeration
+login_a_forgotPassword=I forgot my password
+login_a_backLogin=Back to login
+login_p_details=Enter your details to begin:
+login_p_resetPassword=Enter your username and to receive password
+login_placeholder_username=Username
+login_placeholder_password=Password
+login_placeholder_email=Email
+login_placeholder_firstname=Firstname
+login_placeholder_lastname=Lastname
+login_button_login=Login
+login_button_register=Register
+login_button_reset=Reset
+login_button_sendPassword=Send Me!
+index_span_welcome=Welcome
+index_li_home=Home
+index_li_audit=Audit
+index_li_dashboard=Dashboard
+index_li_reports=Reports
+index_li_user=User
+index_li_role=Roles
+index_li_permission=Permission
+index_li_customers=Customers
+index_li_userProfile=User Profile
+index_a_prev=Prev
+index_a_next=Next
+index_li_noofEntries=Showing 1 to 10 entries
+index_a_aceadmin=Ace Admin
+index_tab_dashboard=Dashboard
+index_tab_user=User Management
+index_tab_a_users=Users
+index_tab_a_roles=Roles
+index_tab_a_permissions=Permissions
+index_tab_customers=Customers
+index_tab_profile=profile
+index_li_settings=Settings
+index_li_profile=Profile
+index_li_logout=Logout
+dashboard_li_dasboard=Dashboard
+dashboard_h4_recent_activity=Recent Activities
+dashboard_thead_recent_message=Message
+dashboard_thead_recent_type=Type
+dashboard_thead_recent_username=Username
+user_placeholder_username=Username
+user_placeholder_firstname=FirstName
+user_placeholder_email=Email
+user_placeholder_password=Password
+user_placeholder_lastname=LastName
+user_placeholder_mobile=Mobile
+user_placeholder_city=City
+user_placeholder_country=Country
+user_placeholder_state=State
+user_placeholder_pincode=Pincode
+user_button_search=Search
+user_thead_username=User Name
+user_thead_firstname=First Name
+user_thead_city=City
+user_thead_telephone=Telephone
+user_thead_email=Email
+user_thead_locked=Locked
+user_thead_enabled=Status
+user_thead_action=Action
+user_label_username=Username
+user_label_firstname=FirstName
+user_label_email=Email
+user_label_password=Password
+user_label_lastname=LastName
+user_label_mobile=Mobile
+user_label_city=City
+user_label_country=Country
+user_label_state=State
+user_label_pincode=Pincode
+user_button_create=Create
+user_button_reset=Reset
+user_span_select=Select
+user_button_update=Update
+user_role_thead_rolename=Role Name
+user_role_thead_description=Description
+user_success_createMsg=User created successfully
+user_success_enableMsg=User enabled successfully
+user_success_updateMsg=User updated successfully
+user_success_disableMsg=User Successfully Disabled
+user_success_lockedMsg=User successfully Locked
+user_success_roleupdateMsg=User Roles Updated
+user_error_roleupdateMsg=User Roles not  Updated
+user_update_alertMsg= select one user for update
+user_username_checkMsg=UserName already exists .....
+user_email_alertMsg=Email already exists .....
+user_UpdateUsersRole=Update Users Role
+user_ResetPassword=Reset Password
+user_modaldisable=Are you sure? Do you want to Disable the user ?
+user_modalenable=Are you sure? Do you want to Enable the user ?
+roles_placeholder_role=Role
+roles_button_search=Search
+roles_tbody_thead_permission=Permission
+roles_tbody_thead_description=Description
+roles_thead_rolename=Role Name
+roles_thead_description=Description
+roles_label_rolename=Role Name
+roles_label_description=Description
+roles_permission_thead_permissionname=Permission Name
+roles_permission_thead_description=Description
+roles_button_create=Create
+roles_button_reset=Reset
+roles_span_select=Select
+roles_button_update=Update
+roles_success_createMsg=Role Successfully created
+roles_success_updatePermissionMsg=Premission successfully updated
+permissions_placeholder_permission=Permissionname
+permissions_placeholder_description=Description
+permissions_button_search=Search
+permissions_thead_permission=Permission
+permissions_thead_description=Description
+permissions_label_rolename=Permission Name
+permissions_label_description=Description
+permissions_button_create=Create
+permissions_button_reset=Reset
+permissions_button_update=Update
+permissions_success_createMsg=Permission created successfully
+permissions_success_updateMsg=Permission updated successfully
+reports_span_heading=select any report to view report
+reports_h4_view=Reports View
+audit_placeholder_username=Username
+audit_label_username=User Name
+audit_label_action=Action
+audit_label_result=Result
+audit_label_from=From
+audit_label_time=Time
+audit_thead_user=User
+audit_thead_action=Action
+audit_thead_parameter=Parameter
+audit_thead_date=Time
+audit_thead_result=Result
+audit_button_search=Search
+profile_h1_userProfilePage=User Profile Page
+profile_a_changePassword=Change Password
+profile_a_changeProfilePic=Edit Profile Picture
+profile_div_username=User Name
+profile_div_email=Email
+profile_div_firstname=First Name
+profile_div_lastname=Last Name
+profile_div_Country=Country
+profile_div_city=City
+profile_div_state=State
+profile_div_telephone=Phone
+profile_button_save=SAVE
+profile_update_successMsg=Profile successfully updated
+comment_add_success_message=Comment added successfully.
+comment_add_failure_message=Error in comment post.
+comment_add_blank_message=Please enter the comment.
+comment_delete_success_message=Comment deleted successfully
+comment_delete_failure_message=Error in deleting comment
+fileattachment_add_success_message=add file attachment successfully.
+fileattachment_delete_success_message=Attachment deleted successfully
+imageupload_success_message=Image uploaded successfully, refresh the page to view changes.
+imageupload_failure_message=Oh no!! Failed to upload image, try again later.
+logout_failure_message=Logout
+access_failure_message=Access is denied.
+settings_label_smtpport=SMTP Port
+settings_label_hostname=Host Name
+settings_label_username=User Name
+settings_label_password=Password
+settings_label_paggingdefault=Paging Default
+notifications_thead_message=Message
+notifications_thead_type=Type
+notifications_thead_username=User Name
+emailnotifications_thead_subject=Subject 
+emailnotifications_thead_sentby=Sent By
+emailnotifications_thead_createdtime=Created Time
+index_logout=Logout
+index_logout=Sign Out
+index_profile=Edit Profile
+index_chooseskin=Choose Skin
+index_language_selectlanguage=Select Language 
+index_language_english=English
+index_language_french=French
+index_language_spanish=Spanish
+index_tab_usermanagement=User Management 
+index_tab_users=Users
+index_tab_roles=Roles 
+index_tab_permissions=Permissions
+index_notifications=Notifications
+index_emails=email
+index_Seeallnotifications=View all Notifications
+index_Seeallemails=View all Emails
+index_appname=${appName}
+permission_breadcrumb=Permission
+audit_breadcrumb=Audit
+chart_SpanHeading=Analytics
+role_breadcrumb=Role
+user_breadcrumb=User
+profile_breadcrumb=User Profile
+report_breadcrumb=Report
+setting_breadcrumb=Settings
+emailnotification_breadcrumb=Email Notifications
+notification_breadcrumb=Notifications
+index_home=Home
+pagination_prev=prev
+pagination_next=next
+pagination_showing=Showing
+pagination_to=to
+pagination_entries=entries
+user_label_personal_information=Personal Information 
+assign_roles_label=Assign Roles 
+edit_button_label=Edit
+reset_button_label=Reset
+create_button_label=Create
+cancel_button_label=Cancel
+save_button_label=Save
+add_user_button_label=Add User
+enable_button_label=Enable
+disable_button_label=Disable
+user_label_address=Address
+user_label_street=Street
+user_label_latitude=Latitude
+user_label_address1=AddressLine1
+user_label_address2=AddressLine2
+user_label_landmark=Landmark
+user_label_longitude=Longitude
+user_placeholder_street=Street
+user_placeholder_latitude=Latitude
+user_placeholder_longitude=Longitude
+user_placeholder_landmark=Landmark
+user_placeholder_addressline1=AddressLine1
+user_placeholder_addressline2=AddressLine2
+settings_smtp_label=SMTP Configurations
+settings_miscellaneous_label=Miscellaneous
+settings_sox_label=Advance Sox Configuration
+settings_domain_label=Domain Creator
+sox_config_expiry_label=Expiry Notification Duration (In Days)
+sox_config_expiryinteval_label=Default Expiry Interval (In Days)
+sox_config_maxattemps_label=Max Attempts (In Times)
+settings_domain_label=Create New Domain
+domain_create_domainName_label=Domain Name
+domain_create_adminPassword_label=Admin Password
+domain_create_primaryEmail_label=Primary Email
+domain_create_domainDescription_label=Description
+domain_create_adminUserName_label=Admin User Name
+audit_chart_label=Charts
+add_permissions_label=Add Permission
+add_permission_btn=Add Permission
+search_permission_name_txt=PermName
+search_permission_description_txt=Description
+searchPermissionBtn=Apply
+view_permission_header=View Permission
+view_permission_id=Permissionid
+view_permission_name=Perm Name
+view_permission_description=Description
+edit_permission_header=Edit Permission
+add_role_btn=Add Role
+search_role_txt=Role
+search_role_description_txt=Description
+searchRoleBtn=Apply
+add_role_header=Add Role
+add_feature_lbl=Add Feature
+dashboard_widgets_lbl=Dashboard Widgets
+role_name_lbl=Name
+role_view_lbl=View
+role_add_lbl=Add
+role_edit_lbl=Edit
+role_delete_lbl=Delete
+Dashboard_name_lbl=Name
+Dashboard_allow_lbl=Allow
+viewrole_header=View Role
+viewrole_id_lbl=Roleid
+viewrole_name_lbl=Rolename
+viewrole_description_lbl=Description
+edit_role_header=Edit Role
+edit_addfeature_lbl=Add Feature
+dashboard_widgetname=Widgets
+Index_searchInput=Search...
+roles_thead_action=Action 
+permissions_thead_action=Action
+domainView_domainName_label=Domain Name 
+domainView_remarks_label=Remarks
+domainView_action_label=Actions
+profile_Changelanguage=Change Language
+profile_edit_label=Edit
+profile_Modallanguage=Change Language
+select_language_label=Select Language
+change_language_save_button_label=Save
+change_old_password_label=Old password
+change_new_password_label=New password
+change_confirm_password_label=Confirm password
+change_password_button_label=Change Password
+profile_pic_note_label=Note:
+add_user_header=Add User
+pagination_page_txt=Page
+add_permission_reset=Reset
+add_role_reset=Reset
+add_permission_cancel=Cancel
+add_role_cancel=Cancel
+editAddress_profile=Edit Address
+reports_h4_Header=REPORTS
+settings_domain_creator_label=Domain Creator
+
+index_Analytics=Analytics
+index_analytics_charts=Charts
+index_analytics_reports=Reports
+index_administration=Administration
+index_administration_audit=Audit
+home_label=Home	
+	
+
+#foreach($tableName in $tableMap.entrySet()) 
+index_${tableName.key}=${tableName.Value}
+#end
+#foreach($tableName in $tableMap.entrySet()) 
+ ${tableName.key}_breadcrumb=${tableName.Value}
+#end
+ #foreach($tableName in $tableMap.entrySet()) 
+	${tableName.key}_success_create=Create ${tableName.value} entity successfully
+	${tableName.key}_success_update=Update ${tableName.value} entity successfully
+	${tableName.key}_success_delete=Delete ${tableName.value} entity successfully
+ #end
+ #foreach($BootUiList in $AllList) 
+ ${BootUiList.tableName}_lable_${BootUiList.name}=${BootUiList.labelName}
+	#end
+	#foreach($BootUiList in $AllList) 
+ ${BootUiList.tableName}_thead_${BootUiList.name}=${BootUiList.labelName}
+	#end
+	
+ #foreach($tableName in $tableMap.entrySet()) 
+ ${tableName.key}_table=${tableName.Value}
+ ${tableName.key}_lable_createdby=Creator
+ ${tableName.key}_lable_modifiedby=Modifier
+	#end
+	
+	#foreach($tableName in $viewTableName) 
+${tableName}_thead_modifiedTime=Last Modified Time
+${tableName}_thead_createdTime=Created Time
+${tableName}_thead_creator=Creator
+${tableName}_thead_lastModifier=Last Modifier
+${tableName}_thead_sortby=Sort By
+${tableName}_viewdetail=View ${tableName}
+${tableName}_add${tableName}=Add ${tableName}
+${tableName}_formCreate=Create
+${tableName}_formReset=Reset
+${tableName}_formUpdate=Update
+${tableName}_formCancel=Cancel
+${tableName}_formEdit=Edit
+${tableName}_head_history=HISTORY
+${tableName}_head_Activities=ACTIVITIES
+${tableName}_task_tab=Attachments
+${tableName}_comment_tab=Comments			
+${tableName}NoCommentstoshow=No Comments to show	
+${tableName}NoAttachmentstoshow=No Attachments to show	
+${tableName}createformheader=Add ${tableName}
+${tableName}editformheader=Edit ${tableName}
+${tableName}theadAction=Action
+#end
+   #foreach($wadlResource in $wadl)
+						 	#foreach($method in $wadlResource.restMethodList)
+							
+						${method.methodName}Api_tab_li_a=${method.methodName}Api
+							
+							 #end
+							 	#end
+#foreach($includeFile1 in $wsdlMap.entrySet())	
+index_${includeFile1.key}=${includeFile1.key}
+			#foreach( ${tableName1} in	${includeFile1.value})	
+index_${includeFile1.key}_${tableName1.name}=${tableName1.name}		 
+	${tableName1.name}${includeFile1.key}Api_tab_li_a=${tableName1.name}${includeFile1.key}Api
+				  	   #end	
+			#end
+#foreach($tableName in $tableMap.entrySet()) 
+${tableName.key}_tab_li_a=${tableName.value}
+
+ #end
+#foreach($tableName in $reverseMap.entrySet()) 
+#foreach($reverseMap1 in $tableName.value) 
+${reverseMap1.entityName}_${tableName.key}_labelName=${reverseMap1.entityName}
+${reverseMap1.entityName}_${tableName.key}_labelName_add=${reverseMap1.entityName}
+${tableName.key}_${reverseMap1.entityName}_view_list=${reverseMap1.entityName} List
+#end
+#end
+	
+	#foreach($tableName in $nonReverseMap.entrySet()) 
+#foreach($nonreverseMap1 in $tableName.value) 
+${map2.key}_${entityName}_labelNameNR_add=${map2.key}
+${map2.key}_${entityName}_labelNameNR=${map2.key}
+#end
+#end

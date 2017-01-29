@@ -1,0 +1,28 @@
+@startuml
+title Delete Orderdetail Scenario
+participant User
+User -> CXFServlet: DELETE, Orderdetail
+activate CXFServlet
+CXFServlet -> Orderdetail: << create >>
+activate Orderdetail
+Orderdetail -> CXFServlet: << instance >>
+deactivate Orderdetail
+CXFServlet -> OrderdetailRestImpl: delete(:orderdetail)
+activate OrderdetailRestImpl
+OrderdetailRestImpl -> OrderdetailServiceDao: delete(:orderdetail)
+activate OrderdetailServiceDao
+OrderdetailServiceDao -> OrderdetailJPADao: delete(:orderdetail)
+activate OrderdetailJPADao
+OrderdetailJPADao -> EntityManager: remove(:orderdetail)
+activate EntityManager
+EntityManager -> OrderdetailJPADao: << persisted orderdetail >>
+deactivate EntityManager
+OrderdetailJPADao -> OrderdetailServiceDao: << persisted orderdetail >>
+deactivate OrderdetailJPADao
+OrderdetailServiceDao -> OrderdetailRestImpl: << persisted orderdetail >>
+deactivate OrderdetailServiceDao
+OrderdetailRestImpl -> CXFServlet: << persisted orderdetail >>
+deactivate OrderdetailRestImpl
+CXFServlet -> User: marshalled orderdetail XML
+deactivate CXFServlet
+@enduml

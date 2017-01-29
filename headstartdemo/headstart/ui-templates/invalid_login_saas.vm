@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     A test suite containing tests related to invalid login.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+...
+...               This suite also demonstrates using setups and teardowns in
+...               different levels.
+Suite Setup       Open Browser To Login Page
+Test Setup        Go To Login Page
+Test Template     Login With Invalid Credentials Should Fail
+Resource          resource.txt
+
+*** Test Cases ***    Domain             User Name        Password
+Invalid Username      ${VALIDDomain}    invalid          ${VALIDPASSWORD}
+
+Invalid Password      ${VALIDDomain}    ${VALIDUSER}    invalid
+
+Invalid Username And Password
+                      ${VALIDDomain}    invalid          whatever
+
+Empty Username        ${VALIDDomain}    ${EMPTY}         ${VALIDPASSWORD}
+
+Empty Password        ${VALIDDomain}    ${VALIDUSER}    ${EMPTY}
+
+Empty Username And Password
+                      ${VALIDDomain}    ${EMPTY}         ${EMPTY}
+
+Invalid Domain        invalid            ${VALIDUSER}    ${VALIDPASSWORD}
+
+Empty Domain          ${EMPTY}           ${VALIDUSER}    ${VALIDPASSWORD}
+
+*** Keywords ***
+Login With Invalid Credentials Should Fail
+    [Arguments]    ${domain}    ${username}    ${password}
+    Input Domain    ${domain}
+    Input Username    ${username}
+    Input Password    ${password}
+    Submit Credentials
+    Login Should Have Failed
+
+Login Should Have Failed
+    Title Should Be    Login to ${appname}

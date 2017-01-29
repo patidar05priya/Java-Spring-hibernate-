@@ -1,0 +1,43 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to payment Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          payment_resource.txt
+
+*** Test Cases ***
+Valid payment Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for payment_tab 
+    Open payment_Tab
+    Open payment_CreatePage
+        Select customer
+        Input payment_checkNumber    TestString
+	Input payment_amount    111						   
+    Create payment_btn
+    Open payment_Tab
+Valid payment Update
+    Wait for Update button
+    Open payment_UpdatePage
+    Input payment_checkNumber_update    TestString
+	Input payment_amount_update    11.11						   
+    Update payment_btn
+    Welcome Page Should Be Open
+    
+valid payment Search
+    Click filter button
+    Search payment_btn
+	Welcome Page Should Be Open
+
+valid payment Delete    
+    Wait for delete button
+    Delete payment_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

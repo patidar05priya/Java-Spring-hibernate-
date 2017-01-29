@@ -1,0 +1,28 @@
+@startuml
+title Delete FileUploads Scenario
+participant User
+User -> CXFServlet: DELETE, FileUploads
+activate CXFServlet
+CXFServlet -> FileUploads: << create >>
+activate FileUploads
+FileUploads -> CXFServlet: << instance >>
+deactivate FileUploads
+CXFServlet -> FileUploadsRestImpl: delete(:fileuploads)
+activate FileUploadsRestImpl
+FileUploadsRestImpl -> FileUploadsServiceDao: delete(:fileuploads)
+activate FileUploadsServiceDao
+FileUploadsServiceDao -> FileUploadsJPADao: delete(:fileuploads)
+activate FileUploadsJPADao
+FileUploadsJPADao -> EntityManager: remove(:fileuploads)
+activate EntityManager
+EntityManager -> FileUploadsJPADao: << persisted fileuploads >>
+deactivate EntityManager
+FileUploadsJPADao -> FileUploadsServiceDao: << persisted fileuploads >>
+deactivate FileUploadsJPADao
+FileUploadsServiceDao -> FileUploadsRestImpl: << persisted fileuploads >>
+deactivate FileUploadsServiceDao
+FileUploadsRestImpl -> CXFServlet: << persisted fileuploads >>
+deactivate FileUploadsRestImpl
+CXFServlet -> User: marshalled fileuploads XML
+deactivate CXFServlet
+@enduml

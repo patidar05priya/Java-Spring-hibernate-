@@ -1,0 +1,580 @@
+isc.RestDataSource.create
+({
+	ID:"candidateItemsDatasource",
+	fetchDataURL:"rest/workitem/candidate",
+	recordXPath:"//workItem",
+	operationBindings:
+   [
+      {operationType:"fetch", dataProtocol:"getParams"}
+   ],
+	dataFormat:"xml",
+	fields:
+   [
+      {name:"description",title:"Description",type:"text"},
+      {name:"createTime",title:"Created Time",type:"date"},
+      {name:"executionId",title:"Execution ID",type:"text"},
+      {name:"name",title:"Name",type:"text"},
+      {name:"priority",title:"Priority",type:"text"},
+      {name:"processDefinitionId",title:"Process Definition ID",type:"text"},
+      {name:"processInstanceId",title:"Process Instance ID",type:"text"},
+      {name:"taskDefinitionKey",title:"Task Definition Key",type:"text"},
+      {name:"workitemId",title:"Workitem ID",type:"text"},
+      {name:"group",title:"Area",type:"text"}
+   ]
+});
+isc.ListGrid.create
+({
+	ID:"candidateSummaryGrid",
+	showHeader:false,
+	groupStartOpen:"none",
+	autoDraw:false,
+	dataSource:candidateItemsDatasource,   
+	fixedRecordHeights:true,
+	height:'60%',
+	recordClick:function (viewer, record, recordNum, field, fieldNum, value, rawValue)
+   {   
+   	var members = ContainerGrid.getMembers();
+   	var count = members.length ;
+   	for (var i =0; i<count ;i++ )
+      {
+      	ContainerGrid.removeMember(members[0]);
+      }
+
+   	ContainerGrid.addMember
+      (
+      	isc.Label.create
+         ({
+         	autoDraw:false,
+         	contents:"<font  size='3'>You can choose items from the following to work</font>",
+         	height:30
+         })
+      );
+   	ContainerGrid.addMember
+      (
+      	isc.HLayout.create
+         ({
+         	autoDraw:false,
+         	membersMargin:10,
+         	defaultLayoutAlign:"center",
+         	memberAlign:"center",
+         	align:"center",
+         	members:
+            [
+            	isc.Img.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	src: "UserE.jpg",
+               	height: 30,
+               	width: 30
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:record.createTime.toUTCString().substr(0,25),
+               	height:30
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:record.priority,
+               	height:30,
+               	width:70
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:'<b>' + record.workitemId +  ' : ' + record.name + '</b>   <br>' + record.description,
+               	height:30,
+               	width:200
+               }),
+            	isc.IButton.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	icon: "[SKIN]actions/accept.png",
+               	prompt: "Work on Item",
+               	title: "Work",
+               	height: 20,
+               	width: 70,
+               	click : function () 
+                  {
+                  	ContainerGrid.addMember
+                     (
+                     	isc.DynamicForm.create
+                        ({
+                        	ID:"WorklistEditForm",
+                        	width:650,
+                        	fields:eval (record.entityShortName + "SearchEditForm.fields;")
+                        })
+                     );
+                     
+                  	WorklistEditForm.setDataSource(eval(record.entityShortName+ 'DataSource'));
+                  	WorklistEditForm.setData(eval("record." +  record.entityShortName));
+                     
+                  	ContainerGrid.addMember
+                     (
+                     	isc.Button.create
+                        ({
+                        	title:"Update",
+                        	click:function() 
+                           {
+                           	WorklistEditForm.addProperties({saveOperationType:"update"});
+                           	WorklistEditForm.submit();
+                           }
+                        
+                        })
+                     );
+
+                  }
+               }),
+            	isc.IButton.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	icon: "[SKIN]actions/accept.png",
+               	prompt: "Claim Item.",
+               	title: "Claim",
+               	height: 20,
+               	width: 70,
+               	click : function () 
+                  {
+                  	sendXMLRequest ("rest/workitem/" + record.workitemId, "GET", "", "refreshAll", "", true);
+                  }
+               })
+               
+            ]
+         })
+      );
+   	ContainerGrid.addMember
+      (
+      	isc.DetailViewer.create
+         ({
+         	ID:"WorklistDetailsViewer",
+         	width:650,
+         	fields:eval (record.entityShortName + "SearchDetailViewer.fields;")
+         })
+      );
+   	WorklistDetailsViewer.setData(eval("record." +  record.entityShortName));
+   },
+	alternateRecordStyles:false,
+	showRecordComponents: true,
+	selectionType:"single",
+	showRecordComponentsByCell: true,  
+	autoFetchData: true,
+	groupByField: "group",
+	fields:
+   [
+      {
+      	width:"100",
+      	name:"group",
+      	title:"Area",
+      	type:"text", 
+      	showIf : "1==2",
+      	getGroupTitle : function (groupValue, groupNode, field, fieldName, grid) 
+         {
+         	baseTitle = groupValue + " (" + groupNode.groupMembers.length + " items)";
+         	return baseTitle;
+         }
+      },
+      {
+      	width:"270",
+      	name:"description",
+      	title:"Description",
+      	type:"text",
+      	formatCellValue: function(value, record, rowNum, colNum)
+         {
+         	return record.workitemId + ' : ' + record.name;
+         }
+      }
+   ]
+});
+
+isc.RestDataSource.create
+({
+	ID:"assignedItemsDatasource",
+	fetchDataURL:"rest/workitem/assigned",
+	recordXPath:"//workItem",
+	operationBindings:
+   [
+      {operationType:"fetch", dataProtocol:"getParams"}
+   ],
+	dataFormat:"xml",
+	fields:
+   [
+      {name:"description",title:"Description",type:"text"},
+      {name:"createTime",title:"Created Time",type:"date"},
+      {name:"executionId",title:"Execution ID",type:"text"},
+      {name:"name",title:"Name",type:"text"},
+      {name:"priority",title:"Priority",type:"text"},
+      {name:"processDefinitionId",title:"Process Definition ID",type:"text"},
+      {name:"processInstanceId",title:"Process Instance ID",type:"text"},
+      {name:"taskDefinitionKey",title:"Task Definition Key",type:"text"},
+      {name:"workitemId",title:"Workitem ID",type:"text"},
+      {name:"group",title:"Area",type:"text"}
+   ]
+});
+
+isc.ListGrid.create
+({
+	ID:"assignedSummaryGrid",
+	groupStartOpen:"none",
+	showHeader:false,
+	autoDraw:false,
+	dataSource:assignedItemsDatasource,
+	fixedRecordHeights:true,
+	height:'40%',
+	recordClick:function (viewer, record, recordNum, field, fieldNum, value, rawValue)
+   {
+   	var members = ContainerGrid.getMembers();
+   	var count = members.length ;
+   	for (var i =0; i<count ;i++ )
+      {
+      	ContainerGrid.removeMember(members[0]);
+      }
+
+   	ContainerGrid.addMember
+      (
+      	isc.Label.create
+         ({
+         	autoDraw:false,
+         	contents:"<font size='3'>Click 'work' button to perform action on related work item, and further click 'done' button to mark this work item complete.</font>",
+         	height:30
+         })
+      );
+      
+   	ContainerGrid.addMember
+      (
+      	isc.HLayout.create
+         ({
+         	autoDraw:false,
+         	membersMargin:10,
+         	defaultLayoutAlign:"center",
+         	memberAlign:"center",
+         	align:"center",
+         	members:
+            [
+            	isc.Img.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	src: "UserN.jpg",
+               	height: 30,
+               	width: 30
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:record.createTime.toUTCString().substr(0,25),
+               	height:30
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:record.priority,
+               	height:30,
+               	width:70
+               }),
+            	isc.Label.create
+               ({
+               	autoDraw:false,
+               	contents:'<b>' + record.workitemId +  ' : ' + record.name + '</b>   <br>' + record.description,
+               	height:30,
+               	width:200
+               }),
+            	isc.IButton.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	icon: "[SKIN]actions/accept.png",
+               	prompt: "Work on Item",
+               	title: "Work",
+               	height: 20,
+               	width: 70,
+               	click : function () 
+                  {
+                  	ContainerGrid.addMember
+                     (
+                     	isc.DynamicForm.create
+                        ({
+                        	ID:"WorklistEditForm",
+                        	width:650,
+                        	fields:eval (record.entityShortName + "SearchEditForm.fields;")
+                        })
+                     );
+                     
+                  	WorklistEditForm.setDataSource(eval(record.entityShortName+ 'DataSource'));
+                  	WorklistEditForm.setData(eval("record." +  record.entityShortName));
+                     
+                  	ContainerGrid.addMember
+                     (
+                     	isc.Button.create
+                        ({
+                        	title:"Update",
+                        	click:function() 
+                           {
+                           	WorklistEditForm.addProperties({saveOperationType:"update"});
+                           	WorklistEditForm.submit();
+                           }
+                        
+                        })
+                     );
+
+                  }
+               }),
+            	isc.IButton.create
+               ({
+               	showDown: false,
+               	showRollOver: false,
+               	layoutAlign: "center",
+               	icon: "[SKIN]actions/accept.png",
+               	prompt: "Complete this work item.",
+               	title: "Done",
+               	height: 20,
+               	width: 70,
+               	click : function () 
+                  {
+                  	sendXMLRequest ("rest/workitem/" + record.workitemId, "DELETE", "", "refreshAll", "", true);
+                  }
+               })
+               
+            ]
+         })
+      );
+   	ContainerGrid.addMember
+      (
+      	isc.DetailViewer.create
+         ({
+         	ID:"WorklistDetailsViewer",
+         	width:650,
+         	fields:eval (record.entityShortName + "SearchDetailViewer.fields;")
+         })
+      );
+   	WorklistDetailsViewer.setData(eval("record." +  record.entityShortName));
+      
+   },
+	alternateRecordStyles:false,
+	autoFetchData: true,
+   //groupByField: "group",
+	fields:
+   [
+      {
+      	width:"100",
+      	name:"group",
+      	title:"Area",
+      	type:"text", 
+      	showIf : "1==2",
+      	getGroupTitle : function (groupValue, groupNode, field, fieldName, grid) 
+         {
+         	baseTitle = groupValue + " (" + groupNode.groupMembers.length + " items)";
+         	return baseTitle;
+         }
+      },
+      {
+      	width:"270",
+      	name:"description",
+      	title:"Description",
+      	type:"text",
+      	formatCellValue: function(value, record, rowNum, colNum)
+         {
+         	return record.workitemId + ' : ' + record.name;
+         }
+      }   
+   ]
+});
+
+
+function getWorklistContents()
+{
+	return isc.VLayout.create
+   ({
+   	autoDraw:false,
+   	ID:"WorklistFinalVL",
+   	members:
+      [
+      	isc.HLayout.create
+         ({
+         	autoDraw:false,
+         	members:
+            [
+            	isc.VLayout.create
+               ({
+               	width:"20%",
+               	autoDraw:false,
+               	members:
+                  [
+                  	isc.HLayout.create
+                     ({
+                     	autoDraw:false,
+                     	members:
+                        [
+                        	isc.Label.create
+                           ({
+                           	autoDraw:false,
+                           	contents:"<font size='3'><b>My Open Items</b></font>",
+                           	height:30,
+                           	width:"75%"
+                           }),
+                        	isc.HLayout.create
+                           ({
+                           	autoDraw:false,
+                           	align:"right",
+                           	memberAlign:"right",
+                           	members:
+                              [
+                              	isc.ImgButton.create
+                                 ({
+                                 	showDown: false,
+                                 	showRollOver: false,
+                                 	layoutAlign: "center",
+                                 	src: "[SKIN]actions/refresh.png",
+                                 	prompt: "Refresh List",
+                                 	height: 20,
+                                 	width: 20,
+                                 	click : function () 
+                                    {
+                                    	assignedSummaryGrid.setData([]);
+                                    	if (assignedSummaryGrid.data != "" && assignedSummaryGrid.data.invalidateCache)
+                                       {
+                                       	assignedSummaryGrid.data.invalidateCache();
+                                       }
+                                    	assignedSummaryGrid.fetchData();
+                                    }
+                                 })
+                        
+                              ]
+                           })
+                        ]
+                     }),
+                  	assignedSummaryGrid,
+                  	isc.HLayout.create
+                     ({
+                     	autoDraw:false,
+                     	members:
+                        [
+                        	isc.Label.create
+                           ({
+                           	autoDraw:false,
+                           	contents:"<font size='3'><b>Unassigned Items</b></font>",
+                           	height:30,
+                           	width:"75%"
+                           }),
+                        	isc.ImgButton.create
+                           ({
+                           	showDown: false,
+                           	showRollOver: false,
+                           	layoutAlign: "center",
+                           	src: "[SKIN]actions/refresh.png",
+                           	prompt: "Refresh List",
+                           	height: 20,
+                           	width: 20,
+                           	click : function () 
+                              {
+                              	candidateSummaryGrid.setData([]);
+                              	if (candidateSummaryGrid.data != "" && candidateSummaryGrid.data.invalidateCache)
+                                 {
+                                 	candidateSummaryGrid.data.invalidateCache();
+                                 }
+                              	candidateSummaryGrid.fetchData();
+                              }
+                           })
+                        ]
+                     }),
+                  	candidateSummaryGrid
+                  ]
+               }),
+            	isc.HLayout.create
+               ({
+               	width:"65%",
+               	autoDraw:false,
+               	memberAlign:"center",
+               	align:"center",
+               	members:
+                  [
+                  	isc.VLayout.create
+                     ({
+                     	width:"10%",
+                     	autoDraw:false,
+                     	memberAlign:"center",
+                     	align:"center",
+                     	members:
+                        [                                                
+                        ]
+                     }),
+                  	isc.VStack.create
+                     ({
+                     	ID:"ContainerGrid",
+                     	width:"80%",
+                     	autoDraw:false,
+                     	defaultLayoutAlign:"center",
+                     	memberAlign:"center",
+                     	align:"center",
+                     	membersMargin:10,
+                     	members:
+                        [
+                                                
+                        ]
+                     }),
+                  	isc.VLayout.create
+                     ({
+                     	width:"10%",
+                     	autoDraw:false,
+                     	memberAlign:"center",
+                     	align:"center",
+                     	members:
+                        [                                                
+                        ]
+                     }),
+                  ]
+               })
+            ]
+         })
+      ]
+   });
+}
+
+function refreshAll()
+{
+	var members = ContainerGrid.getMembers();
+	var count = members.length ;
+	for (var i =0; i<count ;i++ )
+   {
+   	ContainerGrid.removeMember(members[0]);
+   }
+
+	candidateSummaryGrid.setData([]);
+    if (candidateSummaryGrid.data != "" && candidateSummaryGrid.data.invalidateCache)
+    {
+        candidateSummaryGrid.data.invalidateCache();
+    }
+	candidateSummaryGrid.fetchData();
+
+	assignedSummaryGrid.setData([]);
+    if (assignedSummaryGrid.data != "" && assignedSummaryGrid.data.invalidateCache)
+    {
+        assignedSummaryGrid.data.invalidateCache();
+    }
+	assignedSummaryGrid.fetchData();
+}
+
+isc.VLayout.create({
+ID:"WorklistLayout",
+autoDraw:false,
+members:[
+getWorklistContents()
+]
+})
+
+
+isc.SectionStack.create({
+ID:"WorklistSectionStack",
+autoDraw:false,
+overflow: "visible",
+membersMargin: 0,
+layoutTopMargin: 0,
+sections:[{title:"Worklist",canCollapse:false, showHeader:true, expanded:true, resizeable:false, hidden:false, items:[WorklistLayout]}]})

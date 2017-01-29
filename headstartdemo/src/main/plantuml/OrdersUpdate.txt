@@ -1,0 +1,28 @@
+@startuml
+title Update Orders Scenario
+participant User
+User -> CXFServlet: PUT, Orders
+activate CXFServlet
+CXFServlet -> Orders: << create >>
+activate Orders
+Orders -> CXFServlet: << instance >>
+deactivate Orders
+CXFServlet -> OrdersRestImpl: update(:orders)
+activate OrdersRestImpl
+OrdersRestImpl -> OrdersServiceDao: update(:orders)
+activate OrdersServiceDao
+OrdersServiceDao -> OrdersJPADao: update(:orders)
+activate OrdersJPADao
+OrdersJPADao -> EntityManager: merge(:orders)
+activate EntityManager
+EntityManager -> OrdersJPADao: << persisted orders >>
+deactivate EntityManager
+OrdersJPADao -> OrdersServiceDao: << persisted orders >>
+deactivate OrdersJPADao
+OrdersServiceDao -> OrdersRestImpl: << persisted orders >>
+deactivate OrdersServiceDao
+OrdersRestImpl -> CXFServlet: << persisted orders >>
+deactivate OrdersRestImpl
+CXFServlet -> User: marshalled orders XML
+deactivate CXFServlet
+@enduml

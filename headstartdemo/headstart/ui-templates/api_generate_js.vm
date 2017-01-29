@@ -1,0 +1,115 @@
+function ${serviceName}${methodName}(formid)
+{
+	var ${serviceName}QueryParamUrl="";
+	showRegularLoading();
+	
+	#foreach($methodVariable in $methods.input)	#if($methodVariable.type.equalsIgnoreCase("String")||$methodVariable.type.equalsIgnoreCase("Integer")||$methodVariable.type.equalsIgnoreCase("Double")||$methodVariable.type.equalsIgnoreCase("Long") ||($methodVariable.isenum))
+	var $methodVariable.name=$("#"+formid+" #$methodVariable.name").val();	
+	#end
+	#end
+	#foreach($methodVariable in $methods.input)	#if($methodVariable.type.equalsIgnoreCase("String")||$methodVariable.type.equalsIgnoreCase("Integer")||$methodVariable.type.equalsIgnoreCase("Double")||$methodVariable.type.equalsIgnoreCase("Long")||($methodVariable.isenum))
+	${serviceName}QueryParamUrl+="$methodVariable.name="+$methodVariable.name+"&";
+	#end
+	#end
+	${serviceName}QueryParamUrl=${serviceName}QueryParamUrl.substring(0,${serviceName}QueryParamUrl.length-1);
+	sendPOSTRequest(context+"/rest/${serviceName}/${restUrl}?"+${serviceName}QueryParamUrl,"","${serviceName}${methodName}Callback","");
+}
+
+function ${serviceName}${methodName}Callback(XMLHttpRequest, data, rpcRequest)
+{
+	RemoveUniqueLoading();
+	if(!checkException(XMLHttpRequest.responseText))
+	{	
+		if(XMLHttpRequest.status==200)
+		{	
+			#if(!$output.equalsIgnoreCase("String") && !$output.equalsIgnoreCase("Integer")&& !$output.equalsIgnoreCase("Double")&&!$output.equalsIgnoreCase("Long") && !$output.equalsIgnoreCase("int") && !$output.equalsIgnoreCase("Boolean")) 	
+				data=JSON.parse(XMLHttpRequest.responseText);
+				setJsonDataInView${methodName}(data);
+			
+			#else #if($output.equalsIgnoreCase("Boolean")) 		
+					setResponseTextFor${serviceName}${methodName}(XMLHttpRequest.responseText);
+					
+				#else
+				if(checkResponseIsXML(XMLHttpRequest.responseText))
+			{
+			setXmlDataInView${methodName}(XMLHttpRequest.responseText);
+			}
+			else
+			{
+			
+				setResponseTextFor${serviceName}${methodName}(XMLHttpRequest.responseText);
+			}	
+			#end
+			#end
+			
+		}
+		else
+		{
+			showCenteredLoading("Error in retriving entities");
+		}	
+	}
+}
+
+function setXmlDataInView${methodName}(data){
+		$('#details_${serviceName}${methodName}_div').readableXML(data);
+		$('#details_${serviceName}${methodName}_div').css('display','block');	
+	}
+	
+#if($output.equals("ArrayOf"))	
+	function setJsonDataInViewGetWeatherInformation(data)
+{
+	var keyList=getKey(data);
+	data=eval("data."+keyList[0]);
+	$('#${methodName}').html( '<table  cellpadding="0" cellspacing="0" border="0" class="display mytb table table-striped table-bordered" id="${methodName}table"></table>' );
+		
+		    
+		    var reportTable1=$('#${methodName}table').dataTable(
+		    {		
+					"sScrollY": "200px",
+					"bFilter":false,
+					"bAutoWidth": false,
+					//"aoColumns": [{"sWidth":"100%"},{"sWidth":"10%"},{"sWidth":"10%"}],
+					"aaData": eval(data),
+					"bLengthChange":false,
+					"bPaginate":false,
+					"sPaginationType":"full_numbers",
+					
+					"sDom":'',
+					"aaSorting": [[1, 'asc']],
+						"aoColumns": getColoumnList(data)
+					} );	
+	$('#details_${serviceName}${methodName}_div').css('display','block');	
+}
+#end
+#if($outputJson)
+function setJsonDataInView${methodName}(data)
+{
+	window.setTimeout(function () {
+		$('#details_${serviceName}${methodName}_div span').each(function() {
+			var getId=$(this).attr("id");
+			var getType=$(this).attr("type");
+			if(hasValue(eval("data."+getId)))
+			{
+				var value_Set = eval("data."+getId) || "--";
+				if(getId=="enabled")
+				{
+					enableStatus=value_Set;
+				}
+				if(getType=="date")
+				{
+					value_Set=formatAsDateandTime (value_Set,"-",true);	
+				}
+			}		
+			$(this).html(value_Set);
+		});
+	},1000);
+	$('#details_${serviceName}${methodName}_div').css('display','block');	
+}
+#end
+#if($output.equalsIgnoreCase("String")||$output.equalsIgnoreCase("Integer")||$output.equalsIgnoreCase("Double")||$output.equalsIgnoreCase("Long")|| $output.equalsIgnoreCase("int") ||$output.equalsIgnoreCase("Boolean"))
+function setResponseTextFor${serviceName}${methodName}(text)
+{
+		$('#response_${serviceName}${methodName}_div').css('display','');
+		$('#response_${serviceName}${methodName}_text').html(text);
+}
+#end

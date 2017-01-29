@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Customer</title>
+<meta charset="utf-8">
+<script src="../js/generated/Customer.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getcustomerTotalCount();
+if(update_Customer_permission)
+$('#Customer_formEdit').css('display','block');
+	commentAddpress('customer_formcomment');
+	
+ $("#customer_filter_form").click(function (){
+ 	$("#fiql_customer_form").trigger('reset');
+			   $("#customerfilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_customer_form").validationEngine();
+		jQuery("#edit_customer_form").validationEngine();
+		refreshAllCustomerList();
+		refreshAllFkCustomerList();
+		jQuery("#customer_formcomment").validationEngine();
+		$("#modifiedTimechk_customer_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('customer',$("#fiql_customer_form #sort_customer").val())},1000);
+				 $('#customer_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.customer_history_slimscroll_div').slimScroll({height: '350px'});
+					$('.customer_activity_slimscroll_div').slimScroll({height: '360px'});
+			});
+</script>
+<style>
+	#customer_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#customer_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#customer_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="customerquickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="customerquickFilter" value="" ></div>	
+<div id="customer_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='phonechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_phone','phone');">
+						<span class="lbl" id="Customer_thead_phone_Lbl">&nbsp;&nbsp;Phone</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastNamechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_lastName','lastName');">
+						<span class="lbl" id="Customer_thead_lastName_Lbl">&nbsp;&nbsp;Last Name</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='firstNamechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_firstName','firstName');">
+						<span class="lbl" id="Customer_thead_firstName_Lbl">&nbsp;&nbsp;First Name</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='prioritystatuschk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_prioritystatus','prioritystatus');">
+						<span class="lbl" id="Customer_thead_prioritystatus_Lbl">&nbsp;&nbsp;Prioritystatus</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='namechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_name','name');">
+						<span class="lbl" id="Customer_thead_name_Lbl">&nbsp;&nbsp;Name</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='employeechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_employee','employee');">
+						<span class="lbl" id="Customer_thead_employee_Lbl">&nbsp;&nbsp;Salesman</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creditLimitchk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_creditLimit','creditLimit');">
+						<span class="lbl" id="Customer_thead_creditLimit_Lbl">&nbsp;&nbsp;Credit Limit</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_creator','creator');">
+						<span class="lbl" id="Customer_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Customer_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Customer_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_customer' type="checkbox" onclick="customer_fnShowHide('Customer_thead_createdTime','createdTime');">
+						<span class="lbl" id="Customer_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openCustomerListScreen('customer')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Customer</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_customer_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_customer_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Customer</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_customer_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Customer</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_customer_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Customer</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="customer_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="customer_quick_filter" onclick="showHideFilterContent('customer');"/>-->
+						
+												<!-- View Customer Attachment/Comment counts and modal window on click start -->
+						<div class="no-border" style="white-space: nowrap; width:  290px ;" id="customerViewAttachmentCommentCountDiv">
+														<a href="#customer_attachment_view_modal" style="display:block" title="Attachment" class="float_left btn btn-small btn-info" id="customer_attachment_view_btn" role="button" data-toggle="modal" onclick="getCustomerAttachments();">
+								<span id="customerAttachmentViewCountBadge">0 attachment</span> <!-- class="badge badge-info" -->
+							</a>
+														
+														<a href="#customer_comment_view_modal" style="display:block" class="float_left btn btn-small btn-info" id="customer_comment_view_btn" role="button" title="Comment" data-toggle="modal" onclick="getCustomerComments();">
+								<span id="customerCommentViewCountBadge">0 comment</span> <!-- class="badge badge-info" -->
+							</a>
+													</div>
+						<!-- View Customer Attachment/Comment counts and modal window on click end -->
+						
+												<!-- Edit Customer Attachment/Comment counts and modal window on click start -->
+						<div class="no-border" style="white-space: nowrap; width:  290px ;" id="customerEditAttachmentCommentCountDiv">
+														<a href="#customer_file_upload_modal" style="display:block" title="Attachment" class="float_left btn btn-small btn-info" id="customer_attachment_view_btn" role="button" data-toggle="modal" onclick="showCustomerAddAttachModal();">
+								<span id="customerAttachmentEditCountBadge">0 attachment</span> <!-- class="badge badge-info" -->
+							</a>
+														
+														<a href="#customer_comment_modal" style="display:block" class="float_left btn btn-small btn-info" id="customer_comment_edit_btn" role="button" title="Comment" data-toggle="modal" onclick="showCustomerAddAndViewCommentModal();">
+								<span id="customerCommentEditCountBadge">0 comment</span> <!-- class="badge badge-info" -->
+							</a>
+													</div>
+						<!-- Edit Customer Attachment/Comment counts and modal window on click end -->
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="customer_quick_filter" onclick="showHideFilterContent('customer');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="customer_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshCustomerListFromPaginator();">All</a></li>
+	  	  		
+					<li id="phone_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Phone')">Phone </a></li>
+	
+							 
+	     
+    	  		
+					<li id="lastName_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Last Name')">Last Name </a></li>
+	
+							 
+	     
+    	  		
+					<li id="firstName_filter"><a tabindex="-1" href="javascript:openCustomerTextField('First Name')">First Name </a></li>
+	
+							 
+	     
+    	       
+    	  		
+												                
+                                    
+                                    
+                     	                      				<li id="prioritystatus_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Prioritystatus</a>
+                                         <ul class="dropdown-menu">
+																		 <li><a tabindex="-1" href="javascript:openCustomerTextSelectBox('Prioritystatus','Basic')">Basic</a></li>
+																		 <li><a tabindex="-1" href="javascript:openCustomerTextSelectBox('Prioritystatus','Gold')">Gold</a></li>
+																		 <li><a tabindex="-1" href="javascript:openCustomerTextSelectBox('Prioritystatus','Silver')">Silver</a></li>
+																		 <li><a tabindex="-1" href="javascript:openCustomerTextSelectBox('Prioritystatus','Diamond')">Diamond</a></li>
+																		 <li><a tabindex="-1" href="javascript:openCustomerTextSelectBox('Prioritystatus','Platinum')">Platinum</a></li>
+																		</ul>
+                                    </li>
+                    
+                     					
+											
+									 
+	     
+    	  		
+					<li id="name_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Name')">Name </a></li>
+	
+							 
+	     
+    	  		
+									<li id="employee_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Salesman</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="creditLimit_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Credit Limit')">Credit Limit </a></li>
+	
+							 
+	     
+    	       
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openCustomerTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="customer_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="customer_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																						
+							<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreen('customer')" style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreen('customer');" data-toggle="tooltip" data-animation="true"></i>
+
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('customer')" style="margin-right: 0px; color:#242424; margin-left: 6px;"><!-- margin-right: 10px; color:#242424; margin-left: 6px; -->
+							<!--<span id="plus_txt" class="bigger-110 no-text-shadow" id="Customer_addCustomer">Customer</span>
+							</a>-->
+
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+				<!-- code for Comment and FileAttachment start for modal-->	
+		<div id="customer_file_upload_modal"  class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<div id="customercontentmodel"></div>
+			<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove red"></i></button>
+			<h3>Upload File</h3>-->
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger">Upload File</h4>
+		</div>
+		<div class="modal-body" >
+			<div id="customer_uploader_div"></div>
+			<div id="divMovieContainer" class="pull-right">
+				<input type="button" class="btn btn-mini btn-info" id="customer_triggerUpload"  value="Upload Start" onclick=""/><span id="initiate_basic" style="color: grey;float:none;" ></span>
+			</div>
+		</div>
+	</div>
+
+		<div id="customer_attachment_view_modal"  class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<div id="customercontentmodel"></div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger">Attachment</h4>
+		</div>
+		<div class="modal-body" >
+			<div id="customer_task_tab" class="tab-pane active"></div>
+		</div>
+	</div>
+	
+		<div id="customer_comment_view_modal"  class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<div id="customercontentmodel"></div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger">Comment</h4>
+		</div>
+		<div class="modal-body" >
+			<div id="customer_comment_tab" class="tab-pane ">
+				<div class="customer_activity_slimscroll_div">
+					<div id="customer_comment_tabdiv" class="comments"></div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	
+<!--<div id="customer_attach_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1"  aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#customer_attach_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton" href="#" onclick="deleteCustomerAttach();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in" style="z-index:46 !important;">
+  </div>
+</div>-->
+
+<!-- Attachment delete modal window start -->
+<div id="customer_attach_delete_dialog" class="modal hide fade" style="left:51%; width:33%; top:33%;">
+	<div class=""> <!-- previous class 'modal-header' NEW UI -->
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger text-left">
+			DELETE ATTACHMENT
+		</h4>
+	</div>
+	<div class="modal-body">
+		<img src="./warning-icon.png" style="width: 50px;"></img>
+		<span class="grey bigger-110"></span>
+
+		<div class="offset2">
+			<button onclick="deleteCustomerAttach();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="deleteAttachBtn">OK</button>
+			<button type="button" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>				
+		</div>
+	</div>
+</div>
+<!-- Attachment delete modal window end -->
+
+			<!-- Comment Modal Window Start -->
+	<div id="customer_comment_modal"  class="modal hide fade cmnt width-35" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove red"></i></button>
+			<h3 >Comment</h3>-->
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger">Comment</h4>
+		</div>
+		<div class="modal-body" style="oveflow:hidden;">
+			<div id="customercommentmodeldata" style="max-height:200px; overflow-y:auto !important;width: 97%; margin-left: 3%;"></div>
+			<div class="space"></div>
+			<div>
+				<form id="customer_formcomment" class="no-margin">
+					<div class="control-group">
+						<textarea placeholder="Type your comment here ..." onkeypress="" maxlength="255" class="input-large" type="text" name="comment" id="comment" style="width: 97%; height: 100px;"></textarea>
+					</div>
+					<!--<button class="btn btn-small btn-info no-radius" style="top:-5px;" onclick="commentAdd(form.id); return false;">
+						<i class="icon-share-alt"></i>
+						<span class="hidden-phone">Post</span>
+					</button>-->
+					<div class="">
+						<button class="btn btn-mini btn-info pull-right" onclick="commentAdd(form.id); return false;">
+							<span class="hidden-phone">Post</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Comment Modal Window End -->
+
+	<!-- Old Comment Delete -->
+	<!--<div id="customer_comment_delete_dialog" style="display:none;">
+	  <div class="bootbox modal fade in customModel" tabindex="-1"  aria-hidden="false">
+	  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+		<div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+		<div class="modal-footer customModelFooter">
+		  <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#customer_comment_delete_dialog').fadeOut();" >
+			Cancel
+		  </a>
+		  <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton" href="#" onclick="deleteCustomerComment();" >
+			OK
+		  </a>
+		</div>
+	  </div>
+	  <div class="modal-backdrop fade in" style="z-index:46 !important;">
+	  </div>
+	</div>-->
+
+	<!-- Comment delete modal window start -->
+	<div id="customer_comment_delete_dialog" class="modal hide fade" style="left:51%; width:33%; top:33%;">
+		<div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE COMMENT
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+
+			<div class="offset2">
+				<button onclick="deleteCustomerComment();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="deleteCommentBtn">OK</button>
+				<button type="button" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>				
+			</div>
+		</div>
+	</div>
+	<!-- Comment delete modal window end -->
+			<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="customer_main_div">
+			<div id="list_customer_div" style="padding:10px;">
+					
+				<!-- customer_grid start-->
+										<div id="customer_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- customer_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="customer_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="customer_pagination_totalRecord"></span> <span  id="customer_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="customer_pagination_pre"  onclick="pagPrev('customer_pagination','Customer','getCustomerDataPagination','customer_page_llimit','customer_page_ulimit','customerpagenovalue','customer',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="customer_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="customerpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="customerpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="customer_pagination_next"  onclick="pagNext('customer_pagination','Customer','getCustomerDataPagination','customer_page_llimit','customer_page_ulimit','customerpagenovalue','customer',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setCustomerPaginationValue(); return false;" id="customer_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="customer_page_llimit" value="">
+								<input type="hidden" id="customer_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_customer_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Customercreateformheader">
+								Add Customer
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_customer_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Phone <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="phone" id="phone"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Last Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="lastName" id="lastName"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>First Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="firstName" id="firstName"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Prioritystatus <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																			<select name="prioritystatus" id="prioritystatus" value="prioritystatus.prioritystatus" class="validate[required]" >
+										<option value="">-Please select-</option>
+																		<option value="Basic" > Basic</option>
+																		<option value="Gold" > Gold</option>
+																		<option value="Silver" > Silver</option>
+																		<option value="Diamond" > Diamond</option>
+																		<option value="Platinum" > Platinum</option>
+																				</select>
+																
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="name" id="name"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Salesman </span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="employee.employeeNumber" id="employee.firstName" value="employee.employeeNumber" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Credit Limit </span><br>
+                           
+																						
+                              <input type="text"  name="creditLimit" id="creditLimit" 
+                                                              class="integersallow validate[ maxSize[22],custom[number]] text-field  "  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Customer Address </span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																										<a href="#add_address_Address_customer_Modal" style="width: 82%;
+margin-left: -16%;"  id="add_address_customer_Address_act" onclick="customer_set_table_value_id('address')" role="button" class="btn btn-mini btn-white address-input" data-toggle="modal">&nbsp;</a>
+										
+									
+																									
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																		</div>
+								<!-- add div many to one button and layout -->				
+																																																																																																												
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_customer_btn" type="button" onclick="create_customer('add_customer_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Customer_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Customer_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+														
+				
+   <div id="add_address_Address_customer_Modal"  class="modal hide fade cmnt addressmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class=""> <!-- previous class 'modal-header' NEW UI -->
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+			Add Address
+		</h4>
+    </div>
+    <div class="modal-body" >
+      <div id="address_add_customer_Address_modal"> <!-- class="grey_block" previous to NEW UI -->
+      </div>
+    </div>
+  </div>
+  
+  <div id="edit_address_customer_Address_Modal"  class="modal hide fade cmnt addressmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class=""> <!-- previous class 'modal-header' NEW UI -->
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+			Edit Address
+		</h4>
+    </div>
+    <div class="modal-body" >
+      <div id="address_customer_edit_Address_modal"> <!-- class="grey_block" previous to NEW UI -->
+      </div>
+    </div>
+  </div>
+		
+		
+				
+
+<div id="edit_customer_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Customereditformheader">
+								Edit Customer
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_customer_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="customerNumber" id="customerNumber">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Phone <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="phone" id="phone"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Last Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="lastName" id="lastName"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>First Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="firstName" id="firstName"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													  								                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Prioritystatus <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																			<select name="prioritystatus" id="prioritystatus" value="prioritystatus.prioritystatus" class="validate[required] inputDown " >
+										<option value="">-Please Select-</option>
+																		<option value="Basic" > Basic</option>
+																		<option value="Gold" > Gold</option>
+																		<option value="Silver" > Silver</option>
+																		<option value="Diamond" > Diamond</option>
+																		<option value="Platinum" > Platinum</option>
+																				</select>
+																						
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="name" id="name"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Salesman</span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="employee.employeeNumber" id="employee.firstName" value="employee.employeeNumber"  class=" inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Credit Limit</span><br>
+                         
+																						
+                              <input type="text"  name="creditLimit" id="creditLimit" 
+                                                              class="integersallow validate[ maxSize[22],custom[number]] text-field "  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Customer Address</span><br>
+                         
+																						 
+						
+								
+																																	
+																												<a href="#edit_address_customer_Address_Modal" style="width: 82%;
+margin-left: -16%;"  id="edit_address_customer_Address_act" onclick="customer_edit_address('address')" role="button" class="btn btn-mini btn-white address-input" data-toggle="modal">&nbsp;</a>
+																															
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																		</div>
+								
+				
+								
+				
+				
+				
+				
+				
+				
+																																																																																																												
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_customer_btn" type="button" onclick="edit_customer('edit_customer_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Customer_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('customer')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Customer_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" overflow-y: scroll; height: 580px; overflow-x: hidden; padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_customer_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_customer"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Customer_formEdit"  onclick="ViewEditcustomer()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="customer_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Phone  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="phone" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Name  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="lastName" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  First Name  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="firstName" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Prioritystatus </div>
+
+					<div class="profile-info-value">
+												<span  id="prioritystatus"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Salesman </div>
+
+					<div class="profile-info-value">
+												<span  id="employee.firstName"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Credit Limit  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="creditLimit" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Customer Address  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="address" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Customer_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Customer_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Customer_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="customer_history_tab" class="tab-pane active">
+														<div class="customer_history_slimscroll_div">
+															<div id="customer_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+						<!-- code for Comment and FileAttachment start-->	
+				
+			<!--<div class="clear">
+							
+							<div class="profile-user-info profile-user-info-striped" style="margin-top:40px;" id="recent-box1">
+										<div ><!--header start -->
+											<!--<h1  id="Customer_head_Activities" class="newheader">
+												ACTIVITIES
+											</h1>
+											
+											<!--<div class="no-border pull-left offset2" style="margin-top: -54px; white-space: nowrap;"><!--widget-toolbar-view-->
+											
+										<!--</div><!--header end -->
+
+										<!--<div style="overflow-x: auto;">
+										<div class="widget-main padding-4">
+												
+												<div class="tab-content overflow-visible">
+																								<div id="customer_task_tab" class="tab-pane active"></div>
+																																				<div id="customer_comment_tab" class="tab-pane ">
+													<div class="customer_activity_slimscroll_div">
+														<div id="customer_comment_tabdiv" class="comments"></div>
+													</div>
+												</div>	
+																							</div><!--/widget-main-->
+										<!--</div><!--/widget-body-->
+									
+									<!--</div>-->
+		
+		
+		
+		</div>
+		</div>
+				
+				
+				
+				
+				
+					<!-- code for Comment and FileAttachment end-->
+								
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="customerfilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_customer_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#customerfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="customerfilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																																
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Phone</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="phone" id="phone"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Last Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="lastName" id="lastName"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">First Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="firstName" id="firstName"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Prioritystatus</span>
+                  
+                          		
+																																																															
+																			<select multiple name="prioritystatus" class="inputDown" id="prioritystatus" value="prioritystatus.prioritystatus">
+										<option value='null'>All</option>
+																		<option value="Basic" > Basic</option>
+																		<option value="Gold" > Gold</option>
+																		<option value="Silver" > Silver</option>
+																		<option value="Diamond" > Diamond</option>
+																		<option value="Platinum" > Platinum</option>
+																				</select>
+										<script> $("#fiql_customer_form #prioritystatus").multipleSelect({
+										selectAll: false
+										});</script>
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="name" id="name"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Salesman</span>
+                  
+                          		
+																																																															
+																		<select multiple name="employee.employeeNumber" id="employee.firstName" value="employee.employeeNumber" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="creditLimit" id="creditLimit"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="address" id="address"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="creator" id="creator"/>
+										
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+										</div>
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="customerSortBy" class="inputDown sortbydropdown" onchange="customerSortByHighLightSelectedHeader('customer')">
+									 
+									 																										
+																				<option value='phone' >Phone</option>  
+																																																								
+																				<option value='lastName' >Last Name</option>  
+																																																								
+																				<option value='firstName' >First Name</option>  
+																																																																															
+																				<option value='prioritystatus' >Prioritystatus</option>  
+																																																								
+																				<option value='name' >Name</option>  
+																																																								
+																														<option value='employee.employeeNumber'>Salesman</option>
+																																																																		
+																				<option value='creditLimit' >Credit Limit</option>  
+																																																																																																																													
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('customer',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_customer"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_customer"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchCustomerData(fiql_customer_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_customer_div"></div>
+		<div id="error_500_customer_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="customer_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#customer_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteCustomerEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="customer_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Customer RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteCustomerEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setCustomerPaginationValue() {
+		$('#customerpagenovalue').html(1); 
+		$('#fiql_customer_form')[0].reset();
+		pageulimit= eval($('#customer_pagination_value').val()-1);
+		pagellimit=0;
+		$("#customer_pagination_next").css("display", "");
+		$("#customer_pagination_pre").css("display", "");
+		$('#customer_pagination #customer_page_llimit').val(pagellimit);
+		$('#customer_pagination #customer_page_ulimit').val(pageulimit);
+		$("#customer_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_customer_form #sort_customer').val();
+        var ordertypecall= $('#fiql_customer_form #sort_type_value_customer').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlCustomerParam="";
+				sendGETRequest(context+"/rest/Customer/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getCustomerDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('customer',$("#fiql_customer_form #sort_customer").val());
+		},1000);
+	}
+
+	$('#customer_main_div #error_404_customer_div').load(context+"/pages/error-404.html");
+	$('#customer_main_div #error_500_customer_div').load(context+"/pages/error-500.html");
+	
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlCustomerParam ="";
+var Customerflag=0;
+
+$('#customer_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#customer_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#customer_grid').contextmenu({
+	target: '#customer_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#customer_pagination #customer_page_llimit').val(pagellimit);
+$('#customer_pagination #customer_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Customer_home").html(index_home);
+
+if(hasValue(customer_breadcrumb))
+	$("#Customer_page_breadcrumbs").html(customer_breadcrumb);
+
+if(hasValue(Customer_thead_sortby))
+			$("#customerfilterTab #sortBy_span").html(Customer_thead_sortby);
+if(hasValue(Customer_thead_modifiedTime))
+			$("#customerfilterTab #modifiedTime_span").html(Customer_thead_modifiedTime);
+if(hasValue(Customer_thead_createdTime))
+			$("#customerfilterTab #createdTime_span").html(Customer_thead_createdTime);
+if(hasValue(Customer_viewdetail))
+			$("#details_customer_div #view_Customer").html(Customer_viewdetail);
+if(hasValue(Customer_thead_lastModifier))
+			$("#details_customer_div #Customer_detail_modifier").html(Customer_thead_lastModifier);
+if(hasValue(Customer_thead_creator))
+			$("#details_customer_div #Customer_detail_creator").html(Customer_thead_creator);
+if(hasValue(Customer_formCancel))
+			$("#Customer_formCancel").html(Customer_formCancel);
+if(hasValue(Customer_formUpdate))
+			$("#Customer_formUpdate").html(Customer_formUpdate);
+if(hasValue(Customer_formReset))
+			$("#Customer_formReset").html(Customer_formReset);
+if(hasValue(Customer_formCreate))
+			$("#Customer_formCreate").html(Customer_formCreate);
+
+if(hasValue(Customer_addCustomer))
+			$("#Customer_addCustomer").html(Customer_addCustomer);
+if(hasValue(Customer_head_history))
+			$("#Customer_head_history").html(Customer_head_history);
+if(hasValue(Customer_head_Activities))
+			$("#Customer_head_Activities").html(Customer_head_Activities);
+if(hasValue(Customer_task_tab))
+			$("#customer_task_tab_link").html(Customer_task_tab);
+if(hasValue(Customer_comment_tab))
+			$("#customer_comment_tab_link").html(Customer_comment_tab);
+if(hasValue(Customer_comment_tab))
+			$("#customer_comment_modal #myModalLabel").html(Customer_comment_tab);
+
+if(hasValue(Customer_formEdit))
+			$("#Customer_formEdit").html("<i class='icon-edit bigger-110'></i>"+Customer_formEdit);
+
+if(hasValue(Customercreateformheader))
+			$("#Customercreateformheader").html(Customercreateformheader);
+if(hasValue(Customereditformheader))
+			$("#Customereditformheader").html(Customereditformheader);
+if(hasValue(pagination_page_txt))
+			$("#customer_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Customer_thead_phone_Lbl").html(Customer_thead_phone);
+            $("#Customer_thead_lastName_Lbl").html(Customer_thead_lastName);
+            $("#Customer_thead_firstName_Lbl").html(Customer_thead_firstName);
+              $("#Customer_thead_prioritystatus_Lbl").html(Customer_thead_prioritystatus);
+            $("#Customer_thead_name_Lbl").html(Customer_thead_name);
+            $("#Customer_thead_employee_Lbl").html(Customer_thead_employee);
+            $("#Customer_thead_creditLimit_Lbl").html(Customer_thead_creditLimit);
+              $("#Customer_thead_creator_Lbl").html(Customer_thead_creator);
+            $("#Customer_thead_lastModifier_Lbl").html(Customer_thead_lastModifier);
+            $("#Customer_thead_modifiedTime_Lbl").html(Customer_thead_modifiedTime);
+            $("#Customer_thead_createdTime_Lbl").html(Customer_thead_createdTime);
+  
+  	$("#Customer_thead_phone_Flt").html(Customer_thead_phone);
+    	$("#Customer_thead_lastName_Flt").html(Customer_thead_lastName);
+    	$("#Customer_thead_firstName_Flt").html(Customer_thead_firstName);
+      	$("#Customer_thead_prioritystatus_Flt").html(Customer_thead_prioritystatus);
+    	$("#Customer_thead_name_Flt").html(Customer_thead_name);
+    	$("#Customer_thead_employee_Flt").html(Customer_thead_employee);
+    	$("#Customer_thead_creditLimit_Flt").html(Customer_thead_creditLimit);
+      	$("#Customer_thead_creator_Flt").html(Customer_thead_creator);
+    	$("#Customer_thead_lastModifier_Flt").html(Customer_thead_lastModifier);
+    	$("#Customer_thead_modifiedTime_Flt").html(Customer_thead_modifiedTime);
+    	$("#Customer_thead_createdTime_Flt").html(Customer_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Customer_permission){
+		$("#customer_breadcrumbs #plus").css("display","");	
+		$("#customer_breadcrumbs #plus_bar").css("display","");
+		$("#customer_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#customer_breadcrumbs #customer_Quick_UL").addClass("pull-right");
+	$("#customer_breadcrumbs #plus").css("display","none");
+	$("#customer_breadcrumbs #plus_bar").css("display","none");
+	$("#customer_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function customerSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#customerSortBy').val());
+}
+
+             var customer_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(customer_richtextfields))  
+					{
+					if(create_Customer_permission){
+					$("#customer_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Customer_permission){
+					$("#customer_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#customerquickFilter').blur(function() {
+					$('#customerquickFilterDiv').css('display','none');
+					$('#customerquickFilter').val('');	
+					});	
+					
+					$("#customerfilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

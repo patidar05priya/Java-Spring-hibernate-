@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="../js/static/Permission.js"> </script>
+	<style> 
+		#permission_grid tbody td {
+			white-space: nowrap !important;
+			overflow: hidden;
+			height: 1.5em;
+			max-width: 30px !important;
+			text-overflow: ellipsis !important;
+		}
+		#permission_grid thead th {
+			word-wrap: break-word !important;
+			overflow:hidden !important;
+			text-overflow:ellipsis !important;
+			text-overflow:initial !important\9;
+		}
+		#permission_grid .details_action{
+			text-align:center !important;
+			text-align:center\9 !important;
+		}
+	</style>
+</head>
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openListScreen('permission')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Permission</span>
+        </div>
+  <div class="breadcrumb-button" id="home_permission_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+        </div>
+        
+            <div class="breadcrumb-button"  id="add_permission_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">
+                 > &nbsp;&nbsp;&nbsp;&nbsp;<span>Add Permission</span><!-- NEW UI CSS -->
+              </span>
+           </div>
+        
+
+        <div class="breadcrumb-button" id="edit_permission_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         > &nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Permission</span><!-- NEW UI CSS -->
+          </span>
+              </div>
+     																	 														   <div class="breadcrumb-button" id="view_permission_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         > &nbsp;&nbsp;&nbsp;&nbsp;<span>View Permission</span><!-- NEW UI CSS -->
+          </span>
+        </div>
+ 	 </div>
+ 
+
+<div class="nav-search" id="nav-search" style="display:inline-flex;margin-top: 4px;">
+
+	<i id="permission_filter_form" class="icon-custom-search nav-search-icon" data-toggle="tooltip" data-animation="true" style='cursor: pointer;' title="Search"></i>
+    <span class="sideBarBreadCrumbSpan">|</span>
+
+	<i id="plus_bar" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' title="Add" onclick="openAddScreen('permission');" data-toggle="tooltip" data-animation="true"></i>
+
+    <!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">
+	<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('permission');" style="margin-right: 6px; color:#242424; margin-left: 6px;">
+		<span class="bigger-110 no-text-shadow" id="add_permission_btn">Permission</span>
+	</a>-->
+
+</div>
+<!--#nav-search  add button-->
+
+<div id="permission_main_div">
+  <!-- Start of viewPermissionDiv-->
+  <div id="list_permission_div" style="padding:10px;">
+    <!-- End of FIQL Div-->
+	
+          <div id="permission_grid" class="" style="cursor:pointer;">
+          </div>
+         
+        <!--grid-pager start-->
+        <div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+			<div id="permission_pagination" class="ui-pager-control" role="group">
+				<table class="ui-pg-table paginationDivClass">
+					<tbody>
+						<tr>
+							<td id="grid-pager_left" style="text-align:left;">
+								<div dir="ltr" style="text-align:left;margin-left:10px; font-size:15px;" class="ui-paging-info"><span id="permission_pagination_totalRecord"></span> <span id="permission_totalCount"></span> </div>
+							</td>
+
+							<td id="grid-pager_center" style="text-align:center; white-space: nowrap; width: 341px;">
+								<table style="table-layout:auto;border:0px;padding:0px;" class="ui-pg-table">
+									<tbody>
+										<tr>
+											<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="permission_pagination_pre" onclick="pagPrev('permission_pagination','Permissions','getPermissionData','permission_page_llimit','permission_page_ulimit','permissionpagenovalue','permission_grid')"></span></td>
+											<td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+											
+											<td dir="ltr"><a id="permission_pagination_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="permissionpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span>
+											<!--<input class="ui-pg-input text-field-pagination" id="permissionpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>-->
+											</td>
+
+											<td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+											<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="permission_pagination_next" onclick="pagNext('permission_pagination','Permissions','getPermissionData','permission_page_llimit','permission_page_ulimit','permissionpagenovalue','permission_grid')"></span></td>
+											<td dir="ltr">
+												<select style='width: 60px; margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox" onChange="setPermissionPaginationValue(); return false;" id="permission_pagination_value">
+													<option value="10">10</option>
+													<option value="25">25</option>
+													<option value="50">50</option>
+													<option value="100">100</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td id="grid-pager_right" style="text-align:right;">
+								<!--<div dir="ltr" id="content" style="text-align:right;margin-right:10px;" class="ui-paging-info"></div>-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" id="permission_page_llimit" value="">
+				<input type="hidden" id="permission_page_ulimit" value="">
+
+			</div>
+		</div>
+        <!--grid-pager end-->
+
+</div>
+  <!-- End of list_Permission_Div Div-->
+  
+  
+  <!-- Start of addPermissionDiv-->
+  <div id="add_permission_div"  >
+	  <div class="AddEditBOX">
+     <div class="page-header-custom" >
+							<h1 class="newheader" id="add_permission_label">
+								Add Permission
+							</h1>
+						</div>
+						<div class="grey_block" style="min-height: 100px;">
+    <form class="form-horizontal " id="add_permission_form" >
+      
+      <div class="span4" >
+        <div class="control-group">
+          <label class="control-label" for="permissionname" id="permission_Permissionname"></label>
+          
+          <div class="controls">
+            <input type="text" id="permissionname"  class="validate[required] alphanumericallowspecial text-field">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="description" id="permission_Description"></label>
+          
+          <div class="controls">
+            <input type="text" id="description"  class="validate[required] text-field">
+          </div>
+        </div>
+        
+        </div>
+        
+    </form>
+    
+              <div class="span9" style="float:right;">
+
+          
+                             
+<button class="btn btn-mini btn-info" type="button"  onclick="createNewPermission('add_permission_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow"  id="create" >Create</span>
+</button>
+     
+ <button class="btn btn-mini btn-info" type="reset" onclick="resetAddPermissionForm();"  >
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="add_permission_reset">Reset</span>
+</button>
+          
+        </div>
+     
+     </div>
+     </div>
+   
+		<!--<div id="permission_info_user" style="display:none;margin-right:26% !important; margin-bottom: 164px !important; height: 5px !important;">
+		  <ul>
+			<li id="permissionnameexist" class="invalidUser" id="uservalid" style="margin-left: -6px;" >
+			 <strong id="permission_validateusername">Permission Already Exist</strong>
+			</li>
+		  </ul>
+		</div>-->
+		
+        <div id="permission_info_user" class="formError" style="display: none; opacity: 0.87; position: absolute; top: 19%; left: 25%; margin-top: -38px;">
+			<div class="formErrorContent">* Permission Already Exist</div>
+			<div class="formErrorArrow">
+				<div class="line10"></div>
+				<div class="line9"></div>
+				<div class="line8"></div>
+				<div class="line7"></div>
+				<div class="line6"></div>
+				<div class="line5"></div>
+				<div class="line4"></div>
+				<div class="line3"></div>
+				<div class="line2"></div>
+				<div class="line1"></div>
+			</div>
+		</div>
+		
+
+      
+     <div class='clear'></div>
+    
+    
+    
+  </div>
+  
+  <!-- End of addPermissionDiv Div-->
+  
+  <!-- Start of editPermissionDiv-->
+  <div id="edit_permission_div" >
+	  <div class="AddEditBOX">
+    <div class="page-header-custom" >
+							<h1 class="newheader" id="edit_permission_header">
+								Edit Permission
+							</h1>
+						</div>
+						<div class="grey_block" style="min-height: 120px;">
+    <form class="form-horizontal grey_block" id="edit_permission_form" >
+      
+      <div class="span4" >
+        <div class="control-group">
+          <div class="controls">
+            <input type="hidden" id="permissionid">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="permissionname" id="permission_Permissionname"></label>
+          
+          <div class="controls">
+            <input type="text" id="permissionname" placeholder="permissionname" class="alphanumericallowspecial text-field" disabled>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" id="permission_Description"></label>
+          
+          <div class="controls">
+            <input type="text" id="description"  class="validate[required] text-field">
+          </div>
+        </div>
+            <div  style="float: right; margin-top: 15px;">
+
+          
+                             
+
+
+
+
+  <button class="btn btn-mini btn-info" type="button" onclick="updatePermission(form.id); return false;">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow"  id="update" >Update</span>
+</button>
+     
+   <button class="btn btn-mini btn-info" type="button" onclick="openListScreen('permission')"  >
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="edit_permission_cancel">Cancel</span>
+</button>
+  </div>
+     
+  
+      
+      </div>    
+    </form>
+   </div>
+   </div>
+    <div class='clear'></div>
+    
+    
+ 
+    
+    
+  </div>
+  
+  <!-- End of editPermissionDiv Div-->
+   <div class="profile-user-info profile-user-info-striped" id="details_permission_div" style="margin-top: 15px;" >
+					<div class="page-header-custom" >
+							<h1 class="newheader" id="view_permission_header">
+								View Permission 
+							</h1>
+						</div>
+					<div class="profile-info-row">
+					<div class="profile-info-name" id="view_permission_id"> Permissionid</div>
+
+					<div class="profile-info-value">
+					<span  id="permissionid"></span>
+					</div>
+					</div> 				 	 						
+				    
+				    <div class="profile-info-row">
+					<div class="profile-info-name" id="view_permission_name"> Permission Name</div>
+
+					<div class="profile-info-value">
+					<span  id="permissionname"></span>
+					</div>
+					</div>                      
+					
+			        <div class="profile-info-row">
+					<div class="profile-info-name" id="view_permission_description"> Description </div>
+
+					<div class="profile-info-value">
+					<span  id="description"></span>
+					</div>
+					</div> 
+											 	 						
+						
+					                      
+                                         
+					
+				 
+								                     					
+							
+	</div>
+</div>
+
+<!--FilterTab div Starts here-->
+<div class="filterList" id="permissionfilterTab" style="display:none; height: 18%;"> 
+       	<form class="form-horizontal" style="text-align:center;" id="fiql_permission_form">					
+			  <button type="button" class="close" onclick='$("#permissionfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="permissionFilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+		       
+				<div class="filterListlevel" >
+					<div class="column left">
+						<span style="float: left;" id="search_permission_name_txt">Permission name</span>
+						<ul> 		
+							<input type="text" id="permissionname" class="text-field" placeholder="Permissionname">
+						</ul> 	
+					</div>		
+				</div>	
+
+				<div class="filterListlevel" >
+					<div class="column left">
+						<span style="float: left;" id="search_permission_description_txt">Permission name</span>
+						<ul> 		
+							<input type="text" id="description" class="text-field" placeholder="Description">
+						</ul> 	
+					</div>		
+				</div>	
+
+				<br>
+
+				<div class="filterListlevel">
+					<div class="pull-right">
+						<a href="#" onclick="searchPermissionData(fiql_permission_form); " style="/* float: right; */" id="searchPermissionBtn" class="btn btn-mini btn-info">
+							Apply<!--<i class="icon-filter"></i>-->
+						</a>
+					</div>
+				</div>
+					
+		  </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+
+<script>
+  
+   $(document).ready(function() {						  
+			$("#nav-search .richtextbread").css("display","block");
+			$("#nav-search #plus").css("display","");	
+			$("#nav-search #plus_bar").css("display","");
+			$("#nav-search #plus_txt").css("display","");	
+
+						   $("#permission_filter_form").click(function (){
+							   $("#fiql_permission_form").trigger('reset');
+	
+			   $("#permissionfilterTab").slideToggle();
+	});	 
+						          						$('.alphanumeric').alphanumeric(); 
+                        jQuery("#add_permission_form").validationEngine();
+                        jQuery("#edit_permission_form").validationEngine();
+                        
+                        openListScreen('permission');
+                        $("#permission_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+                        showRegularLoading();
+                        sendGETRequest(context+"/rest/Permissions/search?&orderBy=permissionname&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getPermissionData","");
+                        
+                        
+                        
+                        
+		
+			$('#add_permission_form #permissionname').keyup(function() {
+				countpermissionname=0;
+				
+			 $('#permission_info_user').hide();
+			}).blur(function() {
+				
+				newpermissionname = $(this).val();
+				
+var url=context + "/rest/Permissions/search?_s=permissionname=="+newpermissionname+"&ulimit=3&llimit=0";
+
+				sendGETRequest(url,"getPermissionSearchData","");
+			});
+                      }
+                     );
+	function resetAddPermissionForm(){
+		document.getElementById('add_permission_form').reset();
+		}
+		
+		function reseteditpermissionForm(){
+		document.getElementById('edit_permission_form').reset();
+		}
+		 
+  var pagellimit=0;
+  var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+  
+  var Permissionsflag=0;
+  
+  var fiqlPermissionsParam;
+$('#permission_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#permission_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+ 
+   function setPermissionPaginationValue() {
+	    $('#permissionpagenovalue').html(1); 
+		pageulimit= eval($('#permission_pagination_value').val())-1;
+		pagellimit=0;
+		$("#permission_pagination_next").css("display", "");
+		$("#permission_pagination_pre").css("display", "");
+		$('#permission_pagination #permission_page_llimit').val(pagellimit);
+		$('#permission_pagination #permission_page_ulimit').val(pageulimit);
+		$("#permission_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		showRegularLoading();
+		sendGETRequest(context+"/rest/Permissions/search?&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getPermissionData","");
+		}
+  $('#permission_pagination #permission_page_llimit').val(pagellimit);
+  $('#permission_pagination #permission_page_ulimit').val(pageulimit);
+  
+   if(hasValue(permissions_button_search))
+			$("#searchUserBtn").html(permissions_button_search);
+			if(hasValue(permissions_button_create))
+			$("#create").html(permissions_button_create);
+			if(hasValue(permissions_button_reset))
+			$(" #reset").html(permissions_button_reset);
+			if(hasValue(permissions_button_update))
+			$("#edit_permission_form #update").html(permissions_button_update);
+			
+			if(hasValue(permissions_label_rolename))
+		{	
+			$("#add_permission_form #permission_Permissionname").html(permissions_label_rolename+":");
+			$("#edit_permission_form #permission_Permissionname").html(permissions_label_rolename+":");
+	 }if(hasValue(permissions_label_description))
+		{	
+			$("#add_permission_form #permission_Description").html(permissions_label_description+":");
+			$("#edit_permission_form #permission_Description").html(permissions_label_description+":");
+	 }
+	 if(hasValue(add_permissions_label))
+		{	
+			$("#add_permission_div #add_permission_label").html(add_permissions_label);
+	 }	 
+	 if(hasValue(add_permission_btn))
+		{	
+			$("#nav-search #add_permission_btn").html(add_permission_btn);
+	 }	 
+	 if(hasValue(search_permission_name_txt))
+		{	
+			$("#permissionfilterTab #search_permission_name_txt").html(search_permission_name_txt);
+	 }
+	 if(hasValue(search_permission_description_txt))
+		{	
+			$("#permissionfilterTab #search_permission_description_txt").html(search_permission_description_txt);
+	 }
+	 if(hasValue(searchPermissionBtn))
+		{	
+			$("#permissionfilterTab #searchPermissionBtn").html(searchPermissionBtn);
+	 }
+	 if(hasValue(view_permission_header))
+		{	
+			$("#details_permission_div #view_permission_header").html(view_permission_header);
+	 }
+	 if(hasValue(view_permission_id))
+		{	
+			$("#details_permission_div #view_permission_id").html(view_permission_id);
+	 }
+	 if(hasValue(view_permission_name))
+		{	
+			$("#details_permission_div #view_permission_name").html(view_permission_name);
+	 }
+	 if(hasValue(view_permission_description))
+		{	
+			$("#details_permission_div #view_permission_description").html(view_permission_description);
+	 }
+	 if(hasValue(edit_permission_header))
+		{	
+			$("#edit_permission_div #edit_permission_header").html(edit_permission_header);
+	 }
+	 if(hasValue(pagination_page_txt))
+		{	
+			$("#permission_pagination_page_txt").html(pagination_page_txt);
+	 }
+	 if(hasValue(add_permission_reset))
+		{	
+			$("#add_permission_reset").html(add_permission_reset);
+	 }
+	 if(hasValue(edit_permission_cancel))
+		{	
+			$("#edit_permission_cancel").html(edit_permission_cancel);
+	 }
+	 
+if(hasValue(index_home))
+			$("#permission_home").html(index_home);
+			
+			if(hasValue(permission_breadcrumb))
+			$("#permission_page_breadcrumbs").html(permission_breadcrumb);
+			
+$("#permissionFilterCrossImg").attr("src", getImagePath('red_cross.png'));
+</script>
+</html>

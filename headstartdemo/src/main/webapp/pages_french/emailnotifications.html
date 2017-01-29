@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Notification</title>
+
+<!--<script src="../js/static/EmailNotifications.js"></script>-->
+<script >
+$(document).ready(function(){
+showRegularLoading();
+if(hasValue(currentDomainId)){
+		 sendGETRequest(context+"/rest/EmailNotifications/FIQLsearch?_s=domain.domainid=="+currentDomainId+"&ulimit=9&llimit=0&orderBy=createdDate&orderType=desc","getEmailNotificationData","","");
+		}
+		else{
+		sendGETRequest(context+"/rest/EmailNotifications/FIQLsearch?&ulimit=9&llimit=0&orderBy=createdDate&orderType=desc","getEmailNotificationData","","");
+     }
+	
+	
+	
+	});
+	if(hasValue(emailnotification_breadcrumb))
+			$("#emailnotification_breadcrumb").html(emailnotification_breadcrumb);	
+</script>
+</head>
+
+
+
+<body>
+
+<div class="newbreadcumb" id="breadcrumbs">
+        <div class="breadcrumb-button">
+		<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label" id="emailnotification_breadcrumb">Email Notifications</span>
+         
+        </div>
+        </div>
+	
+				<!-- code for Comment and FileAttachment end for modal-->	
+	<div id="list_email_grid_div" style="margin-top:10px;">
+		<form class="form-horizontal" id="fiql_email_grid_form"  style="text-align:center">	 
+		<input type="hidden" name="orderBy" value="createdDate" id="sort_email_grid"/>
+		<input type="hidden" name="byemail" value="fiqlEmailNotificationsParam" id="sort_email_grid_byemail"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_email_grid"/>	</form>
+	 
+	<div id="email_notifications_grid" style="margin-top: 15px;cursor:pointer;"></div>	
+	</div>
+	  			<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="email_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass" style="width:100%;table-layout:fixed;height:100%;border:0px;padding:0px" >
+							<tbody><tr><td id="grid-pager_left" style="text-align:left">
+						<div dir="ltr"  style="text-align:left;margin-left:10px; font-size:15px;" class="ui-paging-info"><span  id="emailNotification_pagination_totalRecord"></span> <span  id="emailnotification_totalCount"></span> </div>
+						</td><td id="grid-pager_center" style="white-space: pre; width: 341px; text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+		<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="email_pagination_pre"  onclick="pagPrev('email_pagination','EmailNotifications','getEmailNotificationData','email_page_llimit','email_page_ulimit','emailpagenovalue','email_grid')"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a style='padding-right:10px; font-size:15px;'>Page</a><span id="emailpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+		<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="email_pagination_next"  onclick="pagNext('email_pagination','EmailNotifications','getEmailNotificationData','email_page_llimit','email_page_ulimit','emailpagenovalue','email_grid')"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox" onChange="setEmailPaginationValue(); return false;" id="email_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td><td id="grid-pager_right" style="text-align:right">
+																						
+		<!--<div dir="ltr" id="content" style="text-align:right;margin-right:10px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="email_page_llimit" value="">
+								<input type="hidden" id="email_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+					
+						
+<script>
+ var pagellimit=0;
+  var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+   var fiqlEmailNotificationsParam;
+  var EmailNotificationsflag=0;
+  $('#email_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#email_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+   function setEmailPaginationValue() {
+	   $('#emailpagenovalue').html(1); 
+		pageulimit= eval($('#email_pagination_value').val())-1;
+		pagellimit=0;
+		$("#email_pagination_next").css("display", "");
+		$("#email_pagination_pre").css("display", "");
+		$('#email_pagination #email_page_llimit').val(pagellimit);
+		$('#email_pagination #email_page_ulimit').val(pageulimit);
+		$("#email_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		showRegularLoading();
+		if(hasValue(currentDomainId)){
+	 sendGETRequest(context+"/rest/EmailNotifications/FIQLsearch?_s=domain.domainid="+currentDomainId+"&ulimit="+pageulimit+"&llimit=0&orderBy=createdDate&orderType=desc","getEmailNotificationData","","");
+		}
+		else{
+	 sendGETRequest(context+"/rest/EmailNotifications/FIQLsearch?&ulimit="+pageulimit+"&llimit=0&orderBy=createdDate&orderType=desc","getEmailNotificationData","","");
+     
+		
+		}
+		}
+		
+  $('#email_pagination #email_page_llimit').val(pagellimit);
+  $('#email_pagination #email_page_ulimit').val(pageulimit);
+  	
+  $('#email_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#email_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+
+		$("#email_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+
+</script>
+</body>
+</html>

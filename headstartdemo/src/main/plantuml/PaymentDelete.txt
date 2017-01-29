@@ -1,0 +1,28 @@
+@startuml
+title Delete Payment Scenario
+participant User
+User -> CXFServlet: DELETE, Payment
+activate CXFServlet
+CXFServlet -> Payment: << create >>
+activate Payment
+Payment -> CXFServlet: << instance >>
+deactivate Payment
+CXFServlet -> PaymentRestImpl: delete(:payment)
+activate PaymentRestImpl
+PaymentRestImpl -> PaymentServiceDao: delete(:payment)
+activate PaymentServiceDao
+PaymentServiceDao -> PaymentJPADao: delete(:payment)
+activate PaymentJPADao
+PaymentJPADao -> EntityManager: remove(:payment)
+activate EntityManager
+EntityManager -> PaymentJPADao: << persisted payment >>
+deactivate EntityManager
+PaymentJPADao -> PaymentServiceDao: << persisted payment >>
+deactivate PaymentJPADao
+PaymentServiceDao -> PaymentRestImpl: << persisted payment >>
+deactivate PaymentServiceDao
+PaymentRestImpl -> CXFServlet: << persisted payment >>
+deactivate PaymentRestImpl
+CXFServlet -> User: marshalled payment XML
+deactivate CXFServlet
+@enduml

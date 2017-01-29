@@ -1,0 +1,63 @@
+
+.filter > a {
+    padding: 10px 10px 10px 10px;
+    display: inline-block;
+    font-size: 18px;
+    background: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform:uppercase;
+}
+.filterList {
+    display: inline-block;
+    position: absolute;
+    /*min-width: 80%;*/
+    right:0;
+    top:0%;
+    z-index:4;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    height: 300px;
+    width: 800px;
+}
+.filterListlevel {
+    float: left;
+    border: 0 none;
+    width: 33.33%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-left : 1px solid #dfdfdf;
+}
+.filterListlevel:first-child {
+    border-left : 0 none;
+}
+.sitesMapFilter .filterListlevel h4 {
+    font-size: 14px;
+    color: #989da3;
+    margin: 0px 0px 5px 0px;
+}
+.filterListlevel > div {
+    padding: 15px;
+}
+.filterListlevel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.filterListlevel ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.filterListlevel ul li input[type="checkbox"] {
+    margin: 0px 5px 0px 0px;
+}
+.filter a i {
+    padding: 0px 10px 0px 0px;
+}

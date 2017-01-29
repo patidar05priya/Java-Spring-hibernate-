@@ -1,0 +1,28 @@
+@startuml
+title Create Address Scenario
+participant User
+User -> CXFServlet: POST, Address
+activate CXFServlet
+CXFServlet -> Address: << create >>
+activate Address
+Address -> CXFServlet: << instance >>
+deactivate Address
+CXFServlet -> AddressRestImpl: create(:address)
+activate AddressRestImpl
+AddressRestImpl -> AddressServiceDao: create(:address)
+activate AddressServiceDao
+AddressServiceDao -> AddressJPADao: create(:address)
+activate AddressJPADao
+AddressJPADao -> EntityManager: save(:address)
+activate EntityManager
+EntityManager -> AddressJPADao: << persisted address >>
+deactivate EntityManager
+AddressJPADao -> AddressServiceDao: << persisted address >>
+deactivate AddressJPADao
+AddressServiceDao -> AddressRestImpl: << persisted address >>
+deactivate AddressServiceDao
+AddressRestImpl -> CXFServlet: << persisted address >>
+deactivate AddressRestImpl
+CXFServlet -> User: marshalled address XML
+deactivate CXFServlet
+@enduml

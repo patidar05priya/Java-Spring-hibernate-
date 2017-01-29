@@ -1,0 +1,10 @@
+insert into app values ('$app_name','app');
+insert into layout values ('icon-layout','WorklistTab','page',null,null,'$app_name','CrudTabSet');
+insert into layout values ('icon-layout','UserMgmtTab','page',null,null,'$app_name','CrudTabSet');
+#foreach ($entityName in $entityNames)
+insert into module values ('$entityName', 'module', '$app_name', null);
+insert into xml values ('${entityName}CreateListGrid', 'xml', '$app_name', '$entityName/${entityName}CreateListGrid', 'd:/JUNK', 'd:/JUNK','d:/JUNK','${entityName}CreateListGrid.class.php', '${entityName}CreateListGrid', '${entityName}');
+insert into xml values ('${entityName}CreateForm', 'xml', '$app_name', '${entityName}/${entityName}CreateForm', 'd:/JUNK', 'd:/JUNK','d:/JUNK','${entityName}CreateListGrid.class.php', '${entityName}CreateForm', '${entityName}');
+insert into layout values ('icon-layout','${entityName}Tab','page',null,null,'$app_name','CrudTabSet');
+#end
+insert into layout values ('icon-layout','ReportTab','page',null,null,'$app_name','CrudTabSet');

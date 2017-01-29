@@ -1,0 +1,28 @@
+@startuml
+title Find Product Scenario
+participant User
+User -> CXFServlet: GET, Product Search Critera XML
+activate CXFServlet
+CXFServlet -> Product: << create >>
+activate Product
+Product -> CXFServlet: << instance >>
+deactivate Product
+CXFServlet -> ProductRestImpl: getAll(:product)
+activate ProductRestImpl
+ProductRestImpl -> ProductServiceDao: getAll(:product)
+activate ProductServiceDao
+ProductServiceDao -> ProductJPADao: getAll(:product)
+activate ProductJPADao
+ProductJPADao -> EntityManager: getResultList(:product)
+activate EntityManager
+EntityManager -> ProductJPADao: List<Product>
+deactivate EntityManager
+ProductJPADao -> ProductServiceDao: List<Product>
+deactivate ProductJPADao
+ProductServiceDao -> ProductRestImpl: List<Product>
+deactivate ProductServiceDao
+ProductRestImpl -> CXFServlet: List<Product>
+deactivate ProductRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

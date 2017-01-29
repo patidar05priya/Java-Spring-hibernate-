@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudVLayout" type="CustomHLayout">
+  <attributes>
+    <attr name="id">EmployeeHLayout</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component ref="EmployeeButtonToolStrip.xml"/>
+    <Component ref="EmployeeWorkVLayout.xml"/>
+  </ComponentContainer>
+</Component>
+

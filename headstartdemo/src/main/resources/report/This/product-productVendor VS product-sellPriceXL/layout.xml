@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:style="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf" xmlns:wizard="http://reporting.pentaho.org/namespaces/engine/attributes/wizard" xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:zoom="1.0000019" report-designer:HorizontalGuideLines="(true,117.3076400756836)" core:element-type="master-report">
+  <style:element-style>
+  </style:element-style>
+  <report-header>
+    <root-level-content report-designer:visual-height="22.0" core:element-type="report-header">
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="0" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>productVendor</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="150" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>count_sellPrice</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="300" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>sum_sellPrice</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="450" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>average_sellPrice</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="600" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>max_sellPrice</core:value>
+      </label>
+      <label core:element-type="label">
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:text-styles bold="true" font-size="12"/>
+          <style:spatial-styles x="750" y="0" min-width="150" min-height="20"/>
+          <style:border-styles border-width="0" border-style="none"/>
+        </style:element-style>
+        <core:value>min_sellPrice</core:value>
+      </label>
+    </root-level-content>
+  </report-header>
+  <group core:element-type="relational-group" core:group-fields="">
+    <style:element-style>
+    </style:element-style>
+    <fields>
+    </fields>
+    <group-header>
+      <root-level-content report-designer:hideInLayoutGUI="true" core:element-type="group-header">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-header>
+    <data-body core:element-type="group-data-body">
+      <style:element-style>
+      </style:element-style>
+      <details-header report-designer:hideInLayoutGUI="true" core:element-type="details-header">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-header>
+      <details>
+        <root-level-content report-designer:visual-height="62.0" core:element-type="itemband">
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+          <text-field core:element-type="text-field" core:field="productVendor">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:spatial-styles x="0" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="count_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:spatial-styles x="150" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="sum_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:spatial-styles x="300" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="average_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:text-styles word-spacing="11"/>
+              <style:spatial-styles x="450" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="max_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:spatial-styles x="600" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+          <text-field core:element-type="text-field" core:field="min_sellPrice">
+            <style:element-style>
+              <style:common-styles alignment="center" vertical-alignment="middle"/>
+              <style:spatial-styles x="750" y="0" min-width="150" min-height="28.653"/>
+            </style:element-style>
+          </text-field>
+        </root-level-content>
+      </details>
+      <no-data>
+        <root-level-content report-designer:hideInLayoutGUI="true" core:element-type="no-data-band">
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+        </root-level-content>
+      </no-data>
+      <details-footer report-designer:hideInLayoutGUI="true" core:element-type="details-footer">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-footer>
+    </data-body>
+    <group-footer>
+      <root-level-content report-designer:hideInLayoutGUI="true" core:element-type="group-footer">
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-footer>
+  </group>
+  <report-footer>
+    <root-level-content report-designer:visual-height="108.0" core:element-type="report-footer">
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+    </root-level-content>
+  </report-footer>
+</layout>

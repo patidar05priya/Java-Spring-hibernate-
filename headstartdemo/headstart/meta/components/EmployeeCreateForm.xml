@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">EmployeeDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">EmployeeAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">email</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">email</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">extension</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">extension</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">firstName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">firstName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">jobTitle</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">jobTitle</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">lastName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">lastName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">office</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">office</attr>
+        <attr name="entityDataSource">OfficeDataSource</attr>
+        <attr name="entityDisplayField">officeCode</attr>
+        <attr name="entityValueField">officeCode</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">reportsTo</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">reportsTo</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    EmployeeAddForm.addProperties({saveOperationType:"add"});
+						EmployeeAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetEmployee = true;
+					    EmployeeAddForm.clearValues();
+						resetEmployee = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

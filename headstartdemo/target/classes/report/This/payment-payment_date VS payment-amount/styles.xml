@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:layout="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf">
+  <page-definition horizontal-span="1" vertical-span="1" pageformat="LETTER" orientation="portrait" margin-top="40" margin-left="18" margin-bottom="18" margin-right="18"/>
+  <layout:layout-processors>
+    <layout:expression name="RowBanding" class="org.pentaho.reporting.engine.classic.core.function.RowBandingFunction">
+      <layout:properties>
+        <layout:property name="element">detailrows</layout:property>
+        <layout:property name="numberOfElements">1</layout:property>
+        <layout:property name="visibleBackground">#d4e3e8</layout:property>
+        <layout:property name="initialState" class="java.lang.Boolean">false</layout:property>
+        <layout:property name="newPageState">false</layout:property>
+      </layout:properties>
+    </layout:expression>
+  </layout:layout-processors>
+  <layout:watermark xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" report-designer:visual-height="0.0" core:element-type="watermark">
+    <element-style>
+    </element-style>
+  </layout:watermark>
+  <layout:page-header xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="30.091" core:element-type="page-header">
+    <element-style>
+      <content-styles color="#5985b6"/>
+    </element-style>
+    <layout:horizontal-line core:element-type="horizontal-line" core:name="">
+      <element-style>
+        <content-styles draw-shape="true" scale="true" stroke-weight="1" stroke-style="solid"/>
+        <spatial-styles x="0" y="26" min-width="576" min-height="3" max-width="32767" max-height="32767"/>
+        <border-styles border-width="0" border-break-width="0" border-color="black" border-break-color="black" border-style="none" border-break-style="none" border-radius-width="0" border-radius-height="0"/>
+      </element-style>
+    </layout:horizontal-line>
+    <layout:content core:element-type="content">
+      <element-style>
+        <content-styles scale="true" keep-aspect-ratio="true"/>
+        <spatial-styles x="0" y="3" min-width="68.13" min-height="27.091"/>
+      </element-style>
+      <core:value resource-type="local-ref">./logos.png</core:value>
+    </layout:content>
+    <layout:date-field core:element-type="date-field" core:field="report.date" core:format-string="yyyy-MMM-dd">
+      <element-style>
+        <common-styles alignment="left"/>
+        <spatial-styles x="476" y="3" min-width="100" min-height="20"/>
+      </element-style>
+    </layout:date-field>
+    <layout:label core:element-type="label">
+      <element-style>
+        <common-styles alignment="right"/>
+        <spatial-styles x="281" y="3" min-width="182" min-height="20"/>
+      </element-style>
+      <core:value>Report Generation Date: </core:value>
+    </layout:label>
+  </layout:page-header>
+  <layout:page-footer xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="23.0" core:element-type="page-footer">
+    <element-style>
+      <content-styles color="#5985b6"/>
+      <text-styles font-size="9"/>
+    </element-style>
+    <layout:horizontal-line core:element-type="horizontal-line" core:name="">
+      <element-style>
+        <content-styles draw-shape="true" scale="true" stroke-weight="1" stroke-style="solid"/>
+        <spatial-styles x="0" y="0" min-width="576" min-height="3" max-width="32767" max-height="32767"/>
+        <border-styles border-width="0" border-break-width="0" border-color="black" border-break-color="black" border-style="none" border-break-style="none" border-radius-width="0" border-radius-height="0"/>
+      </element-style>
+    </layout:horizontal-line>
+    <layout:message core:element-type="message">
+      <element-style>
+        <common-styles alignment="right"/>
+        <text-styles excel-text-wrapping="true"/>
+        <spatial-styles x="425" y="0" min-width="100" min-height="20"/>
+      </element-style>
+      <core:value>Page of</core:value>
+    </layout:message>
+    <layout:text-field core:element-type="text-field" core:field="PageofPages">
+      <element-style>
+        <common-styles visible="true" alignment="right"/>
+        <spatial-styles x="530.32" y="0" min-width="39.72" min-height="20"/>
+      </element-style>
+    </layout:text-field>
+  </layout:page-footer>
+</style>

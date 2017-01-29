@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+ <html>
+<head>
+	<title>Site Forge</title>
+	<meta charset="utf-8">
+<script src="../js/static/User.js"></script>
+	<style>
+	@media (max-width: 480px) { 
+		#Rolestable tbody td {
+			white-space: nowrap !important;
+			overflow:hidden ;
+			height: 1.5em;
+			max-width:30px !important;
+			text-overflow:ellipsis !important;
+		}	
+		#Rolestable thead th{
+			word-wrap: break-word !important;
+			overflow:hidden !important;
+			text-overflow:ellipsis !important;
+			text-overflow:initial !important\9;
+			max-width:30px !important;
+		}	
+	}
+	@media (min-width: 1200px) {
+		#userViewGrid thead th{
+			word-wrap: break-word !important;
+			overflow:hidden !important;
+			text-overflow:ellipsis !important;
+			text-overflow:initial !important\9;
+		}	
+		#userViewGrid tbody td {
+			white-space: nowrap !important;
+			overflow:hidden ;
+			height: 1.5em;
+			max-width:30px !important;
+			text-overflow:ellipsis !important;
+		}	
+	}
+</style>
+
+</head>
+<body>
+
+<div id="editUser_Address_Modal"  class="modal hide fade cmnt addressmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class=""> <!-- previous class 'modal-header' NEW UI -->
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+			Edit Address
+		</h4>
+	</div>
+	<div class="modal-body" >
+		<div id="Useredit_Address_modal" class="">
+		</div>
+	</div>
+</div>
+
+<div id="AddUser_Address_Modal" class="modal hide fade cmnt addressmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class=""> <!-- previous class 'modal-header' NEW UI -->
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+			Add Address
+		</h4>
+	</div>
+	<div class="modal-body" >
+		<div id="UserAdd_Address_modal" class=""><!-- grey_block -->
+		</div>
+	</div>
+</div>
+
+<div class="newbreadcumb">
+	<div class="breadcrumb-button" onclick="openListScreen('user')">
+		<i class="icon-user bredCrumICon"></i>
+		<span class="breadcrumb-label">User</span>
+	</div>
+	<div class="breadcrumb-button" id="home_user_breadcumbs"  >
+		<span class="breadcrumb-label">&nbsp;</span>
+	</div>
+	<div class="breadcrumb-button"  id="add_user_breadcumbs" style="display:none">
+		<span class="breadcrumb-label">
+		> &nbsp;&nbsp;&nbsp;&nbsp;<span>Add User</span><!-- NEW UI CSS -->
+		</span>
+	</div>
+	<div class="breadcrumb-button" id="edit_user_breadcumbs" style="display:none">
+		<span class="breadcrumb-label">
+		> &nbsp;&nbsp;&nbsp;&nbsp;<span>Edit User</span><!-- NEW UI CSS -->
+		</span>
+	</div>
+	<div class="breadcrumb-button" id="view_user_breadcumbs"  style="display:none">
+		<span class="breadcrumb-label">
+		> &nbsp;&nbsp;&nbsp;&nbsp;<span>View User</span><!-- NEW UI CSS -->
+		</span>
+	</div>
+</div>
+<div class="nav-search" id="nav-search" style="display:inline-flex;margin-top: 4px;">
+    <i id="user_filter_form" class="icon-custom-search nav-search-icon" data-toggle="tooltip" data-animation="true" style='cursor: pointer;' title="Search"></i>
+    <span class="sideBarBreadCrumbSpan">|</span>
+
+    <i id="plus_bar" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' title="Add" onclick="openAddScreen('user');removeUserTableData();" data-toggle="tooltip" data-animation="true"></i>
+
+	<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">
+	<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('user');removeUserTableData();" style="margin-right: 6px; color:#242424; margin-left: 6px;">
+		<span class="bigger-110 no-text-shadow" id="add_button">User</span>
+	</a>-->
+</div>
+<!--#nav-search  add button-->
+<div id="user_main_div">
+	<!-- Start of listUserDiv-->
+	<div id="list_user_div"  >
+		<div class="span4" style="width: 100%;">
+			<div id="userViewGrid" class="user-management">
+			</div>
+			<div id="Update_Role_Modal"  class="modal hide fade cmnt /*addressmodal*/" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:480px;overflow-y:auto;">
+				<div class=""> <!-- previous class 'modal-header' NEW UI -->
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+					<!--<h3 id="myModalLabel">
+						Update Users Role
+					</h3>-->
+					<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+						UPDATE USER ROLE
+					</h4>
+				</div>
+				<div class="modal-body updateRoleModalBody">
+					<div id="User_Role_modal">
+					</div>
+				</div>
+			</div>
+			
+			<div id="Reset_password_modal"  class="modal hide fade cmnt resetPasswModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:34%; width:32%;">
+				<div> <!--class="modal-header" NEW UI-->
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+					<h4 class="header blue lighter bigger" id="user_resetpassword"> <!-- red removed NEW UI -->
+						<!--<i class="icon-key"></i>-->
+						RESET PASSWORD
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div id="Reset_password">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of span4 Div-->
+	</div>
+	<div id="add_user_div"  class="AddEditBOX">
+		<div id="pswd_info_user" style="margin-right: 42% !important;top:85px;
+			height: 5px !important;">
+			<ul>
+				<li id="usernameexist" class="invalidUser" id="uservalid" >
+					<strong id="user_validateusername"></strong>
+				</li>
+			</ul>
+		</div>
+		<div id="pswd_info_emailname" style="margin-right: 12%;top:160px !important;
+			height: 5px !important;">
+			<ul>
+				<li class="invalidUser" id="uservalid"  >
+					<strong id="user_validateemail"></strong>
+				</li>
+			</ul>
+		</div>
+		<form class="form-horizontal " id="add_user_form">
+			<div class="page-header-custom" >
+				<h1 class="newheader" id="add_user_header">
+					Add User
+				</h1>
+			</div>
+			<div class="span12 " >
+				<div class="row-dark-edit">
+					<div class="column left">
+						<span id="user_UserName">Job Title</span><br>
+						<input type="text" id="username" maxlength="20" autocomplete="off" class="validate[required,funcCall[checkUserNameExist]]  alphanumericallow">
+					</div>
+					<div class="column left">
+						<span id="user_Password"></span><br>
+						<input type="password" id="password"  >
+					</div>
+					<div class="column left">
+						<span  id="user_FirstName"></span><br>
+						<input type="text" id="firstname"  class="validate[required] alphanumeric">
+					</div>
+				</div>
+				<div class="row-light-edit">
+					<div class="column left">
+						<span id="user_LastName"></span><br>
+						<input type="text" id="lastname"   class="validate[required] alphanumeric">
+					</div>
+					<div class="column left">
+						<span id="user_Email"></span><br>
+						<input type="text" id="email" autocomplete="off" class="validate[required,custom[email],funcCall[checkEmailExist]]">
+					</div>
+					<div class="column left">
+						<span id="user_Telephone"></span><br>
+						<input type="text" id="telephone" maxlength="10" class="validate[required,custom[onlyNumberSp],maxSize[10],minSize[10]] integers">
+					</div>
+				</div>
+				<div class="row-dark-edit">
+					<div class="column left">
+						<span id="user_Address">User Address </span><br>
+						<a href="#AddUser_Address_Modal" id="AddUser_Address_act" style="width:52%; width:155%\9;" role="button" class="btn btn-mini btn-white address-input" data-toggle="modal">&nbsp;</a>
+					</div>
+				</div>
+				<input class="hide" name="enabled" id="enabled" type="text"  >
+			</div>
+			<div class='clear'></div>
+		</form>
+		<div class="page-header-custom">
+			<h1 class="newheader" id="assign_roles_label">
+				Assign Roles
+			</h1>
+		</div>
+		<div class="span6" style="margin-left: 9px; ">
+			<div id="AllRolesTable"  >
+			</div>
+		</div>
+		<div class="span10" style="text-align:right;" >
+			<button class="btn btn-mini btn-info" style="margin-right:0%;" type="button" onclick="createNewUser('add_user_form')"> <!-- btn-primary NEW UI -->
+			<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+			<span class="bigger-110 no-text-shadow"  id="create" >Create</span>
+			</button>
+			<button class="btn btn-mini btn-info" style="margin-right:5%;" type="reset" onclick="resetAddUserForm();" ><!-- btn-warning NEW UI -->
+			<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+			<span class="bigger-110 no-text-shadow" id="reset">Reset</span>
+			</button>
+		</div>
+		<div class='clear'></div>
+		<div class="MandatoryNote">
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+	</div>
+	<!-- End of addUserDiv Div-->
+
+	<!-- user detail start end-->
+	<div class="user-detail-view" id="details_user_div" style="display:none">
+		<div class="row white-bg">
+			<div class="span2">
+				<!--User Image-->
+				<div class="user-img" style="width:150px;height:150px;margin:10px;">
+					<img style="width:100%;height:100%" id="headerUserImage" src="../images/profile-pic.jpg" onerror="this.src='../images/avatar2.png'" title="" alt="">
+				</div>
+			</div> <!--span2 end-->
+			<div class="span9">
+				<div class="user-details">
+					<div class="span6">
+						<div>
+								<h2 id="headerUserName" class="blue smaller" style="margin:15px;"></h2>
+
+								<h4 id="headerUserRole" class="smaller"></h4>
+
+								<h4 id="headerUserEmail" class="smaller" style="margin:15px;"></h4>
+
+								<h4 id="headerUserTelephone" class="smaller"></h4>
+
+								<span>
+									<span class="role"></span>
+									<span id="headerUserRolesSmall"></span>
+								</span>
+						</div>
+					</div>
+					<!--span6 end-->
+					<div class="span3" style="margin-top:12px;">
+						<div class="pull-left">
+							<div class="user-AD-otpion" style="margin-left:40px;">
+								<ul class="button-AD" id="userenabledisable" style="width: 200px;list-style-type:none;">
+									<li class="active no-border-bottom" id="activeli"><a href="javascript:activatedeactivateUser('active')" data-toggle="tooltip"><span id="enable_button1">Enable</span></a>
+									</li>
+									<li id="deactiveli" class="no-border-bottom"><a href="javascript:activatedeactivateUser('deactive')" data-toggle="tooltip" id="EnableDisable"><span id="disable_button1">Disable</span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						&nbsp;
+						<div class="pull-right">
+							<!--Edit-->
+							<img src="../images/edit_view.png" id="edit_button" onclick="checkeditusercall()" style="margin-top: 50%; margin-left: 0%;" alt="Edit2" title="Edit2" class="cursor-pointer">
+						</div>
+					</div>
+					<!--span3 end-->
+				</div> <!--user-details end-->
+			</div> <!--span9 end-->
+		</div>
+		<div class="row">
+			<!--Personal Information-->
+			<div class="personal-info-form white-bg span10" id="personalInfoDivMain" style="margin-left:-0.5% !important; margin-top:1% !important;">
+					<h1 id="user_personal_information_VIEW" class="newheader">Personal Information</h1>
+
+				<form class=" form-horizontal pull-left" id="detail_user_form">
+					<div class="pi-form" id="personalInfoDiv"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!-- user detail View end-->
+
+
+	<!-- Edit user div start-->
+	<div class="user-detail-view hide" id="edit_user_div">
+		
+		<div class="row white-bg">
+		  <div class="span2">
+			  <!--User Information-->
+			<div class="user-img" style="width:150px;height:150px;margin:10px;"><img style="width:100%;height:100%" id="headerUserImage" src="../images/profile-pic.jpg" onerror="this.src='../images/avatar2.png'" title="" alt=""></div>
+		  </div>
+
+		  <div class="span9">
+				<div class="user-details">
+					<div class="span6">
+						<div>
+							<h1 id="headerUserName" class="blue smaller"></h1>
+
+							<h4 id="headerUserRole" class="smaller"></h4>
+							
+							<h4 id="headerUserEmail" class="smaller"></h4>
+
+							<h4 id="headerUserTelephone" class="smaller"></h4>
+
+							<span>
+								<span class="role"></span>
+								<span id="headerUserRolesSmall"></span>
+							</span>
+						</div>
+					</div>
+					<div class="span3" style="margin-top:12px;">
+						<div class="pull-left">
+							<div class="user-AD-otpion">
+								<ul class="button-AD" id="userenabledisable" style="width: 200px;list-style-type:none;">
+									<li class="active no-border-bottom"  id="activeli"><a href="javascript:activatedeactivateUser('active')" data-toggle="tooltip"><span id="enable_button1">Enable</span></a></li>
+									<li id="deactiveli" class="no-border-bottom"><a href="javascript:activatedeactivateUser('deactive')" data-toggle="tooltip" id="EnableDisable"><span id="disable_button1">Disable</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="pull-right">							
+						</div>
+					</div>
+			</div>
+		  </div>
+		</div>
+		<div class="row">
+				<!--Personal Information-->
+				<div class="personal-info-form AddEditBOX" id="personalInfoDivMainEdit" style="margin-left:0px !important;">
+					<h1 id="user_personal_information" class="newheader">Personal Information</h1>
+					<div  class="top-edit-btn" style="float:right; margin-top:-35px;"><a href="javascript:void(0)" onclick="openDetailScreen('user')" class="btn btn-mini btn-info width-60" id="cancel_button"><!--<i class=" icon-level-up bigger-110"></i>-->Cancel</a></div>
+					<div  class="top-edit-btn top-edit-btn_margin" style="float:right; margin-top:-35px; margin-right: 15px;"><a href="javascript:void(0)" onclick="updateUser('edit_user_form')" class="btn btn-mini btn-info width-60" id="save_button"><!--<i class="icon-save bigger-110"></i>-->Save</a></div>
+					<div class="pi-form" id="personalInfoDivEdit">
+						<form class=" form-horizontal pull-left" id="edit_user_form">
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_username">User Name update</div>
+								<div class="col-2-fields">
+									<input type="text" id="username" disabled>
+								</div>
+							</div>
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_firtname">First Name update</div>
+								<div class="col-2-fields"> 
+									<input type="text" id="firstname"  class="validate[required] alphanumeric">
+								</div>
+							</div>
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_lastname">Last Name</div>
+								<div class="col-2-fields"><input type="text" id="lastname" class="validate[required] alphanumeric"></div>
+							</div>
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_mobile">Mobile</div>
+								<div class="col-2-fields">
+									<input type="text" id="telephone" maxlength="10" class="validate[required,custom[onlyNumberSp],maxSize[10],minSize[10]] integers ">
+								</div>
+							</div>
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_email">Email</div>
+								<div class="col-2-fields">  <input type="text" id="email" displayFor="Edit" class="validate[required,custom[email],funcCall[checkEmailExist]]"><div id="edit_form_email_div" style="display:none;"></div></div>
+							</div>
+							<div class="form-row1">
+								<div class="col-1-labels" id="edit_form_address">Address</div>
+								<div class="col-2-fields">		
+									<a href="#editUser_Address_Modal" id="editUser_Address_act" role="button" class="btn btn-mini btn-white address-input" data-toggle="modal">&nbsp;</a>
+								</div>
+							</div>
+							<input class="hidden" name="enabled" id="enabled" type="text"  >	
+							<input class="hidden" name="userid" id="userid" type="text"  >	
+					
+					</form>
+				</div>
+				<div class='clear'></div>
+			</div>
+			
+				<div id="pswd_info_emailnameupdate" style="display:none; margin-right: -24%;margin-bottom: -193px !important;">
+					<ul>
+						<li class="invalidUser" id="uservalid" style="margin-left: -25px; list-style-type:none;" ><strong id="user_validateemailupdate"></strong></li>
+					</ul>
+					</div>
+				</div>
+			</div>
+	</div>
+	<!-- Edit user div end-->
+	
+
+<!-- End of page-content Div-->
+<!-- user detail View start-->
+
+<!-- Start Enable/Disable modal window NEW UI -->
+<div id="user_enable_disable_dialog" class="modal hide fade" style="width:33%; top:25%;">
+	<div>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger text-left">
+			Enable/Disable User
+		</h4>
+	</div>
+	<div class="modal-body" style="padding-left: 15px;">
+		<img src="./warning-icon.png" style="width: 50px;"></img>
+		<span class="grey bigger-110"></span>
+		<div class="offset2">
+			<button onclick="" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="user_enable_disable_btn">OK</button>
+			<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+		</div>
+	</div>
+</div>
+<!-- End Enable/Disable modal window NEW UI -->
+
+<!-- Start Unlock user modal window NEW UI -->
+<div id="unlock_user_dialog" class="modal hide fade" style="width:33%; top:25%;">
+	<div>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<h4 class="header blue lighter bigger text-left">
+			Unlock User
+		</h4>
+	</div>
+	<div class="modal-body" style="padding-left: 15px;">
+		<img src="./warning-icon.png" style="width: 50px;"></img>
+		<span class="grey bigger-110"></span>
+		<div class="offset2">
+			<button onclick="" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="unlock_user_dialog_btn">OK</button>
+			<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+		</div>
+	</div>
+</div>
+<!-- End Unlock user modal window NEW UI -->
+
+<!--FilterTab div Starts here-->
+<div class="filterList" id="userfilterTab" style="display:none; height: 18%;">
+	<form class="form-horizontal" id="fiql_user_form" style="text-align:center">
+		<button type="button" class="close" onclick='$("#userfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="userFilterCrossImg" src="" /></button>
+		<!-- List of Building Type Site Category and Rack Type starts on this div-->                
+		<div class="filterListlevel" >
+			<div class="column left">
+				<span style="float: left;">Username</span>
+				<ul>
+					<input type="text" id="username" class="text-field" >
+				</ul>
+			</div>
+		</div>
+		<div class="filterListlevel" >
+			<div class="column left">
+				<span style="float: left;">Email</span>
+				<ul>
+				<input type="text" id="email" class="text-field" >
+				</ul>
+			</div>
+		</div>
+		<div class="filterListlevel" style="margin-top: -20px;">
+			<div class="column left">
+				<span style="float: left;">First&nbsp;Name</span>
+				<ul> 
+					<input type="text" id="firstname" class="text-field" >
+				</ul>
+			</div>
+			<!-- div control-group ends Here-->
+		</div>
+		<div class="pull-right">
+			<a href="#" onclick="searchUserData(fiql_user_form); " style="/* float: right; */" id="filterApply" class="btn btn-mini btn-info">
+				Apply<!--<i class="icon-filter"></i>-->
+			</a>
+		</div>
+	</form>
+</div>
+<!--Filter Tab div ends here-->		
+<!--- filter tab ends here-->
+<div id="dialog_disable" style="display:none;">
+	<div class="bootbox modal fade in" tabindex="-1" style="overflow: hidden;" aria-hidden="false">
+		<div class="modal-body" id="user_modaldisable"></div>
+		<div class="modal-footer">
+			<a data-handler="0" class="btn null" href="#" onclick="$('#dialog_disable').fadeOut();" >
+			Cancel
+			</a>
+			<a data-handler="1" class="btn btn-info" href="#" onclick="disableUser(useridForEdit);" >
+			OK
+			</a>
+		</div>
+	</div>
+	<div class="modal-backdrop fade in">
+	</div>
+</div>
+<div id="dialog_enable" style="display:none;">
+	<div class="bootbox modal fade in" tabindex="-1" style="overflow: hidden;" aria-hidden="false">
+		<div class="modal-body" id="user_modalenable"></div>
+		<div class="modal-footer">
+			<a data-handler="0" class="btn null" href="#" onclick="$('#dialog_enable').fadeOut();" >
+			Cancel
+			</a>
+			<a data-handler="1" class="btn btn-info" href="#" onclick="enableUser(useridForEdit); " >
+			OK
+			</a>
+		</div>
+	</div>
+	<div class="modal-backdrop fade in">
+	</div>
+</div>
+<div id="pswd_info_for_addUser" style="display:none; ">
+	<h4>Password must meet the following requirements:</h4>
+	<ul style="margin:0;padding:0;list-style-type:none;" id="pswd_info_ul_for_addUser">
+	 	</ul>
+</div>
+<script>
+	passwordStrengthCheckerappendHtmlForAddUser();
+	var userlowerlimit = DEFAULT_PAGE_LOWERLIMIT;
+	     var userupperlimit =  DEFAULT_PAGE_UPPERLIMIT;   
+	           $(window).scroll(function () {
+		var isVisible=$('#list_user_div').is(':visible');
+		if(isVisible)
+		{
+			if($(window).scrollTop() + $(window).height() < $(document).height() -200) {
+				
+			}
+			if($(window).scrollTop() + $(window).height() != $(document).height()) {
+				showRegularLoading();
+				sendGETRequest(context+"/rest/Users/search?&date="+new Date()+"&orderBy=username&ulimit="+userupperlimit+"&llimit="+userlowerlimit,"getUserDataFromScroll","");
+			}
+		}
+	         });
+	
+	var pagellimit=0;
+	var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+	var fiqlUsersParam;
+	var Usersflag=0;
+	$('#user_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+	$('#user_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+	function setUserPaginationValue() {
+	   $('#userpagenovalue').val(1); 
+	pageulimit= eval($('#user_pagination_value').val())-1;
+	pagellimit=0;
+	$("#user_pagination_next").css("display", "");
+	$("#user_pagination_pre").css("display", "");
+	$('#user_pagination #user_page_llimit').val(pagellimit);
+	$('#user_pagination #user_page_ulimit').val(pageulimit);
+	showRegularLoading();
+	$("#user_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+	sendGETRequest(context+"/rest/Users/search?&ulimit="+pageulimit+"&llimit="+pagellimit,"getUserData","");
+	}
+		
+	
+	$('#user_pagination #user_page_llimit').val(pagellimit);
+	$('#user_pagination #user_page_ulimit').val(pageulimit);
+	
+	$('#user_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+	$('#user_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+	
+	if(hasValue(user_button_search))
+	$("#searchUserBtn").html(user_button_search);
+	if(hasValue(user_button_create))
+	$("#add_user_form #create").html(user_button_create);
+	if(hasValue(user_button_reset))
+	$("#add_user_form #reset").html(user_button_reset);
+	if(hasValue(user_button_update))
+	$("#edit_user_form #update").html(user_button_update);
+	
+	
+	if(hasValue(user_label_personal_information))
+	{	 
+	$("#personalInfoDivMainEdit #user_personal_information").text(user_label_personal_information);
+	$("#user_personal_information_VIEW").text(user_label_personal_information);
+	}
+	if(hasValue(cancel_button_label))
+	{	 
+	$("#personalInfoDivMainEdit #cancel_button").html(cancel_button_label);
+	}
+	if(hasValue(save_button_label))
+	{	 
+	$("#personalInfoDivMainEdit #save_button").html(save_button_label);
+	}
+	
+	if(hasValue(edit_button_label))
+	{	 
+	$("#personalInfoDivMain #edit_button").text(edit_button_label);
+	}
+	if(hasValue(create_button_label))
+	{	 
+	$("#create").text(create_button_label);
+	}
+	if(hasValue(reset_button_label))
+	{	 
+	$("#reset").text(reset_button_label);
+	}
+	if(hasValue(add_user_button_label))
+	{	 
+	$("#nav-search #add_button").text(add_user_button_label);
+	}
+	if(hasValue(reset_button_label))
+	{	 
+	$("#add_user_form #reset").text(reset_button_label);
+	}
+	if(hasValue(enable_button_label))
+	{	 
+	$("#activeli_edit #enable_button").text(enable_button_label);
+	$("#activeli #enable_button1").text(enable_button_label);
+	}
+	if(hasValue(disable_button_label))
+	{	 
+	$("#deactiveli_edit #disable_button").text(disable_button_label);
+	$("#deactiveli #disable_button1").text(disable_button_label);
+	}
+	
+	if(hasValue(user_label_username))
+	{	
+	$("#add_user_form #user_UserName").html(user_label_username+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_username").html(user_label_username+":<icon class='required'>*</icon>");
+	}
+	if(hasValue(user_label_firstname))
+	{	
+	$("#add_user_form #user_FirstName").html(user_label_firstname+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_firtname").html(user_label_firstname+":<icon class='required'>*</icon>");
+	}if(hasValue(user_label_email))
+	{	
+	$("#add_user_form #user_Email").html(user_label_email+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_email").html(user_label_email+":<icon class='required'>*</icon>");
+	}if(hasValue(user_label_password))
+	{	
+	$("#add_user_form #user_Password").html(user_label_password+":<icon class='required'>*</icon>");
+	$("#edit_user_form #user_Password").html(user_label_password+":");
+	}if(hasValue(user_label_lastname))
+	{	
+	$("#add_user_form #user_LastName").html(user_label_lastname+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_lastname").html(user_label_lastname+":<icon class='required'>*</icon>");
+	}if(hasValue(user_label_mobile))
+	{	
+	$("#add_user_form #user_Telephone").html(user_label_mobile+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_mobile").html(user_label_mobile+":<icon class='required'>*</icon>");
+	}if(hasValue(user_label_address))
+	{	
+	$("#add_user_form #user_Address").html(user_label_address+":<icon class='required'>*</icon>");
+	$("#edit_user_form #edit_form_address").html(user_label_address+":<icon class='required'>*</icon>");
+	}if(hasValue(assign_roles_label))
+	{	
+	$("#assign_roles_label").html(assign_roles_label);
+	}
+	if(hasValue(user_label_city))
+	{	
+	
+	$("#edit_user_form #user_City").html(user_label_city+":");
+	}if(hasValue(user_label_country))
+	{	
+	
+	$("#edit_user_form #user_Country").html(user_label_country+":");
+	}if(hasValue(user_label_state))
+	{	
+	$("#edit_user_form #user_state").html(user_label_state+":");
+	}
+	if(hasValue(user_label_pincode))
+	{	
+	
+	$("#edit_user_form #user_zip").html(user_label_pincode+":");
+	}
+	if(hasValue(user_label_street))
+	{	
+	
+	$("#edit_user_form #user_street").html(user_label_street+":");
+	}
+	if(hasValue(user_label_latitude))
+	{	
+	
+	$("#edit_user_form #user_latitude").html(user_label_latitude+":");
+	}
+	if(hasValue(user_label_address1))
+	{	
+	
+	$("#edit_user_form #user_address1").html(user_label_address1+":");
+	}
+	if(hasValue(user_label_address2))
+	{	
+	
+	$("#edit_user_form #user_address2").html(user_label_address2+":");
+	}
+	if(hasValue(user_label_landmark))
+	{	
+	
+	$("#edit_user_form #user_landmark").html(user_label_landmark+":");
+	}
+	if(hasValue(user_label_longitude))
+	{	
+	
+	$("#edit_user_form #user_longitude").html(user_label_longitude+":");
+	}
+	
+	if(hasValue(user_username_checkMsg))
+	{	
+	$("#user_validateusername").html(user_username_checkMsg);
+	
+	}
+	if(hasValue(user_email_alertMsg))
+	{	
+	$("#user_validateemail").html(user_email_alertMsg);
+	$("#user_validateemailupdate").html(user_email_alertMsg);
+	}
+	if(hasValue(user_span_select))
+	{	
+	$("#user_select").html(user_span_select);
+	}
+	
+	if(hasValue(index_home))
+	$("#user_home").html(index_home);
+	if(hasValue(user_breadcrumb))
+	$("#user_page_breadcrumbs").html(user_breadcrumb);
+	if(hasValue(user_UpdateUsersRole))
+	{	
+	$("#myModalLabel").html(user_UpdateUsersRole);
+	}
+	if(hasValue(user_ResetPassword))
+	{	
+		// $("#user_resetpassword").html('	<i class="icon-key"></i>'+user_ResetPassword);
+		$("#user_resetpassword").html(user_ResetPassword);
+	}
+	
+	if(hasValue(add_user_header))
+	{	
+	$("#add_user_header").html(add_user_header);
+	}
+	
+	if(hasValue(user_modaldisable))
+	{	
+	$("#user_modaldisable").html(user_modaldisable);
+	}
+	if(hasValue(user_modalenable))
+	{	
+	$("#user_modalenable").html(user_modalenable);
+	}
+	
+	
+	$(document).ready(function(){
+		$("#nav-search .richtextbread").css("display","block");
+		$("#nav-search #plus").css("display","");	
+		$("#nav-search #plus_bar").css("display","");
+		$("#nav-search #plus_txt").css("display","");	
+	//	setPasswordRuleForAddUser();
+	$("#user_filter_form").click(function (){
+	  $("#fiql_user_form").trigger('reset');
+	   $("#userfilterTab").slideToggle();
+	});			
+	openListScreen('user');
+	
+	$("#user_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(DEFAULT_PAGE_UPPERLIMIT+1)+" "+pagination_entries+" ");
+	showRegularLoading();
+	sendGETRequest(context+"/rest/Users/search?&date="+new Date()+"&orderBy=username&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getUserData","");
+	     showRegularLoading();
+	sendGETRequest(context+"/rest/Roles?&date="+new Date(),"getRolesData","");
+	
+	
+	$('.alphanumericallow').alphanumeric({allow:"/^[+]?\d*\.?\d*$/%!&@#~(){},<>|:;"});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/%!&@#~(){},<>|:; "});
+	$('.alphanumeric').alphanumeric();
+	$('.integers').numeric();
+	
+	jQuery("#add_user_form").validationEngine();
+	jQuery("#edit_user_form").validationEngine();
+	
+	});
+	                 
+	function resetAddUserForm()
+	{
+	document.getElementById('add_user_form').reset();
+	} 
+	
+	function reseteditUserForm()
+	{
+	document.getElementById('edit_user_form').reset();
+	} 
+	
+	$("#userFilterCrossImg").attr("src", getImagePath('red_cross.png'));
+	
+</script>
+</body>
+</html>

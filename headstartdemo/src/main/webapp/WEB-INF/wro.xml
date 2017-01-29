@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+	<group name="application">
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/app/app.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/app/common.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/app/global-var.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/app/tab.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/app/url.js</js>
+		
+		
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/Dashboard.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/EmailNotifications.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/Notifications.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/Permission.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/Role.js</js>
+
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/UserUpdateRole.js</js>
+		<js>file:/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp/js/static/UserUpdateRole.js</js>
+	
+	</group>
+</groups>

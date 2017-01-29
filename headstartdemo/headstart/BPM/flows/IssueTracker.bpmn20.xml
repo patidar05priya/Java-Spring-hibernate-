@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="issueTracker" name="issueTracker">
+    <documentation>Trouble Ticket Administration Flow</documentation>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow1" name="eventStart" sourceRef="startevent1" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="sendTicketToRBOC" name="RBOC-Trouble Ticket" activiti:candidateGroups="RBOC|DEFAULT"></userTask>
+    <sequenceFlow id="CheckStatus" name="newStatus" sourceRef="exclusivegateway1" targetRef="sendTicketToRBOC">
+      <conditionExpression xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("New")}</conditionExpression>
+    </sequenceFlow>
+
+	<exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+	<sequenceFlow id="flow2" name="send to gatway2" sourceRef="sendTicketToRBOC" targetRef="exclusivegateway2"></sequenceFlow>
+	<userTask id="sendTicketToCustomer" name="Customer-Trouble Ticket" activiti:candidateGroups="Customer|DEFAULT"></userTask>
+	<sequenceFlow id="resolvedStatus" name="resolvedStatus" sourceRef="exclusivegateway2" targetRef="sendTicketToCustomer">
+		<conditionExpression xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("Resolved")}</conditionExpression>
+    </sequenceFlow>
+	<sequenceFlow id="openStatus" name="openStatus" sourceRef="exclusivegateway2" targetRef="sendTicketToRBOC">
+		<conditionExpression xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("Open")}</conditionExpression>
+    </sequenceFlow>
+	<sequenceFlow id="rejectStatus" name="rejectStatus" sourceRef="exclusivegateway2" targetRef="sendTicketToCustomer">
+		<conditionExpression xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("Rejected")}</conditionExpression>
+    </sequenceFlow>
+	<exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+	<sequenceFlow id="flow3" name="send to gatway3" sourceRef="sendTicketToCustomer" targetRef="exclusivegateway3"></sequenceFlow>
+	<sequenceFlow id="renewStatus" name="renewStatus" sourceRef="exclusivegateway3" targetRef="sendTicketToRBOC">
+      <conditionExpression	xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("New")}</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+       <sequenceFlow id="sendToEndEvent" name="sendToEndEvent" sourceRef="exclusivegateway3" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression">${businessEntity.getTicketstatus().equals("Closed")}</conditionExpression>
+    </sequenceFlow>
+  </process>
+</definitions>

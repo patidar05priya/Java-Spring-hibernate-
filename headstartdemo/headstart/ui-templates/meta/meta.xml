@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UserInterface>
+  <VLayout>
+    <members>
+      <VLayout>
+        <members>
+          <HLayout>
+            <members>
+              <VLayout>
+                <members>
+                  <HLayout>
+                    <members/>
+                  </HLayout>
+                  <HLayout>
+                    <members>},},},},},},},
+})});},},},},},},},},
+})});},},
+})});</members>
+                  </HLayout>
+                </members>
+              </VLayout>
+            </members>
+          </HLayout>
+        </members>
+      </VLayout>
+      <TabSet>
+        <ID>CrudTabSet</ID>
+        <tabs>
+          <tab>
+            <ID>ChartTab</ID>
+            <title>getMessage('tabtitles','tab.charts','Dashboard')</title>
+            <pane>
+              <HLayout/>
+            </pane>
+          </tab>
+        </tabs>
+      </TabSet>
+    </members>
+  </VLayout>
+</UserInterface>
+

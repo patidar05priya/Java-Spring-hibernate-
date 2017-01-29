@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component type="SubSection">
+  <attributes>
+    <attr name="title">Payment</attr>
+    <attr name="canCollapse">false</attr>
+    <attr name="parentRelationType">included</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component ref="PaymentHLayout.xml"/>
+  </ComponentContainer>
+</Component>
+

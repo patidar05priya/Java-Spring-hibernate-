@@ -1,0 +1,28 @@
+@startuml
+title Find EmailNotifications Scenario
+participant User
+User -> CXFServlet: GET, EmailNotifications Search Critera XML
+activate CXFServlet
+CXFServlet -> EmailNotifications: << create >>
+activate EmailNotifications
+EmailNotifications -> CXFServlet: << instance >>
+deactivate EmailNotifications
+CXFServlet -> EmailNotificationsRestImpl: getAll(:emailnotifications)
+activate EmailNotificationsRestImpl
+EmailNotificationsRestImpl -> EmailNotificationsServiceDao: getAll(:emailnotifications)
+activate EmailNotificationsServiceDao
+EmailNotificationsServiceDao -> EmailNotificationsJPADao: getAll(:emailnotifications)
+activate EmailNotificationsJPADao
+EmailNotificationsJPADao -> EntityManager: getResultList(:emailnotifications)
+activate EntityManager
+EntityManager -> EmailNotificationsJPADao: List<EmailNotifications>
+deactivate EntityManager
+EmailNotificationsJPADao -> EmailNotificationsServiceDao: List<EmailNotifications>
+deactivate EmailNotificationsJPADao
+EmailNotificationsServiceDao -> EmailNotificationsRestImpl: List<EmailNotifications>
+deactivate EmailNotificationsServiceDao
+EmailNotificationsRestImpl -> CXFServlet: List<EmailNotifications>
+deactivate EmailNotificationsRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

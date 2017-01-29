@@ -1,0 +1,28 @@
+@startuml
+title Create ActivityStream Scenario
+participant User
+User -> CXFServlet: POST, ActivityStream
+activate CXFServlet
+CXFServlet -> ActivityStream: << create >>
+activate ActivityStream
+ActivityStream -> CXFServlet: << instance >>
+deactivate ActivityStream
+CXFServlet -> ActivityStreamRestImpl: create(:activitystream)
+activate ActivityStreamRestImpl
+ActivityStreamRestImpl -> ActivityStreamServiceDao: create(:activitystream)
+activate ActivityStreamServiceDao
+ActivityStreamServiceDao -> ActivityStreamJPADao: create(:activitystream)
+activate ActivityStreamJPADao
+ActivityStreamJPADao -> EntityManager: save(:activitystream)
+activate EntityManager
+EntityManager -> ActivityStreamJPADao: << persisted activitystream >>
+deactivate EntityManager
+ActivityStreamJPADao -> ActivityStreamServiceDao: << persisted activitystream >>
+deactivate ActivityStreamJPADao
+ActivityStreamServiceDao -> ActivityStreamRestImpl: << persisted activitystream >>
+deactivate ActivityStreamServiceDao
+ActivityStreamRestImpl -> CXFServlet: << persisted activitystream >>
+deactivate ActivityStreamRestImpl
+CXFServlet -> User: marshalled activitystream XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Find CustomerAttach Scenario
+participant User
+User -> CXFServlet: GET, CustomerAttach Search Critera XML
+activate CXFServlet
+CXFServlet -> CustomerAttach: << create >>
+activate CustomerAttach
+CustomerAttach -> CXFServlet: << instance >>
+deactivate CustomerAttach
+CXFServlet -> CustomerAttachRestImpl: getAll(:customerattach)
+activate CustomerAttachRestImpl
+CustomerAttachRestImpl -> CustomerAttachServiceDao: getAll(:customerattach)
+activate CustomerAttachServiceDao
+CustomerAttachServiceDao -> CustomerAttachJPADao: getAll(:customerattach)
+activate CustomerAttachJPADao
+CustomerAttachJPADao -> EntityManager: getResultList(:customerattach)
+activate EntityManager
+EntityManager -> CustomerAttachJPADao: List<CustomerAttach>
+deactivate EntityManager
+CustomerAttachJPADao -> CustomerAttachServiceDao: List<CustomerAttach>
+deactivate CustomerAttachJPADao
+CustomerAttachServiceDao -> CustomerAttachRestImpl: List<CustomerAttach>
+deactivate CustomerAttachServiceDao
+CustomerAttachRestImpl -> CXFServlet: List<CustomerAttach>
+deactivate CustomerAttachRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

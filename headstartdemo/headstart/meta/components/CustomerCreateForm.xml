@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">CustomerDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">CustomerAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">address</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">address</attr>
+        <attr name="entityDataSource">AddressDataSource</attr>
+        <attr name="entityDisplayField">id</attr>
+        <attr name="entityValueField">id</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">creditLimit</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">creditLimit</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">employee</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">employee</attr>
+        <attr name="entityDataSource">EmployeeDataSource</attr>
+        <attr name="entityDisplayField">employeeNumber</attr>
+        <attr name="entityValueField">employeeNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">firstName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">firstName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">lastName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">lastName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">name</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">name</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">phone</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">phone</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">prioritystatus</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">select</attr>
+        <attr name="title">prioritystatus</attr>
+        <attr name="valueMap">
+"Basic":"Basic",
+"Gold":"Gold",
+"Silver":"Silver",
+"Diamond":"Diamond",
+"Platinum":"Platinum"
+</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    CustomerAddForm.addProperties({saveOperationType:"add"});
+						CustomerAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetCustomer = true;
+					    CustomerAddForm.clearValues();
+						resetCustomer = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

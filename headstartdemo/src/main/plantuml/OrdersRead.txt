@@ -1,0 +1,28 @@
+@startuml
+title Find Orders Scenario
+participant User
+User -> CXFServlet: GET, Orders Search Critera XML
+activate CXFServlet
+CXFServlet -> Orders: << create >>
+activate Orders
+Orders -> CXFServlet: << instance >>
+deactivate Orders
+CXFServlet -> OrdersRestImpl: getAll(:orders)
+activate OrdersRestImpl
+OrdersRestImpl -> OrdersServiceDao: getAll(:orders)
+activate OrdersServiceDao
+OrdersServiceDao -> OrdersJPADao: getAll(:orders)
+activate OrdersJPADao
+OrdersJPADao -> EntityManager: getResultList(:orders)
+activate EntityManager
+EntityManager -> OrdersJPADao: List<Orders>
+deactivate EntityManager
+OrdersJPADao -> OrdersServiceDao: List<Orders>
+deactivate OrdersJPADao
+OrdersServiceDao -> OrdersRestImpl: List<Orders>
+deactivate OrdersServiceDao
+OrdersRestImpl -> CXFServlet: List<Orders>
+deactivate OrdersRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

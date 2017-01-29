@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Office</title>
+<meta charset="utf-8">
+<script src="../js/generated/Office.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getofficeTotalCount();
+if(update_Office_permission)
+$('#Office_formEdit').css('display','block');
+	commentAddpress('office_formcomment');
+	
+ $("#office_filter_form").click(function (){
+ 	$("#fiql_office_form").trigger('reset');
+			   $("#officefilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_office_form").validationEngine();
+		jQuery("#edit_office_form").validationEngine();
+		refreshAllOfficeList();
+		refreshAllFkOfficeList();
+		jQuery("#office_formcomment").validationEngine();
+		$("#modifiedTimechk_office_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('office',$("#fiql_office_form #sort_office").val())},1000);
+				 $('#office_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.office_history_slimscroll_div').slimScroll({height: '350px'});
+					$('.office_activity_slimscroll_div').slimScroll({height: '360px'});
+			});
+</script>
+<style>
+	#office_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#office_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#office_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="officequickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="officequickFilter" value="" ></div>	
+<div id="office_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='cityNamechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_cityName','cityName');">
+						<span class="lbl" id="Office_thead_cityName_Lbl">&nbsp;&nbsp;City Name</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='addressLine1chk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_addressLine1','addressLine1');">
+						<span class="lbl" id="Office_thead_addressLine1_Lbl">&nbsp;&nbsp;Address Line1</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='territorychk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_territory','territory');">
+						<span class="lbl" id="Office_thead_territory_Lbl">&nbsp;&nbsp;Territory</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='phonechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_phone','phone');">
+						<span class="lbl" id="Office_thead_phone_Lbl">&nbsp;&nbsp;Phone</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='postalCodechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_postalCode','postalCode');">
+						<span class="lbl" id="Office_thead_postalCode_Lbl">&nbsp;&nbsp;Postal Code</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='countrychk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_country','country');">
+						<span class="lbl" id="Office_thead_country_Lbl">&nbsp;&nbsp;Country</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='statechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_state','state');">
+						<span class="lbl" id="Office_thead_state_Lbl">&nbsp;&nbsp;State</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='addressLine2chk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_addressLine2','addressLine2');">
+						<span class="lbl" id="Office_thead_addressLine2_Lbl">&nbsp;&nbsp;Address Line2</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_creator','creator');">
+						<span class="lbl" id="Office_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Office_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Office_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_office' type="checkbox" onclick="office_fnShowHide('Office_thead_createdTime','createdTime');">
+						<span class="lbl" id="Office_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openOfficeListScreen('office')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Office</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_office_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_office_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Office</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_office_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Office</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_office_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Office</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="office_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="office_quick_filter" onclick="showHideFilterContent('office');"/>-->
+						
+												<!-- View Customer Attachment/Comment counts and modal window on click start -->
+						<div class="no-border" style="white-space: nowrap; width:  140px ;" id="officeViewAttachmentCommentCountDiv">
+														
+														<a href="#office_comment_view_modal" style="display:block" class="float_left btn btn-small btn-info" id="office_comment_view_btn" role="button" title="Comment" data-toggle="modal" onclick="getOfficeComments();">
+								<span id="officeCommentViewCountBadge">0 comment</span> <!-- class="badge badge-info" -->
+							</a>
+													</div>
+						<!-- View Customer Attachment/Comment counts and modal window on click end -->
+						
+												<!-- Edit Customer Attachment/Comment counts and modal window on click start -->
+						<div class="no-border" style="white-space: nowrap; width:  140px ;" id="officeEditAttachmentCommentCountDiv">
+														
+														<a href="#office_comment_modal" style="display:block" class="float_left btn btn-small btn-info" id="office_comment_edit_btn" role="button" title="Comment" data-toggle="modal" onclick="showOfficeAddAndViewCommentModal();">
+								<span id="officeCommentEditCountBadge">0 comment</span> <!-- class="badge badge-info" -->
+							</a>
+													</div>
+						<!-- Edit Customer Attachment/Comment counts and modal window on click end -->
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="office_quick_filter" onclick="showHideFilterContent('office');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="office_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshOfficeListFromPaginator();">All</a></li>
+	  	  		
+					<li id="cityName_filter"><a tabindex="-1" href="javascript:openOfficeTextField('City Name')">City Name </a></li>
+	
+							 
+	     
+    	  		
+					<li id="addressLine1_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Address Line1')">Address Line1 </a></li>
+	
+							 
+	     
+    	       
+    	  		
+					<li id="territory_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Territory')">Territory </a></li>
+	
+							 
+	     
+    	  		
+					<li id="phone_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Phone')">Phone </a></li>
+	
+							 
+	     
+    	  		
+					<li id="postalCode_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Postal Code')">Postal Code </a></li>
+	
+							 
+	     
+    	  		
+					<li id="country_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Country')">Country </a></li>
+	
+							 
+	     
+    	  		
+					<li id="state_filter"><a tabindex="-1" href="javascript:openOfficeTextField('State')">State </a></li>
+	
+							 
+	     
+    	  		
+					<li id="addressLine2_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Address Line2')">Address Line2 </a></li>
+	
+							 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openOfficeTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="office_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="office_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																						
+							<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreen('office')" style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreen('office');" data-toggle="tooltip" data-animation="true"></i>
+
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('office')" style="margin-right: 0px; color:#242424; margin-left: 6px;"><!-- margin-right: 10px; color:#242424; margin-left: 6px; -->
+							<!--<span id="plus_txt" class="bigger-110 no-text-shadow" id="Office_addOffice">Office</span>
+							</a>-->
+
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+				<!-- code for Comment and FileAttachment start for modal-->	
+			<!-- Comment Modal Window Start -->
+	<div id="office_comment_modal"  class="modal hide fade cmnt width-35" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove red"></i></button>
+			<h3 >Comment</h3>-->
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger">Comment</h4>
+		</div>
+		<div class="modal-body" style="oveflow:hidden;">
+			<div id="officecommentmodeldata" style="max-height:200px; overflow-y:auto !important;width: 97%; margin-left: 3%;"></div>
+			<div class="space"></div>
+			<div>
+				<form id="office_formcomment" class="no-margin">
+					<div class="control-group">
+						<textarea placeholder="Type your comment here ..." onkeypress="" maxlength="255" class="input-large" type="text" name="comment" id="comment" style="width: 97%; height: 100px;"></textarea>
+					</div>
+					<!--<button class="btn btn-small btn-info no-radius" style="top:-5px;" onclick="commentAdd(form.id); return false;">
+						<i class="icon-share-alt"></i>
+						<span class="hidden-phone">Post</span>
+					</button>-->
+					<div class="">
+						<button class="btn btn-mini btn-info pull-right" onclick="commentAdd(form.id); return false;">
+							<span class="hidden-phone">Post</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Comment Modal Window End -->
+
+	<!-- Old Comment Delete -->
+	<!--<div id="office_comment_delete_dialog" style="display:none;">
+	  <div class="bootbox modal fade in customModel" tabindex="-1"  aria-hidden="false">
+	  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+		<div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+		<div class="modal-footer customModelFooter">
+		  <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#office_comment_delete_dialog').fadeOut();" >
+			Cancel
+		  </a>
+		  <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton" href="#" onclick="deleteOfficeComment();" >
+			OK
+		  </a>
+		</div>
+	  </div>
+	  <div class="modal-backdrop fade in" style="z-index:46 !important;">
+	  </div>
+	</div>-->
+
+	<!-- Comment delete modal window start -->
+	<div id="office_comment_delete_dialog" class="modal hide fade" style="left:51%; width:33%; top:33%;">
+		<div class=""> <!-- previous class 'modal-header' NEW UI -->
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE COMMENT
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+
+			<div class="offset2">
+				<button onclick="deleteOfficeComment();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="deleteCommentBtn">OK</button>
+				<button type="button" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>				
+			</div>
+		</div>
+	</div>
+	<!-- Comment delete modal window end -->
+			<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="office_main_div">
+			<div id="list_office_div" style="padding:10px;">
+					
+				<!-- office_grid start-->
+										<div id="office_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- office_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="office_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="office_pagination_totalRecord"></span> <span  id="office_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="office_pagination_pre"  onclick="pagPrev('office_pagination','Office','getOfficeDataPagination','office_page_llimit','office_page_ulimit','officepagenovalue','office',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="office_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="officepagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="officepagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="office_pagination_next"  onclick="pagNext('office_pagination','Office','getOfficeDataPagination','office_page_llimit','office_page_ulimit','officepagenovalue','office',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setOfficePaginationValue(); return false;" id="office_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="office_page_llimit" value="">
+								<input type="hidden" id="office_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_office_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Officecreateformheader">
+								Add Office
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_office_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>City Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="cityName" id="cityName"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Address Line1 <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="addressLine1" id="addressLine1"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Territory <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="territory" id="territory"  class=" alphanumericallowspecial validate[required,maxSize[10] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Phone <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="phone" id="phone"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Postal Code <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="postalCode" id="postalCode"  class=" alphanumericallowspecial validate[required,maxSize[15] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Country <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="country" id="country"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>State </span><br>
+                           
+															
+                              <input type="text"   name="state" id="state"  class="alphanumericallowspecial  validate[maxSize[50]]  text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Address Line2 </span><br>
+                           
+															
+                              <input type="text"   name="addressLine2" id="addressLine2"  class="alphanumericallowspecial  validate[maxSize[50]]  text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																		</div>
+								<!-- add div many to one button and layout -->				
+																																																																																																												
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_office_btn" type="button" onclick="create_office('add_office_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Office_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Office_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+																				
+		
+				
+
+<div id="edit_office_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Officeeditformheader">
+								Edit Office
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_office_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="officeCode" id="officeCode">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>City Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="cityName" id="cityName"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Address Line1 <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="addressLine1" id="addressLine1"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													  								                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Territory <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="territory" id="territory"  class="alphanumericallowspecial validate[required,maxSize[10] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Phone <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="phone" id="phone"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Postal Code <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="postalCode" id="postalCode"  class="alphanumericallowspecial validate[required,maxSize[15] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Country <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="country" id="country"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>State</span><br>
+                         
+															
+                              <input type="text"   name="state" id="state"  class="alphanumericallowspecial  validate[maxSize[50]]  text-field " />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Address Line2</span><br>
+                         
+															
+                              <input type="text"   name="addressLine2" id="addressLine2"  class="alphanumericallowspecial  validate[maxSize[50]]  text-field " />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																		</div>
+								
+				
+								
+				
+				
+				
+				
+				
+				
+																																																																																																												
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_office_btn" type="button" onclick="edit_office('edit_office_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Office_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('office')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Office_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" overflow-y: scroll; height: 580px; overflow-x: hidden; padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_office_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_office"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Office_formEdit"  onclick="ViewEditoffice()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="office_details_view_slimscroll_div">
+										 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Address Line1  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="addressLine1" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Territory  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="territory" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Phone  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="phone" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Postal Code  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="postalCode" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Country  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="country" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  State  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="state" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Address Line2  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="addressLine2" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Office_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Office_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Office_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="office_history_tab" class="tab-pane active">
+														<div class="office_history_slimscroll_div">
+															<div id="office_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+						<!-- code for Comment and FileAttachment start-->	
+				
+			<!--<div class="clear">
+							
+							<div class="profile-user-info profile-user-info-striped" style="margin-top:40px;" id="recent-box1">
+										<div ><!--header start -->
+											<!--<h1  id="Office_head_Activities" class="newheader">
+												ACTIVITIES
+											</h1>
+											
+											<!--<div class="no-border pull-left offset2" style="margin-top: -54px; white-space: nowrap;"><!--widget-toolbar-view-->
+											
+										<!--</div><!--header end -->
+
+										<!--<div style="overflow-x: auto;">
+										<div class="widget-main padding-4">
+												
+												<div class="tab-content overflow-visible">
+																																				<div id="office_comment_tab" class="tab-pane active">
+													<div class="office_activity_slimscroll_div">
+														<div id="office_comment_tabdiv" class="comments"></div>
+													</div>
+												</div>	
+																							</div><!--/widget-main-->
+										<!--</div><!--/widget-body-->
+									
+									<!--</div>-->
+		
+		
+		
+		</div>
+		</div>
+				
+				
+				
+				
+				
+					<!-- code for Comment and FileAttachment end-->
+								
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="officefilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_office_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#officefilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="officefilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																																
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">City Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="cityName" id="cityName"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Address Line1</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="addressLine1" id="addressLine1"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Territory</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="territory" id="territory"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Phone</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="phone" id="phone"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Postal Code</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="postalCode" id="postalCode"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Country</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="country" id="country"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="state" id="state"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="addressLine2" id="addressLine2"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="creator" id="creator"/>
+										
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+										</div>
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="officeSortBy" class="inputDown sortbydropdown" onchange="officeSortByHighLightSelectedHeader('office')">
+									 
+									 																										
+																				<option value='cityName' >City Name</option>  
+																																																								
+																				<option value='addressLine1' >Address Line1</option>  
+																																																																															
+																				<option value='territory' >Territory</option>  
+																																																								
+																				<option value='phone' >Phone</option>  
+																																																								
+																				<option value='postalCode' >Postal Code</option>  
+																																																								
+																				<option value='country' >Country</option>  
+																																																								
+																				<option value='state' >State</option>  
+																																																								
+																				<option value='addressLine2' >Address Line2</option>  
+																																																																																																						
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('office',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_office"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_office"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchOfficeData(fiql_office_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_office_div"></div>
+		<div id="error_500_office_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="office_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#office_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteOfficeEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="office_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Office RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteOfficeEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setOfficePaginationValue() {
+		$('#officepagenovalue').html(1); 
+		$('#fiql_office_form')[0].reset();
+		pageulimit= eval($('#office_pagination_value').val()-1);
+		pagellimit=0;
+		$("#office_pagination_next").css("display", "");
+		$("#office_pagination_pre").css("display", "");
+		$('#office_pagination #office_page_llimit').val(pagellimit);
+		$('#office_pagination #office_page_ulimit').val(pageulimit);
+		$("#office_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_office_form #sort_office').val();
+        var ordertypecall= $('#fiql_office_form #sort_type_value_office').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlOfficeParam="";
+				sendGETRequest(context+"/rest/Office/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getOfficeDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('office',$("#fiql_office_form #sort_office").val());
+		},1000);
+	}
+
+	$('#office_main_div #error_404_office_div').load(context+"/pages/error-404.html");
+	$('#office_main_div #error_500_office_div').load(context+"/pages/error-500.html");
+	
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlOfficeParam ="";
+var Officeflag=0;
+
+$('#office_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#office_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#office_grid').contextmenu({
+	target: '#office_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#office_pagination #office_page_llimit').val(pagellimit);
+$('#office_pagination #office_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Office_home").html(index_home);
+
+if(hasValue(office_breadcrumb))
+	$("#Office_page_breadcrumbs").html(office_breadcrumb);
+
+if(hasValue(Office_thead_sortby))
+			$("#officefilterTab #sortBy_span").html(Office_thead_sortby);
+if(hasValue(Office_thead_modifiedTime))
+			$("#officefilterTab #modifiedTime_span").html(Office_thead_modifiedTime);
+if(hasValue(Office_thead_createdTime))
+			$("#officefilterTab #createdTime_span").html(Office_thead_createdTime);
+if(hasValue(Office_viewdetail))
+			$("#details_office_div #view_Office").html(Office_viewdetail);
+if(hasValue(Office_thead_lastModifier))
+			$("#details_office_div #Office_detail_modifier").html(Office_thead_lastModifier);
+if(hasValue(Office_thead_creator))
+			$("#details_office_div #Office_detail_creator").html(Office_thead_creator);
+if(hasValue(Office_formCancel))
+			$("#Office_formCancel").html(Office_formCancel);
+if(hasValue(Office_formUpdate))
+			$("#Office_formUpdate").html(Office_formUpdate);
+if(hasValue(Office_formReset))
+			$("#Office_formReset").html(Office_formReset);
+if(hasValue(Office_formCreate))
+			$("#Office_formCreate").html(Office_formCreate);
+
+if(hasValue(Office_addOffice))
+			$("#Office_addOffice").html(Office_addOffice);
+if(hasValue(Office_head_history))
+			$("#Office_head_history").html(Office_head_history);
+if(hasValue(Office_head_Activities))
+			$("#Office_head_Activities").html(Office_head_Activities);
+if(hasValue(Office_task_tab))
+			$("#office_task_tab_link").html(Office_task_tab);
+if(hasValue(Office_comment_tab))
+			$("#office_comment_tab_link").html(Office_comment_tab);
+if(hasValue(Office_comment_tab))
+			$("#office_comment_modal #myModalLabel").html(Office_comment_tab);
+
+if(hasValue(Office_formEdit))
+			$("#Office_formEdit").html("<i class='icon-edit bigger-110'></i>"+Office_formEdit);
+
+if(hasValue(Officecreateformheader))
+			$("#Officecreateformheader").html(Officecreateformheader);
+if(hasValue(Officeeditformheader))
+			$("#Officeeditformheader").html(Officeeditformheader);
+if(hasValue(pagination_page_txt))
+			$("#office_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Office_thead_cityName_Lbl").html(Office_thead_cityName);
+            $("#Office_thead_addressLine1_Lbl").html(Office_thead_addressLine1);
+              $("#Office_thead_territory_Lbl").html(Office_thead_territory);
+            $("#Office_thead_phone_Lbl").html(Office_thead_phone);
+            $("#Office_thead_postalCode_Lbl").html(Office_thead_postalCode);
+            $("#Office_thead_country_Lbl").html(Office_thead_country);
+            $("#Office_thead_state_Lbl").html(Office_thead_state);
+            $("#Office_thead_addressLine2_Lbl").html(Office_thead_addressLine2);
+            $("#Office_thead_creator_Lbl").html(Office_thead_creator);
+            $("#Office_thead_lastModifier_Lbl").html(Office_thead_lastModifier);
+            $("#Office_thead_modifiedTime_Lbl").html(Office_thead_modifiedTime);
+            $("#Office_thead_createdTime_Lbl").html(Office_thead_createdTime);
+  
+  	$("#Office_thead_cityName_Flt").html(Office_thead_cityName);
+    	$("#Office_thead_addressLine1_Flt").html(Office_thead_addressLine1);
+      	$("#Office_thead_territory_Flt").html(Office_thead_territory);
+    	$("#Office_thead_phone_Flt").html(Office_thead_phone);
+    	$("#Office_thead_postalCode_Flt").html(Office_thead_postalCode);
+    	$("#Office_thead_country_Flt").html(Office_thead_country);
+    	$("#Office_thead_state_Flt").html(Office_thead_state);
+    	$("#Office_thead_addressLine2_Flt").html(Office_thead_addressLine2);
+    	$("#Office_thead_creator_Flt").html(Office_thead_creator);
+    	$("#Office_thead_lastModifier_Flt").html(Office_thead_lastModifier);
+    	$("#Office_thead_modifiedTime_Flt").html(Office_thead_modifiedTime);
+    	$("#Office_thead_createdTime_Flt").html(Office_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Office_permission){
+		$("#office_breadcrumbs #plus").css("display","");	
+		$("#office_breadcrumbs #plus_bar").css("display","");
+		$("#office_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#office_breadcrumbs #office_Quick_UL").addClass("pull-right");
+	$("#office_breadcrumbs #plus").css("display","none");
+	$("#office_breadcrumbs #plus_bar").css("display","none");
+	$("#office_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function officeSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#officeSortBy').val());
+}
+
+             var office_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(office_richtextfields))  
+					{
+					if(create_Office_permission){
+					$("#office_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Office_permission){
+					$("#office_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#officequickFilter').blur(function() {
+					$('#officequickFilterDiv').css('display','none');
+					$('#officequickFilter').val('');	
+					});	
+					
+					$("#officefilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

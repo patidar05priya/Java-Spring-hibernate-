@@ -1,0 +1,28 @@
+@startuml
+title Find ActivityStream Scenario
+participant User
+User -> CXFServlet: GET, ActivityStream Search Critera XML
+activate CXFServlet
+CXFServlet -> ActivityStream: << create >>
+activate ActivityStream
+ActivityStream -> CXFServlet: << instance >>
+deactivate ActivityStream
+CXFServlet -> ActivityStreamRestImpl: getAll(:activitystream)
+activate ActivityStreamRestImpl
+ActivityStreamRestImpl -> ActivityStreamServiceDao: getAll(:activitystream)
+activate ActivityStreamServiceDao
+ActivityStreamServiceDao -> ActivityStreamJPADao: getAll(:activitystream)
+activate ActivityStreamJPADao
+ActivityStreamJPADao -> EntityManager: getResultList(:activitystream)
+activate EntityManager
+EntityManager -> ActivityStreamJPADao: List<ActivityStream>
+deactivate EntityManager
+ActivityStreamJPADao -> ActivityStreamServiceDao: List<ActivityStream>
+deactivate ActivityStreamJPADao
+ActivityStreamServiceDao -> ActivityStreamRestImpl: List<ActivityStream>
+deactivate ActivityStreamServiceDao
+ActivityStreamRestImpl -> CXFServlet: List<ActivityStream>
+deactivate ActivityStreamRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

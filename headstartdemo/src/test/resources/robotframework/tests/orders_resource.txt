@@ -1,0 +1,134 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+       
+Select customer
+    Select From List By Index    //form[@id='add_orders_form']//select[@id='customer.firstName']    1
+     
+    
+Input orders_orderStatus
+    [Arguments]    ${orderStatus}
+    Input Text    //form[@id='add_orders_form']//input[@id='orderStatus']    ${orderStatus}
+    
+
+Input orders_totalCost
+    [Arguments]    ${totalCost}
+    Input Text    //form[@id='add_orders_form']//input[@id='totalCost']   ${totalCost}
+    
+
+Input orders_comments
+    [Arguments]    ${comments}
+    Input Text    //form[@id='add_orders_form']//div[@id='comments']    ${comments}
+  
+Click addcomments
+    Click Element    //form[@id='add_orders_form']//div[@id='comments']
+    
+
+Open orders_Tab
+    Click Link    orders_tab
+
+Open orders_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open orders_UpdatePage
+    Click Element    id=orders_edit_act
+
+Create orders_btn
+    Click Button    add_orders_btn
+
+Update orders_btn
+    Click Button    edit_orders_btn
+
+Delete orders_btn
+    Click Element    orders_delete_act
+
+Search orders_btn
+    Click Link   filterApply
+Input orders_orderStatus_update
+    [Arguments]    ${orderStatus}
+    Input Text    //form[@id='edit_orders_form']//input[@id='orderStatus']    ${orderStatus}
+Input orders_totalCost_update
+    [Arguments]    ${totalCost}
+    Input Text    //form[@id='edit_orders_form']//input[@id='totalCost']   ${totalCost}
+Input orders_comments_update
+    [Arguments]    ${comments}
+    Input Text    //form[@id='edit_orders_form']//div[@id='comments']   ${comments}
+    
+Click editcomments
+    Click Element    //form[@id='edit_orders_form']//div[@id='comments']
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    orders_back
+
+Wait for delete button
+    Wait Until Page Contains Element        orders_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        orders_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for orders_tab 
+    Wait Until Page Contains Element    orders_tab    1 min
+
+    
+Click filter button
+    click Element    orders_filter

@@ -1,0 +1,27 @@
+*** Settings ***
+Documentation     A test suite containing tests related to ${tableName} Update.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          ${tableName}_resource.txt
+
+*** Test Cases ***
+Valid ${tableName} Update
+    Open Browser To Login Page
+    Input Domain    default
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Open ${tableName}_Tab
+    Open ${tableName}_UpdatePage
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby") && !$includeFile.name.contains("domain"))#if($includeFile.type.equals("text") )
+    Input ${tableName}_${includeFile.dataName}_update    TestString
+#end#if($includeFile.type.equals("number"))
+    Input ${tableName}_${includeFile.dataName}_update     11
+#end#if($includeFile.type.equals("richText"))
+    Input ${tableName}_${includeFile.dataName}_update     TestData
+#end#end#end#end
+    Update ${tableName}_btn
+    Welcome Page Should Be Open

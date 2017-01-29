@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:layout="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf">
+  <page-definition horizontal-span="1" vertical-span="1" width="595" height="841" orientation="portrait" margin-top="72" margin-left="72" margin-bottom="72" margin-right="72"/>
+  <layout:watermark xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:hideInLayoutGUI="true" core:element-type="watermark">
+    <element-style>
+    </element-style>
+  </layout:watermark>
+  <layout:page-header xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="72.0" core:element-type="page-header">
+    <element-style>
+    </element-style>
+  </layout:page-header>
+  <layout:page-footer xmlns:report-designer="http://reporting.pentaho.org/namespaces/report-designer/2.0" report-designer:visual-height="72.0" core:element-type="page-footer">
+    <element-style>
+    </element-style>
+  </layout:page-footer>
+</style>

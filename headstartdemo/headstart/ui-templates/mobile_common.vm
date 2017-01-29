@@ -1,0 +1,26 @@
+var deployurl="http://192.168.1.217:8080/${appName}"
+
+						
+
+
+
+#foreach(${tableName} in $tableMap.entrySet())
+		
+var  ${tableName.key}NoofForiegnkey = 1;
+		
+#end
+    
+    
+    
+   
+
+ #foreach($includeFile1 in $foreignMap.entrySet())	
+						
+						
+					#foreach( ${tableName1} in	${includeFile1.value})	
+							var ${tableName1}_foriegn_${includeFile1.key};
+					#end		
+							
+							
+ #end
+	

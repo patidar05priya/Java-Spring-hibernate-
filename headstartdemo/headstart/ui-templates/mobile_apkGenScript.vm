@@ -1,0 +1,8 @@
+export PATH=${PATH}:${android_sdk_toolpath}
+cd ${mobile_app_rootpath}
+android update project -p ${mobile_app_rootpath}/build/android
+cd ${mobile_app_rootpath}/build/android
+ant release 
+jarsigner -verbose -keystore ${KeyStore_path}  -storepass ${KeyStore_password}
+${mobile_app_rootpath}/build/android/bin/app-unsigned.apk tomcat
+zipalign -v 4 bin/app-unsigned.apk ${apk_rootpath}

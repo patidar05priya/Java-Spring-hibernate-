@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudDataSource" type="DataSource">
+  <attributes>
+    <attr name="transformRequest">function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				var params ;
+			
+				if (OfficeSearchForm.isVisible())
+					params = getFIQLURL(OfficeSearchForm);
+				else
+					params="?_s=''";
+					
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+params+"&amp;"+OfficeGridPager.upperLimitToken+"="+OfficeGridPager.currentUpperLimit+"&amp;"+OfficeGridPager.lowerLimitToken+"="+OfficeGridPager.currentLowerLimit;
+
+				if(operation=='remove')
+					dsRequest.actionURL = this.removeDataURL+"/"+dsRequest.data.officeCode;
+				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}</attr>
+    <attr name="transformRequest">function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+				if(dsResponse.httpResponseCode==403)
+				{
+				alert('Access is denied');
+				}
+				var excpmesg = dsResponse.excpmesg;
+			    if(hasValue(data.excpmesg))
+			    alert(data.excpmesg)
+			   
+			    var errors = dsResponse.errors;
+			    if(hasValue(data.errors))
+				{
+				alert(data.errors[0].name+" "+data.errors[0].value.message);
+			    }
+				
+				if(operation =='remove')
+				{
+				OfficeWorkVLayout.setMembers([OfficeListGrid]);
+				OfficeListGrid.fetchData();
+				if (OfficeDetailViewer.isVisible()) {
+				OfficeDetailViewer.setData();
+				}
+				}else if(resStatus == 0 &amp;&amp; operation =='add'){
+                resetOffice = true;
+				OfficeAddForm.clearValues();
+				OfficeWorkVLayout.setMembers([OfficeListGrid]);
+				OfficeListGrid.setData([]);
+				OfficeListGrid.fetchData();
+				resetOffice = false;
+				
+				}else if(resStatus == 0 &amp;&amp; operation =='update'){
+				OfficeWorkVLayout.setMembers([OfficeListGrid]);
+				OfficeListGrid.setData([]);
+				OfficeListGrid.fetchData();
+				
+				if (OfficeDetailViewer.isVisible())
+				{
+				OfficeDetailViewer.setData(data);
+				}
+				else{
+				OfficeEditForm.editNewRecord(data);
+				}
+
+				} else if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				if(OfficeSearchResultsGrid.isVisible()){
+					OfficeSearchResultsGrid.setData([]);
+					OfficeSearchResultsGrid.setData(data);
+					}	
+				else{
+					OfficeListGrid.setData([]);	
+					OfficeListGrid.setData(data);	
+					}
+				} else if(resStatus == -1){
+					isc.say("No session available.  Please login.");
+					logoutRequest()
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine1</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine2</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">cityName</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">country</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">phone</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">postalCode</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">state</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">territory</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="TestPermissionsRestXML" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
+	<con:settings/>
+	<con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="TestPermissionsRestXML" type="rest" basePath="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:settings/>
+
+		
+		<con:definitionCache type="TEXT" rootPart=""/><con:endpoints>
+			<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/${#TestCase#entityId}</con:endpoint>
+		</con:endpoints>
+		<con:resource name="headstartdemo" path="/headstartdemo">
+			<con:settings/>
+			<con:parameters/>
+			<con:method name="post" method="POST">
+				<con:settings/>
+				<con:parameters/>
+				<con:representation type="REQUEST">
+					<con:mediaType>application/json</con:mediaType>
+					<con:params/>
+				</con:representation>
+				<con:representation type="RESPONSE">
+					<con:mediaType>text/html</con:mediaType>
+					<con:status>200</con:status>
+					<con:params/>
+					<con:element>html</con:element>
+				</con:representation>
+				
+				<con:representation type="REQUEST"><con:mediaType>application/x-www-form-urlencoded</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>400</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false">
+					<con:settings>
+						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+					</con:settings>
+					<con:endpoint>http://localhost:8080/</con:endpoint>
+					<con:request/>
+					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+					<con:jmsPropertyConfig/>
+					<con:parameters/>
+				</con:request>
+			</con:method>
+			<con:method name="get" method="GET">
+				<con:settings/>
+				<con:parameters/>
+				<con:representation type="RESPONSE"><con:mediaType>text/html</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>505</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" mediaType="application/json">
+					<con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings>
+					<con:endpoint>http://localhost:8080/headstartdemo/j_spring_security_check</con:endpoint>
+					<con:request/>
+					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+					<con:jmsPropertyConfig/>
+					<con:parameters/>
+				</con:request>
+			</con:method>
+			<con:method name="delete" method="DELETE">
+				<con:settings/>
+				<con:parameters/>
+				<con:representation type="RESPONSE"><con:mediaType>text/html</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:request name="Request 1" mediaType="application/json">
+					<con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings>
+					<con:endpoint>http://localhost:8080/headstartdemo/</con:endpoint>
+					<con:request/>
+					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+					<con:jmsPropertyConfig/>
+					<con:parameters/>
+				</con:request>
+			</con:method>
+		<con:method name="put" method="PUT"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>text/html</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions?</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource>
+	</con:interface>
+	<con:testSuite name="TestSuite">
+		<con:settings/>
+		<con:runType>SEQUENTIAL</con:runType>
+		<con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="true" maxResults="0" name="TestCase" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" id="16fd557a-5424-46cf-a002-8b46b54cdb93">
+			<con:settings/>
+			<con:testStep type="restrequest" name="getSessionID">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="getSessionID" mediaType="application/json" accept="">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/</con:endpoint>
+						<con:request/>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="login">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="post" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="login" mediaType="application/x-www-form-urlencoded" postQueryString="false" accept="text/html">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/j_spring_security_check</con:endpoint>
+						<con:request>j_domain=default&amp;j_password=admin&amp;j_username=admin&amp;_spring_security_remember_me=undefined</con:request>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="create">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="post" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="create" mediaType="application/json" postQueryString="false" accept="">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/create</con:endpoint>
+						<con:request>${#TestCase#entityObject}</con:request>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="searchAll">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="searchAll" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions</con:endpoint>
+						<con:request/>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="searchByObject">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="searchByObject" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions</con:endpoint>
+						<con:request>${#TestCase#entityObject}</con:request>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="searchFindById">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="searchFindById" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/findbyid/${#TestCase#entityId}</con:endpoint>
+						<con:request/>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="searchByLimit">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="searchByLimit" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/search?_s=permissionid==${#TestCase#entityId}&amp;orderBy=permissionid&amp;orderType=desc&amp;ulimit=9&amp;llimit=0</con:endpoint>
+						<con:request/>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="update">
+			   <con:settings/>
+			       <con:config service="TestPermissionsRestXML" methodName="put" resourcePath="/headstartdemo" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			          <con:restRequest name="update" mediaType="application/json" postQueryString="false">
+			             <con:settings>
+			                  <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+			             </con:settings>
+			               <con:encoding>UTF-8</con:encoding>
+			             <con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/update</con:endpoint>
+			               <con:request>${#TestCase#entityObject}</con:request>
+			              <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+			            <con:jmsPropertyConfig/>
+			           <con:parameters/>
+			          </con:restRequest>
+			         </con:config>
+			  </con:testStep>
+			<con:testStep type="restrequest" name="deleteById">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="delete" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="deleteById" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/delete/${#TestCase#entityId}</con:endpoint>
+						<con:request/>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			<con:testStep type="restrequest" name="deleteByObject">
+				<con:settings/>
+				<con:config service="TestPermissionsRestXML" resourcePath="/headstartdemo" methodName="delete" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<con:restRequest name="deleteByObject" mediaType="application/json">
+						<con:settings>
+							<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080/headstartdemo/rest/Permissions/delete</con:endpoint>
+						<con:request>${#TestCase#entityObject}</con:request>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+						<con:jmsPropertyConfig/>
+						<con:parameters/>
+					</con:restRequest>
+				</con:config>
+			</con:testStep>
+			
+			<con:properties>
+			       <con:property>
+			            <con:name>entityId</con:name>
+			            <con:value/>
+			        </con:property>
+			        <con:property>
+			            <con:name>entityObject</con:name>
+			            <con:value/>
+			        </con:property>
+			</con:properties>
+		   </con:testCase>
+		<con:properties/>
+	   </con:testSuite>
+	  <con:properties/>
+	 <con:wssContainer/>
+   <con:sensitiveInformation/>
+</con:soapui-project>

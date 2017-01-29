@@ -1,0 +1,28 @@
+@startuml
+title Update Product Scenario
+participant User
+User -> CXFServlet: PUT, Product
+activate CXFServlet
+CXFServlet -> Product: << create >>
+activate Product
+Product -> CXFServlet: << instance >>
+deactivate Product
+CXFServlet -> ProductRestImpl: update(:product)
+activate ProductRestImpl
+ProductRestImpl -> ProductServiceDao: update(:product)
+activate ProductServiceDao
+ProductServiceDao -> ProductJPADao: update(:product)
+activate ProductJPADao
+ProductJPADao -> EntityManager: merge(:product)
+activate EntityManager
+EntityManager -> ProductJPADao: << persisted product >>
+deactivate EntityManager
+ProductJPADao -> ProductServiceDao: << persisted product >>
+deactivate ProductJPADao
+ProductServiceDao -> ProductRestImpl: << persisted product >>
+deactivate ProductServiceDao
+ProductRestImpl -> CXFServlet: << persisted product >>
+deactivate ProductRestImpl
+CXFServlet -> User: marshalled product XML
+deactivate CXFServlet
+@enduml

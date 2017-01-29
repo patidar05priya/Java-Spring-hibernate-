@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudDataSource" type="DataSource">
+  <attributes>
+    <attr name="transformRequest">function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				var params ;
+			
+				if (ProductSearchForm.isVisible())
+					params = getFIQLURL(ProductSearchForm);
+				else
+					params="?_s=''";
+					
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+params+"&amp;"+ProductGridPager.upperLimitToken+"="+ProductGridPager.currentUpperLimit+"&amp;"+ProductGridPager.lowerLimitToken+"="+ProductGridPager.currentLowerLimit;
+
+				if(operation=='remove')
+					dsRequest.actionURL = this.removeDataURL+"/"+dsRequest.data.productCode;
+				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}</attr>
+    <attr name="transformRequest">function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+				if(dsResponse.httpResponseCode==403)
+				{
+				alert('Access is denied');
+				}
+				var excpmesg = dsResponse.excpmesg;
+			    if(hasValue(data.excpmesg))
+			    alert(data.excpmesg)
+			   
+			    var errors = dsResponse.errors;
+			    if(hasValue(data.errors))
+				{
+				alert(data.errors[0].name+" "+data.errors[0].value.message);
+			    }
+				
+				if(operation =='remove')
+				{
+				ProductWorkVLayout.setMembers([ProductListGrid]);
+				ProductListGrid.fetchData();
+				if (ProductDetailViewer.isVisible()) {
+				ProductDetailViewer.setData();
+				}
+				}else if(resStatus == 0 &amp;&amp; operation =='add'){
+                resetProduct = true;
+				ProductAddForm.clearValues();
+				ProductWorkVLayout.setMembers([ProductListGrid]);
+				ProductListGrid.setData([]);
+				ProductListGrid.fetchData();
+				resetProduct = false;
+				
+				}else if(resStatus == 0 &amp;&amp; operation =='update'){
+				ProductWorkVLayout.setMembers([ProductListGrid]);
+				ProductListGrid.setData([]);
+				ProductListGrid.fetchData();
+				
+				if (ProductDetailViewer.isVisible())
+				{
+				ProductDetailViewer.setData(data);
+				}
+				else{
+				ProductEditForm.editNewRecord(data);
+				}
+
+				} else if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				if(ProductSearchResultsGrid.isVisible()){
+					ProductSearchResultsGrid.setData([]);
+					ProductSearchResultsGrid.setData(data);
+					}	
+				else{
+					ProductListGrid.setData([]);	
+					ProductListGrid.setData(data);	
+					}
+				} else if(resStatus == -1){
+					isc.say("No session available.  Please login.");
+					logoutRequest()
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">buyPrice</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productDescription</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productName</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productVendor</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">quantityInStock</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">sellPrice</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">productline</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

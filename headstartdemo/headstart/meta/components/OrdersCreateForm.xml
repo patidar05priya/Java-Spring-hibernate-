@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">OrdersDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">OrdersAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">comments</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">comments</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">customer</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">customer</attr>
+        <attr name="entityDataSource">CustomerDataSource</attr>
+        <attr name="entityDisplayField">customerNumber</attr>
+        <attr name="entityValueField">customerNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">date</attr>
+        <attr name="title">orderDate</attr>
+        <attr name="required">true</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderStatus</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">orderStatus</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">requiredDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">date</attr>
+        <attr name="title">requiredDate</attr>
+        <attr name="required">true</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">shippedDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">date</attr>
+        <attr name="title">shippedDate</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">totalCost</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">totalCost</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    OrdersAddForm.addProperties({saveOperationType:"add"});
+						OrdersAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetOrders = true;
+					    OrdersAddForm.clearValues();
+						resetOrders = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

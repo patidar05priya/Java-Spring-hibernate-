@@ -1,0 +1,28 @@
+@startuml
+title Find Users Scenario
+participant User
+User -> CXFServlet: GET, Users Search Critera XML
+activate CXFServlet
+CXFServlet -> Users: << create >>
+activate Users
+Users -> CXFServlet: << instance >>
+deactivate Users
+CXFServlet -> UsersRestImpl: getAll(:users)
+activate UsersRestImpl
+UsersRestImpl -> UsersServiceDao: getAll(:users)
+activate UsersServiceDao
+UsersServiceDao -> UsersJPADao: getAll(:users)
+activate UsersJPADao
+UsersJPADao -> EntityManager: getResultList(:users)
+activate EntityManager
+EntityManager -> UsersJPADao: List<Users>
+deactivate EntityManager
+UsersJPADao -> UsersServiceDao: List<Users>
+deactivate UsersJPADao
+UsersServiceDao -> UsersRestImpl: List<Users>
+deactivate UsersServiceDao
+UsersRestImpl -> CXFServlet: List<Users>
+deactivate UsersRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

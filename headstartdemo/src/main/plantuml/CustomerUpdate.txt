@@ -1,0 +1,28 @@
+@startuml
+title Update Customer Scenario
+participant User
+User -> CXFServlet: PUT, Customer
+activate CXFServlet
+CXFServlet -> Customer: << create >>
+activate Customer
+Customer -> CXFServlet: << instance >>
+deactivate Customer
+CXFServlet -> CustomerRestImpl: update(:customer)
+activate CustomerRestImpl
+CustomerRestImpl -> CustomerServiceDao: update(:customer)
+activate CustomerServiceDao
+CustomerServiceDao -> CustomerJPADao: update(:customer)
+activate CustomerJPADao
+CustomerJPADao -> EntityManager: merge(:customer)
+activate EntityManager
+EntityManager -> CustomerJPADao: << persisted customer >>
+deactivate EntityManager
+CustomerJPADao -> CustomerServiceDao: << persisted customer >>
+deactivate CustomerJPADao
+CustomerServiceDao -> CustomerRestImpl: << persisted customer >>
+deactivate CustomerServiceDao
+CustomerRestImpl -> CXFServlet: << persisted customer >>
+deactivate CustomerRestImpl
+CXFServlet -> User: marshalled customer XML
+deactivate CXFServlet
+@enduml

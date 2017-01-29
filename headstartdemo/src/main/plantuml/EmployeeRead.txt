@@ -1,0 +1,28 @@
+@startuml
+title Find Employee Scenario
+participant User
+User -> CXFServlet: GET, Employee Search Critera XML
+activate CXFServlet
+CXFServlet -> Employee: << create >>
+activate Employee
+Employee -> CXFServlet: << instance >>
+deactivate Employee
+CXFServlet -> EmployeeRestImpl: getAll(:employee)
+activate EmployeeRestImpl
+EmployeeRestImpl -> EmployeeServiceDao: getAll(:employee)
+activate EmployeeServiceDao
+EmployeeServiceDao -> EmployeeJPADao: getAll(:employee)
+activate EmployeeJPADao
+EmployeeJPADao -> EntityManager: getResultList(:employee)
+activate EntityManager
+EntityManager -> EmployeeJPADao: List<Employee>
+deactivate EntityManager
+EmployeeJPADao -> EmployeeServiceDao: List<Employee>
+deactivate EmployeeJPADao
+EmployeeServiceDao -> EmployeeRestImpl: List<Employee>
+deactivate EmployeeServiceDao
+EmployeeRestImpl -> CXFServlet: List<Employee>
+deactivate EmployeeRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

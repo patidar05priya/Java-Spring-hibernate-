@@ -1,0 +1,128 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         192.168.1.10:8080
+${appname}        ${applicationName}
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      ${appDeployUrl}/${applicationName}
+${WELCOMEURL}    ${appDeployUrl}/${applicationName}/jsp/index.jsp
+${ERRORURL}      ${appDeployUrl}/${applicationName}/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+    
+Input roles_rolename
+    [Arguments]    ${rolename}
+    Input Text    //form[@id='add_role_form']//input[@id='rolename']    ${rolename}
+
+Input roles_discription
+    [Arguments]    ${description}
+    Input Text    //form[@id='add_role_form']//input[@id='description']    ${description}
+
+Input SearchRoles_rolename
+    [Arguments]    ${rolename}
+    Input Text    //form[@id='fiql_role_form']//input[@id='rolename']    ${rolename}
+
+Input SearchRoles_description
+    [Arguments]    ${description}
+    Input Text    //form[@id='fiql_role_form']//input[@id='description']    ${description}
+
+Input editRoles_description
+    [Arguments]    ${description}
+    Input Text    //form[@id='edit_role_form']//input[@id='description']    ${description}
+
+Input roles_assign
+    Select Checkbox    xpath=//input[@id='Officeread']
+
+Input roles_DashboardWidgets_assign
+    Select Checkbox    xpath=//input[@id='canviewrecentactivity']
+
+Input editRoles_assign
+    Select Checkbox    xpath=//input[@id='Officeread']
+
+Input editRoles_DashboardWidgets_assign
+    Select Checkbox    xpath=//input[@id='canviewrecentactivity']
+
+Open UserManagement_Tab
+    Click Element    xpath=//a/span[contains(text(),'User Management')]
+
+Create roles_btn
+    Assign Id To Element    xpath=//button[@onclick="AddRolePermissionMapping()"]    rolebtn
+    Click Element    rolebtn
+
+Create rolesBack_btn
+    Click Element    role_page_breadcrumbs
+
+Click roles_filter button
+    Click Element    role_filter
+
+Click cancel_btn
+    Assign Id To Element    xpath=//button[@onclick="openListScreen('role')"]    cancelrolebtn
+    Click Element    cancelrolebtn
+
+Create updateRoles_btn
+    Assign Id To Element    xpath=//button[@onclick="PermissionMappingupdateRole(); return false;"]    updaterolebtn
+    Click Element    updaterolebtn
+
+Open roles_Tab
+    Click Link    index_tab_roles
+
+Open roles_CreatePage
+    Click Button    id=plus
+
+Click searchRoles_btn
+    Click Link    searchRoleBtn
+
+Click roles_Viewbtn
+    Click Element    roles_details_act
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Click roles_Editbtn
+    Click Element    xpath=//div[@id='roles_edit_act']
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Wait for UserManagement_Tab
+    Wait Until Page Contains Element    xpath=//a/span[contains(text(),'User Management')]    1 min
+
+Open Administration_Tab
+    Click Element    index_administration
+
+Wait for Administration_Tab
+    Wait Until Page Contains Element    index_administration    1 min

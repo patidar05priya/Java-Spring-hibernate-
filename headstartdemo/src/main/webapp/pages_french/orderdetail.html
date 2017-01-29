@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Orderdetail</title>
+<meta charset="utf-8">
+<script src="../js/generated/Orderdetail.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getorderdetailTotalCount();
+if(update_Orderdetail_permission)
+$('#Orderdetail_formEdit').css('display','block');
+
+ $("#orderdetail_filter_form").click(function (){
+ 	$("#fiql_orderdetail_form").trigger('reset');
+			   $("#orderdetailfilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_orderdetail_form").validationEngine();
+		jQuery("#edit_orderdetail_form").validationEngine();
+		refreshAllOrderdetailList();
+		refreshAllFkOrderdetailList();
+		jQuery("#orderdetail_formcomment").validationEngine();
+		$("#modifiedTimechk_orderdetail_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('orderdetail',$("#fiql_orderdetail_form #sort_orderdetail").val())},1000);
+				 $('#orderdetail_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.orderdetail_history_slimscroll_div').slimScroll({height: '350px'});
+			});
+</script>
+<style>
+	#orderdetail_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#orderdetail_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#orderdetail_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="orderdetailquickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="orderdetailquickFilter" value="" ></div>	
+<div id="orderdetail_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='productchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_product','product');">
+						<span class="lbl" id="Orderdetail_thead_product_Lbl">&nbsp;&nbsp;Product</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='orderLineNumberchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_orderLineNumber','orderLineNumber');">
+						<span class="lbl" id="Orderdetail_thead_orderLineNumber_Lbl">&nbsp;&nbsp;Order Line Number</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='orderschk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_orders','orders');">
+						<span class="lbl" id="Orderdetail_thead_orders_Lbl">&nbsp;&nbsp;Order Number</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='priceEachchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_priceEach','priceEach');">
+						<span class="lbl" id="Orderdetail_thead_priceEach_Lbl">&nbsp;&nbsp;Price Each</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='quantityOrderedchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_quantityOrdered','quantityOrdered');">
+						<span class="lbl" id="Orderdetail_thead_quantityOrdered_Lbl">&nbsp;&nbsp;Quantity Ordered</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_creator','creator');">
+						<span class="lbl" id="Orderdetail_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Orderdetail_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Orderdetail_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_orderdetail' type="checkbox" onclick="orderdetail_fnShowHide('Orderdetail_thead_createdTime','createdTime');">
+						<span class="lbl" id="Orderdetail_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openOrderdetailListScreen('orderdetail')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Orderdetail</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_orderdetail_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_orderdetail_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Orderdetail</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_orderdetail_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Orderdetail</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_orderdetail_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Orderdetail</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="orderdetail_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="orderdetail_quick_filter" onclick="showHideFilterContent('orderdetail');"/>-->
+						
+						
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="orderdetail_quick_filter" onclick="showHideFilterContent('orderdetail');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="orderdetail_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshOrderdetailListFromPaginator();">All</a></li>
+	  	  		
+									<li id="product_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Product</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="orderLineNumber_filter"><a tabindex="-1" href="javascript:openOrderdetailTextField('Order Line Number')">Order Line Number </a></li>
+	
+							 
+	     
+    	  		
+									<li id="orders_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Order Number</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	       
+    	  		
+					<li id="priceEach_filter"><a tabindex="-1" href="javascript:openOrderdetailTextField('Price Each')">Price Each </a></li>
+	
+							 
+	     
+    	  		
+					<li id="quantityOrdered_filter"><a tabindex="-1" href="javascript:openOrderdetailTextField('Quantity Ordered')">Quantity Ordered </a></li>
+	
+							 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openOrderdetailTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openOrderdetailTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="orderdetail_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="orderdetail_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																						
+							<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreen('orderdetail')" style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreen('orderdetail');" data-toggle="tooltip" data-animation="true"></i>
+
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('orderdetail')" style="margin-right: 0px; color:#242424; margin-left: 6px;"><!-- margin-right: 10px; color:#242424; margin-left: 6px; -->
+							<!--<span id="plus_txt" class="bigger-110 no-text-shadow" id="Orderdetail_addOrderdetail">Orderdetail</span>
+							</a>-->
+
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+		<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="orderdetail_main_div">
+			<div id="list_orderdetail_div" style="padding:10px;">
+					
+				<!-- orderdetail_grid start-->
+										<div id="orderdetail_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- orderdetail_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="orderdetail_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="orderdetail_pagination_totalRecord"></span> <span  id="orderdetail_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="orderdetail_pagination_pre"  onclick="pagPrev('orderdetail_pagination','Orderdetail','getOrderdetailDataPagination','orderdetail_page_llimit','orderdetail_page_ulimit','orderdetailpagenovalue','orderdetail',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="orderdetail_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="orderdetailpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="orderdetailpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="orderdetail_pagination_next"  onclick="pagNext('orderdetail_pagination','Orderdetail','getOrderdetailDataPagination','orderdetail_page_llimit','orderdetail_page_ulimit','orderdetailpagenovalue','orderdetail',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setOrderdetailPaginationValue(); return false;" id="orderdetail_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="orderdetail_page_llimit" value="">
+								<input type="hidden" id="orderdetail_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_orderdetail_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Orderdetailcreateformheader">
+								Add Orderdetail
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_orderdetail_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Product <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="product.productCode" id="product.productName" value="product.productCode" class="validate[required]" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Order Line Number <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="orderLineNumber" id="orderLineNumber" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[5]   ]"   />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Order Number <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="orders.orderNumber" id="orders.orderNumber" value="orders.orderNumber" class="validate[required]" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+															</div>
+									       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Price Each <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="priceEach" id="priceEach" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Quantity Ordered <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="quantityOrdered" id="quantityOrdered" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[10]   ]"   />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																		</div>
+								<!-- add div many to one button and layout -->				
+																																																																																				
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_orderdetail_btn" type="button" onclick="create_orderdetail('add_orderdetail_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Orderdetail_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Orderdetail_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+		
+				
+								
+		
+				
+
+<div id="edit_orderdetail_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Orderdetaileditformheader">
+								Edit Orderdetail
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_orderdetail_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="id" id="id">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Product <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="product.productCode" id="product.productName" value="product.productCode"  class="validate[required]  inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Order Line Number <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="orderLineNumber" id="orderLineNumber" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[5]   ]"   />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Order Number <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="orders.orderNumber" id="orders.orderNumber" value="orders.orderNumber"  class="validate[required]  inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										</div>
+										 
+													  								                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Price Each <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="priceEach" id="priceEach" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Quantity Ordered <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="quantityOrdered" id="quantityOrdered" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[10]   ]"   />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																		</div>
+								
+				
+								
+				
+				
+				
+				
+				
+				
+																																																																																				
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_orderdetail_btn" type="button" onclick="edit_orderdetail('edit_orderdetail_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Orderdetail_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('orderdetail')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Orderdetail_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_orderdetail_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_orderdetail"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Orderdetail_formEdit"  onclick="ViewEditorderdetail()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="orderdetail_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Product </div>
+
+					<div class="profile-info-value">
+												<span  id="product.productName"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Order Line Number  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="orderLineNumber" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Order Number </div>
+
+					<div class="profile-info-value">
+												<span  id="orders.orderNumber"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Price Each  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="priceEach" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Quantity Ordered  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="quantityOrdered" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Orderdetail_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Orderdetail_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Orderdetail_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="orderdetail_history_tab" class="tab-pane active">
+														<div class="orderdetail_history_slimscroll_div">
+															<div id="orderdetail_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+							
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="orderdetailfilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_orderdetail_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#orderdetailfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="orderdetailfilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																				
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Product</span>
+                  
+                          		
+																																																															
+																		<select multiple name="product.productCode" id="product.productName" value="product.productCode" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Order Line Number</span>
+                  
+                          		
+																														<select name="orderLineNumber" id="orderLineNumber" class="inputDown integersearch">
+									<option value>All</option>
+									<option value="=le=-1">less than 0</option>
+									<option value="==0">equal to 0</option>
+									<option value="=ge=1">greater than 0</option>
+									<option value="=le=100;orderLineNumber=ge=0">between 0-100</option>
+								</select>        
+                              <!--<input type="integer" class="integers text-field" name="orderLineNumber" id="orderLineNumber"/>-->
+																																														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Order Number</span>
+                  
+                          		
+																																																															
+																		<select multiple name="orders.orderNumber" id="orders.orderNumber" value="orders.orderNumber" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Price Each</span>
+                  
+                          		
+																						
+                                               
+                              <input type="text" class="integersallow text-field" name="priceEach" id="priceEach" />
+																																																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Quantity Ordered</span>
+                  
+                          		
+																														<select name="quantityOrdered" id="quantityOrdered" class="inputDown integersearch">
+									<option value>All</option>
+									<option value="=le=-1">less than 0</option>
+									<option value="==0">equal to 0</option>
+									<option value="=ge=1">greater than 0</option>
+									<option value="=le=100;quantityOrdered=ge=0">between 0-100</option>
+								</select>        
+                              <!--<input type="integer" class="integers text-field" name="quantityOrdered" id="quantityOrdered"/>-->
+																																														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Creator</span>
+                  
+                          		
+																																																															
+																		<select multiple name="creator.userid" id="creator.username" value="creator.userid" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+										</div>
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="orderdetailSortBy" class="inputDown sortbydropdown" onchange="orderdetailSortByHighLightSelectedHeader('orderdetail')">
+									 
+									 																										
+																														<option value='product.productCode'>Product</option>
+																																																																		
+																				<option value='orderLineNumber' >Order Line Number</option>  
+																																																								
+																														<option value='orders.orderNumber'>Order Number</option>
+																																																																																									
+																				<option value='priceEach' >Price Each</option>  
+																																																								
+																				<option value='quantityOrdered' >Quantity Ordered</option>  
+																																																																																																						
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('orderdetail',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_orderdetail"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_orderdetail"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchOrderdetailData(fiql_orderdetail_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_orderdetail_div"></div>
+		<div id="error_500_orderdetail_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="orderdetail_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#orderdetail_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteOrderdetailEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="orderdetail_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Orderdetail RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteOrderdetailEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setOrderdetailPaginationValue() {
+		$('#orderdetailpagenovalue').html(1); 
+		$('#fiql_orderdetail_form')[0].reset();
+		pageulimit= eval($('#orderdetail_pagination_value').val()-1);
+		pagellimit=0;
+		$("#orderdetail_pagination_next").css("display", "");
+		$("#orderdetail_pagination_pre").css("display", "");
+		$('#orderdetail_pagination #orderdetail_page_llimit').val(pagellimit);
+		$('#orderdetail_pagination #orderdetail_page_ulimit').val(pageulimit);
+		$("#orderdetail_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_orderdetail_form #sort_orderdetail').val();
+        var ordertypecall= $('#fiql_orderdetail_form #sort_type_value_orderdetail').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlOrderdetailParam="";
+				sendGETRequest(context+"/rest/Orderdetail/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getOrderdetailDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('orderdetail',$("#fiql_orderdetail_form #sort_orderdetail").val());
+		},1000);
+	}
+
+	$('#orderdetail_main_div #error_404_orderdetail_div').load(context+"/pages/error-404.html");
+	$('#orderdetail_main_div #error_500_orderdetail_div').load(context+"/pages/error-500.html");
+	
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlOrderdetailParam ="";
+var Orderdetailflag=0;
+
+$('#orderdetail_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#orderdetail_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#orderdetail_grid').contextmenu({
+	target: '#orderdetail_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#orderdetail_pagination #orderdetail_page_llimit').val(pagellimit);
+$('#orderdetail_pagination #orderdetail_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Orderdetail_home").html(index_home);
+
+if(hasValue(orderdetail_breadcrumb))
+	$("#Orderdetail_page_breadcrumbs").html(orderdetail_breadcrumb);
+
+if(hasValue(Orderdetail_thead_sortby))
+			$("#orderdetailfilterTab #sortBy_span").html(Orderdetail_thead_sortby);
+if(hasValue(Orderdetail_thead_modifiedTime))
+			$("#orderdetailfilterTab #modifiedTime_span").html(Orderdetail_thead_modifiedTime);
+if(hasValue(Orderdetail_thead_createdTime))
+			$("#orderdetailfilterTab #createdTime_span").html(Orderdetail_thead_createdTime);
+if(hasValue(Orderdetail_viewdetail))
+			$("#details_orderdetail_div #view_Orderdetail").html(Orderdetail_viewdetail);
+if(hasValue(Orderdetail_thead_lastModifier))
+			$("#details_orderdetail_div #Orderdetail_detail_modifier").html(Orderdetail_thead_lastModifier);
+if(hasValue(Orderdetail_thead_creator))
+			$("#details_orderdetail_div #Orderdetail_detail_creator").html(Orderdetail_thead_creator);
+if(hasValue(Orderdetail_formCancel))
+			$("#Orderdetail_formCancel").html(Orderdetail_formCancel);
+if(hasValue(Orderdetail_formUpdate))
+			$("#Orderdetail_formUpdate").html(Orderdetail_formUpdate);
+if(hasValue(Orderdetail_formReset))
+			$("#Orderdetail_formReset").html(Orderdetail_formReset);
+if(hasValue(Orderdetail_formCreate))
+			$("#Orderdetail_formCreate").html(Orderdetail_formCreate);
+
+if(hasValue(Orderdetail_addOrderdetail))
+			$("#Orderdetail_addOrderdetail").html(Orderdetail_addOrderdetail);
+if(hasValue(Orderdetail_head_history))
+			$("#Orderdetail_head_history").html(Orderdetail_head_history);
+if(hasValue(Orderdetail_head_Activities))
+			$("#Orderdetail_head_Activities").html(Orderdetail_head_Activities);
+if(hasValue(Orderdetail_task_tab))
+			$("#orderdetail_task_tab_link").html(Orderdetail_task_tab);
+if(hasValue(Orderdetail_comment_tab))
+			$("#orderdetail_comment_tab_link").html(Orderdetail_comment_tab);
+if(hasValue(Orderdetail_comment_tab))
+			$("#orderdetail_comment_modal #myModalLabel").html(Orderdetail_comment_tab);
+
+if(hasValue(Orderdetail_formEdit))
+			$("#Orderdetail_formEdit").html("<i class='icon-edit bigger-110'></i>"+Orderdetail_formEdit);
+
+if(hasValue(Orderdetailcreateformheader))
+			$("#Orderdetailcreateformheader").html(Orderdetailcreateformheader);
+if(hasValue(Orderdetaileditformheader))
+			$("#Orderdetaileditformheader").html(Orderdetaileditformheader);
+if(hasValue(pagination_page_txt))
+			$("#orderdetail_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Orderdetail_thead_product_Lbl").html(Orderdetail_thead_product);
+            $("#Orderdetail_thead_orderLineNumber_Lbl").html(Orderdetail_thead_orderLineNumber);
+            $("#Orderdetail_thead_orders_Lbl").html(Orderdetail_thead_orders);
+              $("#Orderdetail_thead_priceEach_Lbl").html(Orderdetail_thead_priceEach);
+            $("#Orderdetail_thead_quantityOrdered_Lbl").html(Orderdetail_thead_quantityOrdered);
+            $("#Orderdetail_thead_creator_Lbl").html(Orderdetail_thead_creator);
+            $("#Orderdetail_thead_lastModifier_Lbl").html(Orderdetail_thead_lastModifier);
+            $("#Orderdetail_thead_modifiedTime_Lbl").html(Orderdetail_thead_modifiedTime);
+            $("#Orderdetail_thead_createdTime_Lbl").html(Orderdetail_thead_createdTime);
+  
+  	$("#Orderdetail_thead_product_Flt").html(Orderdetail_thead_product);
+    	$("#Orderdetail_thead_orderLineNumber_Flt").html(Orderdetail_thead_orderLineNumber);
+    	$("#Orderdetail_thead_orders_Flt").html(Orderdetail_thead_orders);
+      	$("#Orderdetail_thead_priceEach_Flt").html(Orderdetail_thead_priceEach);
+    	$("#Orderdetail_thead_quantityOrdered_Flt").html(Orderdetail_thead_quantityOrdered);
+    	$("#Orderdetail_thead_creator_Flt").html(Orderdetail_thead_creator);
+    	$("#Orderdetail_thead_lastModifier_Flt").html(Orderdetail_thead_lastModifier);
+    	$("#Orderdetail_thead_modifiedTime_Flt").html(Orderdetail_thead_modifiedTime);
+    	$("#Orderdetail_thead_createdTime_Flt").html(Orderdetail_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Orderdetail_permission){
+		$("#orderdetail_breadcrumbs #plus").css("display","");	
+		$("#orderdetail_breadcrumbs #plus_bar").css("display","");
+		$("#orderdetail_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#orderdetail_breadcrumbs #orderdetail_Quick_UL").addClass("pull-right");
+	$("#orderdetail_breadcrumbs #plus").css("display","none");
+	$("#orderdetail_breadcrumbs #plus_bar").css("display","none");
+	$("#orderdetail_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function orderdetailSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#orderdetailSortBy').val());
+}
+
+             var orderdetail_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(orderdetail_richtextfields))  
+					{
+					if(create_Orderdetail_permission){
+					$("#orderdetail_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Orderdetail_permission){
+					$("#orderdetail_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#orderdetailquickFilter').blur(function() {
+					$('#orderdetailquickFilterDiv').css('display','none');
+					$('#orderdetailquickFilter').val('');	
+					});	
+					
+					$("#orderdetailfilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

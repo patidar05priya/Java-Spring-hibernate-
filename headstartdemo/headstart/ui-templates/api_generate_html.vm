@@ -1,0 +1,116 @@
+
+<script src="../js/generated/${methods.name}${serviceName}Api.js"></script>
+	
+	<div class="newbreadcumb">
+		<div class="breadcrumb-button"> <!--blue-->
+			<i class="icon-certificate bredCrumICon"></i>
+			<span class="breadcrumb-label" >${methodName}</span>			
+		</div>
+		<!--<div class="breadcrumb-button">
+			<span class="breadcrumb-label">&nbsp;</span>
+			<span class="breadcrumb-arrow"><span></span></span>
+		</div>-->
+	</div>
+
+
+
+<div class="page-content row-fluid" align="center">
+	<div class="wsdl_block">
+		<form class="form-horizontal formular" id="${methods.name}${serviceName}_form" align="center">
+		#foreach($methodVariable in $methods.input)		
+		#if($methodVariable.type.equalsIgnoreCase("String")||$methodVariable.type.equalsIgnoreCase("Int")||$methodVariable.type.equalsIgnoreCase("Double")||$methodVariable.type.equalsIgnoreCase("Long"))
+			<label class="setting_lb_txt" for="$methodVariable.name" id="">${methodVariable.name} :</label>
+			<div class="setting_input_field2">
+				 <input type="text" id="$methodVariable.name" class="validate[required] alphanumericallowspecial input_txt">
+			</div>
+		#else #if($methodVariable.isenum)
+			<label class="setting_lb_txt" for="$methodVariable.name" id="">${methodVariable.name} :</label>
+			<div class="setting_input_field2">
+				<select name="$methodVariable.name" id="$methodVariable.name" value="$methodVariable.name" class="validate[required]">
+					<option value="">-Please select-</option>
+					#foreach($value in $methodVariable.enumList)
+						<option value="$value">$value</option>
+					#end
+				</select>
+			</div>
+		#else
+		
+			#foreach($entityInput in $methods.entityProps.get($methodVariable.type))			
+			$entityInput.name
+			#end
+			
+			#foreach($entityInput in $methods.entityProps.entrySet())
+			#foreach($entityname in $entityInput.value)
+			#if($entityname.classPath)
+
+			<label class="setting_lb_txt" for="$entityname.classPath" id="">${entityname.name} :</label>
+			<div class="setting_input_field2">
+				 <input type="text" id="$entityname.classPath" class="validate[required] alphanumericallowspecial input_txt">
+			</div>
+			
+			#end
+			#end
+			
+			#end
+			
+			#end
+		#end	
+			#end
+		</form>
+
+		<div class="setting_lb_txt">
+			<button class="btn btn-medium btn-info" type="button" onclick="${serviceName}${methodName}('${methods.name}${serviceName}_form')" >
+			<!--<i class="icon-save bigger-110"></i>-->
+			<span class="bigger-110 no-text-shadow" id="${methods.name}Button">${methods.name}</span>
+			</button>
+			<button class="btn btn-medium btn-info" onclick="resetTestEditor('${methods.name}${serviceName}_form')"  type="reset"  >
+			<!--<i class="icon-save bigger-110"></i>-->
+			<span class="bigger-110 no-text-shadow" id="reset">Reset</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="span4"></div>
+
+		<div class="profile-user-info profile-user-info-striped span12" style="margin-left: 0px;display:none;" id="details_${serviceName}${methodName}_div">
+				<div class="page-header-custom">
+							<h1 class="newheader">
+								View ${methodName}
+							</h1>
+				</div>
+				#if($output.equals("ArrayOf"))
+				<div id="${methodName}"></div>
+				#end
+			#foreach($viewField in $outputJson)							 	 						
+				<div class="profile-info-row">
+					<div class="profile-info-name">$viewField.name</div>
+						<div class="profile-info-value">
+							<span id="$viewField.name"></span>
+						</div>
+				</div> 
+			#end	
+				
+			</div>
+	
+	#if($methods.input.size()>0)
+	<div class="span11" id="response_${serviceName}${methodName}_div" style="display:none;">
+		<div class="page-header">
+			<h1>
+				Response
+			</h1>
+		</div>
+		<div class="col-xs-12">
+			<blockquote class="pull-left">
+			<p id="response_${serviceName}${methodName}_text"></p>
+			<small>
+			</small>
+			</blockquote>
+		</div>
+	</div>
+	#end	
+</div>
+<script>
+$(document).ready(function() {
+	$("#${methods.name}${serviceName}_form").validationEngine();
+});
+</script>

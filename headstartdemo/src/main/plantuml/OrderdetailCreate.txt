@@ -1,0 +1,28 @@
+@startuml
+title Create Orderdetail Scenario
+participant User
+User -> CXFServlet: POST, Orderdetail
+activate CXFServlet
+CXFServlet -> Orderdetail: << create >>
+activate Orderdetail
+Orderdetail -> CXFServlet: << instance >>
+deactivate Orderdetail
+CXFServlet -> OrderdetailRestImpl: create(:orderdetail)
+activate OrderdetailRestImpl
+OrderdetailRestImpl -> OrderdetailServiceDao: create(:orderdetail)
+activate OrderdetailServiceDao
+OrderdetailServiceDao -> OrderdetailJPADao: create(:orderdetail)
+activate OrderdetailJPADao
+OrderdetailJPADao -> EntityManager: save(:orderdetail)
+activate EntityManager
+EntityManager -> OrderdetailJPADao: << persisted orderdetail >>
+deactivate EntityManager
+OrderdetailJPADao -> OrderdetailServiceDao: << persisted orderdetail >>
+deactivate OrderdetailJPADao
+OrderdetailServiceDao -> OrderdetailRestImpl: << persisted orderdetail >>
+deactivate OrderdetailServiceDao
+OrderdetailRestImpl -> CXFServlet: << persisted orderdetail >>
+deactivate OrderdetailRestImpl
+CXFServlet -> User: marshalled orderdetail XML
+deactivate CXFServlet
+@enduml

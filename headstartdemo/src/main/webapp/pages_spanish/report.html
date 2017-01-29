@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <script src="../js/generated/reportSelected.js"></script>
+</head>
+
+<body>
+
+    <div class="newbreadcumb">
+        <div class="breadcrumb-button">
+            <i class="icon-edit bredCrumICon"></i>
+            <span class="breadcrumb-label" id="page_breadcrumbs"></span>
+        </div>
+
+        <div class="row AddEditBOX"><!--/*page-content row-fluid*/-->
+                <div class="span3">
+                    <div id="AllReportsTable" style="/*margin-top: 48px; height: 480px;*/overflow: scroll;overflow-x: auto;"></div>
+                </div>
+
+                <div class="span8">
+                    <!--<div class="span6 label label-large label-info arrowed-in arrowed-right" style="margin-left: -32%;margin-top: 15px;width: 28%;">
+					   <span id="report_SpanHeading"></span>
+					</div>-->
+
+					<div class="span8 widget-container-span ui-sortable" style="/*width: 834px; margin-top: 46px;*/">
+                        <div class="widget-box"><!--reportBox-->
+                            <div class="widget-header-custom" style="/*margin-right: 30px;*/"> <!--widget-header widget-header-flat-->
+                                <h4 class="bolder" id="report_ViewH4"></h4>
+								
+								<a data-toggle="dropdown" href="javascript:void(0)" class="dropdown-toggle" style="float: right; margin-top: -3%;">
+									<i class="icon-custom-download bigger-150"></i>									
+								</a>
+								<ul class="user-menu pull-right dropdown-menu dropdown-light dropdown-caret dropdown-closer light-grey" style="height: auto /*105px*/;">
+									<li>
+										<a href="#" onclick="downloadasPdfOrExcel('PDF');"><img src="../images/pdf-32.png"/>Download as PDF</a>
+									</li>
+									<li>
+										<a href="#" onclick="downloadasPdfOrExcel('EXCEL');"><img src="../images/excel-32.png"/>Download as Excel</a>
+									</li>
+									<li>
+										<a href="#" onclick="downloadasPdfOrExcel('CSV');"><img src="../images/csv.png"/>Download as CSV</a>
+									</li>
+								</ul>	
+                            </div>
+
+                            <div class="space"></div>
+
+                            <div class="widget-body" id="MainDiv1_Body" style="/*margin: -1px;*/">
+                                <div id="report_view" class="reportView"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
+        <!-- End of page-content Div-->
+        <script>
+            $(document).ready(function() {
+                if (hasValue(ReportMetaData)) {
+                    reportTitle = ReportMetaData[0].title;
+                    reportUrl = ReportMetaData[0].url;
+                    sendPOSTRequest(reportUrl + "&outputType=HTML", "", "viewReportCallback", "")
+                }
+            });
+            /*if(hasValue(reports_span_heading))
+            	$("#report_SpanHeading").html(reports_span_heading);*/
+            if (hasValue(reports_h4_view))
+                // $("#report_ViewH4").html('<i class="icon-star orange"></i>' + reports_h4_view);
+                $("#report_ViewH4").html(reports_h4_view);
+            if (hasValue(index_home))
+                $("#home").html(index_home);
+            if (hasValue(report_breadcrumb))
+                $("#page_breadcrumbs").html(report_breadcrumb);
+
+            $('#AllReportsTable').slimscroll({
+                color: '#5F6173',
+                height: '515px'
+            });
+            $('#report_view').slimscroll({
+                color: '#5F6173',
+                height: '435px'
+            });
+        </script>
+        <script src="../js/static/Report.js"></script>
+</body>
+</html>

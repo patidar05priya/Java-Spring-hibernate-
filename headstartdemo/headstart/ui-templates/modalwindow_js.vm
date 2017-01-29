@@ -1,0 +1,116 @@
+
+
+function refreshAllFk${entityName}List(id){
+	
+	#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+			
+				sendGETRequest(context+"/rest/$includeFile.foreignKeyClass","${tableName}_getFK_$includeFile.name",id);
+			#end
+		#end
+	
+	}
+
+
+#foreach ($includeFile in $bootsStrapList)	
+
+#if(!$includeFile.name.contains("domain"))
+			#if($includeFile.name.equalsIgnoreCase("lastModifier") || $includeFile.name.equalsIgnoreCase("creator"))
+			function ${tableName}_getFK_${includeFile.name}(XMLHttpRequest, data, rpcRequest)
+{
+
+		if(!checkException(XMLHttpRequest.responseText))
+			{
+				if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{		
+	if(XMLHttpRequest.status==200)
+			{
+			 //  var  valueMap = getHdrCtrlDataWithValue(data,"$includeFile.dataName","$includeFile.viewerName");
+            
+               // var newVM = eval("["+ valueMap +"]");
+                //${includeFile.name}_foriegn_${tableName} = newVM[0]; 
+			
+				jQuery.each(data, function(i,key){  
+jQuery('#fiql_${tableName}_form #$includeFile.name').append(jQuery('<option>',{
+					
+						value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+					}));
+					
+				jQuery('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+		
+		});
+						
+				
+			}
+	else{
+			alert("Error in retriving entities");
+		}		
+	 }
+	}
+	}
+
+			#end
+			#if($includeFile.isForeignKey && ( !$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.equalsIgnoreCase("creator")))
+			function ${tableName}_getFK_${includeFile.name}(XMLHttpRequest, data, rpcRequest,param)
+{
+
+		if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{		
+	if(XMLHttpRequest.status==200)
+			{
+			// var  valueMap = getHdrCtrlDataWithValue(data,"$includeFile.dataName","$includeFile.viewerName");
+            
+              //  var newVM = eval("["+ valueMap +"]");
+                //${includeFile.name}_foriegn_${tableName} = newVM[0];
+				jQuery.each(data, function(i,key){  
+
+					
+				jQuery('#'+param+' #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+				jQuery('#edit_${tableName}_form1 #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+		
+			jQuery('#edit_${tableName}_form_inline #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+		
+		});
+							
+				
+			}
+	else{
+			alert("Error in retriving entities");
+		}		
+	
+	}
+	}
+	}
+
+			#end
+	#end		
+		#end
+
+
+
+
+
+
+
+
+
+

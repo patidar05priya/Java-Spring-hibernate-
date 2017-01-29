@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudDataSource" type="DataSource">
+  <attributes>
+    <attr name="transformRequest">function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				var params ;
+			
+				if (OrdersSearchForm.isVisible())
+					params = getFIQLURL(OrdersSearchForm);
+				else
+					params="?_s=''";
+					
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+params+"&amp;"+OrdersGridPager.upperLimitToken+"="+OrdersGridPager.currentUpperLimit+"&amp;"+OrdersGridPager.lowerLimitToken+"="+OrdersGridPager.currentLowerLimit;
+
+				if(operation=='remove')
+					dsRequest.actionURL = this.removeDataURL+"/"+dsRequest.data.orderNumber;
+				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}</attr>
+    <attr name="transformRequest">function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+				if(dsResponse.httpResponseCode==403)
+				{
+				alert('Access is denied');
+				}
+				var excpmesg = dsResponse.excpmesg;
+			    if(hasValue(data.excpmesg))
+			    alert(data.excpmesg)
+			   
+			    var errors = dsResponse.errors;
+			    if(hasValue(data.errors))
+				{
+				alert(data.errors[0].name+" "+data.errors[0].value.message);
+			    }
+				
+				if(operation =='remove')
+				{
+				OrdersWorkVLayout.setMembers([OrdersListGrid]);
+				OrdersListGrid.fetchData();
+				if (OrdersDetailViewer.isVisible()) {
+				OrdersDetailViewer.setData();
+				}
+				}else if(resStatus == 0 &amp;&amp; operation =='add'){
+                resetOrders = true;
+				OrdersAddForm.clearValues();
+				OrdersWorkVLayout.setMembers([OrdersListGrid]);
+				OrdersListGrid.setData([]);
+				OrdersListGrid.fetchData();
+				resetOrders = false;
+				
+				}else if(resStatus == 0 &amp;&amp; operation =='update'){
+				OrdersWorkVLayout.setMembers([OrdersListGrid]);
+				OrdersListGrid.setData([]);
+				OrdersListGrid.fetchData();
+				
+				if (OrdersDetailViewer.isVisible())
+				{
+				OrdersDetailViewer.setData(data);
+				}
+				else{
+				OrdersEditForm.editNewRecord(data);
+				}
+
+				} else if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				if(OrdersSearchResultsGrid.isVisible()){
+					OrdersSearchResultsGrid.setData([]);
+					OrdersSearchResultsGrid.setData(data);
+					}	
+				else{
+					OrdersListGrid.setData([]);	
+					OrdersListGrid.setData(data);	
+					}
+				} else if(resStatus == -1){
+					isc.say("No session available.  Please login.");
+					logoutRequest()
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">comments</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">customer</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderDate</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderStatus</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">requiredDate</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">shippedDate</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">totalCost</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

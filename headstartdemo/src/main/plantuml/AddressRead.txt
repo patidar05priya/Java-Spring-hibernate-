@@ -1,0 +1,28 @@
+@startuml
+title Find Address Scenario
+participant User
+User -> CXFServlet: GET, Address Search Critera XML
+activate CXFServlet
+CXFServlet -> Address: << create >>
+activate Address
+Address -> CXFServlet: << instance >>
+deactivate Address
+CXFServlet -> AddressRestImpl: getAll(:address)
+activate AddressRestImpl
+AddressRestImpl -> AddressServiceDao: getAll(:address)
+activate AddressServiceDao
+AddressServiceDao -> AddressJPADao: getAll(:address)
+activate AddressJPADao
+AddressJPADao -> EntityManager: getResultList(:address)
+activate EntityManager
+EntityManager -> AddressJPADao: List<Address>
+deactivate EntityManager
+AddressJPADao -> AddressServiceDao: List<Address>
+deactivate AddressJPADao
+AddressServiceDao -> AddressRestImpl: List<Address>
+deactivate AddressServiceDao
+AddressRestImpl -> CXFServlet: List<Address>
+deactivate AddressRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

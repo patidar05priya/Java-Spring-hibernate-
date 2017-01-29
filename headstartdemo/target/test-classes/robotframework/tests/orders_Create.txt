@@ -1,0 +1,47 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to orders Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          orders_resource.txt
+
+*** Test Cases ***
+Valid orders Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for orders_tab 
+    Open orders_Tab
+    Open orders_CreatePage
+        Select customer
+        Input orders_orderStatus    TestString
+	Input orders_totalCost    111						   
+    Click addcomments
+    Input orders_comments    TestData
+    Create orders_btn
+    Open orders_Tab
+Valid orders Update
+    Wait for Update button
+    Open orders_UpdatePage
+    Input orders_orderStatus_update    TestString
+	Input orders_totalCost_update    11.11						   
+    Click editcomments
+    Input orders_comments_update     TestData
+    Update orders_btn
+    Welcome Page Should Be Open
+    
+valid orders Search
+    Click filter button
+    Search orders_btn
+	Welcome Page Should Be Open
+
+valid orders Delete    
+    Wait for delete button
+    Delete orders_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

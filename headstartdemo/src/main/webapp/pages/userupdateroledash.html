@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <script src="../js/static/UserUpdateRoleDash.js"></script>
+    <script>
+        $(document).ready(function() {
+            showRegularLoading();
+            sendGETRequest(context + "/rest/Roles/", "getRolesDataUserDb", "");
+            sendGETRequest(context + "/rest/Users/rolesbyid/" + useridDb, "getUsersRoleDataByIdDb", "");
+        });
+    </script>
+</head>
+
+<body>
+
+    <div>
+
+        <div>
+            <div id="AllRolesTableUserDb" style="overflow-x: hidden;"></div>
+        </div>
+
+        <br>
+
+        <div class="clearfix pull-right">
+            <button class="btn btn-small btn-info" data-toggle="tooltip" title="update" data-placement="top" data-animation="true" onclick="update_rolesDb()">Update</button>
+            <button type="button" class="btn btn-small btn-info " data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

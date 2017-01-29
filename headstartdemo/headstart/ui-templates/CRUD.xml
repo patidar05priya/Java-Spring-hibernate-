@@ -1,0 +1,682 @@
+<!--Id and the component that will be genrated -->
+<!--Rest Data Source :classname + "DataSource" -->
+<!--Toolstrip and Final hlayout :classname + "VLayout" -->
+<!--Section stack section :classname + "SectionStackSection" -->
+<!--Final Section Stack :classname + "SectionStack" -->
+<!--Working Layout :classname + "WorkVLayout" -->
+<!--Button tool strip :classname + "ButtonToolStrip" -->
+<!--Detail list grid :classname + "ListGrid" -->
+<!--Detail Viewer :classname + "DetailViewer" -->
+<!--Grid button :classname + "GridButton" -->
+<!--Add button :classname + "AddButton" -->
+<!--Edit button :classname + "EditButton" -->
+<!--Detail button :classname + "DetailsButton" -->
+<!--Search button :classname + "SearchButton" -->
+<!--Search Layout :classname + "SearchVLayout" -->
+<!--Add form :classname + "AddForm" -->
+<!--Edit form :classname + "EditForm" -->
+<!--Search form :classname + "SearchForm" -->
+<!--Search List grid :classname + "SearchResultsGrid" -->
+<!--Grid pager :classname + "GridPager" -->
+
+<ComponentRepository>
+
+	<!--
+		THIS DEFINES DATASOURCE CORRESPONDING TO EACH CLASS, WILL BE USED BY
+		CRUD COMPNENTS
+	-->
+	<Component name="CrudDataSource" type="DataSource">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}DataSource" />
+			<param name="dataFormat" value="json" />
+			<param name="fetchUrl"
+				valueprovider="textcontent">context+"/rest/${class_name}/search"</param>
+			<param name="addUrl"
+				valueprovider="textcontent">context+"/rest/${class_name}/create" </param>
+			<param name="removeUrl"
+				valueprovider="textcontent">context+"/rest/${class_name}/delete"</param>
+			<param name="updateUrl"
+				valueprovider="textcontent">context+"/rest/${class_name}/update"</param>
+			<param name="operationBindings" valueprovider="file"
+				file="operationBindings.agt" />
+			<param name="transformRequest" valueprovider="textcontent">
+				function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				var params ;
+			
+				if (${class_name}SearchForm.isVisible())
+					params = getFIQLURL(${class_name}SearchForm);
+				else
+					params="?_s=''";
+					
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+params+"&amp;"+${class_name}GridPager.upperLimitToken+"="+${class_name}GridPager.currentUpperLimit+"&amp;"+${class_name}GridPager.lowerLimitToken+"="+${class_name}GridPager.currentLowerLimit;
+
+				if(operation=='remove')
+					dsRequest.actionURL = this.removeDataURL+"/"+dsRequest.data.${id_fieldname};
+				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}
+				</param>
+			<param name="transformResponse" valueprovider="textcontent">
+				function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+				if(dsResponse.httpResponseCode==403)
+				{
+				alert('Access is denied');
+				}
+				var excpmesg = dsResponse.excpmesg;
+			    if(hasValue(data.excpmesg))
+			    alert(data.excpmesg)
+			   
+			    var errors = dsResponse.errors;
+			    if(hasValue(data.errors))
+				{
+				alert(data.errors[0].name+" "+data.errors[0].value.message);
+			    }
+				
+				if(operation =='remove')
+				{
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.fetchData();
+				if (${class_name}DetailViewer.isVisible()) {
+				${class_name}DetailViewer.setData();
+				}
+				}else if(resStatus == 0 &amp;&amp; operation =='add'){
+                reset${class_name} = true;
+				${class_name}AddForm.clearValues();
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.setData([]);
+				${class_name}ListGrid.fetchData();
+				reset${class_name} = false;
+				
+				}else if(resStatus == 0 &amp;&amp; operation =='update'){
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.setData([]);
+				${class_name}ListGrid.fetchData();
+				
+				if (${class_name}DetailViewer.isVisible())
+				{
+				${class_name}DetailViewer.setData(data);
+				}
+				else{
+				${class_name}EditForm.editNewRecord(data);
+				}
+
+				} else if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				if(${class_name}SearchResultsGrid.isVisible()){
+					${class_name}SearchResultsGrid.setData([]);
+					${class_name}SearchResultsGrid.setData(data);
+					}	
+				else{
+					${class_name}ListGrid.setData([]);	
+					${class_name}ListGrid.setData(data);	
+					}
+				} else if(resStatus == -1){
+					isc.say("No session available.  Please login.");
+					logoutRequest()
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}				 
+</param>
+			<param name="recordXPath" value="/" />
+			<param name="xml_file_name" value="../${class_name}DataSource.ds.xml" />
+			<param name="meta_file" value="${class_name}DataSource.ds.xml" />
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="DataSourceFields" />
+		</for-each>
+	</Component>
+
+	<!-- END DATASOURCE FIELDS -->
+	
+	<Component name="CrudHistoryDataSource" type="DataSource">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}HistoryDataSource" />
+			<param name="dataFormat" value="json" />
+			<param name="fetchUrl"
+				valueprovider="textcontent">context+"/rest/${class_name}/auditSearch"</param>
+			<param name="transformRequest" valueprovider="textcontent">
+				function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				
+				
+				
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+"?id="+${class_name}ListGrid.getSelectedRecord().${id_fieldname};				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}
+				</param>
+			<param name="transformResponse" valueprovider="textcontent">
+				function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+
+			    if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				${class_name}HistoryLG.setData(data);
+				} 
+				else if(resStatus == -1){
+
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}				 
+</param>
+			<param name="recordXPath" value="/" />
+			<param name="xml_file_name" value="../${class_name}DataSource.ds.xml" />
+			<param name="meta_file" value="${class_name}DataSource.ds.xml" />
+		</init-params>
+		<for-once>
+			<Component name="changed_by" type="Field">
+				<init-params>
+					<param name="name" value="changed_by" />
+					
+				</init-params>
+			</Component>
+			<Component name="changed_on" type="Field">
+				<init-params>
+					<param name="name" value="changed_on" />
+					
+				</init-params>
+			</Component>
+			<Component name="changes" type="Field">
+				<init-params>
+					<param name="name" value="changes" />
+					
+				</init-params>
+			</Component>
+			
+		</for-once>
+	</Component>
+
+	<!-- END DATASOURCE FIELDS -->
+	<!-- Layout contain ToolStrip and Final Layout start -->
+	<Component name="CrudVLayout" type="HLayout">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}HLayout" />
+			<param name="meta_file" value="${class_name}HLayout.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudButtonToolStrip"/>		
+			<Component ref="CrudWorkVLayout"/>			
+		</for-once>
+	</Component>
+	<!-- Layout contain ToolStrip and Final Layout End -->
+
+	<!-- Section Stack Section Start -->
+	<Component name="CrudSectionStackSection" type="SectionStackSection">
+		<init-params>
+			<param name="displayName" value="${class_name}" />
+			<param name="canCollapse" value="false" />
+			<param name="id" value="${class_name}SectionStackSection" />
+			<param name="meta_file" value="${class_name}SectionStackSection.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudVLayout"/>	
+		</for-once>
+	</Component>
+	<!-- Section Stack Section End -->
+	
+	<!-- Section Stack Start -->
+	<Component name="CrudSectionStk" type="SectionStack">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}SectionStack" />
+			<param name="meta_file" value="${class_name}SectionStack.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudSectionStackSection"/>
+		</for-once>
+	</Component>
+	<!-- Section Stack End -->
+
+	<!-- Worklayout with default component detail list grid start -->
+	<Component name="CrudWorkVLayout" type="VLayout">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}WorkVLayout" />
+			<param name="membersMargin" value="0" />
+			<param name="leaveScrollbarGap" value="false" />
+			<param name="meta_file" value="${class_name}WorkVLayout.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="DetailsListGrid"/>		
+		</for-once>
+	</Component>
+	<!-- Worklayout with default component detail list grid start -->
+
+	<!-- Action button toolstrip created on left hand side start -->
+	<Component name="CrudButtonToolStrip" type="ToolStrip">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}ButtonToolStrip" />
+			<param name="membersMargin" value="10" />
+			<param name="layoutMargin" value="5" />
+			<param name="width" value="30"/>
+			<param name="vertical" value="true" />
+			<param name="meta_file" value="${class_name}ButtonToolStrip.xml"/>
+		</init-params>
+		<for-once>
+				<Component name="crudVariables" type="JSCode">
+     				 <init-params>
+					    <param name="jsCode" valueprovider="textcontent">
+var reset${class_name}=false;
+var ${class_name}SearchGridVisible = false;
+					    </param>
+					    <param name="id" value="crudVariables" />
+		        		</init-params>
+         			</Component>
+			<Component ref="EntityGridButton"/>
+			<Component ref="EntityAddButton"/>
+			<Component ref="EntityEditButton"/>
+			<Component ref="EntityDetailsButton"/>
+			<Component ref="EntitySearchButton"/>
+	
+		</for-once>
+	</Component>
+	<!-- Action button toolstrip created on left hand side start -->
+	
+		<!-- Detail list grid start -->
+	<Component name="DetailsListGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+			<param name="id" value="${class_name}ListGrid" />
+			<param name="xml_file_name" value="${class_name}ListGrid.xml"/>
+			<param name="meta_file" value="${class_name}ListGrid.xml"/>
+			<param name="initWidget" valueprovider="textcontent">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "${class_name}"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("${class_name}",record.${id_fieldname},"${id_fieldname}")}
+		}	
+			
+			if(delete${class_name}) 
+				this.canRemoveRecords = true;
+			}
+				</param>
+<param name="canRemoveRecords" value="true" />			
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ListGridFields" />
+		</for-each>
+	</Component>
+	<!-- Detail list grid end -->
+	
+		<!-- Detail Viewer  start -->
+	<Component name="DetailsViewer" type="DetailViewer">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}DetailViewer" />
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ViewerFields" />
+		</for-each>
+	</Component>
+	<Component name="HistoryResultsGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="dataSource" value="${class_name}HistoryDataSource" />
+			<param name="id" value="${class_name}HistoryLG" />
+			<param name="autoFetchData" value="false" />
+			<param name="canRemoveRecords" value="true" />
+			<param name="height" value="30%" />
+		</init-params>
+		<for-once>
+			<Component name="changed_by" type="Field">
+				<init-params>
+					<param name="name" value="changed_by" />
+					<param name="title" value="Changed by" />
+					<param name="width" value="15%" />
+				</init-params>
+			</Component>
+			<Component name="changed_on" type="Field">
+				<init-params>
+					<param name="name" value="changed_on" />
+					<param name="title" value="Changed on" />
+					<param name="width" value="15%" />
+				</init-params>
+			</Component>
+			<Component name="changes" type="Field">
+				<init-params>
+					<param name="name" value="changes" />
+					<param name="title" value="Changes" />
+					
+				</init-params>
+			</Component>
+			
+		</for-once>
+	</Component>
+	
+
+	<Component name="HistoryVLayout" type="VLayout">
+		<init-params>
+			<param name="id" value="${class_name}HistoryVL" />
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+		</init-params>
+       <for-once>
+			    <Component ref="DetailsViewer"/>
+			    	<Component ref="HistoryResultsGrid"/>
+    	</for-once>
+	</Component>
+
+		<!-- Detail Viewer  emd -->
+
+		<!-- Detail button  start -->	
+	<Component name="EntityGridButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}GridButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/grid.png"</param>
+			<param name="prompt" value="${class_name} Grid" />
+			<param name="action" valueprovider="textcontent">function(){
+		${class_name}SearchGridVisible=false;
+		${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+		${class_name}ListGrid.fetchData();
+}
+            </param>
+		</init-params>
+	</Component>
+	
+		<!-- Show List grid button  end -->	
+		<!-- Add button  start -->	
+	<Component name="EntityAddButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}AddButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/add.png"</param>
+			<param name="prompt" value="Add ${class_name}" />
+			<param name="action" valueprovider="textcontent">function(){
+			${class_name}AddForm.resetValues();
+		${class_name}WorkVLayout.setMembers([${class_name}AddForm]);
+}            </param>
+		</init-params>
+
+	</Component>
+		<!-- Add button  end -->	
+		<!-- Edit button  start -->	
+	<Component name="EntityEditButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}EditButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/edit.png"</param>
+			<param name="prompt" value="Edit ${class_name}" />
+			<param name="action" valueprovider="textcontent">function(){
+	var record = null;
+
+	if(${class_name}SearchGridVisible)
+		record = ${class_name}SearchResultsGrid.getSelectedRecord();
+	else
+		record = ${class_name}ListGrid.getSelectedRecord();
+
+		if (record == null) {
+			alert("No record selected");
+		} else {
+			if(hasValue(record.hasExpansionComponent))
+			{	delete record.expanded
+				delete record.hasExpansionComponent
+			}
+			${class_name}EditForm.editNewRecord(record);
+		
+			${class_name}WorkVLayout.setMembers([${class_name}EditForm]);
+		}
+}            </param>
+		</init-params>
+
+	</Component>
+		<!-- edit button  end -->	
+		<!-- Detail button  start -->	
+	<Component name="EntityDetailsButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}DetailsButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/detail.png"</param>
+			<param name="prompt" value="${class_name} Details" />
+			<param name="action" valueprovider="textcontent">function(){
+	if(${class_name}SearchGridVisible)
+		record = ${class_name}SearchResultsGrid.getSelectedRecord();
+	else
+		record =  ${class_name}ListGrid.getSelectedRecord();
+
+	if (record == null) {
+			alert("No record selected");
+		} else {
+					${class_name}DetailViewer.setData(record);
+			${class_name}HistoryLG.fetchData();
+			${class_name}WorkVLayout.setMembers([${class_name}HistoryVL]);
+				}
+}            </param>
+		</init-params>
+	</Component>
+		<!-- Detail button  end -->
+				<!-- Search button  start -->		
+	<Component name="EntitySearchButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}SearchButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/search.png"</param>
+			<param name="prompt" value="Search ${class_name}" />
+			<param name="action" valueprovider="textcontent">function(){
+	${class_name}SearchGridVisible=true;
+	${class_name}WorkVLayout.setMembers([${class_name}SearchVLayout]);
+}            </param>
+		</init-params>
+
+	</Component>
+		<!-- Detail button  end -->
+		
+		<!-- Search VLayout  start -->				
+	<Component name="CrudSearchVLayout" type="VLayout">
+		<init-params>
+			<param name="id" value="${class_name}SearchVLayout" />
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+		</init-params>
+       <for-once>
+		    <Component ref="SearchForm"/>
+    	    <Component ref="SearchResultsGrid"/>
+			<Component ref="SearchGridPager"/>
+		</for-once>
+	</Component>
+		<!-- Search VLayout  end -->				
+
+		<!-- ADD/cREATE Dynamic from start -->				
+	<Component name="AddForm" type="DynamicForm">
+		<init-params>
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}AddForm" />
+			<param name="numCols" value="4" />
+			<param name="xml_file_name" value="${class_name}CreateForm.xml"/>
+			<param name="app_flower_file" value="${class_name}CreateForm.xml"/>
+			<param name="meta_file" value="${class_name}CreateForm.xml"/>
+			
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="CreateFields" />
+		</for-each>
+		<for-once>
+			<Component name="AddButton" type="Field">
+				<init-params>
+					<param name="name" value="CreateButton" />
+					<param name="type" value="button" />
+					<param name="displayName" value="getMessage('button','createtab.section.button.create','Create')" />
+					<param name="startRow" value="true" />
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					    ${_AddForm_id}.addProperties({saveOperationType:"add"});
+						${_AddForm_id}.submit();
+						}
+						</param>
+				</init-params>
+			</Component>
+			<Component name="ResetButton" type="Field">
+				<init-params>
+					<param name="name" value="ResetButton" />
+					<param name="type" value="button" />
+					<param name="displayName" value="getMessage('button','createtab.section.button.reset','Reset')" />
+					<param name="startRow" value="true" />
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					    reset${class_name} = true;
+					    ${_AddForm_id}.clearValues();
+						reset${class_name} = false;
+						}
+						</param>
+				</init-params>
+			</Component>
+		</for-once>
+	</Component>
+		<!-- ADD/cREATE Dynamic from end -->				
+	
+	<!-- EDIT FORM USED TO EDIT EXITING ENTRY START-->
+	<Component name="EditForm" type="DynamicForm">
+		<init-params>
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="id" value="${class_name}EditForm" />
+			<param name="numCols" value="4" />
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="EditFields" />
+			
+		</for-each>
+		<for-once>
+			<Component name="EditButton" type="Field">
+				<init-params>
+					<param name="name" value="CreateButton" />
+					<param name="type" value="button" />requestedTheme
+					<param name="displayName" value="getMessage('button','createtab.tabset.edit.button.update','Update')" />
+					<param name="startRow" value="true" />
+					<param name="endRow" value="false" />
+					<param name="click" valueprovider="textcontent">function() {
+					
+						${_EditForm_id}.addProperties({saveOperationType:"update"});
+						${_EditForm_id}.submit();
+						}
+						</param>
+				</init-params>
+			</Component>
+			
+		</for-once>
+		
+	</Component>
+
+<!-- Search Form stART-->
+	<Component name="SearchForm" type="DynamicForm">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+			<param name="id" value="${class_name}SearchForm" />
+			<param name="numCols" value="6" />
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="SearchFields" />
+		</for-each>
+		<for-once>
+			<Component name="SearchButton" type="Field">
+				<init-params>
+					<param name="name" value="SearchButton" />
+					<param name="type" value="button" />
+					<param name="displayName" value="getMessage('button','searchtab.section.button.search','Search')" />
+					<param name="startRow" value="true" />
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					  
+					  if(${class_name}SearchResultsGrid.data &amp;&amp; ${class_name}SearchResultsGrid.data.invalidateCache)
+					    ${class_name}SearchResultsGrid.data.invalidateCache();
+					  var params = getFetchURL(${_SearchForm_id});
+	                  ${class_name}GridPager.setInitialLimit();
+					  ${class_name}SearchResultsGrid.fetchData(${_SearchForm_id}.getValuesAsCriteria(),null,{actionURL:${_CrudDataSource_id}.fetchDataURL+params});
+					}
+						</param>
+				</init-params>
+			</Component>
+
+			<Component name="ResetButton" type="Field">
+				<init-params>
+					<param name="name" value="ResetButton" />
+					<param name="type" value="button" />
+					<param name="displayName" value="getMessage('button','searchtab.section.button.reset','Reset')"/>
+					<param name="rowSpan" value="2"/>
+					<param name="enedRow" value="true" />
+					<param name="click" valueprovider="textcontent">function() {
+						${_SearchForm_id}.reset();
+						}
+						</param>
+				</init-params>
+			</Component>
+		</for-once>
+	</Component>
+<!-- Search Form end-->
+
+<!-- Search Grid stART-->
+	<Component name="SearchResultsGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="dataSource" value="${_CrudDataSource_id}" />
+			<param name="id" value="${class_name}SearchResultsGrid" />
+			<param name="autoFetchData" value="false" />
+			<param name="canRemoveRecords" value="true" />
+			<param name="height" value="40%" />
+					</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ListGridFields" />
+		</for-each>
+	</Component>
+<!-- Search Grid End-->
+
+<!--Page Grid Start-->
+	<Component name="SearchGridPager" type="GridPager">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js" />
+			<param name="gridDataSource" value="${_CrudDataSource_id}" />
+			<param name="id" value="${class_name}GridPager" />
+			<param name="height" value="2%" />
+			<param name="pageSize" value="50" />
+			<param name="grid" value="${class_name}SearchResultsGrid"/>
+			<param name="upperLimitToken" value="ulimit" />
+			<param name="lowerLimitToken" value="llimit"/>
+		</init-params>
+	</Component>
+<!--Page Grid END-->
+</ComponentRepository>

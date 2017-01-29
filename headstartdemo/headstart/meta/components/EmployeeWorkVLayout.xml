@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudWorkVLayout" type="CustomVLayout">
+  <attributes>
+    <attr name="id">EmployeeWorkVLayout</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="membersMargin">0</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component ref="EmployeeListGrid.xml"/>
+  </ComponentContainer>
+</Component>
+

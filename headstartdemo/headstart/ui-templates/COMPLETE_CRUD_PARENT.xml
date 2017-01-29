@@ -1,0 +1,1942 @@
+<?xml version="1.0" encoding="UTF-8"?><Template>
+	<template-params>
+
+		<param name="root_file_path" value="src/main/webapp"/>
+		<param name="xml_root_path" value="/home/innoeye/apache-tomcat-7.0.59/bin/apps/headstartdemo"/>
+	        <param name="app_flower_root_path" value=""/>
+		<param name="velocity_js_file_path" value="scripts"/>
+		<param name="app_name" value="headstartdemo"/>
+		<param name="company_logo_path" value="logo.png"/>
+		<param name="sc_skin" value="TreeFrog"/>
+		<param name="package_names" value="com.inn.headstartdemo.model"/>
+		<param name="builder_prop_file" value="builder.properties"/>
+		<param name="deploy_dir" value="/home/innoeye/apache-tomcat-7.0.59/webapps"/>
+		<param name="deploy_url" value="http://localhost:8080"/>
+		<param name="generate_xml" value="false"/>
+		<param name="visualbuilder_url" value="http://localhost:8080/uimodeller/tools/visualBuilder"/>
+		<param name="uieditor.synclocation" value="/home/innoeye/apache-tomcat-7.0.59/webapps/REPO/headstartdemo/headstartdemo/1.0/headstartdemo/src/main/webapp"/>
+		<param name="selenium_support" value="true"/>
+		<param name="saasEnabled" value="true"/>
+		<param name="security" value="true"/>
+		<param name="fileupload" value="true"/>
+		<param name="dashboardfeature" value="true"/>
+		<param name="reportfeature" value="true"/>
+		<param name="meta_root" value="headstart/meta/components"/>
+		
+
+	</template-params>
+
+	<layout>
+		<for-once>
+		    <Component ref="CountryStateDS"/>
+			<Component name="CrudCreateVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/main.js"/>
+                    <param name="generateXmlFile" value="true"/>
+                    <param name="xml_file_path" value=""/>
+                    <param name="id" value="MainVLayout"/>
+					<param name="state_file" value="headstart/ui-templates/meta/meta.xml"/>
+					<param name="autoDraw" value="true"/>
+				</init-params>
+				<for-once>
+					<Component ref="HeaderVLayout"/>
+					<Component name="CrudTabSet" type="TabSet">
+						<init-params>
+							<param name="autogen_file_name" value="scripts/static/CrudTabSet.js"/>
+							<param name="id" value="CrudTabSet"/>
+							<param name="xml_file_name" value="UserInterface.xml"/>
+							<param name="meta_file" value="CrudTabSet.xml"/>
+							<param name="closeClick" valueprovider="textcontent">function(tab) {
+							    CrudTabSet.updateTab(tab,null);
+								CrudTabSet.removeTab(tab);
+							}</param>
+							<param name="tabSelected" valueprovider="childComponents">
+							<preString>function (){
+				</preString>
+					<postString>
+						}</postString>
+							
+
+							</param>
+							
+						</init-params>
+						<for-once>
+						<Component name="ChartTab" type="Tab">
+								<init-params>
+									<param name="id" value="ChartTab"/>
+									<param name="displayName" value="getMessage('tabtitles','tab.charts','Dashboard')"/>
+								
+								</init-params>
+								<for-once>
+	
+			<Component name="ChartsTabVLayout" type="HLayout">
+										<init-params>
+											<param name="id" value="chartPortalContentArea"/>
+											<param name="meta_file" value="ChartsTabVLayout.xml"/>
+										</init-params>																		
+	</Component>	
+				</for-once>
+							</Component>
+						</for-once>
+						<for-each>
+						<dataprovider ref="entityclasses"/>
+									<Component ref="CrudHistoryDataSource"/>
+								<Component ref="CrudDataSource"/>
+		  			
+				<Component ref="CrudSectionStk">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+								<Component ref="HistoryVLayout">
+				  <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+								<Component ref="CrudSearchVLayout">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component ref="AddForm">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component ref="EditForm">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component executionMode="afterForEach" name="StudioSqlGenerator" type="VelocityGenerator">
+							   <init-params>
+							      <param name="velocityTemplate" value="headstart/ui-templates/module_insert_sql.vm"/>
+								  <param name="fileToGenerate" value="headstart/sql/studio_modules.sql"/>
+								  <param name="class_names" value="entityNames"/>
+								  <param name="app_name" value="app_name"/>
+							   </init-params>
+				</Component>
+				</for-each>
+						
+			  </Component>
+					<Component name="PermissionCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Permissions/PermissionCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Permissions/PermissionCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="PermissionDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Permissions/PermissionDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Permissions/PermissionDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="RoleCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Roles/RoleCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Roles/RoleCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="RoleDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Roles/RoleDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Roles/RoleDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="UserCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/UserCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/UserCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="UserProfileGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/userprofile.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/userprofile.js"/>
+						   </init-params>
+					</Component>
+					<Component name="FileUploadJs" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="/fileuploader.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/fileuploader.js"/>
+						   </init-params>
+					</Component>
+					<Component name="UserDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/UserDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/UserDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="partsListGridGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/partsListGrid.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/partsListGrid.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="chartJSGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="chart/chart.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/chart.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!dashboardfeature.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="reportJSGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="reports/reports.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/reports.js"/>
+						   </init-params>
+					</Component>
+				</for-once>
+			</Component>
+			<Component name="chartFreeJS" type="JSCode">
+			<init-params>
+					<param name="id" value="chartFreeJS"/>
+					<param name="jsCode" valueprovider="textcontent">
+	function addMembers(i){
+	return isc.SimplePortlet.create
+	({
+		autoDraw:false,
+		width:"100%",
+		height:230,
+		title:chartMeta[i].title,
+		headerControls : 
+		[	"closeButton",
+			"minimizeButton", 
+			"headerLabel", 
+			isc.ImgButton.create
+			({
+				name:""+chartMeta[i].url,
+				width:16,
+				height:14,
+				layoutAlign:"center",
+				src:context + "/images/" + ImageDir +"/zoom.png",
+				autoDraw:false,
+				click: function () 
+				{
+					var curl=this.name;
+					isc.Window.create
+					({
+						name:"url"+curl,
+						isModal:true,
+						showModalMask:true,
+						autoCenter:true,
+						height:"55%",
+						width:"75%",
+						title:"Zoomed View",
+						autoDraw:true,
+						items:
+						[
+							isc.HTMLPane.create
+							({
+								autoDraw:true,
+								width:"100%",
+								height:"100%",
+								contents:'&lt;iframe width="100%" height=250px src="' + curl + '"/&gt;'
+							})
+						]
+					});
+				}
+			})
+		],	
+		items:
+		[
+			isc.HTMLPane.create
+			({
+				autoDraw:false,
+				width:"100%",
+				height:230,
+				overflow:"hidden",
+				contents:'&lt;iframe width="100%" height=250px src="' + chartMeta[i].url + '"/&gt;'
+			})
+		]
+	});
+}	
+var chartNewData = [];
+try
+{
+if(hasValue(chartMeta))
+	chartNewData = chartMeta;
+}catch(e){}	
+    isc.DataSource.create({
+        ID: "DbchartDS",
+        clientOnly: true,
+        testData: chartNewData,
+        fields:[
+			{name:"id",title:"comments",showIf:"false"},
+			{name:"name",title:"comments",showIf:"false"},
+			{name:"title",title:"Chart"}
+        ]
+    });
+
+
+/* END OrdersListGrid */
+/* START OrdersWorkVLayout */
+
+isc.DynamicForm.create({
+	ID:"DbChartForm",
+	autoDraw:false,
+	autoFocus:false,
+	dataSource:"OrdersDataSource",
+	width:400,
+	fields:[
+		{name: "chart",width:400,showHintInField: true,required:true,showTitle:false,showHint:true,title: "",hint:"select chart",displayField: "title",valueField: "id",addUnknownValues:false,editorType: "comboBox",optionDataSource: DbchartDS,textMatchStyle:"substring",changed:function(form, item, value){showChartInDashboard(value)}}
+	]
+});
+
+isc.CustomVLayout.create({
+ID:"simplePortalColumn1",
+autoDraw:false,
+width: "48%",
+membersMargin: 0
+})
+
+isc.CustomVLayout.create({
+ID:"simplePortalColumn2",
+autoDraw:false,
+width: "48%",
+membersMargin: 0
+})
+
+isc.CustomHLayout.create({
+width:"100%",
+ID:"DbMainHLayout",
+width:"100%",
+members:[
+	simplePortalColumn1,simplePortalColumn2
+]
+})
+
+isc.CustomSectionStack.create({
+ID:"DbSectionStack",
+sections:[{title:"Dashboard",canCollapse:false, showHeader:true, expanded:true,controls:[DbChartForm],resizeable:false, hidden:false, items:[DbMainHLayout]}]})
+
+chartPortalContentArea.addMember(DbSectionStack);
+
+						try{
+						var length=chartMeta.length;
+		var count=true;
+		
+	
+		for(var i=0;i&lt;4;i++){
+
+		if(count==true){
+			simplePortalColumn1.addMember(
+				addMembers(i)
+			);
+			count=false;
+		}
+		else if(count==false){
+			simplePortalColumn2.addMember(
+				addMembers(i)
+			);
+			count=true;
+		}
+	
+} 
+WorklistButton.hide();
+	}
+	catch(e)
+	{}
+   					</param>
+					<param name="autogen_file_name" value="scripts/static/CrudTabSet.js"/>
+			</init-params>
+
+			</Component>
+		</for-once>
+	</layout>
+	<references>
+		
+		
+		
+		
+	<Component name="HeaderVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/header.js"/>
+					<param name="id" value="HeaderVLayout"/>
+					<param name="width" value="100%"/>
+					<param name="layoutTopMargin" value="3"/>
+					<param name="height" value="6%"/>
+				</init-params>
+				<for-once>
+				  <Component ref="HeaderHLayout"/>
+				 </for-once>
+	 </Component>
+<Component name="HeaderHLayout" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderHLayout"/>
+					<param name="membersMargin" value="2"/>
+					<param name="layoutTopMargin" value="0"/>
+					<param name="layoutMargin" value="0"/>
+					<param name="top" value="0"/>
+				</init-params>
+				<for-once>
+				  <Component ref="CompanyLogo"/>
+				  <Component ref="HeaderRightSectionVLayout"/>
+				</for-once>
+	 </Component>
+<Component name="CompanyLogo" type="Img">
+		<init-params>
+			<param name="id" value="CompanyLogoImage"/>
+		    <param name="src" valueprovider="textcontent">"${company_logo_path}"</param>
+			<param name="width" value="181"/>
+			<param name="height" value="50"/>
+			<param name="layoutAlign" value="left"/>
+		</init-params>
+	</Component>
+<Component name="HeaderRightSectionVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/header.js"/>
+					<param name="id" value="HeaderRightSectionVLayout"/>
+					<param name="membersMargin" value="5"/>
+					<param name="layoutRightMargin" value="5"/>
+				</init-params>
+				<for-once>
+				  <Component ref="HeaderRightSectionFirstRow"/>
+				    <Component ref="HeaderRightSectionSecondRow"/>
+   				 </for-once>
+	 </Component>
+<Component name="HeaderRightSectionFirstRow" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderRightSectionFirstRow"/>
+					<param name="membersMargin" value="10"/>
+				    <param name="align" value="right"/>
+				</init-params>
+				<for-once>
+				   <Component ref="UserInfoLbl"/>
+				   <Component ref="DashboardButton"/>
+				  <Component ref="WorklistButton"/>
+								 <Component ref="AuditButton"/>
+				  				  <Component ref="ReportsButton"/>
+				  <Component ref="UserMgmtButton"/>
+				  <Component ref="UserProfileButton"/>
+				   <Component ref="LogoutButton"/>
+ 				</for-once>
+	 </Component>
+<Component name="UserInfoLbl" type="Label">
+		<init-params>
+			<param name="id" value="UserInfoLbl"/>
+			<param name="contents" valueprovider="textcontent">&lt;span style='font-weight: bold;color:#0000FF;font-size: 12px;text-decoration:underline;' &gt;"+getMessage('label','label.welcome','Welcome')+" &lt;/span&gt;&lt;span  style='color:#0000FF;font-weight: bold;font-size: 12px;text-decoration:underline;'&gt;"+getCookie("ag_username").substring(0, getCookie("ag_username").lastIndexOf("::")) + "&lt;/span&gt;</param>
+			<param name="height" value="100%"/>
+			<param name="width" value="100%"/>
+			<param name="align" value="right"/>
+		</init-params>
+	</Component>
+<Component name="HeaderRightSectionSecondRow" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderRightSectionSecondRow"/>
+					<param name="membersMargin" value="10"/>
+					<param name="align" value="right"/>
+					<param name="width" value="100%"/>
+					<param name="height" value="15"/>
+					</init-params>
+				<for-once>
+				 <Component ref="ApplicationMenu"/>
+				  <Component ref="ThemeSelectorMenu"/>
+				    <Component ref="LocaleSelectorMenu"/>
+			  	</for-once>
+	 </Component>
+<Component name="ThemeSelectorMenu" type="Menu">
+		<init-params>
+			<param name="id" value="ThemeSelectorMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Themes"/>
+			<param name="itemClick" valueprovider="textcontent">function (item){
+								var url = window.location.protocol + "//" +  window.location.hostname +":"+ window.location.port +window.location.pathname;
+        						 window.location.assign(url + "?requestedSkin="+item.name );
+							}
+						</param>
+		</init-params>
+		<for-once>
+			<Component name="EnterpriseBlue" type="MenuItem">
+				<init-params>
+					<param name="name" value="EnterpriseBlue"/>
+					<param name="displayName" value="EnterpriseBlue"/>
+				</init-params>
+			</Component>
+			<Component name="BlackOps" type="MenuItem">
+				<init-params>
+					<param name="name" value="BlackOps"/>
+					<param name="displayName" value="BlackOps"/>
+				</init-params>
+			</Component>
+			<Component name="Cupertino" type="MenuItem">
+				<init-params>
+					<param name="name" value="Cupertino"/>
+					<param name="displayName" value="Cupertino"/>
+				</init-params>
+			</Component>	
+			<Component name="Enterprise" type="MenuItem">
+				<init-params>
+					<param name="name" value="Enterprise"/>
+					<param name="displayName" value="Enterprise"/>
+				</init-params>
+			</Component>	
+			<Component name="Simplicity" type="MenuItem">
+				<init-params>
+					<param name="name" value="Simplicity"/>
+					<param name="displayName" value="Simplicity"/>
+				</init-params>
+			</Component>	
+			<Component name="Graphite" type="MenuItem">
+				<init-params>
+					<param name="name" value="Graphite"/>
+					<param name="displayName" value="Graphite"/>
+				</init-params>
+			</Component>	
+			<Component name="SilverWave" type="MenuItem">
+				<init-params>
+					<param name="name" value="SilverWave"/>
+					<param name="displayName" value="SilverWave"/>
+				</init-params>
+			</Component>	
+			<Component name="TreeFrog" type="MenuItem">
+				<init-params>
+					<param name="name" value="TreeFrog"/>
+					<param name="displayName" value="TreeFrog"/>
+				</init-params>
+			</Component>	
+		
+		</for-once>
+	</Component>
+<Component name="LocaleSelectorMenu" type="Menu">
+		<init-params>
+			<param name="id" value="LocaleSelectorMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Locale"/>
+			<param name="itemClick" valueprovider="textcontent">function (item){
+								var url = window.location.protocol + "//" +  window.location.hostname +":"+ window.location.port +window.location.pathname;
+        						 window.location.assign(url + "?requestedSkin="+item.name );
+							}
+						</param>
+		</init-params>
+		<for-once>
+			<Component name="en" type="MenuItem">
+				<init-params>
+					<param name="name" value="en"/>
+					<param name="icon" value="US.png"/>
+					<param name="displayName" value="English"/>
+					<param name="subMenu" value="false"/>
+				</init-params>
+			</Component>
+			<Component name="fr" type="MenuItem">
+				<init-params>
+					<param name="name" value="fr"/>
+					<param name="icon" value="FR.png"/>
+					<param name="displayName" value="French"/>
+					<param name="subMenu" value="false"/>
+				</init-params>
+			</Component>	
+		</for-once>
+	</Component>
+<Component name="UserLoginInfo" type="Label">
+		<init-params>
+			<param name="id" value="UserLoginLabel"/>
+			<param name="contents" valueprovider="textcontent">&lt;span style='font-weight: normal;color:#00008B;font-size: 1.0em;' &gt;"+getMessage('label','label.welcome','Welcome')+", &lt;/span&gt;&lt;span  style='color:#00008B;font-weight: normal;font-size: 1.0em;'&gt;"+getCookie("ag_username").substring(0, getCookie("ag_username").lastIndexOf("::")) + "/" + getCookie("ag_username").substring(getCookie("ag_username").lastIndexOf("::") + 2, getCookie("ag_username").length) + "&lt;/span&gt;</param>
+			<param name="icon" valueprovider="textcontent">"person.png"</param>
+			<param name="height" value="5%"/>
+			<param name="width" value="(Page.getScreenWidth() * 10)/100"/>
+			<param name="align" value="right"/>
+		</init-params>
+	</Component>
+<Component name="DashboardButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="DashboardButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/dashboard.png"</param>
+			<param name="prompt" value="Dashboard"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("ChartTab")==null) 
+				CrudTabSet.addTab({ID:"ChartTab",title:getMessage('tabtitles','tab.charts','Dashboard'),pane:"chartPortalContentArea",canClose:true});
+
+			CrudTabSet.selectTab(ChartTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="WorklistButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="WorklistButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/worklist.png"</param>
+			<param name="prompt" value="Worklist"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("WorklistTab")==null)
+				CrudTabSet.addTab({ID:"WorklistTab",title:getMessage('tabtitles','tab.worklist','Worklist'),pane:"WorklistSectionStack",canClose:true});
+			CrudTabSet.selectTab(WorklistTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="AuditButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="AuditSearchButton"/>
+														
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/brush.png"</param>
+			<param name="prompt" value="Audit"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("AuditSearchTab")==null){
+				getUserDetail();
+				CrudTabSet.addTab({ID:"AuditSearchTab",title:"Audit",pane:"AuditSearchSectionStk",canClose:true});
+				}
+			CrudTabSet.selectTab(AuditSearchTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="ReportsButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="ReportsButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/report.png"</param>
+			<param name="prompt" value="Reports"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("ReportsTab")==null)
+				CrudTabSet.addTab({ID:"ReportsTab",title:getMessage('tabtitles','tab.worklist','Reports'),pane:"ReportSectionStack",canClose:true});
+			CrudTabSet.selectTab(ReportsTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="UserMgmtButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="UserMgmtButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/usermanagement.png"</param>
+			<param name="prompt" value="User Management"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("UserMgmtTab")==null)
+				CrudTabSet.addTab({ID:"UserMgmtTab",title:getMessage('tabtitles','tab.usermgmt','User Management'),pane:"UserMgmtSectionStack",canClose:true});
+			CrudTabSet.selectTab(UserMgmtTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="UserProfileButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="UserProfileButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/profile.png"</param>
+			<param name="prompt" value="My Profile"/>
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("UserProfileTab")==null){
+				getUserDetail();
+				CrudTabSet.addTab({ID:"UserProfileTab",title:"My Profile",pane:"UserProfileSectionStack",canClose:true});
+				}
+			CrudTabSet.selectTab(UserProfileTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="LogoutButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="LogoutButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/logout.png"</param>
+			<param name="prompt" value="Logout"/>
+			<param name="action" valueprovider="textcontent">function(){
+				logoutRequest();
+			}
+            </param>
+		</init-params>
+	</Component>
+<Component name="ApplicationMenu" type="Menu">
+		<init-params>
+			<param name="id" value="ApplicationMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Application"/>
+			<param name="itemClick" valueprovider="childComponents">
+							<preString>function (item){
+				</preString>
+					<postString>
+						}</postString>
+							<for-each>
+							<dataprovider ref="entityclasses"/>
+								<Component name="applicationMenuItemClick" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent"> if(item.name=='${class_name}') {
+				if( CrudTabSet.getTab("${class_name}Tab")==null)
+				   CrudTabSet.addTab({ID:"${class_name}Tab",title:'${class_name}',pane:"${class_name}SectionStack",canClose:true});
+				CrudTabSet.selectTab(${class_name}Tab);
+				}
+   											</param>
+											</init-params>
+										</Component>
+								</for-each>
+
+							</param>
+		</init-params>
+		<for-each>
+			<dataprovider ref="entityclasses"/>
+			<Component name="CrudMenuItem" type="MenuItem">
+				<init-params>
+					<param name="name" value="${class_name}"/>
+					<param name="displayName" value="${class_name}"/>
+				</init-params>
+			</Component>
+		</for-each>
+	</Component>
+<Component name="CrudDataSource" type="DataSource">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}DataSource"/>
+			<param name="dataFormat" value="json"/>
+			<param name="fetchUrl" valueprovider="textcontent">context+"/rest/${class_name}/search"</param>
+			<param name="addUrl" valueprovider="textcontent">context+"/rest/${class_name}/create" </param>
+			<param name="removeUrl" valueprovider="textcontent">context+"/rest/${class_name}/delete"</param>
+			<param name="updateUrl" valueprovider="textcontent">context+"/rest/${class_name}/update"</param>
+			<param file="operationBindings.agt" name="operationBindings" valueprovider="file"/>
+			<param name="transformRequest" valueprovider="textcontent">
+				function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				var params ;
+			
+				if (${class_name}SearchForm.isVisible())
+					params = getFIQLURL(${class_name}SearchForm);
+				else
+					params="?_s=''";
+					
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+params+"&amp;"+${class_name}GridPager.upperLimitToken+"="+${class_name}GridPager.currentUpperLimit+"&amp;"+${class_name}GridPager.lowerLimitToken+"="+${class_name}GridPager.currentLowerLimit;
+
+				if(operation=='remove')
+					dsRequest.actionURL = this.removeDataURL+"/"+dsRequest.data.${id_fieldname};
+				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}
+				</param>
+			<param name="transformResponse" valueprovider="textcontent">
+				function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+				if(dsResponse.httpResponseCode==403)
+				{
+				alert('Access is denied');
+				}
+				var excpmesg = dsResponse.excpmesg;
+			    if(hasValue(data.excpmesg))
+			    alert(data.excpmesg)
+			   
+			    var errors = dsResponse.errors;
+			    if(hasValue(data.errors))
+				{
+				alert(data.errors[0].name+" "+data.errors[0].value.message);
+			    }
+				
+				if(operation =='remove')
+				{
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.fetchData();
+				if (${class_name}DetailViewer.isVisible()) {
+				${class_name}DetailViewer.setData();
+				}
+				}else if(resStatus == 0 &amp;&amp; operation =='add'){
+                reset${class_name} = true;
+				${class_name}AddForm.clearValues();
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.setData([]);
+				${class_name}ListGrid.fetchData();
+				reset${class_name} = false;
+				
+				}else if(resStatus == 0 &amp;&amp; operation =='update'){
+				${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+				${class_name}ListGrid.setData([]);
+				${class_name}ListGrid.fetchData();
+				
+				if (${class_name}DetailViewer.isVisible())
+				{
+				${class_name}DetailViewer.setData(data);
+				}
+				else{
+				${class_name}EditForm.editNewRecord(data);
+				}
+
+				} else if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				if(${class_name}SearchResultsGrid.isVisible()){
+					${class_name}SearchResultsGrid.setData([]);
+					${class_name}SearchResultsGrid.setData(data);
+					}	
+				else{
+					${class_name}ListGrid.setData([]);	
+					${class_name}ListGrid.setData(data);	
+					}
+				} else if(resStatus == -1){
+					isc.say("No session available.  Please login.");
+					logoutRequest()
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}				 
+</param>
+			<param name="recordXPath" value="/"/>
+			<param name="xml_file_name" value="../${class_name}DataSource.ds.xml"/>
+			<param name="meta_file" value="${class_name}DataSource.ds.xml"/>
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="DataSourceFields"/>
+		</for-each>
+	</Component>
+<Component name="CrudHistoryDataSource" type="DataSource">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}HistoryDataSource"/>
+			<param name="dataFormat" value="json"/>
+			<param name="fetchUrl" valueprovider="textcontent">context+"/rest/${class_name}/auditSearch"</param>
+			<param name="transformRequest" valueprovider="textcontent">
+				function
+				(dsRequest){
+				dsRequest.contentType = "application/json";
+				var operation = dsRequest.operationType ;
+				
+				
+				
+				if(operation=='fetch')
+					dsRequest.actionURL = this.fetchDataURL+"?id="+${class_name}ListGrid.getSelectedRecord().${id_fieldname};				
+				dsRequest.data = makeJSONStr(dsRequest.data);
+				return dsRequest;
+				}
+				</param>
+			<param name="transformResponse" valueprovider="textcontent">
+				function (dsResponse, dsRequest, data) {
+				var dsResponse = this.Super("transformResponse",
+				[dsResponse,dsRequest,data]);
+				var operation = dsRequest.operationType ;
+				var resStatus = dsResponse.status;
+
+			    if(resStatus == 0 &amp;&amp; operation =='fetch'){
+				${class_name}HistoryLG.setData(data);
+				} 
+				else if(resStatus == -1){
+
+				if(dsResponse.data != null)
+				isc.say(dsResponse.data);
+				else
+				isc.say("Sorry unable to complete requested operation.");
+				}
+				}				 
+</param>
+			<param name="recordXPath" value="/"/>
+			<param name="xml_file_name" value="../${class_name}DataSource.ds.xml"/>
+			<param name="meta_file" value="${class_name}DataSource.ds.xml"/>
+		</init-params>
+		<for-once>
+			<Component name="changed_by" type="Field">
+				<init-params>
+					<param name="name" value="changed_by"/>
+					
+				</init-params>
+			</Component>
+			<Component name="changed_on" type="Field">
+				<init-params>
+					<param name="name" value="changed_on"/>
+					
+				</init-params>
+			</Component>
+			<Component name="changes" type="Field">
+				<init-params>
+					<param name="name" value="changes"/>
+					
+				</init-params>
+			</Component>
+			
+		</for-once>
+	</Component>
+<Component name="CrudVLayout" type="HLayout">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}HLayout"/>
+			<param name="meta_file" value="${class_name}HLayout.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudButtonToolStrip"/>		
+			<Component ref="CrudWorkVLayout"/>			
+		</for-once>
+	</Component>
+<Component name="CrudSectionStackSection" type="SectionStackSection">
+		<init-params>
+			<param name="displayName" value="${class_name}"/>
+			<param name="canCollapse" value="false"/>
+			<param name="id" value="${class_name}SectionStackSection"/>
+			<param name="meta_file" value="${class_name}SectionStackSection.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudVLayout"/>	
+		</for-once>
+	</Component>
+<Component name="CrudSectionStk" type="SectionStack">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}SectionStack"/>
+			<param name="meta_file" value="${class_name}SectionStack.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="CrudSectionStackSection"/>
+		</for-once>
+	</Component>
+<Component name="CrudWorkVLayout" type="VLayout">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}WorkVLayout"/>
+			<param name="membersMargin" value="0"/>
+			<param name="leaveScrollbarGap" value="false"/>
+			<param name="meta_file" value="${class_name}WorkVLayout.xml"/>
+		</init-params>
+		<for-once>
+			<Component ref="DetailsListGrid"/>		
+		</for-once>
+	</Component>
+<Component name="CrudButtonToolStrip" type="ToolStrip">
+		<init-params>
+     		<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}ButtonToolStrip"/>
+			<param name="membersMargin" value="10"/>
+			<param name="layoutMargin" value="5"/>
+			<param name="width" value="30"/>
+			<param name="vertical" value="true"/>
+			<param name="meta_file" value="${class_name}ButtonToolStrip.xml"/>
+		</init-params>
+		<for-once>
+				<Component name="crudVariables" type="JSCode">
+     				 <init-params>
+					    <param name="jsCode" valueprovider="textcontent">
+var reset${class_name}=false;
+var ${class_name}SearchGridVisible = false;
+					    </param>
+					    <param name="id" value="crudVariables"/>
+		        		</init-params>
+         			</Component>
+			<Component ref="EntityGridButton"/>
+			<Component ref="EntityAddButton"/>
+			<Component ref="EntityEditButton"/>
+			<Component ref="EntityDetailsButton"/>
+			<Component ref="EntitySearchButton"/>
+	
+		</for-once>
+	</Component>
+<Component name="DetailsListGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+			<param name="id" value="${class_name}ListGrid"/>
+			<param name="xml_file_name" value="${class_name}ListGrid.xml"/>
+			<param name="meta_file" value="${class_name}ListGrid.xml"/>
+			<param name="initWidget" valueprovider="textcontent">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "${class_name}"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("${class_name}",record.${id_fieldname},"${id_fieldname}")}
+		}	
+			
+			if(delete${class_name}) 
+				this.canRemoveRecords = true;
+			}
+				</param>
+<param name="canRemoveRecords" value="true"/>			
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ListGridFields"/>
+		</for-each>
+	</Component>
+<Component name="DetailsViewer" type="DetailViewer">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}DetailViewer"/>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ViewerFields"/>
+		</for-each>
+	</Component>
+<Component name="HistoryResultsGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="dataSource" value="${class_name}HistoryDataSource"/>
+			<param name="id" value="${class_name}HistoryLG"/>
+			<param name="autoFetchData" value="false"/>
+			<param name="canRemoveRecords" value="true"/>
+			<param name="height" value="30%"/>
+		</init-params>
+		<for-once>
+			<Component name="changed_by" type="Field">
+				<init-params>
+					<param name="name" value="changed_by"/>
+					<param name="title" value="Changed by"/>
+					<param name="width" value="15%"/>
+				</init-params>
+			</Component>
+			<Component name="changed_on" type="Field">
+				<init-params>
+					<param name="name" value="changed_on"/>
+					<param name="title" value="Changed on"/>
+					<param name="width" value="15%"/>
+				</init-params>
+			</Component>
+			<Component name="changes" type="Field">
+				<init-params>
+					<param name="name" value="changes"/>
+					<param name="title" value="Changes"/>
+					
+				</init-params>
+			</Component>
+			
+		</for-once>
+	</Component>
+<Component name="HistoryVLayout" type="VLayout">
+		<init-params>
+			<param name="id" value="${class_name}HistoryVL"/>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+		</init-params>
+       <for-once>
+			    <Component ref="DetailsViewer"/>
+			    	<Component ref="HistoryResultsGrid"/>
+    	</for-once>
+	</Component>
+<Component name="EntityGridButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}GridButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/grid.png"</param>
+			<param name="prompt" value="${class_name} Grid"/>
+			<param name="action" valueprovider="textcontent">function(){
+		${class_name}SearchGridVisible=false;
+		${class_name}WorkVLayout.setMembers([${class_name}ListGrid]);
+		${class_name}ListGrid.fetchData();
+}
+            </param>
+		</init-params>
+	</Component>
+<Component name="EntityAddButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}AddButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/add.png"</param>
+			<param name="prompt" value="Add ${class_name}"/>
+			<param name="action" valueprovider="textcontent">function(){
+			${class_name}AddForm.resetValues();
+		${class_name}WorkVLayout.setMembers([${class_name}AddForm]);
+}            </param>
+		</init-params>
+
+	</Component>
+<Component name="EntityEditButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}EditButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/edit.png"</param>
+			<param name="prompt" value="Edit ${class_name}"/>
+			<param name="action" valueprovider="textcontent">function(){
+	var record = null;
+
+	if(${class_name}SearchGridVisible)
+		record = ${class_name}SearchResultsGrid.getSelectedRecord();
+	else
+		record = ${class_name}ListGrid.getSelectedRecord();
+
+		if (record == null) {
+			alert("No record selected");
+		} else {
+			if(hasValue(record.hasExpansionComponent))
+			{	delete record.expanded
+				delete record.hasExpansionComponent
+			}
+			${class_name}EditForm.editNewRecord(record);
+		
+			${class_name}WorkVLayout.setMembers([${class_name}EditForm]);
+		}
+}            </param>
+		</init-params>
+
+	</Component>
+<Component name="EntityDetailsButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}DetailsButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/detail.png"</param>
+			<param name="prompt" value="${class_name} Details"/>
+			<param name="action" valueprovider="textcontent">function(){
+	if(${class_name}SearchGridVisible)
+		record = ${class_name}SearchResultsGrid.getSelectedRecord();
+	else
+		record =  ${class_name}ListGrid.getSelectedRecord();
+
+	if (record == null) {
+			alert("No record selected");
+		} else {
+					${class_name}DetailViewer.setData(record);
+			${class_name}HistoryLG.fetchData();
+			${class_name}WorkVLayout.setMembers([${class_name}HistoryVL]);
+				}
+}            </param>
+		</init-params>
+	</Component>
+<Component name="EntitySearchButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="${class_name}SearchButton"/>
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/search.png"</param>
+			<param name="prompt" value="Search ${class_name}"/>
+			<param name="action" valueprovider="textcontent">function(){
+	${class_name}SearchGridVisible=true;
+	${class_name}WorkVLayout.setMembers([${class_name}SearchVLayout]);
+}            </param>
+		</init-params>
+
+	</Component>
+<Component name="CrudSearchVLayout" type="VLayout">
+		<init-params>
+			<param name="id" value="${class_name}SearchVLayout"/>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+		</init-params>
+       <for-once>
+		    <Component ref="SearchForm"/>
+    	    <Component ref="SearchResultsGrid"/>
+			<Component ref="SearchGridPager"/>
+		</for-once>
+	</Component>
+<Component name="AddForm" type="DynamicForm">
+		<init-params>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}AddForm"/>
+			<param name="numCols" value="4"/>
+			<param name="xml_file_name" value="${class_name}CreateForm.xml"/>
+			<param name="app_flower_file" value="${class_name}CreateForm.xml"/>
+			<param name="meta_file" value="${class_name}CreateForm.xml"/>
+			
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="CreateFields"/>
+		</for-each>
+		<for-once>
+			<Component name="AddButton" type="Field">
+				<init-params>
+					<param name="name" value="CreateButton"/>
+					<param name="type" value="button"/>
+					<param name="displayName" value="getMessage('button','createtab.section.button.create','Create')"/>
+					<param name="startRow" value="true"/>
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					    ${_AddForm_id}.addProperties({saveOperationType:"add"});
+						${_AddForm_id}.submit();
+						}
+						</param>
+				</init-params>
+			</Component>
+			<Component name="ResetButton" type="Field">
+				<init-params>
+					<param name="name" value="ResetButton"/>
+					<param name="type" value="button"/>
+					<param name="displayName" value="getMessage('button','createtab.section.button.reset','Reset')"/>
+					<param name="startRow" value="true"/>
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					    reset${class_name} = true;
+					    ${_AddForm_id}.clearValues();
+						reset${class_name} = false;
+						}
+						</param>
+				</init-params>
+			</Component>
+		</for-once>
+	</Component>
+<Component name="EditForm" type="DynamicForm">
+		<init-params>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="id" value="${class_name}EditForm"/>
+			<param name="numCols" value="4"/>
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="EditFields"/>
+			
+		</for-each>
+		<for-once>
+			<Component name="EditButton" type="Field">
+				<init-params>
+					<param name="name" value="CreateButton"/>
+					<param name="type" value="button"/>requestedTheme
+					<param name="displayName" value="getMessage('button','createtab.tabset.edit.button.update','Update')"/>
+					<param name="startRow" value="true"/>
+					<param name="endRow" value="false"/>
+					<param name="click" valueprovider="textcontent">function() {
+					
+						${_EditForm_id}.addProperties({saveOperationType:"update"});
+						${_EditForm_id}.submit();
+						}
+						</param>
+				</init-params>
+			</Component>
+			
+		</for-once>
+		
+	</Component>
+<Component name="SearchForm" type="DynamicForm">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+			<param name="id" value="${class_name}SearchForm"/>
+			<param name="numCols" value="6"/>
+		</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="SearchFields"/>
+		</for-each>
+		<for-once>
+			<Component name="SearchButton" type="Field">
+				<init-params>
+					<param name="name" value="SearchButton"/>
+					<param name="type" value="button"/>
+					<param name="displayName" value="getMessage('button','searchtab.section.button.search','Search')"/>
+					<param name="startRow" value="true"/>
+					<param name="rowSpan" value="2"/>
+					<param name="click" valueprovider="textcontent">function() {
+					  
+					  if(${class_name}SearchResultsGrid.data &amp;&amp; ${class_name}SearchResultsGrid.data.invalidateCache)
+					    ${class_name}SearchResultsGrid.data.invalidateCache();
+					  var params = getFetchURL(${_SearchForm_id});
+	                  ${class_name}GridPager.setInitialLimit();
+					  ${class_name}SearchResultsGrid.fetchData(${_SearchForm_id}.getValuesAsCriteria(),null,{actionURL:${_CrudDataSource_id}.fetchDataURL+params});
+					}
+						</param>
+				</init-params>
+			</Component>
+
+			<Component name="ResetButton" type="Field">
+				<init-params>
+					<param name="name" value="ResetButton"/>
+					<param name="type" value="button"/>
+					<param name="displayName" value="getMessage('button','searchtab.section.button.reset','Reset')"/>
+					<param name="rowSpan" value="2"/>
+					<param name="enedRow" value="true"/>
+					<param name="click" valueprovider="textcontent">function() {
+						${_SearchForm_id}.reset();
+						}
+						</param>
+				</init-params>
+			</Component>
+		</for-once>
+	</Component>
+<Component name="SearchResultsGrid" type="ListGrid">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="dataSource" value="${_CrudDataSource_id}"/>
+			<param name="id" value="${class_name}SearchResultsGrid"/>
+			<param name="autoFetchData" value="false"/>
+			<param name="canRemoveRecords" value="true"/>
+			<param name="height" value="40%"/>
+					</init-params>
+		<for-each>
+			<dataprovider type="class-fields">
+				<classKey>${class_full_name}</classKey>
+			</dataprovider>
+			<Component ref="ListGridFields"/>
+		</for-each>
+	</Component>
+<Component name="SearchGridPager" type="GridPager">
+		<init-params>
+			<param name="autogen_file_name" value="scripts/generated/${class_name}/${class_name}.js"/>
+			<param name="gridDataSource" value="${_CrudDataSource_id}"/>
+			<param name="id" value="${class_name}GridPager"/>
+			<param name="height" value="2%"/>
+			<param name="pageSize" value="50"/>
+			<param name="grid" value="${class_name}SearchResultsGrid"/>
+			<param name="upperLimitToken" value="ulimit"/>
+			<param name="lowerLimitToken" value="llimit"/>
+		</init-params>
+	</Component>
+<Component name="DataSourceFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}"/>
+		</init-params>
+		<conditional-params>
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+		</conditional-params> 
+	</Component>
+<Component name="CreateFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}"/>
+			<param jexlBindName="field_type" name="type" value="#{${class_name}.${field_name}.type} [or] ${field_type}"/>
+			<param name="displayName" value="#{${class_name}.${field_name}.title} [or] ${field_name}"/>
+			<param name="length" value="#{${class_name}.${field_name}.length}"/>
+			<param name="mask" value="#{${class_name}.${field_name}.mask}"/>
+			<param name="validators" value="#{${class_name}.${field_name}.validators}"/>
+			<param name="error" value="#{${class_name}.${field_name}.error}"/>
+			
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="#{${field_class_name}.displayField} [or] ${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+				<!-- <param name="dataPath" value="/${field_name}/${entity_value_field}" /> -->
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true"/>		
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="fields" valueprovider="textcontent">
+					[{title:
+					"${entity_value_field}",name: "${entity_value_field}",type:
+					"${entity_value_type}", showIf:"false"},
+					{title:
+					"${entity_display_field}",name: "${entity_display_field}",type:
+					"${entity_display_type}"}]</param>
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+			</if>
+			
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}"/>
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}"/>
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}"/>
+				<param name="sectionExpanded" value="true"/>
+			</if>
+			<if expr="#{$entity_display_field}.equals('userid')">
+				<param name="entityDisplayField" value="username"/>
+			
+			</if>
+			
+			<!--
+			<if expr="is_id_annotated">
+				<param name="type" value="hidden" />
+			</if> -->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+		    <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('NotSupported')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="type" value="hidden"/>
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="type" value="hidden"/>
+			</if>
+			<if expr="field_name.equals('creationtime')">
+				<param name="type" value="hidden"/>
+			</if>
+			<if expr="field_name.equals('modifiedtime')">
+				<param name="type" value="hidden"/>
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>		
+			</if>
+<!--
+			<if expr="field_name.equals('lastUpdate')">
+			   <param name="type" value="hidden" />
+			</if>
+			
+			<if expr="field_name.equals('state')">
+              	<param name="getPickListFilterCriteria" value="#{${class_name}.${field_name}.getPickListFilterCriteria}" />
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+				<param name="changed" value="#{${class_name}.${field_name}.changed}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if> -->
+
+		</conditional-params>
+	</Component>
+<Component name="EditFields" type="Field">
+			<init-params>
+			<param name="name" value="${field_name}"/>
+			<param jexlBindName="field_type" name="type" value="#{${class_name}.${field_name}.type} [or] ${field_type}"/>
+			<param name="displayName" value="#{${class_name}.${field_name}.title} [or] ${field_name}"/>
+			<param name="length" value="#{${class_name}.${field_name}.length}"/>
+			<param name="mask" value="#{${class_name}.${field_name}.mask}"/>
+			<param name="validators" value="#{${class_name}.${field_name}.validators}"/>
+			<param name="error" value="#{${class_name}.${field_name}.error}"/>
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+				<param name="dataPath" value="/${field_name}/${entity_value_field}"/>
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="fields" valueprovider="textcontent">
+					[{title:
+					"${entity_value_field}",name: "${entity_value_field}",type:
+					"${entity_value_type}", showIf:"false"},
+					{title:
+					"${entity_display_field}",name: "${entity_display_field}",type:
+					"${entity_display_type}"}]</param>
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}"/>
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}"/>
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}"/>
+				<param name="sectionExpanded" value="true"/>
+			</if>
+			<!--
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true"/>
+			</if>
+			 <if expr="field_name.equals('${class_name}attach')">
+			
+					<param name="name" value="FileButton"/>
+					<param name="type" value="button"/>requestedTheme
+					<param name="displayName" value="Upload"/>
+					<param name="startRow" value="false"/>
+					<param name="endRow" value="true"/>
+					<param name="click" valueprovider="textcontent">function() {
+					var record = null;
+					if(${class_name}SearchGridVisible)
+						record = ${class_name}SearchResultsGrid.getSelectedRecord();
+					else
+						record =  ${class_name}ListGrid.getSelectedRecord();
+					
+					if(record!=null)
+							showUploadModalWindow("${class_name}",record.${id_fieldname})
+						}
+						</param>
+		
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('creationtime')">
+				<param name="type" value="hidden"/>
+			</if>
+			<if expr="field_name.equals('modifiedtime')">
+				<param name="type" value="hidden"/>
+			</if>
+			
+			<!--
+			<if expr="field_name.equals('lastUpdate')">
+			   <param name="type" value="hidden" />
+			</if>
+		    
+			<if expr="field_name.equals('state')">
+              	<param name="getPickListFilterCriteria" value="#{${class_name}.${field_name}.getPickListFilterCriteria}" />
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+				<param name="changed" value="#{${class_name}.${field_name}.changed}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if> 
+
+			-->
+		</conditional-params>
+	</Component>
+<Component name="SearchFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}"/>
+			<param name="type" value="${field_type}"/>
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('date') ">
+				<param name="type" value="select"/>
+				<param name="valueMap" value="{'':'today','0':'Today','1':'Yesterday','7':'This Week','15':'Last 15 days','30':'This Month','90':'This Quarter','365':'This Year'},defaultValue:''"/>
+			</if>
+			<if expr="field_type.equals('Date') ">
+				<param name="type" value="select"/>
+				<param name="valueMap" value="{'':'Any time','today':'Today','1':'Yesterday','7':'This Week','15':'Last 15 days','30':'This Month','90':'This Quarter','365':'This Year'},defaultValue:''"/>
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+				<param name="dataPath" value="/${field_name}/${entity_value_field}"/>
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			
+			<if expr="field_type.equals('Enum')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}"/>
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}"/>
+				<param name="sectionExpanded" value="true"/>
+			</if>
+			
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			<if expr="#{${entity_display_field}}.equals('userid')">
+				<param name="entityDisplayField" value="username"/>
+			
+			</if>
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true"/>
+			</if>
+			
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				<param name="displayName" value="Created By"/>		
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				<param name="displayName" value="Updated By"/>		
+			</if>
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true"/>		
+			</if>
+		</conditional-params>
+	</Component>
+<Component name="ListGridFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}"/>
+			<param name="type" value="${field_type}"/>
+			<param name="displayName" value="${field_name}"/>
+		</init-params>
+		<conditional-params>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true"/>		
+			</if>
+			<if expr="field_type.equals('date')">
+					<param name="type" value="timestamp"/>		
+			</if>
+			<if expr="field_type.equals('Date')">
+					<param name="type" value="timestamp"/>		
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+				<param name="dataPath" value="/${field_name}/${entity_value_field}"/>
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="type" value="icon"/>
+				<param name="icon" valueprovider="textcontent">Page.getSkinDir()+"/images/actions/view.png"
+				</param>
+				<param name="recordClick" valueprovider="childComponents">
+					<preString>function (viewer, record, recorNum, field, fieldNum,
+						value, rawValue){
+				</preString>
+					<postString>
+						}</postString>
+
+					<for-once>
+						<Component name="MEWindow" type="Window">
+							<init-params>
+								<param name="id" value="MEWindow"/>
+								<param name="displayName" value="${field_name} inside ${class_name}"/>
+								<param name="autoSize" value="true"/>
+								<param name="autoCenter" value="true"/>
+								<param name="dismissOnEscape" value="true"/>
+								<param name="isModal" value="true"/>
+								<param name="canDragReposition" value="true"/>
+								<param name="canDragResize" value="true"/>
+								<param name="showModalMask" value="true"/>
+								<param name="width" value="Page.getScreenWidth()*60/100"/>
+								<param name="height" value="Page.getScreenHeight()*40/100"/>
+							</init-params>
+							<for-once>
+								<Component name="MEVLayout" type="VLayout">
+									<init-params>
+										<param name="id" value="${class_name}_${field_name}VLayout"/>
+										<param name="layoutLeftMargin" value="10"/>
+										<param name="layoutTopMargin" value="10"/>
+										<param name="membersMargin" value="5"/>
+										<param name="overflow" value="visible"/>
+										<param name="width" value="95%"/>
+										<param name="height" value="95%"/>
+									</init-params>
+									<for-once>
+										<Component name="deleteRecordJS" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent">
+													var params="?";
+
+													if(record.${field_name})
+													{
+													if(record.${field_name}.length)
+													{
+													for (var i=0; i &lt; record.${field_name}.length ; i++)
+													{
+													params =
+													params+"${entity_id_field}="+record.${field_name}[i].${entity_id_field}+"&amp;";
+													}
+													}
+													else
+													{
+													params =
+													params+"${entity_id_field}="+record.${field_name}.${entity_id_field}+"&amp;";
+													}
+													}
+												</param>
+											</init-params>
+										</Component>
+										<Component name="MEListGrid" type="ListGrid">
+											<init-params>
+												<param name="id" value="${class_name}_${field_name}ListGrid"/>
+												<param name="dataSource" value="${field_class_name}DataSource"/>
+												<param name="height" value="Page.getScreenHeight()*50/100"/>
+
+											</init-params>
+											<for-each>
+												<dataprovider type="class-fields">
+													<classKey>${field_class_full_name}</classKey>
+												</dataprovider>
+												<Component name="MEfields" type="Field">
+													<init-params>
+														<param name="name" value="${field_name}"/>
+														<param name="type" value="${field_type}"/>
+													</init-params>
+													<conditional-params>
+														<if expr="field_type.equals('singleEntity')">
+															<param name="entityDataSource" value="${field_class_name}DataSource"/>
+															<param name="entityDisplayField" value="${entity_display_field}"/>
+															<param name="entityValueField" value="${entity_value_field}"/>
+															<param name="dataPath" value="/${field_name}/${entity_value_field}"/>
+															<param name="title" value="${entity_display_field}"/>										
+														</if>
+													</conditional-params>
+												</Component>
+											</for-each>
+										</Component>
+										<Component name="fetchMEListGrid" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent">
+													${_MEListGrid_id}.getDataSource().addProperties({fetchDataURL:
+													"/${app_name}/rest/${field_class_name}Service/${field_class_name}ByIds"+params});
+													${_MEListGrid_id}.fetchData();
+												</param>
+											</init-params>
+										</Component>
+									</for-once>
+								</Component>
+							</for-once>
+						</Component>
+						<Component name="MEWindowDrawJS" type="JSCode">
+							<init-params>
+								<param name="id" value="MEWindowDrawJS"/>
+								<param name="jsCode" valueprovider="textcontent">
+									${_MEWindow_id}.draw();
+									return false;
+								</param>
+							</init-params>
+						</Component>
+					</for-once>
+
+				</param>
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}"/>
+			</if>
+			<!--if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+				<param name="type" value="hidden" />
+			</if>-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				<param name="displayName" value="Created By"/>			
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				
+			</if>
+				<if expr="field_name.equals('${modifiedBy}')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				<param name="displayName" value="Modified By"/>	
+			</if>
+			<if expr="#{${entity_display_field}}.equals('userid')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+			
+			</if>
+			<!--
+			<if expr="field_name.equals('state')">
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+			</if>-->
+		</conditional-params>
+	</Component>
+<Component name="ViewerFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}"/>
+			<param name="type" value="${field_type}"/>
+		</init-params>
+		<conditional-params>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true"/>		
+			</if>
+			<if expr="field_type.equals('date')">
+					<param name="type" value="timestamp"/>		
+			</if>
+			<if expr="field_type.equals('Date')">
+					<param name="type" value="timestamp"/>		
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource"/>
+				<param name="entityDisplayField" value="${entity_display_field}"/>
+				<param name="entityValueField" value="${entity_value_field}"/>
+				<param name="dataPath" value="/${field_name}/${entity_display_field}"/>
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+				<param name="title" value="${entity_display_field}"/>	
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}"/>
+			</if>
+			<!--if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+				<param name="type" value="hidden" />
+			</if-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.equals('state')">
+              	<param name="entityDataSource" value="StateDataSource"/>
+				<param name="entityDisplayField" value="name"/>
+				<param name="entityValueField" value="stateId"/>
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource"/>
+				<param name="entityDisplayField" value="name"/>
+				<param name="entityValueField" value="countryId"/>
+			</if>
+
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username"/>
+				<param name="dataPath" value="/${field_name}/userid"/>
+				<param name="entityValueField" value="userid"/>
+				
+			</if>
+		</conditional-params>
+	</Component>
+<Component name="CountryStateDS" type="JSCode">
+	<init-params>
+	<param name="autogen_file_name" value="scripts/static/CountryStateDS.js"/>
+<param name="jsCode" valueprovider="textcontent">
+RestDataSource.create({
+ID:"CountryDataSource",
+fields:[
+{name:"countryId",primaryKey:true},
+{name:"name"}
+],
+fetchDataURL:"/${app_name}/rest/CountryService/CountrySearch",
+recordXPath:"//Country"
+
+});
+
+
+RestDataSource.create({
+ID:"StateDataSource",
+fields:[
+{name:"stateId",primaryKey:true},
+{name:"name"},
+{name:"countryId"}
+],
+fetchDataURL:"/${app_name}/rest/StateService/StateSearch",
+recordXPath:"//State"
+
+});</param>
+	  <param name="id" value="addRemoveMember"/>
+	</init-params>
+</Component>
+</references>
+	<dataproviders>
+		<dataprovider name="entityclasses" type="class">
+<class>com.inn.headstartdemo.model.Customer</class>
+<class>com.inn.headstartdemo.model.Office</class>
+<class>com.inn.headstartdemo.model.Orderdetail</class>
+<class>com.inn.headstartdemo.model.Employee</class>
+<class>com.inn.headstartdemo.model.Orders</class>
+<class>com.inn.headstartdemo.model.Product</class>
+<class>com.inn.headstartdemo.model.Payment</class>
+</dataprovider>
+	</dataproviders>
+</Template>

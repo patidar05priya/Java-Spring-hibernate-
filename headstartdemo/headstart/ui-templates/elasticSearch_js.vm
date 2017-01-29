@@ -1,0 +1,49 @@
+	jQuery.widget( "custom.catcomplete", jQuery.ui.autocomplete, {
+		_renderMenu: function( ul, items ) {
+			var that = this,
+			currentCategory = "";
+
+			jQuery.each( items, function( index, item ) {
+			if ( item.category != currentCategory ) {
+				ul.append( "<li class='ui-autocomplete-category'><b>" + item.category + "</b></li>" );
+				currentCategory = item.category;
+			}
+			that._renderItemData( ul, item );
+			});
+		}
+	});
+	
+  $(function() {
+    $( "#searchIndex" ).catcomplete({
+      delay: 0,
+      source: function( request, response ) {
+        var term = request.term;
+        jQuery.getJSON( "../rest/ElasticSearch/searchAllIndex", request, function( data, status, xhr ) {
+			return response(data);
+        });
+      },
+      minLength: 3,
+      select: function( event, ui ) {
+			 #foreach($tableName in $tableMap.entrySet())
+		   if(equalsIgnoreCaseAndIgnoreSpace(ui.item.category,"${tableName.key}"))
+			{
+				createTabScreen("${tableName.value}",ui.item.id);
+				check_elastic_view_screen=true;
+			}		
+           #end	
+           		window.setTimeout(function(){check_list_view_screen=false;},1000);		
+		  }
+    });
+  });
+
+function equalsIgnoreCaseAndIgnoreSpace(str1,str2){
+	if(removeSpace(str1) ==removeSpace(str2))
+		return true ;
+	
+	return false;
+}
+function removeSpace(str){
+	return str.replace(/ +/g, "").toLowerCase();
+}
+
+

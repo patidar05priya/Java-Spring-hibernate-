@@ -1,0 +1,28 @@
+@startuml
+title Create UserConfig Scenario
+participant User
+User -> CXFServlet: POST, UserConfig
+activate CXFServlet
+CXFServlet -> UserConfig: << create >>
+activate UserConfig
+UserConfig -> CXFServlet: << instance >>
+deactivate UserConfig
+CXFServlet -> UserConfigRestImpl: create(:userconfig)
+activate UserConfigRestImpl
+UserConfigRestImpl -> UserConfigServiceDao: create(:userconfig)
+activate UserConfigServiceDao
+UserConfigServiceDao -> UserConfigJPADao: create(:userconfig)
+activate UserConfigJPADao
+UserConfigJPADao -> EntityManager: save(:userconfig)
+activate EntityManager
+EntityManager -> UserConfigJPADao: << persisted userconfig >>
+deactivate EntityManager
+UserConfigJPADao -> UserConfigServiceDao: << persisted userconfig >>
+deactivate UserConfigJPADao
+UserConfigServiceDao -> UserConfigRestImpl: << persisted userconfig >>
+deactivate UserConfigServiceDao
+UserConfigRestImpl -> CXFServlet: << persisted userconfig >>
+deactivate UserConfigRestImpl
+CXFServlet -> User: marshalled userconfig XML
+deactivate CXFServlet
+@enduml

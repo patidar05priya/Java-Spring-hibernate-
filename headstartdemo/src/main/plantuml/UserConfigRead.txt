@@ -1,0 +1,28 @@
+@startuml
+title Find UserConfig Scenario
+participant User
+User -> CXFServlet: GET, UserConfig Search Critera XML
+activate CXFServlet
+CXFServlet -> UserConfig: << create >>
+activate UserConfig
+UserConfig -> CXFServlet: << instance >>
+deactivate UserConfig
+CXFServlet -> UserConfigRestImpl: getAll(:userconfig)
+activate UserConfigRestImpl
+UserConfigRestImpl -> UserConfigServiceDao: getAll(:userconfig)
+activate UserConfigServiceDao
+UserConfigServiceDao -> UserConfigJPADao: getAll(:userconfig)
+activate UserConfigJPADao
+UserConfigJPADao -> EntityManager: getResultList(:userconfig)
+activate EntityManager
+EntityManager -> UserConfigJPADao: List<UserConfig>
+deactivate EntityManager
+UserConfigJPADao -> UserConfigServiceDao: List<UserConfig>
+deactivate UserConfigJPADao
+UserConfigServiceDao -> UserConfigRestImpl: List<UserConfig>
+deactivate UserConfigServiceDao
+UserConfigRestImpl -> CXFServlet: List<UserConfig>
+deactivate UserConfigRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+ <html>
+<head>
+	<title>Site Forge</title>
+	<meta charset="utf-8">
+ <!--<script src="../js/static/Role.js"></script>-->
+  <style>
+	#roleViewGrid .details_action{
+		text-align:center !important;
+		text-align:center\9 !important;
+	}
+	input[type=checkbox].ace-switch.ace-switch-6:checked+.check_read::before{
+	  background-color: #59A3A0;
+	  }
+	 input[type=checkbox].ace-switch.ace-switch-6:checked+.check_add::before{
+	    background-color: #549B3E;
+	  }
+	 input[type=checkbox].ace-switch.ace-switch-6:checked+.check_update::before{
+	    background-color: #DA8848;
+	  }
+	 input[type=checkbox].ace-switch.ace-switch-6:checked+.check_delete::before{
+	    background-color:#D32836;
+	  }
+  		#roleViewGrid thead th {
+			word-wrap: break-word !important;
+			overflow:hidden !important;			
+			text-overflow:ellipsis !important;
+			text-overflow:initial !important\9;
+		}	
+		#roleViewGrid tbody td {
+			white-space: nowrap !important;
+			overflow: hidden;
+			height: 1.5em;
+			max-width: 30px !important;
+			text-overflow: ellipsis !important;
+		}	  
+  </style>
+</head>
+<body>
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openListScreen('role')">
+		  <i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label" id="role_page_breadcrumbs"></span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_role_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+        </div>
+            <div class="breadcrumb-button"  id="add_role_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">
+                 > &nbsp;&nbsp;&nbsp;&nbsp;<span>Add Role</span><!-- NEW UI CSS -->
+              </span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_role_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         > &nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Role</span><!-- NEW UI CSS -->
+          </span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_role_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         > &nbsp;&nbsp;&nbsp;&nbsp;<span>View Role</span><!-- NEW UI CSS -->
+          </span>
+        </div>
+     																	 																		
+		
+     
+     
+      </div>
+ 
+	<div class="nav-search" id="nav-search" style="display:inline-flex;margin-top: 4px;">
+
+	    <i id="role_filter_form" class="icon-custom-search nav-search-icon" data-toggle="tooltip" data-animation="true" style='cursor: pointer;' title="Search"></i>
+	    <span class="sideBarBreadCrumbSpan">|</span>
+
+		<i id="plus_bar" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' title="Add" onclick="openAddScreen('role');removePermissionTableData();" data-toggle="tooltip" data-animation="true"></i>
+
+	    <!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">
+		<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('role');removePermissionTableData();" style="margin-right: 6px; color:#242424; margin-left: 6px;">
+			<span class="bigger-110 no-text-shadow" id="add_role_btn">Role</span>
+		</a>-->
+	
+	</div>
+	<!--#nav-search  add button-->
+
+</div>
+<div id="role_main_div">
+  <!-- Start of viewRoleDiv-->
+  <div id="list_role_div" style="padding:10px;">
+
+      <div id="roleViewGrid" class="" style="cursor:pointer;"></div>
+
+    
+    <!-- End of span4 Div-->
+    
+    <!-- grid-pager start-->
+	<div id="grid-pager" style="width: auto;height:0px !important;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+		<div id="role_pagination" class="ui-pager-control" role="group">
+			<table class="ui-pg-table paginationDivClass">
+				<tbody>
+					<tr>
+						<td id="grid-pager_left" style="text-align:left">
+							<div dir="ltr" style="text-align:left;margin-left:10px; font-size:15px;" class="ui-paging-info"> <span id="role_pagination_totalRecord"></span> <span id="role_totalCount"></span> </div>
+						</td>
+						<td id="grid-pager_center" style="white-space: n; width: 341px;text-align:center">
+							<table style="table-layout:auto;border:0px;padding:0px;" class="ui-pg-table">
+								<tbody>
+									<tr>
+										<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="role_pagination_pre" onclick="pagPrev('role_pagination','Roles','getRoleData','role_page_llimit','role_page_ulimit','rolepagenovalue','role_grid')"></span></td>
+										<td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+										
+										<td dir="ltr"><a id="role_pagination_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="rolepagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span>
+										<!--<input class="ui-pg-input text-field-pagination" id="rolepagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>-->
+										</td>
+
+										<td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+										<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="role_pagination_next" onclick="pagNext('role_pagination','Roles','getRoleData','role_page_llimit','role_page_ulimit','rolepagenovalue','role_grid')"></span></td>
+										<td dir="ltr">
+											<select style='width: 60px; margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox" onChange="setRolePaginationValue(); return false;" id="role_pagination_value">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td id="grid-pager_right" style="text-align:right">
+
+							<!--<div dir="ltr" id="content" style="text-align:right;margin-right:10px;" class="ui-paging-info"></div>-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<input type="hidden" id="role_page_llimit" value="">
+			<input type="hidden" id="role_page_ulimit" value="">
+		</div>
+	</div>
+    <!-- grid-pager end-->
+    
+          
+          <!-- Pagination Div Started 
+							  								
+							<div id="role_pagination" style="position:fixed !important;bottom:0px !important;height:38px !important;background-color: #ececec;width:100%;"> 
+							<div class="pagination">
+							<div>
+							 <ul style='width:100%'>
+								<li style='display: block;float: left;margin:3px;'><div id="sample-table-2_length" class="dataTables_length"><select size="1" onChange="setRolePaginationValue(); return false;" id="role_pagination_value" name="sample-table-2_length" aria-controls="sample-table-2"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></div></li>
+								<li style='display: block;float: left;margin:3px;'><button class="btn btn-mini btn-info" id="role_pagination_refresh"  onclick="refreshAllRoleList()"><i class="icon-refresh"></i></button></li>
+								<li style='display: block;float: left;margin:3px;'><button class="btn btn-mini btn-info" id="role_pagination_pre"  onclick="pagPrev('role_pagination','Roles','getRoleData','role_page_llimit','role_page_ulimit')"></button></li>
+                               <li style='display: block;float: left;margin:3px;'><button class="btn btn-mini btn-info" id="role_pagination_next"  onclick="pagNext('role_pagination','Roles','getRoleData','role_page_llimit','role_page_ulimit')"></button></li>
+                               
+								<li id="content"  style='display: block;float: left;margin:3px;margin-left:55%;color:#1E5F9F;'> </li>
+								<input type="hidden" id="role_page_llimit" value="">
+								<input type="hidden" id="role_page_ulimit" value="">
+								
+							  </ul>
+							 	</div>		 
+							</div>	
+				</div>	-->
+				<!-- End of Pagination Div  -->
+    
+          </div>
+          
+          
+      <!-- End of viewRoleDiv Div-->
+      
+      <!-- Start of addRoleDiv-->
+      <div id="add_role_div" class="AddEditBOX">
+
+		<h1 class="newheader" id="add_role_header">Add Role</h1>
+
+        <div class=''>
+			<div class='space'></div>
+
+				<div class="span12">
+					<form class="form-horizontal " id="add_role_form" style="height: 30px /* previous 70px NEW UI */;">
+						<div class="row-dark-edit">
+							<div class="column left">
+								<!--<span id='role_RoleName' class='required'>*</span><br>-->
+								<input type="text" id="rolename" class="validate[required] alphanumericallowspecial text-field">
+							</div>
+							<div class="column left">
+								<!--<span id='role_Description' class='required'>*</span><br>-->
+								<input type="text" id="description"  class="validate[required]  text-field">
+							</div>
+						</div>
+					</form>
+				</div>
+
+		<!--Row Start-->
+		<div class="row" style='margin-left:0px;  padding: 6px;'>
+
+			<!--Left box start-->
+			<div class="span6">
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-bluebottom">
+						<h4 class="lighter text-capitalize" id="add_feature_lbl">Add Features</h4>
+					</div>
+					<div class="widget-body">
+						<div class="widget-main" style='height: 250px; overflow-y: auto; overflow-x: hidden;'> 
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered table-hover" id="add_role_Features" style="max-width:100%;">
+								<thead>
+								<tr>
+									<th id="role_name_lbl">Name</th>
+									<th class="center" id="role_view_lbl">View</th>
+									<th class="center" id="role_add_lbl">Add</th>
+									<th class="center" id="role_edit_lbl">Edit</th>
+									<th class="center" id="role_delete_lbl">Delete</th>
+								</tr>
+								</thead>
+								<tbody id='add_permission_list_tbody'>
+								</tbody>
+								</table>
+							</div><!-- /.table-responsive -->			
+						</div>
+					</div>
+				</div>
+			</div><!-- /span -->
+			<!--Left box end-->									
+
+			<!--Right box start-->
+			<div class="span5" style='  margin-left: 4%;'>
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-bluebottom" id="dash_widget">
+						<h4 class="lighter text-capitalize" id="dashboard_widgets_lbl">Dashboard Widgets</h4>
+					</div>
+					<div class="widget-body">
+						<div class="widget-main" style='height: 250px; overflow-y: auto; overflow-x: hidden;'> 
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered table-hover" id="dash_widget_tbl">
+								<thead>
+								<tr>
+									<th style="width:80%" id="Dashboard_name_lbl">Name</th>
+									<th class="center" id="Dashboard_allow_lbl">Allow</th>
+								</tr>
+								</thead>
+								<tbody id='add_permission_db_widget_list_tbody'>
+								</tbody>
+								</table>
+							</div><!-- /.table-responsive -->			
+						</div>
+					</div>
+				</div>
+			</div><!-- /span -->
+			<!--Right box end-->									
+
+		</div>
+		<!--Row End-->
+		
+		<div class="space"></div>
+
+		<!-- Add Role Button Start -->
+		 <div class="offset9 pull-left" id="roleCreate_box"> <!-- previous class 'span4' NEW UI -->
+			<button class="btn btn-mini btn-info" type="button" onclick="AddRolePermissionMapping()"> <!-- btn-primary NEW UI -->
+				<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+				<span class="bigger-110 no-text-shadow" id="create">Create</span>
+			</button>
+
+			<button class="btn btn-mini btn-info" type="reset" onclick="resetTestEditor('add_role_form')" >
+				<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+				<span class="bigger-110 no-text-shadow" id="add_role_reset">Reset</span>
+			</button>
+		</div>
+		<!-- Add Role Button End -->
+
+			<!--<div id="role_info_user" style="display:none;margin-right:26% !important; margin-bottom: 164px !important; height: 5px !important;">
+				<ul>
+					<li id="rolenameexist" class="invalidUser" id="uservalid" style="margin-left: -6px;" >
+					 <strong id="role_validateusername">Role Already Exist</strong>
+					</li>
+				</ul>
+			</div>-->
+
+			<div id="role_info_user" class="formError" style="display: none; opacity: 0.87; position: absolute; top: 17%; left: 21%; margin-top: -38px;">
+				<div class="formErrorContent">* Role Already Exist<br> </div>
+				<div class="formErrorArrow">
+					<div class="line10"></div>
+					<div class="line9"></div>
+					<div class="line8"></div>
+					<div class="line7"></div>
+					<div class="line6"></div>
+					<div class="line5"></div>
+					<div class="line4"></div>
+					<div class="line3"></div>
+					<div class="line2"></div>
+					<div class="line1"></div>
+				</div>
+			</div>
+
+            <div class='clear'></div>
+        </div>
+        
+      </div>
+      <!-- End of add_Role_Div Div-->
+
+
+		<!-- Start of editRoleDiv-->
+		<div id="edit_role_div" class="AddEditBOX">
+		    <h1 class="newheader" id="edit_role_header">Edit Role</h1>
+		    <div class=''>
+				<div class="span12">
+					<form class="form-horizontal " id="edit_role_form" style="height: 30px /* previous 70px NEW UI */;">
+						<div class="row-dark-edit">
+							<div class="column left">
+								<span id='role_RoleName' class='required'></span>
+								<br>
+								<input type="text" id="rolename"  class="validate[required] alphanumericallowspecial text-field " disabled>
+								</div>
+								<div class="column left">
+									<span id='role_Description' class='required'></span>
+									<br>
+									<input type="text" id="description"  class="validate[required]  text-field">
+								</div>
+							</div>
+								<input type="hidden" id="roleid">
+					</form>
+				</div>
+						<!--Row Start-->
+						<div class="row" style='margin-left:0px;'>
+							<!--Left box start-->
+							<div class="span6">
+								<div class="widget-box transparent">
+									<div class="widget-header widget-header-bluebottom">
+										<h4 class="lighter text-capitalize" id="edit_addfeature_lbl">Add Features</h4>
+									</div>
+									<div class="widget-body">
+										<div class="widget-main" style='height: 250px; overflow-y: auto; overflow-x: hidden;'>
+											<div class="table-responsive">
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
+														<tr>
+															<th id="edit_features_name">Name</th>
+															<th  id="edit_features_view" class="center">View</th>
+															<th id="edit_features_add" class="center">Add</th>
+															<th id="edit_features_edit" class="center">Edit</th>
+															<th id="edit_features_delete" class="center">Delete</th>
+														</tr>
+													</thead>
+													<tbody id='edit_permission_list_tbody'></tbody>
+												</table>
+											</div>
+											<!-- /.table-responsive -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /span -->
+							<!--Left box end-->
+							<!--Right box start-->
+							<div class="span5" style='/*margin-left:1%*/'>
+								<div class="widget-box transparent">
+									<div class="widget-header widget-header-bluebottom" id="dash_widget">
+										<h4 class="lighter text-capitalize" id="dashboard_widgets_lbl">Dashboard Widgets</h4>
+									</div>
+									<div class="widget-body">
+										<div class="widget-main" style='height: 250px; overflow-y: auto; overflow-x: hidden;'>
+											<div class="table-responsive">
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
+														<tr>
+															<th style="width:80%" id="edit_dashboard_widgets_name">Name</th>
+															<th class="center" id="edit_dashboard_widgets_allow">Allow</th>
+														</tr>
+													</thead>
+													<tbody id='edit_permission_db_widget_list_tbody'></tbody>
+												</table>
+											</div>
+											<!-- /.table-responsive -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /span -->
+							<!--Right box end-->
+						</div>
+						<!--Row End-->
+						<!-- Edit Role Button Start -->
+						<div class="span2 pull-right" id="update_div">
+							<!-- previous class 'span4' NEW UI -->
+							<button class="btn btn-mini btn-info" type="button" onclick="PermissionMappingupdateRole(); return false;" style="margin-left: -8%;">
+								<!--<i class="icon-save bigger-110"></i>-->
+								<!-- NEW UI -->
+								<span class="bigger-110 no-text-shadow"  id="update" >Update</span>
+							</button>
+							<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('role')"  >
+								<!--<i class="icon-level-up bigger-110"></i>-->
+								<!-- NEW UI -->
+								<span class="bigger-110 no-text-shadow" id="edit_role_cancel">Cancel</span>
+							</button>			
+						</div>
+						<!-- Edit Role Button End -->
+						<div class='clear'></div>
+			</div>
+		</div>
+		<!-- End of editRoleDiv-->
+	  
+      <!-- End of addRoleDiv Div-->
+      <div class="profile-user-info profile-user-info-striped" id="details_role_div" >
+					<div class="page-header-custom" >
+							<h1 class="newheader" id="viewrole_header">
+								View Role 
+							</h1>
+						</div>
+					<div class="profile-info-row">
+					<div class="profile-info-name" id="viewrole_id_lbl"> Roleid</div>
+
+					<div class="profile-info-value">
+					<span  id="roleid"></span>
+					</div>
+					</div> 				 	 						
+				    
+				    <div class="profile-info-row">
+					<div class="profile-info-name" id="viewrole_name_lbl"> Rolename</div>
+
+					<div class="profile-info-value">
+					<span  id="rolename"></span>
+					</div>
+					</div>                      
+					
+			        <div class="profile-info-row">
+					<div class="profile-info-name" id="viewrole_description_lbl"> Description </div>
+
+					<div class="profile-info-value">
+					<span  id="description"></span>
+					</div>
+					</div> 
+											 	 						
+						
+					                      
+                                         
+					
+				 
+								                     					
+												
+																	                     					
+												
+								
+							
+	</div>
+      
+      
+</div>
+<!-- End of page-content Div-->
+
+<!--FilterTab div Starts here-->
+<div class="filterList" id="rolefilterTab" style="display:none; height: 18%;"> 
+       	<form class="form-horizontal" id="fiql_role_form" style="text-align:center;">					
+			  <button type="button" class="close" onclick='$("#rolefilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="roleFilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->
+
+				<div class="filterListlevel" >
+					<div class="column left">
+						<span style="float: left;" id="search_role_txt">Role</span>
+						<ul> 		
+							<input type="text" id="rolename" class="text-field" placeholder="Role">
+						</ul> 	
+					</div>		
+				</div>
+
+				<div class="filterListlevel" style="/*margin-left:50px !important;*/">
+					<div class="column left">
+						<span style="float: left;" id="search_role_description_txt">Description</span>
+						<ul> 		
+							<input type="text" id="description" class="text-field" placeholder="Description">
+						</ul> 	
+					</div>		
+				</div>
+				
+				<br>
+
+				<div class="filterListlevel">
+					<div class="pull-right">
+						<a href="#" onclick="searchRoleData(fiql_role_form); " style="/* float: right; */" id="searchRoleBtn" class="btn btn-mini btn-info">
+							Apply<!--<i class="icon-filter"></i>-->
+						</a>
+					</div>
+				</div>
+	
+		  </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+
+
+
+<script>
+  
+  
+  var pagellimit=0;
+ var pageulimit=DEFAULT_PAGE_UPPERLIMIT; 
+ var fiqlRolesParam;
+  var Rolesflag=0;
+$('#role_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#role_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+   $(document).ready(function() 
+                      {
+						  
+			$("#nav-search .richtextbread").css("display","block");
+			$("#nav-search #plus").css("display","");	
+			$("#nav-search #plus_bar").css("display","");
+			$("#nav-search #plus_txt").css("display","");	
+			
+						   if(hasValue(edit_role_header)){
+			$("#edit_role_div #edit_role_header").html(edit_role_header);
+     }
+						  if(hasValue(edit_addfeature_lbl)){
+			$("#edit_addfeature_lbl").html(edit_addfeature_lbl);
+     }
+						   if(hasValue(add_feature_lbl))
+		{	
+			$("#add_feature_lbl").html(add_feature_lbl);
+	 }
+	 if(hasValue(dashboard_widgets_lbl))
+		{	
+			$("#dash_widget #dashboard_widgets_lbl").html(dashboard_widgets_lbl);
+	 }
+						   if(hasValue(add_role_header))
+		{	
+			$("#add_role_div #add_role_header").html(add_role_header);
+	 }
+						 
+						 $("#role_filter_form").click(function (){
+							    $("#fiql_role_form").trigger('reset');
+			   $("#rolefilterTab").slideToggle();
+	});	 
+						  $('#role_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+					    $('.alphanumeric').alphanumeric(); //Allow only alphanumeric characters
+                        jQuery("#add_role_form").validationEngine();
+                        jQuery("#edit_role_form").validationEngine();
+                        $("#role_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+                        showRegularLoading();
+						sendGETRequest(context+"/rest/Roles/search?&orderBy=rolename&date="+new Date()+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getRoleData","");
+                        
+                        sendGETRequest(context+"/rest/Permissions/search?&date="+new Date()+"&orderBy=permissionname","getPermissionsData","");
+                        openListScreen('role');
+                        
+                         $('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/%!&@#~(){},<>|:; "});
+                        
+                        
+                        
+			$('#add_role_form #rolename').keyup(function() {
+				countrolename=0;
+				
+			 $('#role_info_user').hide();
+			}).blur(function() {
+				
+				newrolename = $(this).val();
+				/*if(hasValue(currentDomainId))
+			{	var url=context + "/rest/Roles/search?_s=rolename=="+newrolename+";domain.domainid=="+currentDomainId+"&ulimit=3&llimit=0";
+		}else
+		{var url=context + "/rest/Roles/search?_s=rolename=="+newrolename+"&ulimit=3&llimit=0";
+		}*/
+		var url=context + "/rest/Roles/getRolesByRolename?rolename="+newrolename;
+				sendGETRequest(url,"getRoleSearchData","");
+			});
+
+                      });
+	function resetRoleUserForm(){
+      document.getElementById('add_role_form').reset();
+	}
+  
+  function setRolePaginationValue() {
+	  $('#rolepagenovalue').html(1); 
+		pageulimit= eval($('#role_pagination_value').val())-1;
+		pagellimit=0;
+		$("#role_pagination_next").css("display", "");
+		$("#role_pagination_pre").css("display", "");
+		$('#role_pagination #role_page_llimit').val(pagellimit);
+		$('#role_pagination #role_page_ulimit').val(pageulimit);
+		$("#role_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		showRegularLoading();
+		sendGETRequest(context+"/rest/Roles/search?&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getRoleData","");
+		roleTable.fnDraw();
+		}
+   if(hasValue(index_home))
+			$("#role_home").html(index_home);
+			
+			if(hasValue(permission_breadcrumb))
+			$("#role_page_breadcrumbs").html(role_breadcrumb);
+  $('#role_pagination #role_page_llimit').val(pagellimit);
+  $('#role_pagination #role_page_ulimit').val(pageulimit);
+  
+  
+  
+  
+  if(hasValue(roles_placeholder_role))
+	{
+		$("#fiql_role_form #rolename").attr('placeholder',roles_placeholder_role);
+		
+	 }
+	 if(hasValue(roles_button_search))
+			$("#fiql_role_form #searchUserBtn").html(roles_button_search);
+			if(hasValue(roles_button_create))
+			$("#roleCreate_box #create").html(roles_button_create);
+			if(hasValue(roles_button_reset))
+			$("#roleCreate_box #reset").html(roles_button_reset);
+			if(hasValue(roles_button_update))
+			$("#update_div #update").html(roles_button_update);
+			
+			
+			if(hasValue(role_view_lbl))
+			$("#edit_features_view").html(role_view_lbl);
+			if(hasValue(role_name_lbl))
+			$("#edit_features_name").html(role_name_lbl);
+			if(hasValue(role_add_lbl))
+			$("#edit_features_add").html(role_add_lbl);
+			if(hasValue(role_edit_lbl))
+			$("#edit_features_edit").html(role_edit_lbl);
+			if(hasValue(role_delete_lbl))
+			$("#edit_features_delete").html(role_delete_lbl);
+			
+			if(hasValue(role_name_lbl))
+			$("#role_name_lbl").html(role_name_lbl);
+			if(hasValue(role_delete_lbl))
+			$("#role_delete_lbl").html(role_delete_lbl);
+			if(hasValue(role_view_lbl))
+			$("#role_view_lbl").html(role_view_lbl);
+			if(hasValue(role_add_lbl))
+			$("#role_add_lbl").html(role_add_lbl);
+			if(hasValue(role_edit_lbl))
+			$("#role_edit_lbl").html(role_edit_lbl);
+			
+			if(hasValue(Dashboard_name_lbl))
+			$("#Dashboard_name_lbl").html(Dashboard_name_lbl);
+			if(hasValue(Dashboard_allow_lbl))
+			$("#Dashboard_allow_lbl").html(Dashboard_allow_lbl);
+			
+			if(hasValue(Dashboard_name_lbl))
+			$("#edit_dashboard_widgets_name").html(Dashboard_name_lbl);
+			if(hasValue(Dashboard_allow_lbl))
+			$("#edit_dashboard_widgets_allow").html(Dashboard_allow_lbl);
+	 
+	 
+if(hasValue(roles_label_rolename))
+		{	
+			/*$("#add_role_form #role_RoleName").html(roles_label_rolename+":");
+			$("#edit_role_form #role_RoleName").html(roles_label_rolename+":");*/		
+			$("#add_role_form #rolename").attr('placeholder', roles_label_rolename);
+			$("#edit_role_form #rolename").attr('placeholder', roles_label_rolename);
+	 }
+	 if(hasValue(roles_label_description))
+		{	
+			/*$("#add_role_form #role_Description").html(roles_label_description+":");
+			$("#edit_role_form #role_Description").html(roles_label_description+":");*/
+			$("#add_role_form #description").attr('placeholder', roles_label_description);
+			$("#edit_role_form #description").attr('placeholder', roles_label_description);
+	 }
+	if(hasValue(roles_span_select))
+		{	
+			$("#role_select").html(roles_span_select);			
+	 }
+	if(hasValue(add_role_btn))
+		{	
+			$("#nav-search #add_role_btn").html(add_role_btn);
+	 }
+	 if(hasValue(search_role_txt))
+		{	
+			$("#rolefilterTab #search_role_txt").html(search_role_txt);
+	 }
+	 if(hasValue(search_role_description_txt))
+		{	
+			$("#rolefilterTab #search_role_description_txt").html(search_role_description_txt);
+	 }
+	 if(hasValue(searchRoleBtn))
+		{	
+			$("#rolefilterTab #searchRoleBtn").html(searchRoleBtn);
+	 }
+	
+	
+	 if(hasValue(role_name_lbl)){
+			$("#add_role_Features #role_name_lbl").html(role_name_lbl);
+     }     
+     if(hasValue(viewrole_header)){
+			$("#details_role_div #viewrole_header").html(viewrole_header);
+     }
+     if(hasValue(viewrole_id_lbl)){
+			$("#details_role_div #viewrole_id_lbl").html(viewrole_id_lbl);
+     }
+     if(hasValue(viewrole_name_lbl)){
+			$("#details_role_div #viewrole_name_lbl").html(viewrole_name_lbl);
+     }
+     if(hasValue(viewrole_description_lbl)){
+			$("#details_role_div #viewrole_description_lbl").html(viewrole_description_lbl);
+     }
+    
+     
+     if(hasValue(pagination_page_txt)){
+			$("#role_pagination_page_txt").html(pagination_page_txt);
+     }
+     
+      if(hasValue(add_role_reset))
+		{	
+			$("#add_role_reset").html(add_role_reset);
+	 }
+	 if(hasValue(edit_role_cancel))
+		{	
+			$("#edit_role_cancel").html(edit_role_cancel);
+	 }
+	 
+if(hasValue(index_home))
+			$("#role_home").html(index_home);
+			if(hasValue(role_breadcrumb))
+			$("#role_page_breadcrumbs").html(role_breadcrumb);
+</script>
+ <script type="text/javascript">
+
+createPermissionRowForRole("add_permission_list_tbody")
+addDashboardWidgetPermission("add_permission_db_widget_list_tbody");
+
+createPermissionRowForRole("edit_permission_list_tbody")
+addDashboardWidgetPermission("edit_permission_db_widget_list_tbody");
+
+$("#roleFilterCrossImg").attr("src", getImagePath('red_cross.png'));
+
+</script>	
+</body>
+</html>

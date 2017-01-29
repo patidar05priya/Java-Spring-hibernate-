@@ -1,0 +1,26 @@
+                                    <table border="0" cellpadding="10" cellspacing="0" width="600">
+                                                    <tr>
+                                                        <td valign="top" style="padding-left:0;">
+                                                       <div style='background-color:#F9F9F9;border:1px solid #BFBFBF;padding:15px;'>
+<h2 style='color:#1A4977'>Welcome to headstartdemo Application </h2>
+
+<h3 style='color:#1A4977'><strong>Dear ${Users.firstname},</strong>  </h3>
+<p>Thank you for registering with headstartdemo.</p>
+<p>Your account details are here :<br></p>
+#if(${Users.domain})
+<p> <strong>Domain:</strong> ${Users.domain.domainname} <br></p>
+#end
+<p> <strong>Username:</strong> ${Users.username} <br></p>
+
+<p> <strong>Please verify your email ID by clicking on the link below:</strong><br>
+<a href="${String}/rest/unauthorize/userActivation/${Users.userid}/${Users.activationkey}" style='font-style:italic' target="_blank">Activation Link</a><br>
+
+
+</p>
+<p>Your account details are here :<br></p>
+<p>We appreciate your interest in www.headstartdemo.com If you have any queries,  please write to us at <a href="mailto:support@ headstartdemo.com" style='font-style:italic' target="_blank">support@ headstartdemo.com</a><br>
+<br>Regards,<br> headstartdemo Team</p>
+</div>
+                                                        </td>
+                                                    </tr>
+                                              </table>

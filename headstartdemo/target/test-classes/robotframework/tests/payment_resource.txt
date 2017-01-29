@@ -1,0 +1,120 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+       
+Select customer
+    Select From List By Index    //form[@id='add_payment_form']//select[@id='customer.firstName']    1
+     
+    
+Input payment_checkNumber
+    [Arguments]    ${checkNumber}
+    Input Text    //form[@id='add_payment_form']//input[@id='checkNumber']    ${checkNumber}
+    
+
+Input payment_amount
+    [Arguments]    ${amount}
+    Input Text    //form[@id='add_payment_form']//input[@id='amount']   ${amount}
+    
+
+Open payment_Tab
+    Click Link    payment_tab
+
+Open payment_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open payment_UpdatePage
+    Click Element    id=payment_edit_act
+
+Create payment_btn
+    Click Button    add_payment_btn
+
+Update payment_btn
+    Click Button    edit_payment_btn
+
+Delete payment_btn
+    Click Element    payment_delete_act
+
+Search payment_btn
+    Click Link   filterApply
+Input payment_checkNumber_update
+    [Arguments]    ${checkNumber}
+    Input Text    //form[@id='edit_payment_form']//input[@id='checkNumber']    ${checkNumber}
+Input payment_amount_update
+    [Arguments]    ${amount}
+    Input Text    //form[@id='edit_payment_form']//input[@id='amount']   ${amount}
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    payment_back
+
+Wait for delete button
+    Wait Until Page Contains Element        payment_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        payment_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for payment_tab 
+    Wait Until Page Contains Element    payment_tab    1 min
+
+    
+Click filter button
+    click Element    payment_filter

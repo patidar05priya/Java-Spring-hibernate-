@@ -1,0 +1,8 @@
+#appname:${appName}
+#publisher:headstart
+#url:http://${appName}.com
+#image:appicon.png
+#appid:com.inn.${appName}
+#desc:not specified
+#type:mobile
+#guid:f9eda80e-8545-41e2-ada1-345c8b340bbd

@@ -1,0 +1,31 @@
+<Context>
+         <for-each xpath="/UserInterface/VLayout/members/TabSet/tabs/tab[additionalInfo1='entitytab']" >
+            <TestCase template="TestCreate.vm" filename="Test${Entity}">
+               <!-- Create entity -->
+                     <ContextParam name="Entity" xpath="ID" type="substring_before" string="Tab"/> 
+                     <ContextParam name="TabSetName" xpath="../../ID" type="String" /> 
+                     <ContextParam name="TabSet" xpath="pane/TabSet/ID" type="String" /> 
+                     <ContextParam name="EntityCreateButton" xpath=".//Button/ID" type="String" /> 
+                     <ContextParam name="AddTab" xpath="pane/TabSet/tabs/tab/ID[contains(string(),'CreateTab')]" type="String" /> 
+                     <ContextParam name="TabName" xpath="ID" type="String" /> 
+                     <ContextParam name="Title" xpath="title" type="String" />         
+                     <ContextParam name="EntityName" xpath="ID" type="String" />    
+                     <ContextParam name="FormName" xpath=".//DynamicForm/ID[contains(string(),'CreateForm')]" type="String" /> 
+                     <ContextParam name="AddFormFields" xpath=".//DynamicForm[ID[contains(string(),'CreateForm')]]/fields" type="Field" />
+                     <ContextParam name="CreateListGrid" xpath=".//ListGrid/ID" type="String" />
+                     <ContextParam name="ViewTab" xpath=".//VLayout/members/TabSet/tabs/tab/ID" type="String" />
+                     <ContextParam name="CreateTabSet" xpath=".//members/TabSet/ID" type="String" />
+                     <ContextParam name="EditTab" xpath=".//VLayout/members/TabSet/tabs/tab/ID[contains(string(),'EditTab')]" type="String" />
+                     <ContextParam name="EditForm" xpath=".//tab/pane/DynamicForm/ID" type="String" />
+              <!-- Search entity -->
+                     <ContextParam name="SearchTab" xpath="pane/TabSet/tabs/tab/ID[contains(string(),'SearchTab')]" type="String" /> 
+                     <ContextParam name="SearchListGrid" xpath=".//ListGrid/ID[contains(string(),'ResultsGrid')]" type="String" />
+                     <ContextParam name="SearchTabSet" xpath=".//members/TabSet/ID[contains(string(),'SearchDetailsTabSet')]" type="String" />
+                     <ContextParam name="SearchEditTab" xpath=".//members/TabSet/tabs/tab/ID[contains(string(),'SearchEditTab')]" type="String" />
+                     <ContextParam name="SearchEditForm" xpath=".//members/TabSet/tabs/tab/pane/DynamicForm/ID[contains(string(),'SearchEditForm')]" type="String" />
+                     <ContextParam name="SearchForm" xpath=".//sections/items/DynamicForm/ID[contains(string(),'SearchForm')]" type="String" />
+    
+            </TestCase>   
+      </for-each>  
+</Context>
+

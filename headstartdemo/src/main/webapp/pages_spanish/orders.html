@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Orders</title>
+<meta charset="utf-8">
+<script src="../js/generated/Orders.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getordersTotalCount();
+if(update_Orders_permission)
+$('#Orders_formEdit').css('display','block');
+
+ $("#orders_filter_form").click(function (){
+ 	$("#fiql_orders_form").trigger('reset');
+			   $("#ordersfilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_orders_form").validationEngine();
+		jQuery("#edit_orders_form").validationEngine();
+		refreshAllOrdersList();
+		refreshAllFkOrdersList();
+		jQuery("#orders_formcomment").validationEngine();
+		$("#modifiedTimechk_orders_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('orders',$("#fiql_orders_form #sort_orders").val())},1000);
+				 $('#orders_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.orders_history_slimscroll_div').slimScroll({height: '350px'});
+			});
+</script>
+<style>
+	#orders_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#orders_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#orders_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="ordersquickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="ordersquickFilter" value="" ></div>	
+<div id="orders_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='customerchk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_customer','customer');">
+						<span class="lbl" id="Orders_thead_customer_Lbl">&nbsp;&nbsp;Customer</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='orderDatechk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_orderDate','orderDate');">
+						<span class="lbl" id="Orders_thead_orderDate_Lbl">&nbsp;&nbsp;Order Date</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='requiredDatechk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_requiredDate','requiredDate');">
+						<span class="lbl" id="Orders_thead_requiredDate_Lbl">&nbsp;&nbsp;Required Date</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='orderStatuschk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_orderStatus','orderStatus');">
+						<span class="lbl" id="Orders_thead_orderStatus_Lbl">&nbsp;&nbsp;Order Status</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='shippedDatechk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_shippedDate','shippedDate');">
+						<span class="lbl" id="Orders_thead_shippedDate_Lbl">&nbsp;&nbsp;Shipped Date</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='totalCostchk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_totalCost','totalCost');">
+						<span class="lbl" id="Orders_thead_totalCost_Lbl">&nbsp;&nbsp;Total Cost</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_creator','creator');">
+						<span class="lbl" id="Orders_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Orders_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Orders_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_orders' type="checkbox" onclick="orders_fnShowHide('Orders_thead_createdTime','createdTime');">
+						<span class="lbl" id="Orders_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openOrdersListScreen('orders')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Orders</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_orders_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_orders_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Orders</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_orders_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Orders</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_orders_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Orders</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="orders_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="orders_quick_filter" onclick="showHideFilterContent('orders');"/>-->
+						
+						
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="orders_quick_filter" onclick="showHideFilterContent('orders');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="orders_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshOrdersListFromPaginator();">All</a></li>
+	  	  		
+									<li id="customer_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Customer</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	       
+    	  		
+					<li id="orderDate_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Order Date')">Order Date </a></li>
+	
+							 
+	     
+    	  		
+					<li id="requiredDate_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Required Date')">Required Date </a></li>
+	
+							 
+	     
+    	  		
+					<li id="orderStatus_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Order Status')">Order Status </a></li>
+	
+							 
+	     
+    	       
+    	  		
+					<li id="shippedDate_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Shipped Date')">Shipped Date </a></li>
+	
+							 
+	     
+    	  		
+					<li id="totalCost_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Total Cost')">Total Cost </a></li>
+	
+							 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openOrdersTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="orders_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="orders_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 										
+										 										 																		 																		 																		 																		 																		 																		 																						<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreenInline('orders',orders_richtextfields);resetTestEditor('add_orders_form') "style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreenInline('orders',orders_richtextfields);resetTestEditor('add_orders_form');" data-toggle="tooltip" data-animation="true"></i>
+							
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreenInline('orders',orders_richtextfields);resetTestEditor('add_orders_form')" style="margin-right: 6px; color:#242424; margin-left: 6px;">		
+							<span id="plus_txt" class="bigger-110 no-text-shadow" id="Orders_addOrders">Orders</span>
+							</a>-->
+							
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+		<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="orders_main_div">
+			<div id="list_orders_div" style="padding:10px;">
+					
+				<!-- orders_grid start-->
+										<div id="orders_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- orders_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="orders_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="orders_pagination_totalRecord"></span> <span  id="orders_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="orders_pagination_pre"  onclick="pagPrev('orders_pagination','Orders','getOrdersDataPagination','orders_page_llimit','orders_page_ulimit','orderspagenovalue','orders',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="orders_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="orderspagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="orderspagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="orders_pagination_next"  onclick="pagNext('orders_pagination','Orders','getOrdersDataPagination','orders_page_llimit','orders_page_ulimit','orderspagenovalue','orders',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setOrdersPaginationValue(); return false;" id="orders_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="orders_page_llimit" value="">
+								<input type="hidden" id="orders_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_orders_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Orderscreateformheader">
+								Add Orders
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_orders_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Customer <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber" class="validate[required]" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+														       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Order Date <i class='required'>*</i></span><br>
+                           
+																						 
+								
+															<div class="input-prepend input-group adddatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="orderDate" class="form-control validate[required]" value="" readonly> 
+							 </div>		
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Required Date <i class='required'>*</i></span><br>
+                           
+																						 
+								
+															<div class="input-prepend input-group adddatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="requiredDate" class="form-control validate[required]" value="" readonly> 
+							 </div>		
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Order Status <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="orderStatus" id="orderStatus"  class=" alphanumericallowspecial validate[required,maxSize[15] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Shipped Date </span><br>
+                           
+																						 
+								
+															<div class="input-prepend input-group adddatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="shippedDate" class="form-control " value="" readonly> 
+							 </div>		
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Total Cost </span><br>
+                           
+																						
+                              <input type="text"  name="totalCost" id="totalCost" 
+                                                              class="integersallow validate[ maxSize[22],custom[number]] text-field  "  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																	<!-- add div many to one button and layout -->				
+																																																				    						<div class="row-dark-edit" style="height: 170px;">
+													<div class="left">
+							<span  class="richspan">Comments</span>
+
+					<div  id="comments"  class="editorcheck "  contenteditable="false" > </div>
+
+								
+							</div>
+
+						</div>
+																																																								
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_orders_btn" type="button" onclick="create_orders('add_orders_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Orders_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Orders_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+		
+																
+		
+				
+
+<div id="edit_orders_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Orderseditformheader">
+								Edit Orders
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_orders_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="orderNumber" id="orderNumber">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Customer <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber"  class="validate[required]  inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										 
+													  								                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Order Date <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																								
+							<div class="input-prepend input-group editdatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="orderDate" class="form-control timetype validate[required]" value=""> 
+							 </div>		
+																					
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Required Date <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																								
+							<div class="input-prepend input-group editdatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="requiredDate" class="form-control timetype validate[required]" value=""> 
+							 </div>		
+																					
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Order Status <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="orderStatus" id="orderStatus"  class="alphanumericallowspecial validate[required,maxSize[15] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Shipped Date</span><br>
+                         
+																						 
+						
+								
+																								
+							<div class="input-prepend input-group editdatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="shippedDate" class="form-control timetype " value=""> 
+							 </div>		
+																					
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Total Cost</span><br>
+                         
+																						
+                              <input type="text"  name="totalCost" id="totalCost" 
+                                                              class="integersallow validate[ maxSize[22],custom[number]] text-field "  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																	
+				
+								
+				
+				
+				
+				
+				
+				
+																																																				  						<div class="row-dark-edit" style="height: 170px;">
+													<div class="left">
+							<span   class="richspan">Comments</span>
+							
+							<div  id="comments"  class="editorcheck "  contenteditable="false" >
+							</div>
+
+									</div>																					
+								</div>
+						
+																																																								
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_orders_btn" type="button" onclick="edit_orders('edit_orders_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Orders_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('orders')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Orders_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_orders_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_orders"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Orders_formEdit"  onclick="ViewEditorders()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="orders_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Customer </div>
+
+					<div class="profile-info-value">
+												<span  id="customer.firstName"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Order Date  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="orderDate" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Required Date  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="requiredDate" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Comments  </div>
+
+										<div class="profile-info-value" style="overflow-y: auto;height: 55px;">
+																									<span  id="comments" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Shipped Date  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="shippedDate" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Total Cost  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="totalCost" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Orders_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Orders_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Orders_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="orders_history_tab" class="tab-pane active">
+														<div class="orders_history_slimscroll_div">
+															<div id="orders_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+							
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="ordersfilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_orders_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#ordersfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="ordersfilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																												
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Customer</span>
+                  
+                          		
+																																																															
+																		<select multiple name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Order Date</span>
+                  
+                          		
+																																																					  <div class="orderDateSelectBox">
+									<select id="orderDate-selectId" class="inputDown" onchange="checkDatePlugin(this.value,id,'orders')">  
+										<option value='none'>Any Time</option>
+										<option value='between'>Between dates</option>
+										<option value='before'>On and before date</option> 
+										<option value='after'>On and after date</option> 
+										<option value='15'>Last 15 Days</option>  
+										<option value='specific'>Specific Date</option>								 
+										<option value='7'>This Week</option>									
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										<option value='0'>Today</option>	
+										<option value='1'>Yesterday</option>
+									  </select> 
+								 </div>
+								<div class="row-fluid input-prepend orderDateBetweenDate" style="width: 200px; display:none" >
+									<span class= "add-on"> <i class= "icon-calendar "></i> </span>
+									<input class="orderDateBW" style="width: 135px;" type="text" name="orderDate-betweendate" id="orderDate-betweendate" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('orderDateSelectBox','orderDateBetweenDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>
+
+								<!--<div class="input-append date orderDateOneDate"  data-date-format="yyyy-mm-dd" style="display:none" >
+									<input class="span2 validate[required] dateinput" size="16" type="text" id="orderDate-date" value="" readonly/><span class="add-on"><i class="icon-th"></i></span>
+									<div class="table_close float_left" style="float: right;margin-right: -17px;margin-top: 8px;"onclick="openSelectBox('orderDateSelectBox','orderDateOneDate')" data-toggle="tooltip" title="Close" data-animation="true"></div>	
+								</div>-->
+
+								<div class="row-fluid input-prepend orderDateOneDate" style="width: 200px; display:none">
+									<span class="add-on"> <i class="icon-calendar"></i> </span>
+									<input class="validate[required] dateinput" style="width: 135px;" type="text" name="orderDate-date" id="orderDate-date" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('orderDateSelectBox','orderDateOneDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>					 
+									 
+																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Required Date</span>
+                  
+                          		
+																																																					  <div class="requiredDateSelectBox">
+									<select id="requiredDate-selectId" class="inputDown" onchange="checkDatePlugin(this.value,id,'orders')">  
+										<option value='none'>Any Time</option>
+										<option value='between'>Between dates</option>
+										<option value='before'>On and before date</option> 
+										<option value='after'>On and after date</option> 
+										<option value='15'>Last 15 Days</option>  
+										<option value='specific'>Specific Date</option>								 
+										<option value='7'>This Week</option>									
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										<option value='0'>Today</option>	
+										<option value='1'>Yesterday</option>
+									  </select> 
+								 </div>
+								<div class="row-fluid input-prepend requiredDateBetweenDate" style="width: 200px; display:none" >
+									<span class= "add-on"> <i class= "icon-calendar "></i> </span>
+									<input class="requiredDateBW" style="width: 135px;" type="text" name="requiredDate-betweendate" id="requiredDate-betweendate" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('requiredDateSelectBox','requiredDateBetweenDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>
+
+								<!--<div class="input-append date requiredDateOneDate"  data-date-format="yyyy-mm-dd" style="display:none" >
+									<input class="span2 validate[required] dateinput" size="16" type="text" id="requiredDate-date" value="" readonly/><span class="add-on"><i class="icon-th"></i></span>
+									<div class="table_close float_left" style="float: right;margin-right: -17px;margin-top: 8px;"onclick="openSelectBox('requiredDateSelectBox','requiredDateOneDate')" data-toggle="tooltip" title="Close" data-animation="true"></div>	
+								</div>-->
+
+								<div class="row-fluid input-prepend requiredDateOneDate" style="width: 200px; display:none">
+									<span class="add-on"> <i class="icon-calendar"></i> </span>
+									<input class="validate[required] dateinput" style="width: 135px;" type="text" name="requiredDate-date" id="requiredDate-date" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('requiredDateSelectBox','requiredDateOneDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>					 
+									 
+																						
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Order Status</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="orderStatus" id="orderStatus"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+														
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Shipped Date</span>
+                  
+                          		
+																																																					  <div class="shippedDateSelectBox">
+									<select id="shippedDate-selectId" class="inputDown" onchange="checkDatePlugin(this.value,id,'orders')">  
+										<option value='none'>Any Time</option>
+										<option value='between'>Between dates</option>
+										<option value='before'>On and before date</option> 
+										<option value='after'>On and after date</option> 
+										<option value='15'>Last 15 Days</option>  
+										<option value='specific'>Specific Date</option>								 
+										<option value='7'>This Week</option>									
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										<option value='0'>Today</option>	
+										<option value='1'>Yesterday</option>
+									  </select> 
+								 </div>
+								<div class="row-fluid input-prepend shippedDateBetweenDate" style="width: 200px; display:none" >
+									<span class= "add-on"> <i class= "icon-calendar "></i> </span>
+									<input class="shippedDateBW" style="width: 135px;" type="text" name="shippedDate-betweendate" id="shippedDate-betweendate" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('shippedDateSelectBox','shippedDateBetweenDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>
+
+								<!--<div class="input-append date shippedDateOneDate"  data-date-format="yyyy-mm-dd" style="display:none" >
+									<input class="span2 validate[required] dateinput" size="16" type="text" id="shippedDate-date" value="" readonly/><span class="add-on"><i class="icon-th"></i></span>
+									<div class="table_close float_left" style="float: right;margin-right: -17px;margin-top: 8px;"onclick="openSelectBox('shippedDateSelectBox','shippedDateOneDate')" data-toggle="tooltip" title="Close" data-animation="true"></div>	
+								</div>-->
+
+								<div class="row-fluid input-prepend shippedDateOneDate" style="width: 200px; display:none">
+									<span class="add-on"> <i class="icon-calendar"></i> </span>
+									<input class="validate[required] dateinput" style="width: 135px;" type="text" name="shippedDate-date" id="shippedDate-date" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('shippedDateSelectBox','shippedDateOneDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>					 
+									 
+																						
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="totalCost" id="totalCost"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="creator" id="creator"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="ordersSortBy" class="inputDown sortbydropdown" onchange="ordersSortByHighLightSelectedHeader('orders')">
+									 
+									 																										
+																														<option value='customer.customerNumber'>Customer</option>
+																																																																																									
+																				<option value='orderDate' >Order Date</option>  
+																																																								
+																				<option value='requiredDate' >Required Date</option>  
+																																																								
+																				<option value='orderStatus' >Order Status</option>  
+																																																																															
+																				<option value='shippedDate' >Shipped Date</option>  
+																																																								
+																				<option value='totalCost' >Total Cost</option>  
+																																																																																																						
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('orders',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_orders"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_orders"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchOrdersData(fiql_orders_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_orders_div"></div>
+		<div id="error_500_orders_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="orders_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#orders_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteOrdersEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="orders_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Orders RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteOrdersEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setOrdersPaginationValue() {
+		$('#orderspagenovalue').html(1); 
+		$('#fiql_orders_form')[0].reset();
+		pageulimit= eval($('#orders_pagination_value').val()-1);
+		pagellimit=0;
+		$("#orders_pagination_next").css("display", "");
+		$("#orders_pagination_pre").css("display", "");
+		$('#orders_pagination #orders_page_llimit').val(pagellimit);
+		$('#orders_pagination #orders_page_ulimit').val(pageulimit);
+		$("#orders_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_orders_form #sort_orders').val();
+        var ordertypecall= $('#fiql_orders_form #sort_type_value_orders').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlOrdersParam="";
+				sendGETRequest(context+"/rest/Orders/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getOrdersDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('orders',$("#fiql_orders_form #sort_orders").val());
+		},1000);
+	}
+
+	$('#orders_main_div #error_404_orders_div').load(context+"/pages/error-404.html");
+	$('#orders_main_div #error_500_orders_div').load(context+"/pages/error-500.html");
+	
+		    
+	    var today = localizeDateString(new Date(),dateFormat);
+		$('#add_orders_form .adddatetype').attr("value",today);
+		$('#add_orders_form .adddatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+		$('#edit_orders_form .editdatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+		$('#add_orders_form .adddatetimetypeclass').datetimepicker({language: 'pt-BR', format:dateTimeFormat
+		});
+		$('#edit_orders_form .editdatetimetypeclass').datetimepicker({language: 'pt-BR', format:dateTimeFormat
+		});
+		$('.datepicker-days .table-condensed tbody').click(function(){
+		$('.datepicker-dropdown').css('display','none');
+		});
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlOrdersParam ="";
+var Ordersflag=0;
+
+$('#orders_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#orders_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#orders_grid').contextmenu({
+	target: '#orders_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#orders_pagination #orders_page_llimit').val(pagellimit);
+$('#orders_pagination #orders_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Orders_home").html(index_home);
+
+if(hasValue(orders_breadcrumb))
+	$("#Orders_page_breadcrumbs").html(orders_breadcrumb);
+
+if(hasValue(Orders_thead_sortby))
+			$("#ordersfilterTab #sortBy_span").html(Orders_thead_sortby);
+if(hasValue(Orders_thead_modifiedTime))
+			$("#ordersfilterTab #modifiedTime_span").html(Orders_thead_modifiedTime);
+if(hasValue(Orders_thead_createdTime))
+			$("#ordersfilterTab #createdTime_span").html(Orders_thead_createdTime);
+if(hasValue(Orders_viewdetail))
+			$("#details_orders_div #view_Orders").html(Orders_viewdetail);
+if(hasValue(Orders_thead_lastModifier))
+			$("#details_orders_div #Orders_detail_modifier").html(Orders_thead_lastModifier);
+if(hasValue(Orders_thead_creator))
+			$("#details_orders_div #Orders_detail_creator").html(Orders_thead_creator);
+if(hasValue(Orders_formCancel))
+			$("#Orders_formCancel").html(Orders_formCancel);
+if(hasValue(Orders_formUpdate))
+			$("#Orders_formUpdate").html(Orders_formUpdate);
+if(hasValue(Orders_formReset))
+			$("#Orders_formReset").html(Orders_formReset);
+if(hasValue(Orders_formCreate))
+			$("#Orders_formCreate").html(Orders_formCreate);
+
+if(hasValue(Orders_addOrders))
+			$("#Orders_addOrders").html(Orders_addOrders);
+if(hasValue(Orders_head_history))
+			$("#Orders_head_history").html(Orders_head_history);
+if(hasValue(Orders_head_Activities))
+			$("#Orders_head_Activities").html(Orders_head_Activities);
+if(hasValue(Orders_task_tab))
+			$("#orders_task_tab_link").html(Orders_task_tab);
+if(hasValue(Orders_comment_tab))
+			$("#orders_comment_tab_link").html(Orders_comment_tab);
+if(hasValue(Orders_comment_tab))
+			$("#orders_comment_modal #myModalLabel").html(Orders_comment_tab);
+
+if(hasValue(Orders_formEdit))
+			$("#Orders_formEdit").html("<i class='icon-edit bigger-110'></i>"+Orders_formEdit);
+
+if(hasValue(Orderscreateformheader))
+			$("#Orderscreateformheader").html(Orderscreateformheader);
+if(hasValue(Orderseditformheader))
+			$("#Orderseditformheader").html(Orderseditformheader);
+if(hasValue(pagination_page_txt))
+			$("#orders_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Orders_thead_customer_Lbl").html(Orders_thead_customer);
+              $("#Orders_thead_orderDate_Lbl").html(Orders_thead_orderDate);
+            $("#Orders_thead_requiredDate_Lbl").html(Orders_thead_requiredDate);
+            $("#Orders_thead_orderStatus_Lbl").html(Orders_thead_orderStatus);
+              $("#Orders_thead_shippedDate_Lbl").html(Orders_thead_shippedDate);
+            $("#Orders_thead_totalCost_Lbl").html(Orders_thead_totalCost);
+            $("#Orders_thead_creator_Lbl").html(Orders_thead_creator);
+            $("#Orders_thead_lastModifier_Lbl").html(Orders_thead_lastModifier);
+            $("#Orders_thead_modifiedTime_Lbl").html(Orders_thead_modifiedTime);
+            $("#Orders_thead_createdTime_Lbl").html(Orders_thead_createdTime);
+  
+  	$("#Orders_thead_customer_Flt").html(Orders_thead_customer);
+      	$("#Orders_thead_orderDate_Flt").html(Orders_thead_orderDate);
+    	$("#Orders_thead_requiredDate_Flt").html(Orders_thead_requiredDate);
+    	$("#Orders_thead_orderStatus_Flt").html(Orders_thead_orderStatus);
+      	$("#Orders_thead_shippedDate_Flt").html(Orders_thead_shippedDate);
+    	$("#Orders_thead_totalCost_Flt").html(Orders_thead_totalCost);
+    	$("#Orders_thead_creator_Flt").html(Orders_thead_creator);
+    	$("#Orders_thead_lastModifier_Flt").html(Orders_thead_lastModifier);
+    	$("#Orders_thead_modifiedTime_Flt").html(Orders_thead_modifiedTime);
+    	$("#Orders_thead_createdTime_Flt").html(Orders_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Orders_permission){
+		$("#orders_breadcrumbs #plus").css("display","");	
+		$("#orders_breadcrumbs #plus_bar").css("display","");
+		$("#orders_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#orders_breadcrumbs #orders_Quick_UL").addClass("pull-right");
+	$("#orders_breadcrumbs #plus").css("display","none");
+	$("#orders_breadcrumbs #plus_bar").css("display","none");
+	$("#orders_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function ordersSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#ordersSortBy').val());
+}
+
+             var orders_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 										 
+									     orders_richtextfields.push('comments');
+										
+										 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(orders_richtextfields))  
+					{
+					if(create_Orders_permission){
+					$("#orders_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Orders_permission){
+					$("#orders_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#ordersquickFilter').blur(function() {
+					$('#ordersquickFilterDiv').css('display','none');
+					$('#ordersquickFilter').val('');	
+					});	
+					
+					$("#ordersfilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

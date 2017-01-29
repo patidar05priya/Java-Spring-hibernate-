@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">OfficeDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">OfficeAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine1</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">addressLine1</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine2</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">addressLine2</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">cityName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">cityName</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">country</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">country</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">phone</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">phone</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">postalCode</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">postalCode</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">state</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">state</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">territory</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">territory</attr>
+        <attr name="required">true</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    OfficeAddForm.addProperties({saveOperationType:"add"});
+						OfficeAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetOffice = true;
+					    OfficeAddForm.clearValues();
+						resetOffice = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

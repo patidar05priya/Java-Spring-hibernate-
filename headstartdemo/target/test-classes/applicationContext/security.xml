@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><beans:beans xmlns:beans="http://www.springframework.org/schema/beans" xmlns="http://www.springframework.org/schema/security" xmlns:cap="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd ">
+<beans:bean class="com.inn.headstartdemo.security.spring.ChangePasswordSecurityInterceptor" id="passwordUpdateSecurityInterceptor">
+<beans:property name="passwordUpdateUrl" value="/j_security_pwd_update_check"/>
+<beans:property name="newPasswordParam" value="newPassword"/>
+<beans:property name="postUpdateRedirectUrl" value="/jsp/index.jsp"/>
+<beans:property name="updateFailRedirectUrl" value="/change_password.jsp"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.spring.CustomAuthenticationFailureHandler" id="authFailureHandler">
+<beans:property name="redirectUrlMap">
+<beans:props>
+<beans:prop key="LOCKED">/jsp/login.jsp?login_error=2</beans:prop>
+<beans:prop key="PASSWORD_EXPIRED">/change_password.jsp?scenario=pwd_expired</beans:prop>
+<beans:prop key="FIRST_TIME_LOGIN">/change_password.jsp?scenario=first_time_login</beans:prop>
+<beans:prop key="NOTIFY">/jsp/index.jsp</beans:prop>
+<beans:prop key="ERR_USER_NOT_EXIST">/jsp/login.jsp?login_error=3</beans:prop>
+<beans:prop key="NORMAL_AUTH_ERR">/jsp/login.jsp?login_error=1</beans:prop>
+</beans:props>
+</beans:property>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.spring.CustomAuthenticationSuccessHandler" id="authSuccessHandler">
+<beans:property name="redirectUrlMap">
+<beans:props>
+<beans:prop key="LOCKED">/jsp/login.jsp?login_error=2</beans:prop>
+<beans:prop key="PASSWORD_EXPIRED">/change_password.jsp?scenario=pwd_expired</beans:prop>
+<beans:prop key="FIRST_TIME_LOGIN">/change_password.jsp?scenario=first_time_login</beans:prop>
+<beans:prop key="NOTIFY">/jsp/index.jsp</beans:prop>
+<beans:prop key="ERR_USER_NOT_EXIST">/jsp/login.jsp?login_error=3</beans:prop>
+<beans:prop key="NORMAL_AUTH_ERR">/jsp/login.jsp?login_error=1</beans:prop>
+<beans:prop key="NORMAL">/jsp/index.jsp</beans:prop>
+</beans:props>
+</beans:property>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.web.authentication.UsernameAuthenticationFilter" id="usernameAuthenticationFilter">
+<beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
+<beans:property name="postOnly" value="true"/>
+<beans:property name="authenticationSuccessHandler" ref="authSuccessHandler"/>
+<beans:property name="authenticationManager" ref="authenticationManager"/>
+<beans:property name="authenticationFailureHandler" ref="authFailureHandler"/>
+</beans:bean>
+<beans:bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint" id="loginUrlAuthenticationEntryPoint">
+<beans:property name="loginFormUrl" value="/jsp/login.jsp"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.mgmt.PasswordHistoryService" id="passwordHistoryServiceBean" scope="prototype">
+<beans:description>implements algorithm to manage password</beans:description>
+<beans:property name="maxHistoryCount" value="3"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.mgmt.PasswordExpiryLoadStoreService" id="passwordLoadStoreServiceBean" init-method="init" scope="prototype">
+<beans:description>loads and stores back user specific password  expiration properties</beans:description>
+<beans:property name="detailsFetchQuery" value="select username,  failed_attempts, locked, last_updated_dt, history, first_time_login from password_expiry_details where username=:username"/>
+<beans:property name="featureFetchQuery" value="select username, expiration_interval, first_time_change from password_feature_config where username=:username"/>
+<beans:property name="successDetailsUpdateQuery" value="PasswordDetailUpdate"/>
+<beans:property name="unsuccessDetailsUpdateQuery" value="insert into password_expiry_details (username,failed_attempts, locked) values ( :username,:failed_attempts, :locked) ON DUPLICATE KEY UPDATE failed_attempts=:failed_attempts, locked=:locked"/>
+<beans:property name="userDetailsQuery" value="select u.username from users u where u.username=:username"/>
+<beans:property name="featureSetQuery" value="insert into password_feature_config (username,expiration_interval, first_time_change) values ( :provisionedUser, ${DEFAULT_EXPIRY_INTERVAL}, 1)"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.mgmt.PasswordExpiryDataAnalyzerService" id="passwordExpiryDataAnalyzerBean" scope="prototype">
+<beans:description>analyze password expiry data properties</beans:description>
+<beans:property name="expiryNotificationDuration" value="${EXPIRY_NOTIFICATION_DURATION}"/>
+<beans:property name="defaultExpiryInterval" value="${DEFAULT_EXPIRY_INTERVAL}"/>
+<beans:property name="maxAttempts" value="${MAX_ATTEMPTS}"/>
+<beans:property name="orgList" value=""/>
+<beans:property name="neverExpireIndicator" value="-2"/>
+<beans:property name="defaultExpireIndicator" value="-1"/>
+</beans:bean>
+<beans:bean class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl" id="tokenRepo"/>
+<beans:bean class="com.inn.headstartdemo.service.mail.MailServiceProvider" id="mailServiceProvider">
+<beans:description>represents a email properties</beans:description>
+<beans:property name="sslFactory" value="${SSL_SOCKETFACTORY}"/>
+<beans:property name="hostName" value="${HOST_NAME}"/>
+<beans:property name="socketFactoryFallback" value="${SOCKETFACTORY_FALLBACK}"/>
+<beans:property name="port" value="${SMTP_PORT}"/>
+<beans:property name="socketFactoryPort" value="${SOCKETFACTORY_PORT}"/>
+<beans:property name="auth" value="${AUTH}"/>
+<beans:property name="quitWait" value="${QUIT_WAIT}"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.service.mail.MailServiceProvider" id="mailServiceProvider2">
+<beans:constructor-arg name="mailServiceProvider" ref="mailServiceProvider"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.mgmt.PasswordManagementService" destroy-method="destroy" id="passwordMgmtServiceBean" init-method="init" scope="prototype">
+<beans:description>represents a password management service bean.</beans:description>
+<beans:property name="passwordHistoryService" ref="passwordHistoryServiceBean"/>
+<beans:property name="passwordLoadStoreService" ref="passwordLoadStoreServiceBean"/>
+<beans:property name="passwordExpiryDataAnalyzer" ref="passwordExpiryDataAnalyzerBean"/>
+</beans:bean>
+<beans:bean class="com.inn.headstartdemo.security.spring.context.ContextProvider" name="contextProvider"/>
+<http pattern="/images/**" security="none"/>
+<http pattern="/activationsuccess.html" security="none"/>
+<http pattern="/userRegister.jsp" security="none"/>
+<http pattern="/styles/**" security="none"/>
+<http pattern="/scripts/**" security="none"/>
+<http pattern="/js/**" security="none"/>
+<http pattern="/rest/UsersService/Users" security="none"/>
+<http pattern="/scripts/generated/users/**" security="none"/>
+<http pattern="/jsp/login.jsp" security="none"/>
+<http pattern="/rest/unauthorize/**" security="none"/>
+<http pattern="/rest/Users/registerFacebookUser**" security="none"/>
+<http pattern="/rest/Users/registeredgoogleuser**" security="none"/>
+<http pattern="/useractivation.jsp/**" security="none"/>
+<http pattern="/resetPassword.jsp/**" security="none"/>
+<http access-decision-manager-ref="accessDecisionManager" auto-config="false" disable-url-rewriting="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+<intercept-url access="Userread" pattern="/rest/Users/**"/>
+<intercept-url access="Customerread" pattern="/rest/Customer/search"/>
+<intercept-url access="Customerupdate" pattern="/rest/Customer/update/*"/>
+<intercept-url access="Customerdelete" pattern="/rest/Customer/delete/*"/>
+<intercept-url access="Customercreate" pattern="/rest/Customer/create/*"/>
+<intercept-url access="Officeread" pattern="/rest/Office/search"/>
+<intercept-url access="Officeupdate" pattern="/rest/Office/update/*"/>
+<intercept-url access="Officedelete" pattern="/rest/Office/delete/*"/>
+<intercept-url access="Officecreate" pattern="/rest/Office/create/*"/>
+<intercept-url access="Orderdetailread" pattern="/rest/Orderdetail/search"/>
+<intercept-url access="Orderdetailupdate" pattern="/rest/Orderdetail/update/*"/>
+<intercept-url access="Orderdetaildelete" pattern="/rest/Orderdetail/delete/*"/>
+<intercept-url access="Orderdetailcreate" pattern="/rest/Orderdetail/create/*"/>
+<intercept-url access="Employeeread" pattern="/rest/Employee/search"/>
+<intercept-url access="Employeeupdate" pattern="/rest/Employee/update/*"/>
+<intercept-url access="Employeedelete" pattern="/rest/Employee/delete/*"/>
+<intercept-url access="Employeecreate" pattern="/rest/Employee/create/*"/>
+<intercept-url access="Ordersread" pattern="/rest/Orders/search"/>
+<intercept-url access="Ordersupdate" pattern="/rest/Orders/update/*"/>
+<intercept-url access="Ordersdelete" pattern="/rest/Orders/delete/*"/>
+<intercept-url access="Orderscreate" pattern="/rest/Orders/create/*"/>
+<intercept-url access="Productread" pattern="/rest/Product/search"/>
+<intercept-url access="Productupdate" pattern="/rest/Product/update/*"/>
+<intercept-url access="Productdelete" pattern="/rest/Product/delete/*"/>
+<intercept-url access="Productcreate" pattern="/rest/Product/create/*"/>
+<intercept-url access="Paymentread" pattern="/rest/Payment/search"/>
+<intercept-url access="Paymentupdate" pattern="/rest/Payment/update/*"/>
+<intercept-url access="Paymentdelete" pattern="/rest/Payment/delete/*"/>
+<intercept-url access="Paymentcreate" pattern="/rest/Payment/create/*"/>
+<intercept-url access="readapplication" pattern="/rest/Users/search"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/changepassword/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/resetpassword/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/create/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/delete/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/update/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/updateUser/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/unlock/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/updateRoles/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/disableuser/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Users/enableuser/**"/>
+<intercept-url access="usermgmt" pattern="/rest/Permissions/create/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Permissions/delete/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Permissions/update/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Roles/update/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Roles/create/*"/>
+<intercept-url access="usermgmt" pattern="/rest/Roles/delete/*"/>
+<intercept-url access="IS_AUTHENTICATED_REMEMBERED" pattern="/**"/>
+<custom-filter position="FORM_LOGIN_FILTER" ref="usernameAuthenticationFilter"/>
+<logout logout-success-url="/jsp/login.jsp"/>
+<remember-me token-repository-ref="tokenRepo"/>
+<custom-filter position="LAST" ref="passwordUpdateSecurityInterceptor"/>
+</http>
+<authentication-manager alias="authenticationManager">
+<authentication-provider>
+<jdbc-user-service authorities-by-username-query="select u.username as username,p.permissionname as authorityname from users u,roles r,permissions p,userrole ur, rolepermission rp where u.username = ? and ur.roleid = r.roleid and ur.userid = u.userid and r.roleid = rp.roleid and rp.permissionid = p.permissionid" data-source-ref="dataSource" users-by-username-query="select username, password, enabled from users where username=?"/>
+</authentication-provider>
+</authentication-manager>
+<beans:bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+<beans:property name="beanNames">
+<beans:list>
+<beans:value>*RestImpl</beans:value>
+</beans:list>
+</beans:property>
+<beans:property name="interceptorNames">
+<beans:list/>
+</beans:property>
+</beans:bean>
+<beans:bean class="org.springframework.security.access.vote.AffirmativeBased" id="accessDecisionManager">
+<beans:property name="decisionVoters">
+<beans:list>
+<beans:bean class="org.springframework.security.access.vote.RoleVoter">
+<beans:property name="rolePrefix" value=""/>
+</beans:bean>
+<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+</beans:list>
+</beans:property>
+</beans:bean>
+</beans:beans>

@@ -1,0 +1,54 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}       headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    default
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp?locale=en
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+
+*** Keywords ***
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Be    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Submit Credentials
+    Click Button    Login_button
+

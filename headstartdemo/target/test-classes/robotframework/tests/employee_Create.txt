@@ -1,0 +1,51 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to employee Crud.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          employee_resource.txt
+
+*** Test Cases ***
+Valid employee Create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for employee_tab 
+    Open employee_Tab
+    Open employee_CreatePage
+        Select office
+        Input employee_lastName    TestString
+    Input employee_email    TestString
+    Input employee_firstName    TestString
+    Input employee_extension    TestString
+    Input employee_jobTitle    TestString
+	Input employee_reportsTo    111						   
+    Create employee_btn
+    Open employee_Tab
+Valid employee Update
+    Wait for Update button
+    Open employee_UpdatePage
+    Input employee_lastName_update    TestString
+    Input employee_email_update    TestString
+    Input employee_firstName_update    TestString
+    Input employee_extension_update    TestString
+    Input employee_jobTitle_update    TestString
+	Input employee_reportsTo_update    111						   
+    Update employee_btn
+    Welcome Page Should Be Open
+    
+valid employee Search
+    Click filter button
+    Search employee_btn
+	Welcome Page Should Be Open
+
+valid employee Delete    
+    Wait for delete button
+    Delete employee_btn
+    Wait for delete ok
+    Click delete ok
+    Welcome Page Should Be Open

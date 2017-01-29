@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Sortable - dbportlets</title>
+<script src="../js/static/dashboardchart.js"></script>
+<script src="../js/static/Dashboard.js"></script>
+<script src="../js/jquery.bxslider.min.js"></script>
+
+</head>
+<body>
+		<div class="main-container container-fluid" id="Main_Dashboard_Div" style="overflow-y: scroll; height: 580px; overflow-x: hidden;">
+				<div class="page-content">
+					 <div class="newbreadcumb">
+        <div class="breadcrumb-button">
+		<i class="icon-home bredCrumICon"></i>
+          <span class="breadcrumb-label" id="home_label">Home</span>
+        
+        </div>
+      
+      </div>
+
+		<!-- Old -->
+		<!--<div class="nav-search" style="top: 6px; top: 9px\9 !important;display:inline-flex;margin-top: 4px;" id="dashboard_nav_search">
+
+				<i class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' title="Add" id="plus_bar" onclick="toogleDbAddWidget();" data-toggle="tooltip" data-animation="true"></i>
+				&nbsp; &nbsp;
+				<a href="" src="../images/profile.png" onclick="toogleDbAddWidget()" style="color: #000;"><span id="dashboard_widgetname">Widgets</span></a>
+
+		</div><!--#nav-search-->
+		
+		<!-- Defect fixed -->
+		<div class="nav-search" style="display:inline-flex; margin-top: 4px; margin-right: 5px;" id="dashboard_nav_search">
+
+			<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon cursor-pointer" onclick="toogleDbAddWidget();" data-toggle="tooltip" data-animation="true"></i>
+
+			<a id="plus" data-toggle="tooltip" title="Add" onclick="toogleDbAddWidget();" style="color:#242424;">
+				<span id="dashboard_widgetname" class="bigger-110 no-text-shadow">Widgets</span>
+			</a>
+
+		</div>
+
+<div id='topwidgetsDiv' class="dashboardColumn slider3" style='display1:none;min-height:300px;background:#fff;width:100%;margin-right: 0.2%;'>
+
+</div>
+<span id="displayMessage" style="color:cadetblue; margin-left:516px;color: cadetblue;margin-left: 475px;width: 185px;font-size: 20px;position: absolute;margin-top: -220px;"></span>
+</div>
+<div class="widget-bar"  style="display:none">
+<div class="widget">
+<div class="widget-head"></div>
+</div>
+<div class="widget">
+<div class="widget-head"></div>
+</div>
+<div class="widget">
+<div class="widget-head"></div>
+</div>
+<div class="widget">
+<div class="widget-head"></div>
+</div>
+
+
+</div>
+	<!--Container for the drag and drop widgets of the dashboard-->
+	<div id='DashboardDragParentDiv' class="dashboardColumn" style="margin-top: 10px; min-height:100px;"></div>
+</div>
+<div id="Reset_password_Db_modal"  class="modal hide fade cmnt resetPasswModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:35%; width:32%;">
+	 <div style="height: 50px;padding: 3px 14px;"> <!--class="modal-header" NEW UI-->
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="line-height:48px !important;">×</button>
+		<!--<h4 class="header red lighter bigger">
+			<i class="icon-key"></i>Reset Password
+		</h4>-->
+		<h4 class="header blue lighter bigger">
+			RESET PASSWORD
+		</h4>
+	</div>
+	 <div class="modal-body" style="height: auto; overflow: hidden;">
+	<div id="Reset_password_db"></div>
+  </div>
+  </div>
+
+<div id="Update_Role_Db_Modal"  class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:480px;overflow-y:auto;">
+	 <div class=""> <!-- previous class 'modal-header' NEW UI -->
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+		<!--<h3 id="myModalLabel">Update Users Role</h3>-->
+		<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+			UPDATE USER ROLE
+		</h4>
+	</div>
+	 <div class="modal-body updateRoleModalBody">
+	<div id="User_Role_Db_modal"></div>
+  </div>
+
+  <div id="edit_user_Db_modal"  class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style=" height:360px; width:800px; ">
+	 <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+	
+	
+	<h4 class="header red lighter bigger">
+	<i class="icon-key"></i>Update User
+	</h4>
+	</div>
+	 <div class="modal-body">
+	<div id="edit_user_db"></div>
+  </div>
+  </div>
+		</div> 
+	
+<script src="../js/ace-elements.min.js"></script>
+<script src="../js/ace.min.js"></script>
+
+<script>
+	
+	if(hasValue(home_label))
+	$("#home_label").html(home_label);
+	if(hasValue(dashboard_widgetname))
+	$("#dashboard_widgetname").html(dashboard_widgetname);
+	
+$(function() {
+	checkCookie();
+	loadDashboardPortlet();
+	//loadDashboardTopWidgetPortal();
+	//addValuesInWidgetDropDown();				
+	$('.tooltipdash').tooltipster();
+	$(".tooltipdash").tooltipster({'theme':'.tooltipster-punk','fixedWidth':2});
+	if(hasValue(dashboard_widgetname))
+	$('#dashboard_widgetname').text(dashboard_widgetname);
+});
+$(document).ready(function() 
+	{
+		if(BrowserDetect.browser == "Explorer"){
+
+
+var ieversion=navigator.appVersion.split(';')[1];
+		
+		if(ieversion.indexOf("MSIE 8.0")>-1){
+			
+			$("#breadcrumbhidden").css("display","none")
+			}}
+		window.setTimeout(function(){toogleDbAddWidget();},2000);});
+</script>
+</body>
+</html>

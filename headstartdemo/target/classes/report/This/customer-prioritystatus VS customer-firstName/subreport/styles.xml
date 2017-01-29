@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:layout="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf">
+  <layout:watermark>
+  </layout:watermark>
+  <layout:page-header>
+  </layout:page-header>
+  <layout:page-footer>
+  </layout:page-footer>
+</style>

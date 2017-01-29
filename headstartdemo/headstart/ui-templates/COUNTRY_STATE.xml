@@ -1,0 +1,35 @@
+<ComponentRepository>
+	
+<Component name="CountryStateDS" type="JSCode">
+	<init-params>
+	<param name="autogen_file_name" value="scripts/static/CountryStateDS.js" />
+<param name="jsCode" valueprovider="textcontent">
+RestDataSource.create({
+ID:"CountryDataSource",
+fields:[
+{name:"countryId",primaryKey:true},
+{name:"name"}
+],
+fetchDataURL:"/${app_name}/rest/CountryService/CountrySearch",
+recordXPath:"//Country"
+
+});
+
+
+RestDataSource.create({
+ID:"StateDataSource",
+fields:[
+{name:"stateId",primaryKey:true},
+{name:"name"},
+{name:"countryId"}
+],
+fetchDataURL:"/${app_name}/rest/StateService/StateSearch",
+recordXPath:"//State"
+
+});</param>
+	  <param name="id" value="addRemoveMember" />
+	</init-params>
+</Component>
+
+
+</ComponentRepository>

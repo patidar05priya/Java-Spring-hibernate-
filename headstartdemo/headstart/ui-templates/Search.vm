@@ -1,0 +1,34 @@
+*** Settings ***
+Documentation     A test suite containing tests related to ${tableName} Search.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          ${tableName}_resource.txt
+
+*** Test Cases ***
+valid ${tableName} Search
+     Open Browser To Login Page
+    Input Domain    default
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Open ${tableName}_Tab
+#set( $var = 0 )#foreach ($includeFile in $bootsStrapList)#if(!$includeFile.name.equals("$primarykey"))#if( !$includeFile.name.equals("createdTime") && !$includeFile.name.contains("domain") && !$includeFile.name.equals("modifiedTime"))#if($var>=6)#else
+#if($includeFile.type.equals("text"))
+    Search ${includeFile.name}     TestString
+#end
+#if($includeFile.type.equals("number"))
+    Search ${includeFile.name}      122                                          
+#end
+#if($includeFile.type.equals("Integer"))
+    Search ${includeFile.name}       11
+#end
+#if($includeFile.type.equals("richText"))
+    Search ${includeFile.name}     TestData
+#end
+#if($includeFile.type.equals("date"))#end
+#if($includeFile.type.equals("select") )#end#end#set( $var = $var + 1 )#end#end#end
+    Search ${tableName}_btn
+	Welcome Page Should Be Open

@@ -1,0 +1,153 @@
+Titanium.include("Application.js");
+
+
+
+var innerWin=Ti.UI.createWindow({
+	
+		backgroundImage:'ui/common/back2.jpg'
+	})
+
+
+function Dashboard(username)
+{
+	
+	var dashBoardView=Ti.UI.createView({
+		
+		
+	});
+	
+	
+var userProfile = Titanium.UI.createButton({
+   title: 'My Profile',
+   font: { fontSize:"12%",fontFamily:'sans-serif'},
+   top:"15%",
+   width: "37%",  
+   left: "5%",
+   right:"50%",
+   opacity:"2%",
+   height: "15%",
+    backgroundGradient:{type:'linear',
+colors:['#ffffff','#666666'],
+startPoint:{x:0,y:0},
+endPoint:{x:2,y:60},
+backFillStart:false}
+   
+});
+var Application = Titanium.UI.createButton({
+   title: 'Application',
+   top:"15%",
+   width: "37%",
+   font: { fontSize:"12%",fontFamily:'sans-serif'},
+   left: "55%",
+   right:"5%",
+   borderRadius:"7%",
+    backgroundGradient:{type:'linear',
+	colors:['#ffffff','#666666'],
+	startPoint:{x:0,y:0},
+	endPoint:{x:2,y:60},
+	backFillStart:false},
+   	opacity:"2%",
+   	height: "15%"
+});
+var usrmgnt = Titanium.UI.createButton({
+	
+	
+   title: 'User Management',
+   font: { fontSize:"12%",fontFamily:'sans-serif'},
+   top:"45%",
+   width: "37%",  
+   left: "5%",
+   right:"50%",
+   opacity:"2%",
+   height: "15%",
+    backgroundGradient:{type:'linear',
+	colors:['#ffffff','#666666'],
+	startPoint:{x:0,y:0},
+	endPoint:{x:2,y:60},
+	backFillStart:false}
+   
+});
+var dashBoard = Titanium.UI.createButton({
+   title: 'Dashboard',
+   top:"75%",
+   width: "37%",
+   font: { fontSize:"12%",fontFamily:'sans-serif'},   
+   left: "5%",
+   right:"5%",
+   opacity:"2%",
+   height: "15%",
+    backgroundGradient:{type:'linear',
+	colors:['#ffffff','#666666'],
+	startPoint:{x:0,y:0},
+	endPoint:{x:2,y:60},
+	backFillStart:false}
+   
+});
+
+var report = Titanium.UI.createButton({
+   title: 'Report',
+   top:"75%",
+   width: "37%",
+   font: { fontSize:"12%",fontFamily:'sans-serif'},   
+   left: "55%",
+   right:"5%",
+   opacity:"2%",
+   height: "15%",
+    backgroundGradient:{type:'linear',
+	colors:['#ffffff','#666666'],
+	startPoint:{x:0,y:0},
+	endPoint:{x:2,y:60},
+	backFillStart:false}
+   
+});
+var audit = Titanium.UI.createButton({
+   title: 'Audit',
+   top:"45%",
+   width: "37%",
+   font: { fontSize:"12%",fontFamily:'sans-serif'},   
+   left: "55%",
+   right:"5%",
+   opacity:"2%",
+   height: "15%",
+    backgroundGradient:{type:'linear',
+	colors:['#ffffff','#666666'],
+	startPoint:{x:0,y:0},
+	endPoint:{x:2,y:60},
+	backFillStart:false}
+   
+});
+usrmgnt.addEventListener('click',function(e){
+	
+	//innerWin.add(userView);	
+	dashBoardView.hide();
+	//userView.show();
+	
+});
+
+	  
+Application.addEventListener('click',function(e)
+{
+	alert("hi");
+	innerWin.add(applicationView);
+	dashBoardView.hide();
+	applicationView.show();
+});	
+applicationView.addEventListener('showdash',function(e)
+{
+	applicationView.hide();
+	dashBoardView.show();
+});
+
+	
+	
+	dashBoardView.add(usrmgnt);
+	dashBoardView.add(dashBoard);
+	dashBoardView.add(report);
+	dashBoardView.add(audit);
+	dashBoardView.add(userProfile);
+	dashBoardView.add(Application);
+	innerWin.add(dashBoardView);
+	innerWin.open();
+	
+	
+}

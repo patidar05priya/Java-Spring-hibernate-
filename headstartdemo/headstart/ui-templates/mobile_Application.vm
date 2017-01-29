@@ -1,0 +1,77 @@
+/**
+ * @author punit
+ */
+#foreach(${tableName} in $tableMap.entrySet())
+Titanium.include("${tableName.key}View.js");
+#end
+
+var applicationView= Ti.UI.createView({
+		
+		
+});
+var tableData = [
+		#foreach(${tableName} in $tableMap.entrySet())
+		{title:'${tableName.key}', price:'1.00', hasChild:true, color: '#fff', font: {fontSize:"24%"}},
+		#end
+		
+		
+		
+	];
+	
+	var apptable = Ti.UI.createTableView({
+		data:tableData,
+		top:"20%",
+		 font: {fontSize:"40%"}
+		
+	});
+	var dashboard_appbtn = Titanium.UI.createButton({
+   title: 'HOME',
+   font: {fontSize:"24px"},
+   borderRadius:"5",
+   top:"2%",
+   width: "80%",
+   color:'white',
+   backgroundGradient:{type:'linear',
+colors:['#000001','#666666'],
+startPoint:{x:0,y:0},
+endPoint:{x:2,y:50},
+backFillStart:false},
+   left: "10%",
+   right:"10%",   
+   height: "11%"
+});
+	
+	applicationView.add(apptable);
+	applicationView.add(dashboard_appbtn);	
+	Application();
+		
+function Application(){
+	
+	apptable.addEventListener('click',function(e){
+	
+		
+		switch(e.rowData.title)
+		{
+	        #foreach(${tableName} in $tableMap.entrySet())
+			case "${tableName.key}":
+			${tableName.key}View();
+			break;
+			#end	
+			
+			
+			
+			
+			}
+	
+	//SecondView();
+		
+		
+	});
+	    dashboard_appbtn.addEventListener('click',function(e){
+		applicationView.fireEvent('showdash', {
+			
+		});
+		
+		
+	});
+};

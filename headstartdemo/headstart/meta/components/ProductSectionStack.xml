@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudSectionStk" type="Section">
+  <attributes>
+    <attr name="id">ProductSectionStack</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="SubSection">
+      <attributes>
+        <attr name="title">Product</attr>
+        <attr name="canCollapse">false</attr>
+        <attr name="parentRelationType">included</attr>
+      </attributes>
+      <ComponentContainer>
+        <Component ref="ProductHLayout.xml"/>
+      </ComponentContainer>
+    </Component>
+  </ComponentContainer>
+</Component>
+

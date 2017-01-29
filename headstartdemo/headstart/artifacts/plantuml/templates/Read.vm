@@ -1,0 +1,28 @@
+@startuml
+title Find ${className} Scenario
+participant User
+User -> CXFServlet: GET, ${className} Search Critera XML
+activate CXFServlet
+CXFServlet -> ${className}: << create >>
+activate ${className}
+${className} -> CXFServlet: << instance >>
+deactivate ${className}
+CXFServlet -> ${className}RestImpl: getAll(:${classVariable})
+activate ${className}RestImpl
+${className}RestImpl -> ${className}ServiceDao: getAll(:${classVariable})
+activate ${className}ServiceDao
+${className}ServiceDao -> ${className}JPADao: getAll(:${classVariable})
+activate ${className}JPADao
+${className}JPADao -> EntityManager: getResultList(:${classVariable})
+activate EntityManager
+EntityManager -> ${className}JPADao: List<${className}>
+deactivate EntityManager
+${className}JPADao -> ${className}ServiceDao: List<${className}>
+deactivate ${className}JPADao
+${className}ServiceDao -> ${className}RestImpl: List<${className}>
+deactivate ${className}ServiceDao
+${className}RestImpl -> CXFServlet: List<${className}>
+deactivate ${className}RestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

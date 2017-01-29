@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <script src="../js/generated/chartSelected.js"></script>
+</head>
+
+<body>
+    <div class="newbreadcumb">
+        <div class="breadcrumb-button">
+            <i class="icon-edit bredCrumICon"></i>
+            <span class="breadcrumb-label" id="chart_Breadcumbsli">Analytics</span>
+        </div>
+    </div>
+
+    <div class="row AddEditBOX"><!--/*page-content row-fluid*/-->
+            <div class="span4">
+                <div id="AllChartsTable" style="/*margin-top: 48px;height: 480px;*/overflow: scroll;overflow-x: auto;"></div>
+            </div>
+
+            <div class="span7">
+                <!--<div class="span6 label label-large label-info arrowed-in arrowed-right" style="margin-left: -385px;margin-top: 15px;width: 345px;">
+					<span id="chart_SpanHeading"></span>
+				</div>-->
+
+                <div class="span7 widget-container-span ui-sortable" style="/*width: 712px; margin-top: 46px;*/">
+                    <div class="widget-box">
+                        <div class="widget-header-custom"><!--widget-header widget-header-flat-->
+                            <h4 class="bolder/*lighter*/" id="chart_ViewH4"></h4>
+                        </div>
+                        <div class="space"></div>
+                        <div class="widget-body" id="MainDiv1_Body1" style="/*margin: -1px;*/">
+                            <div id="chart_view" style="height:435px;overflow-x: hidden;width: 98%; padding-left:4px"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+    <!-- End of page-content Div-->
+    <script>
+        $(document).ready(function() {
+            if (hasValue(chartMeta)) {
+                chartTitle = chartMeta[0].title;
+                sendPOSTRequest(chartMeta[0].url, "", "viewChartCallback", chartMeta[0].url)
+            }
+        });
+        if (hasValue(chart_SpanHeading)) {
+            // $("#chart_SpanHeading").html(chart_SpanHeading);
+            $("#chart_Breadcumbsli").html(chart_SpanHeading);
+        }
+
+        // $("#chart_ViewH4").html('<i class="icon-star orange"></i>');
+        $("#chart_ViewH4").html(reports_h4_view);
+        if (hasValue(index_home))
+            $("#home").html(index_home);
+
+        $('#chart_view').slimscroll({
+            color: '#5F6173',
+            height: '435px'
+        });
+
+        $('#AllChartsTable').slimscroll({
+            color: '#5F6173',
+            height: '515px'
+        });
+    </script>
+    <script src="../js/static/analytics.js"></script>
+</body>
+
+</html>

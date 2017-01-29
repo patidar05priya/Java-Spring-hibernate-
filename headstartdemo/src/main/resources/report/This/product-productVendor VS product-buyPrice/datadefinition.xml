@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-definition xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/data/1.0">
+  <parameter-definition>
+  </parameter-definition>
+ <data-source report-query="get_table1" limit="-1" ref="datasources/compound-ds.xml"/>
+  <expression name="PageofPages" class="org.pentaho.reporting.engine.classic.core.function.PageOfPagesFunction">
+    <properties>
+      <property name="format">{0} / {1}</property>
+      <property name="pageIncrement">1</property>
+      <property name="startPage">1</property>
+    </properties>
+  </expression>
+</data-definition>

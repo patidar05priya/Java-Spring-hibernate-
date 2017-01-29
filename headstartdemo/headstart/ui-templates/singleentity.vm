@@ -1,0 +1,79 @@
+isc.ClassFactory.defineClass("singleEntity", "CanvasItem");
+
+isc.singleEntity.addProperties
+({
+    shouldSaveValue:true,
+     validators: 
+        [
+            {
+                type:"custom", 
+                condition: function(item, validator, value, record){
+                    var myform = item.canvas.members[0];
+                    item.setValue(myform.getValue(''));
+					if(item.isRequired)
+					{
+						if(myform.getValue(''))
+							return true;
+						else
+							return false;
+					}
+                    return true;
+                },
+                errorMessage: 'Field is required'
+            }
+        ],
+    init:function () 
+    {
+        var entityDataSource = this.entityDataSource;
+        var entityValueField = this.entityValueField;
+        var entityDisplayField = this.entityDisplayField;
+
+		if(this.isRequired)
+			this.title="<B><font color='brown'>"+this.title+"</font></B>";
+
+        this.canvas = isc.VLayout.create
+        ({
+            members:
+            [
+                       isc.DynamicForm.create
+                        ({
+                            fields: 
+                            [
+                                {name: '', type:'select', optionDataSource: entityDataSource, valueField: entityValueField, displayField: entityDisplayField}
+                            ]
+                        })
+            ]
+        });
+        return this.Super("init", arguments);
+    },
+    setValue : function (newValue) 
+    {
+		var temp = 'newValue.'+this.valueField;
+		var myform = this.canvas.members[0];
+		
+		if(newValue)
+		{	
+			var data = '';
+
+			if(eval(temp)){
+				myform.setValue('',eval(temp));
+				data = '[{'+this.valueField+': "'+eval(temp)+'"}]';
+			}
+			else{
+				data = '[{'+this.valueField+': "'+newValue+'"}]';
+			}
+
+			return this.Super("setValue", eval(data));
+		}
+		else
+		{	
+			myform.setValue('','');
+		}
+
+		return true;
+    }
+});
+
+
+getHeaderColorForTheme();
+getLoginUserDetail();

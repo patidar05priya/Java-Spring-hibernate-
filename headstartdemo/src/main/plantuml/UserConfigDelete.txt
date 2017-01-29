@@ -1,0 +1,28 @@
+@startuml
+title Delete UserConfig Scenario
+participant User
+User -> CXFServlet: DELETE, UserConfig
+activate CXFServlet
+CXFServlet -> UserConfig: << create >>
+activate UserConfig
+UserConfig -> CXFServlet: << instance >>
+deactivate UserConfig
+CXFServlet -> UserConfigRestImpl: delete(:userconfig)
+activate UserConfigRestImpl
+UserConfigRestImpl -> UserConfigServiceDao: delete(:userconfig)
+activate UserConfigServiceDao
+UserConfigServiceDao -> UserConfigJPADao: delete(:userconfig)
+activate UserConfigJPADao
+UserConfigJPADao -> EntityManager: remove(:userconfig)
+activate EntityManager
+EntityManager -> UserConfigJPADao: << persisted userconfig >>
+deactivate EntityManager
+UserConfigJPADao -> UserConfigServiceDao: << persisted userconfig >>
+deactivate UserConfigJPADao
+UserConfigServiceDao -> UserConfigRestImpl: << persisted userconfig >>
+deactivate UserConfigServiceDao
+UserConfigRestImpl -> CXFServlet: << persisted userconfig >>
+deactivate UserConfigRestImpl
+CXFServlet -> User: marshalled userconfig XML
+deactivate CXFServlet
+@enduml

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="ChartsTabVLayout" type="CustomHLayout">
+  <attributes>
+    <attr name="id">chartPortalContentArea</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+</Component>
+

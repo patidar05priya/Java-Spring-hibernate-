@@ -1,0 +1,28 @@
+@startuml
+title Delete Customer Scenario
+participant User
+User -> CXFServlet: DELETE, Customer
+activate CXFServlet
+CXFServlet -> Customer: << create >>
+activate Customer
+Customer -> CXFServlet: << instance >>
+deactivate Customer
+CXFServlet -> CustomerRestImpl: delete(:customer)
+activate CustomerRestImpl
+CustomerRestImpl -> CustomerServiceDao: delete(:customer)
+activate CustomerServiceDao
+CustomerServiceDao -> CustomerJPADao: delete(:customer)
+activate CustomerJPADao
+CustomerJPADao -> EntityManager: remove(:customer)
+activate EntityManager
+EntityManager -> CustomerJPADao: << persisted customer >>
+deactivate EntityManager
+CustomerJPADao -> CustomerServiceDao: << persisted customer >>
+deactivate CustomerJPADao
+CustomerServiceDao -> CustomerRestImpl: << persisted customer >>
+deactivate CustomerServiceDao
+CustomerRestImpl -> CXFServlet: << persisted customer >>
+deactivate CustomerRestImpl
+CXFServlet -> User: marshalled customer XML
+deactivate CXFServlet
+@enduml

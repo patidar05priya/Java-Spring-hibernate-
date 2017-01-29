@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns="http://reporting.pentaho.org/namespaces/engine/classic/bundle/layout/1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:style="http://reporting.pentaho.org/namespaces/engine/classic/bundle/style/1.0" xmlns:core="http://reporting.pentaho.org/namespaces/engine/attributes/core" xmlns:html="http://reporting.pentaho.org/namespaces/engine/attributes/html" xmlns:swing="http://reporting.pentaho.org/namespaces/engine/attributes/swing" xmlns:pdf="http://reporting.pentaho.org/namespaces/engine/attributes/pdf" xmlns:wizard="http://reporting.pentaho.org/namespaces/engine/attributes/wizard">
+  <report-header>
+    <root-level-content>
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+      <rectangle>
+        <style:element-style>
+          <style:content-styles draw-shape="false" fill-shape="true" scale="true" keep-aspect-ratio="false" dynamic-height="false" color="#585858" stroke-weight="1" stroke-style="solid"/>
+          <style:spatial-styles x="0" y="0" min-width="100%" min-height="25"/>
+        </style:element-style>
+      </rectangle>
+      <label>
+        <style:element-style>
+          <style:common-styles alignment="center" vertical-alignment="middle"/>
+          <style:content-styles color="white"/>
+          <style:text-styles font-face="Arial" bold="true" italic="false" font-size="18"/>
+          <style:spatial-styles x="0" y="0" min-width="100%" min-height="25"/>
+        </style:element-style>
+        <core:value>customer-prioritystatus VS customer-lastName</core:value>
+      </label>
+    </root-level-content>
+  </report-header>
+  <group>
+    <fields>
+    </fields>
+    <group-header>
+      <root-level-content>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-header>
+    <data-body>
+      <details-header>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-header>
+      <details>
+        <root-level-content>
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+        </root-level-content>
+        <sub-report href="subreport/content.xml">
+          <input-parameter master-fieldname="prioritystatus" detail-fieldname="prioritystatus"/>
+        </sub-report>
+      </details>
+      <no-data>
+        <root-level-content>
+          <style:element-style>
+            <style:common-styles avoid-page-break="true"/>
+          </style:element-style>
+        </root-level-content>
+      </no-data>
+      <details-footer>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </details-footer>
+    </data-body>
+    <group-footer>
+      <root-level-content>
+        <style:element-style>
+          <style:common-styles avoid-page-break="true"/>
+        </style:element-style>
+      </root-level-content>
+    </group-footer>
+  </group>
+  <report-footer>
+    <root-level-content>
+      <style:element-style>
+        <style:common-styles avoid-page-break="true"/>
+      </style:element-style>
+    </root-level-content>
+  </report-footer>
+</layout>

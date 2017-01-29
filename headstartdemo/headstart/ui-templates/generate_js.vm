@@ -1,0 +1,3244 @@
+var ${tableName}TableRowData='';
+var ${tableName}Table;
+var ${tableName}resultid;
+var ${tableName}oldnTr=null;
+var ${tableName}oldimg=null;
+var ${tableName}_inline_edit=false;
+var ${tableName}_creator_inline="";
+var ${tableName}id;
+#foreach($map1 in $notReverseMapList.entrySet())
+var ${map1.key}_${entityName}_json=new Array();
+#end
+
+#foreach( $map1 in  $reverseMapList)
+var ${map1.entityName}Data= new Array();
+var ${tableName}${map1.entityName}Id;
+var parent${map1.entityName}DivId;
+var editIdRowIndexOf${map1.entityName};
+var ${tableName}_${map1.entityName}_json = new Array();
+var ${tableName}Idfor${map1.entityName};
+var ${map1.entityName}listdata;
+var editabledataFor${map1.entityName};
+var editabledataFor${map1.entityName}_id;
+var ${map1.entityName}_no_address = 0;
+var ${tableName}_${map1.entityName}_json_index=0;
+var delete_${tableName}_${map1.entityName};
+#end
+function closeInline${entityName}GridRow(){
+		if(hasValue(${tableName}oldnTr)){
+				${tableName}Table.fnClose( ${tableName}oldnTr );
+		}
+}
+function addcommentFileCount${tableName}(data, type, full) 
+{				
+	
+	var commentCount;
+	var fileCount;
+	if(hasValue(full.commentCount)&& full.commentCount!=0){
+			commentCount=full.commentCount;
+		}
+	else{
+			commentCount="";
+		}
+	if(hasValue(full.fileAttacheCount)&& full.fileAttacheCount!=0){
+			fileCount=full.fileAttacheCount;
+		}
+	else{
+			fileCount="";
+		}	
+	
+								var str="<div class='hidden-phone visible-desktop btn-group' >";
+								var action480='<div class="visible-phone hidden-desktop"><div class="inline position-relative"><button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only bigger-110"></i></button><ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">';
+									
+								if(read_${entityName}_permission)
+									{
+										#if($isComment || $isFileAttach)
+
+ 										str += '<div class="table_view float_left" style="display:block; margin-left: #if($isComment && $isFileAttach) 15px; #else 35px #end;" id="${tableName}_details_act" data-toggle="tooltip" title="View"  data-animation="true"></div>' 
+										action480+='<li><div class="table_view float_left" style="display:block; margin-left:15px;" id="${tableName}_details_act"   data-toggle="tooltip" title="View"  data-animation="true"></div></li>';
+										
+										#else
+											str += '<div class="table_view float_left" style="display:block; margin-left:45px;" id="${tableName}_details_act"   data-toggle="tooltip" title="View"  data-animation="true"></div>' 
+											action480+='<li><div class="table_view float_left" style="display:block; margin-left:15px;" id="${tableName}_details_act"   data-toggle="tooltip" title="View"  data-animation="true"></div></li>';
+										#end
+										
+									}
+									
+									if(update_${entityName}_permission){
+									str+=	'<div class="table_edit float_left" id="${tableName}_edit_act" style="display:block"  data-toggle="tooltip" title="Edit" data-animation="true"></div> '
+									action480+='<li><div class="table_edit float_left" id="${tableName}_edit_act" style="display:block"  data-toggle="tooltip" title="Edit" data-animation="true"></div> </li>';
+									}
+									
+	                                if(delete_${entityName}_permission){str+=	'<div class="table_close float_left"  id="${tableName}_delete_act" style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div>';action480+='<li><div class="table_close float_left"  id="${tableName}_delete_act" style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div></li>';}
+									
+								    #if($isFileAttach)
+								      
+										if(parseInt(fileCount)>0) {
+											str+='<div class="float_left" style="display:block;" id="customer_file_act" data-toggle="tooltip" title="View"  data-animation="true">' 
+	
+											str+='<a href="#${tableName}_file_upload_modal" style="display:block" title="Attachment" class="table_attach_num float_left" id="${tableName}_file_upload_act"role="button"  data-toggle="modal"><span class="subNumberShowAttach">'+fileCount+'</span></a>'
+											
+											action480+='<li><div><a href="#${tableName}_file_upload_modal" style="display:block" title="Attachment" class="table_attach_num float_left" id="${tableName}_file_upload_act" role="button"  data-toggle="modal">'+fileCount+'</a></div></li>';
+	
+											str += "</div>";
+										}
+										else {
+											str+='<div class="float_left" style="display:block;" id="customer_file_act" data-toggle="tooltip" title="View"  data-animation="true">' 
+											
+											str+='<a href="#${tableName}_file_upload_modal" style="display:block" title="Attachment" class="table_attach_num float_left" id="${tableName}_file_upload_act"role="button"  data-toggle="modal"></a>';
+											
+											str += "</div>";
+											
+											action480+='<li><div><a href="#${tableName}_file_upload_modal" style="display:block" title="Attachment" class="table_attach_num float_left" id="${tableName}_file_upload_act" role="button"  data-toggle="modal"></a></div></li>';
+									   }
+								    #end
+								    
+								   #if($isComment)
+								    
+								    if(parseInt(commentCount)>0) {
+										str+='<div class="float_left" style="display:block;" id="customer_comments_act" data-toggle="tooltip" title="View"  data-animation="true">'
+
+										str+='<a href="#${tableName}_comment_modal"style="display:block" class="float_left table_comment_num" id="${tableName}_comment_act" role="button" title="Comment"  data-toggle="modal"><span class="subNumberShow">'+commentCount+'</span></a>';
+										action480+='<li><div><a href="#${tableName}_comment_modal"style="display:block" class="float_left table_comment_num" id="${tableName}_comment_act" role="button" title="Comment"  data-toggle="modal">'+commentCount+'</a></div></li>';
+
+										str += "</div>";
+								    }
+								    else {
+										str+='<div class="float_left" style="display:block;" id="customer_comments_act" data-toggle="tooltip" title="View"  data-animation="true">'
+
+										str+='<a href="#${tableName}_comment_modal"style="display:block" class="float_left table_comment_num" id="${tableName}_comment_act" role="button" title="Comment"  data-toggle="modal"></a>';
+
+										str += "</div>";
+
+										action480+='<li><div><a href="#${tableName}_comment_modal"style="display:block" class="float_left table_comment_num" id="${tableName}_comment_act" role="button" title="Comment"  data-toggle="modal"></a></div></li>';
+								    }
+								    #end
+									action480+="</ul></div></div>";
+							    	str+='</div>';
+								   return str+action480;
+}	
+
+
+#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+var ${tableName}_${includeFile.name}_inline="";
+	var ${tableName}_${includeFile.name}object="";
+		    var ${tableName}_${includeFile.name}id="";
+		    var ${tableName}_${includeFile.name}string="";
+		    	
+		#end	
+		#end	
+		#end
+
+
+#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+				var ${includeFile.name}_foriegn_${tableName};
+			#end
+		#end	
+
+	#set( $address = 0 )
+
+#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+#set( $address = $address+ 1 )
+#end
+#end
+#end
+var ${tableName}_no_address=${address};
+
+
+
+
+
+	function refreshAllFk${entityName}List(){
+	
+	#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+				#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equals("address4")))
+				sendGETRequest(context+"/rest/$includeFile.foreignKeyClass?&date="+new Date(),"${tableName}_getFK_$includeFile.name","");
+				#else	
+					#if($includeFile.isReverseMappingExist)
+					sendGETRequest(context+"/rest/$includeFile.foreignKeyClass/getUnassigned${includeFile.foreignKeyClass}ListFor${entityName}","${tableName}_getFK_$includeFile.name","");
+					#else
+					#if($dbType.equalsIgnoreCase("oracle"))
+						#if($includeFile.isdeletedExist)
+							sendGETRequest(context+"/rest/$includeFile.foreignKeyClass/search?_s=isdeleted==0&orderBy=${includeFile.viewerName}&orderType=asc&ulimit=100&llimit=0&date="+new Date(),"${tableName}_getFK_$includeFile.name","");
+						#else	sendGETRequest(context+"/rest/$includeFile.foreignKeyClass/search?&orderBy=${includeFile.viewerName}&orderType=asc&ulimit=100&llimit=0&date="+new Date(),"${tableName}_getFK_$includeFile.name","");
+						#end
+					#else
+						#if($includeFile.isdeletedExist)
+							sendGETRequest(context+"/rest/$includeFile.foreignKeyClass/search?_s=isdeleted==false&orderBy=${includeFile.viewerName}&orderType=asc&ulimit=100&llimit=0&date="+new Date(),"${tableName}_getFK_$includeFile.name","");
+						#else	sendGETRequest(context+"/rest/$includeFile.foreignKeyClass/search?&orderBy=${includeFile.viewerName}&orderType=asc&ulimit=100&llimit=0&date="+new Date(),"${tableName}_getFK_$includeFile.name","");
+						#end
+					#end
+					#end
+				#end
+			#end
+		#end
+	
+	}
+
+function refreshAll${entityName}List(){
+	showRegularLoading();
+var pagellimit=	$('#${tableName}_pagination #${tableName}_page_llimit').val();
+var pageulimit=$('#${tableName}_pagination #${tableName}_page_ulimit').val();
+
+var newpagellimit =parseInt(pagellimit);
+ var newpageulimit =parseInt(pageulimit);
+if(!isNaN(newpagellimit)){
+	
+	$("#${tableName}_pagination #content").text(pagination_showing+" "+(newpagellimit+1)+" "+pagination_to+" "+(newpageulimit+1)+" "+pagination_entries+" " );
+
+	}
+else{
+if(hasValue(pageulimit)&&hasValue(pagellimit))
+$("#${tableName}_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+else			
+$("#${tableName}_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(DEFAULT_PAGE_UPPERLIMIT+1)+" "+pagination_entries+" " );
+}
+	if(hasValue(check_list_view_screen)){
+			
+			openDetailScreen('${tableName}');
+			${tableName}resultid=list_view_callId;
+			#foreach($map1 in $reverseMapList)
+			 sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" +list_view_callId+ "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID_view", "");
+			 #end
+			sendGETRequest(context+"/rest/${entityName}/search?_s=${primarykey}=="+list_view_callId+"&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(),"get${entityName}Databyscreen","");
+			
+			#if($isFileAttach)	sendGETRequest(context+"/rest/${entityName}Attach/search?_s=${tableName}.${primarykey}=="+list_view_callId+"&date="+new Date()+"&ulimit=100&llimit=0","get_${tableName}_file_Attach_data_callback","","");
+			#end	
+				
+			#if($isComment)	sendGETRequest(context+"/rest/Comment/search?_s=${tableName}.${primarykey}=="+list_view_callId+"&date="+new Date(),"get_${tableName}_comment_data_callback","","");
+			#end								
+			#if($history.equalsIgnoreCase("true"))		sendGETRequest(context+"/rest/${entityName}/auditSearch?id="+list_view_callId+"&date="+new Date(),"get_${tableName}_history_data_callback","","");
+			#end
+			}
+		else{
+		openListScreen('${tableName}');
+		var orderbycall= $('#fiql_${tableName}_form #sort_${tableName}').val();
+		var ordertypecall= $('#fiql_${tableName}_form #sort_type_${tableName}').val();
+		if(!hasValue(orderbycall))
+			orderbycall="modifiedTime";	
+			if(!hasValue(ordertypecall))
+			ordertypecall="desc";
+			if(hasValue(pageulimit)&&hasValue(pagellimit))
+			{
+			#if($isdeleted)
+				#if($dbType.equalsIgnoreCase("oracle"))
+				sendGETRequest(context+"/rest/${entityName}/search?_s=isdeleted==0&date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+pageulimit+"&llimit="+pagellimit+"&date="+new Date(),"get${entityName}Data","");
+				#else
+				sendGETRequest(context+"/rest/${entityName}/search?_s=isdeleted==false&date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+pageulimit+"&llimit="+pagellimit+"&date="+new Date(),"get${entityName}Data","");
+				#end
+			#else
+				sendGETRequest(context+"/rest/${entityName}/search?date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+pageulimit+"&llimit="+pagellimit+"&date="+new Date(),"get${entityName}Data","");
+	
+			#end
+		}
+		else
+		{
+		#if($isdeleted)
+			#if($dbType.equalsIgnoreCase("oracle"))
+			sendGETRequest(context+"/rest/${entityName}/search?_s=isdeleted==0&date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&date="+new Date(),"get${entityName}Data","");
+			#else
+			sendGETRequest(context+"/rest/${entityName}/search?_s=isdeleted==false&date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&date="+new Date(),"get${entityName}Data","");
+			#end
+		#else
+		sendGETRequest(context+"/rest/${entityName}/search?date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&date="+new Date(),"get${entityName}Data","");	
+		#end
+		}
+		}	
+		  
+}
+
+function get${entityName}Databyscreen(XMLHttpRequest, data, rpcRequest)
+
+{  
+
+	window.setTimeout(function(){
+	$('#details_${tableName}_div span').each(function() {		
+					var getId=$(this).attr("id");
+					var getType=$(this).attr("type");
+					try{					
+					var value_Set = eval("data[0]."+getId) || "--";					
+						
+						if(getId=="enabled"){
+							enableStatus=value_Set;					
+						}
+					if(getType=="date")
+					{
+					value_Set=localizeDateString(new Date(value_Set),dateFormat);	
+						}	
+						
+					if(getId.toUpperCase()=="AMOUNT" || getId.toUpperCase()=="TOTAL")
+					{
+						value_Set=formatValueinKandM(value_Set);	
+					}
+						
+						#foreach($map1 in $reverseMapList)
+				
+                if (getId == "${map1.entityName}List") {
+                    if (hasValue(${map1.entityName}listdata)) {
+						var newdata = "";
+                        for (var i = 0; i < ${map1.entityName}listdata.length; i++) {
+ 
+
+                            newdata += "<a href='javascript:void(0)' id='${map1.tableName}_tab' name='${map1.tableName}'  onclick='createTabScreen(this.name,"+${map1.entityName}listdata[i].${map1.primaryKey}+")' class='blue'>" + ${map1.entityName}listdata[i].${map1.viewerField}+ "</a>,"
+
+                        }
+                        newdata = newdata.substring(0, (newdata.length - 1));
+                        value_Set = newdata;
+                    }
+                     }
+                    #end 
+                          #foreach($map2 in $notReverseMapList.entrySet()) 
+                    var newdata1 = "";
+                    #foreach ($includeFile in $bootsStrapList)	
+							#if($includeFile.isForeignKey && $includeFile.name.equalsIgnoreCase("${map2.value}"))
+							
+							 if (getId == "${includeFile.name}.${includeFile.viewerName}") 
+							 {
+							newdata1 += "<a href='javascript:void(0)' id='${map2.value}_tab' name='${map2.value}'  onclick='createTabScreen(this.name,"+aData.${includeFile.name}.${includeFile.dataName}+")' class='blue'>" + aData.${includeFile.name}.${includeFile.viewerName}+ "</a>"
+
+							value_Set = newdata1;
+                    
+							}
+							
+							#end
+					#end
+				#end	
+					$(this).html(value_Set);
+					}catch(err){}			
+				});
+				$("#details_view_${tableName}").html(data[0].${viewnamefield});
+				},1200);
+		RemoveUniqueLoading();
+}
+function refresh${entityName}ListFromPaginator(){
+showRegularLoading();
+	$('#${tableName}pagenovalue').html(1); 
+	$("#${tableName}_pagination_next").css("display", "");
+	$("#${tableName}_pagination_pre").css("display", "");
+	var uperLimit=eval($('#${tableName}_pagination_value').val());
+	$("#${tableName}_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(uperLimit)+" "+pagination_entries+" " );
+	openListScreen('${tableName}');
+		var orderbycall= $('#fiql_${tableName}_form #sort_${tableName}').val();
+		var ordertypecall= $('#fiql_${tableName}_form #sort_type_${tableName}').val();
+			sendGETRequest(context+"/rest/${entityName}/search?date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+(uperLimit-1)+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"get${entityName}Data","");
+	
+	
+	window.setTimeout(function(){
+			setSort('${tableName}',$("#fiql_${tableName}_form #sort_${tableName}").val());},1000);	
+		
+}
+
+#foreach ($includeFile in $bootsStrapList)	
+
+#if(!$includeFile.name.contains("domain"))
+			#if($includeFile.name.equalsIgnoreCase($modifiedby) || $includeFile.name.equalsIgnoreCase("$createdby"))
+			function ${tableName}_getFK_${includeFile.name}(XMLHttpRequest, data, rpcRequest)
+{
+
+		if(!checkException(XMLHttpRequest.responseText))
+			{
+				if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{		
+	if(XMLHttpRequest.status==200)
+			{
+var ${tableName}_uniqueArr_${includeFile.name} = [];
+$('#fiql_${tableName}_form #${includeFile.name}.${includeFile.viewerName}').empty();
+$('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').empty();
+$('#${tableName}_Quick_UL #${includeFile.name}_filter ul').empty();
+			 	jQuery.each(data, function(i,key){  
+
+                    if (${tableName}_uniqueArr_${includeFile.name}.indexOf((key.$includeFile.viewerName).trim()) === -1) {
+                        ${tableName}_uniqueArr_${includeFile.name}.push((key.$includeFile.viewerName).trim());
+				jQuery('#fiql_${tableName}_form #${includeFile.name}.${includeFile.viewerName}').append(jQuery('<option>',{
+					
+						value:key.$includeFile.dataName,
+						text:key.$includeFile.viewerName
+					}));
+					
+				jQuery('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+
+		$('#${tableName}_Quick_UL #${includeFile.name}_filter ul').append('<li><a tabindex="-1" href="javascript:open${entityName}TextSelectBox(\''+${entityName}_thead_${includeFile.name}+'\',\''+key.$includeFile.viewerName+'\')">'+key.$includeFile.viewerName+'</a></li>');
+		}
+});
+						
+			$("#fiql_${tableName}_form  #$includeFile.name\\.${includeFile.viewerName}").multipleSelect({
+										selectAll: false
+										});	
+			}
+	else{
+			alert("Error in retriving entities");
+		}		
+	 }
+	}
+	}
+
+			#end
+			#if($includeFile.isForeignKey && ( !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby")))
+			function ${tableName}_getFK_${includeFile.name}(XMLHttpRequest, data, rpcRequest)
+{
+
+		if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{		
+	if(XMLHttpRequest.status==200)
+			{
+		
+             $('#add_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').empty();
+		     $('#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').empty();			
+		     $('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').empty();
+		     $('#edit_${tableName}_form_inline #$includeFile.name\\.${includeFile.viewerName}').empty();
+$('#${tableName}_Quick_UL #${includeFile.name}_filter ul').empty();
+			jQuery('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+					value:"",
+					text:"All"
+			}));
+			jQuery('#add_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+					value:"",
+					text:"None"
+			}));
+			jQuery('#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+					value:"",
+					text:"None"
+			}));
+			jQuery('#edit_${tableName}_form_inline #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+					value:"",
+					text:"None"
+			}));
+var ${tableName}_uniqueArr_${includeFile.name}=[];
+			
+				jQuery.each(data, function(i,key){  
+				key.$includeFile.viewerName=htmlDecode(key.$includeFile.viewerName);
+jQuery('#add_${tableName}_form #$includeFile.name').append(jQuery('<option>',{
+					
+						value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+					}));
+jQuery('#edit_${tableName}_form #$includeFile.name').append(jQuery('<option>',{
+					
+						value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+					}));
+					
+				jQuery('#add_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+				jQuery('#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+			jQuery('#fiql_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+			jQuery('#edit_${tableName}_form_inline #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{
+			
+			value:key.$includeFile.dataName,
+			text:key.$includeFile.viewerName
+			}));
+			
+if (${tableName}_uniqueArr_${includeFile.name}.indexOf((key.$includeFile.viewerName).trim()) === -1) {
+                        ${tableName}_uniqueArr_${includeFile.name}.push((key.$includeFile.viewerName).trim());
+			$('#${tableName}_Quick_UL #${includeFile.name}_filter ul').append('<li><a tabindex="-1" href="javascript:open${entityName}TextSelectBox(\'${includeFile.name}\',\''+key.$includeFile.viewerName+'\')">'+key.$includeFile.viewerName+'</a></li>');
+		}
+});
+							
+		$("#fiql_${tableName}_form  #$includeFile.name\\.${includeFile.viewerName}").multipleSelect({
+										selectAll: false
+										});
+											
+			}
+	else{
+			alert("Error in retriving entities");
+		}		
+	
+	}
+	}
+	}
+
+			#end
+	#end		
+		#end
+
+function get${entityName}Data(XMLHttpRequest, data, rpcRequest)
+{
+	if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{	
+			if(!checkException(XMLHttpRequest.responseText))
+			{	
+		if(XMLHttpRequest.status==200)
+			{
+				// $('#${tableName}_pagination_totalRecord').text(pagination_totalRecords+data.length);
+				$('#${tableName}_pagination_totalRecord').text(TOTAL_COUNT_TEXT_VAR);				
+				${tableName}TableRowData=data;
+				${entityName}flag=${tableName}TableRowData.length;	
+       
+				${tableName}ViewTable();
+				// $("#${tableName}_pagination_totalRecord").text("Total Records : "+${tableName}Table.fnSettings().fnRecordsDisplay());
+				$("#${tableName}_pagination_totalRecord").text(TOTAL_COUNT_TEXT_VAR);
+			
+				//window.setTimeout(function(){},1000);					
+				
+			}
+		else
+		{
+		alert("error in data");
+		}
+		}		
+	}
+}
+
+function get${entityName}DataPagination(XMLHttpRequest, data, rpcRequest)
+{
+	if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{	
+			if(!checkException(XMLHttpRequest.responseText))
+			{	
+		if(XMLHttpRequest.status==200)
+			{
+				// $('#${tableName}_pagination_totalRecord').text(pagination_totalRecords+data.length);
+				$('#${tableName}_pagination_totalRecord').text(TOTAL_COUNT_TEXT_VAR);
+				${tableName}TableRowData=data;
+				${entityName}flag=${tableName}TableRowData.length;	
+				${tableName}Table.fnClearTable();
+				${tableName}ViewTable();
+                //${tableName}Table.fnAddData(data);		
+				// $("#${tableName}_pagination_totalRecord").text("Total Records : "+${tableName}Table.fnSettings().fnRecordsDisplay());
+				$("#${tableName}_pagination_totalRecord").text(TOTAL_COUNT_TEXT_VAR);
+	
+			}
+		else
+		{
+		alert("error in data");
+		}
+		}		
+	}
+}
+function  ${tableName}ViewTable(){
+	
+		$('#${tableName}_grid').html( '<table  cellpadding="0" cellspacing="0" border="0" class="display mytb table table-striped table-bordered" id="${tableName}_grid_view" style="cursor: pointer;"></table>' );
+	
+				jQuery('#${tableName}_grid_view thead tr').each( function () 
+				{
+						this.insertBefore(VIEW_DETAIL_SPAN_TH, this.childNodes[0] );
+				});
+
+				jQuery('#${tableName}_grid_view tbody tr').each( function () 
+				{
+						this.insertBefore(VIEW_DETAIL_SPAN_TD.cloneNode( true ), this.childNodes[0] );
+				});
+				
+				
+		    
+	
+		
+		${tableName}Table=jQuery('#${tableName}_grid_view').dataTable(
+		{	
+			"bFilter":true,
+			"bScrollCollapse": true,
+			"bAutoWidth":true,
+			"bPaginate": false,
+			"sDom":'Rlftrip',
+			"bJQueryUI": true,		
+			"aaData": ${tableName}TableRowData,
+			"bSort":false,
+			"aoColumns": [
+			
+			
+				
+				#set( $var = 0 )
+				#foreach ($includeFile in $bootsStrapList)	
+					
+				  #if($includeFile.type.equalsIgnoreCase("richText") || $includeFile.name.equalsIgnoreCase("isdeleted")|| $includeFile.name.equalsIgnoreCase("$primarykey") || $includeFile.name.contains("domain")||($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+				
+                   #else
+                   #if($var>=8)
+				    	#if(!$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby"))
+			      #if(!$includeFile.name.contains("domain") && !$includeFile.name.equalsIgnoreCase("isdeleted")) 
+			     #if($includeFile.type=="select" && $includeFile.isForeignKey) 		{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}.${includeFile.viewerName}","bVisible":false,"contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}.${includeFile.viewerName}"},
+			      #else
+			     
+						#if($includeFile.type=="date")
+						 #if($includeFile.name.equalsIgnoreCase("createdTime")||$includeFile.name.equalsIgnoreCase("modifiedTime"))
+						 {"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender": convertTimeStamp2DateTime,"bVisible":false,"contextid":"${includeFile.name}","contextType":"datetime"},
+						 #else
+						{"sTitle":${entityName}_thead_${includeFile.na_grid_viewme},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender": function (data, type, full) 
+								{				
+									return localizeDateString(new Date(data),dateFormat);
+								},"bVisible":false,"contextid":"${includeFile.name}", "contextType":"date"},
+						#end		
+						#else
+						 #if($includeFile.name.equalsIgnoreCase("amount")||$includeFile.name.equalsIgnoreCase("total"))
+					{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","bVisible":false,"contextid":"${includeFile.name}","mRender":formatValueinKandM,"contextType":"${includeFile.name}"},
+					#else #if($includeFile.type=="datetime")
+					{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender": function (data, type, full) 
+								{				
+									return localizeDateTimeString(new Date(data),dateFormat);
+								},"bVisible":false,"contextid":"${includeFile.name}", "contextType":"datetime"},
+					#else	{"sTitle":${entityName}_thead_${includeFile.name},"mData":"${includeFile.name}",#if($var>=2)"sClass":"hidden-480",#end"bVisible":false,"contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}"},
+					#end
+					#end
+					#end
+					
+						
+					
+			      #end
+			      #end
+			       #else
+						#if($includeFile.name.equalsIgnoreCase($modifiedby))
+				  {"sTitle":${entityName}_thead_lastModifier,"mData":"${includeFile.name}.${includeFile.viewerName}",#if($var>=2)"sClass":"hidden-480",#end"bVisible":false,"contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}.${includeFile.viewerName}"}, #end		      
+						#if($includeFile.name.equalsIgnoreCase($createdby))
+				  {"sTitle":${entityName}_thead_creator,"mData":"${includeFile.name}.${includeFile.viewerName}",#if($var>=2)"sClass":"hidden-480",#end"bVisible":false,"contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}.${includeFile.viewerName}"},
+						#end		      
+						#end	
+					
+                   
+                   #else
+						#if( !$includeFile.name.equalsIgnoreCase($modifiedby) && !$includeFile.name.equalsIgnoreCase("$createdby"))
+			    #if(!$includeFile.name.contains("domain")) 
+			     #if($includeFile.type=="select" && $includeFile.isForeignKey ) 		{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}.${includeFile.viewerName}","contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}.${includeFile.viewerName}"},
+			      #else
+						#if($includeFile.type=="date")
+						 #if($includeFile.name.equalsIgnoreCase("createdTime")||$includeFile.name.equalsIgnoreCase("modifiedTime"))
+						 {"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender": convertTimeStamp2DateTime,"bVisible":true,"contextid":"${includeFile.name}","contextType":"datetime"},
+						 #else
+						{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender":function (data, type, full) 
+								{				
+									return localizeDateString(new Date(data),dateFormat);
+								},"contextid":"${includeFile.name}","contextType":"date"},
+						#end							
+					#else
+					
+					#if($includeFile.name.equalsIgnoreCase("amount")||$includeFile.name.equalsIgnoreCase("total"))
+					{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","bVisible":true,"contextid":"${includeFile.name}","mRender":formatValueinKandM,"contextType":"${includeFile.name}"},
+					#else
+					#if($includeFile.type=="datetime"){"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","mRender":function (data, type, full) 
+								{				
+									return localizeDateTimeString(new Date(data),dateFormat);
+								},"contextid":"${includeFile.name}","contextType":"datetime"},
+					#else
+					{"sTitle":${entityName}_thead_${includeFile.name},#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}","bVisible":true,"contextid":"${includeFile.name}","mRender":ellipsis,"contextType":"${includeFile.name}"},
+					#end
+					#end
+					#end
+						
+						
+					
+			      #end
+			      #end
+			       #else
+						#if($includeFile.name.equalsIgnoreCase($modifiedby))
+				  {"sTitle":${entityName}_thead_lastModifier,#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}.${includeFile.viewerName}","contextid":"${includeFile.name}","contextType":"${includeFile.name}.${includeFile.viewerName}"}, #end		      
+						#if($includeFile.name.equalsIgnoreCase($createdby))
+				  {"sTitle":${entityName}_thead_creator,#if($var>=2)"sClass":"hidden-480",#end"mData":"${includeFile.name}.${includeFile.viewerName}","contextid":"${includeFile.name}","contextType":"${includeFile.name}.${includeFile.viewerName}"},
+						#end		      
+						#end	
+					
+						
+				#end
+				
+				#set($var=$var+1)					
+				    #end
+				#end			
+							
+							{ "sTitle":"Action","sClass":"Action","sWidth":"14%","bSortable": false, "aTargets": [ 0 ] ,"mRender": addcommentFileCount${tableName}
+							}
+							
+							
+						]									
+
+			} );	
+			jQuery('#${tableName}_grid .dataTables_scrollBody').addClass( "inline_edit_table" );
+			${tableName}ContextMenu();
+			$('#${tableName}_grid_view tbody tr td #${tableName}_details_act').die();
+				$('#${tableName}_grid_view tbody tr td #${tableName}_details_act').live('click', function (){
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var aData = ${tableName}Table.fnGetData( aPos );
+			${tableName}resultid=aData.${primarykey};
+			#foreach($map1 in $reverseMapList)
+			 sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" + ${tableName}resultid + "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID_view", "");
+			 #end
+			#if($isFileAttach)	sendGETRequest(context+"/rest/${entityName}Attach/search?_s=${tableName}.${primarykey}=="+${tableName}resultid+"&date="+new Date()+"&ulimit=100&llimit=0","get_${tableName}_file_Attach_data_callback","","");
+			#end	
+				
+			#if($isComment)	sendGETRequest(context+"/rest/Comment/search?_s=${tableName}.${primarykey}=="+${tableName}resultid+"&date="+new Date(),"get_${tableName}_comment_data_callback","","");
+			#end								
+			#if($history.equalsIgnoreCase("true"))		sendGETRequest(context+"/rest/${entityName}/auditSearch?id="+${tableName}resultid+"&date="+new Date(),"get_${tableName}_history_data_callback","","");
+			#end
+				openDetailScreen('${tableName}');
+				$("#details_view_${tableName}").html(ellipsis(aData.${viewnamefield}));
+					 window.setTimeout(function () {
+				$('#details_${tableName}_div span').each(function() {
+					var getId=$(this).attr("id");
+					var getType=$(this).attr("type");
+				if(hasValue(eval("aData."+getId))){
+					var value_Set = eval("aData."+getId) || "--";
+					#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+if(getId=="${includeFile.name}")
+					{
+						// value_Set = value_Set.addressLine1 + "," + value_Set.addressLine2;
+						var addr1 = value_Set.addressLine1;
+						var addr2 = value_Set.addressLine2;
+						value_Set = addr1;
+						if(hasValue(addr2)) { value_Set += "," + addr2; }
+					}
+		#end	
+		#end	
+		#end
+						if(getId=="enabled"){
+							enableStatus=value_Set;
+						}
+						else if(getType=="date")
+						{
+						value_Set=localizeDateString(new Date(value_Set),dateFormat);	
+					    }
+					     else if(getType=="datetime")
+						{
+						value_Set=localizeDateTimeString(new Date(value_Set),dateFormat);	
+					    }
+						else if(getId.toUpperCase()=="AMOUNT" || getId.toUpperCase()=="TOTAL")
+						{
+							value_Set=formatValueinKandM(value_Set);	
+						}
+						else
+						{
+							value_Set=htmlDecode(value_Set);
+						}
+					}		
+					#foreach($map1 in $reverseMapList)
+				 var data = "";
+                if (getId == "${map1.entityName}List") {
+                    if (hasValue(${map1.entityName}listdata)) {
+                
+                        for (var i = 0; i < ${map1.entityName}listdata.length; i++) {
+ 
+
+                            data += "<a href='javascript:void(0)' id='${map1.tableName}_tab' name='${map1.tableName}'  onclick='createTabScreen(this.name,"+${map1.entityName}listdata[i].${map1.primaryKey}+")' class='blue'>" + ${map1.entityName}listdata[i].${map1.viewerField}+ "</a>,"
+
+                        }
+                        data = data.substring(0, (data.length - 1));
+                        value_Set = data;
+                    }
+                     }
+                    #end 
+                          #foreach($map2 in $notReverseMapList.entrySet()) 
+                    var data = "";
+                    #foreach ($includeFile in $bootsStrapList)	
+							#if($includeFile.isForeignKey && $includeFile.name.equalsIgnoreCase("${map2.value}"))
+							
+							 if (getId == "${includeFile.name}.${includeFile.viewerName}") 
+							 {
+							data += "<a href='javascript:void(0)' id='${map2.value}_tab' name='${map2.value}'  onclick='createTabScreen(this.name,"+aData.${includeFile.name}.${includeFile.dataName}+")' class='blue'>" + aData.${includeFile.name}.${includeFile.viewerName}+ "</a>"
+
+							value_Set = data;
+                    
+							}
+							
+							#end
+					#end
+				#end
+                    
+					$(this).html(value_Set);
+				
+				});
+				
+			     },1000);
+				
+			
+			
+		});
+		$('#${tableName}_grid_view tbody tr td #${tableName}_delete_act').die();
+		$('#${tableName}_grid_view tbody tr td #${tableName}_delete_act').live( 'click' , function () {
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var aData = ${tableName}Table.fnGetData( aPos );
+			var tableNameData=replaceUnderscore('${tableName}');
+			// commonDialogBox("Do you want to delete the "+tableNameData+" record ?","delete${entityName}Entity()"); 	
+			$('#${tableName}_delete_dialog').modal('show');
+			// $("#${tableName}_delete_dialog .modal-body" ).html("Do you want to delete the "+tableNameData+" record ?");
+			$("#${tableName}_delete_dialog .modal-body img").attr("src", getImagePath('warning-icon.png'));
+			$("#${tableName}_delete_dialog .modal-body span").html(getConfirmDeleteText(tableNameData.toLowerCase()));
+			${tableName}id=aData.$primarykey;
+		});
+
+		#foreach($map1 in $reverseMapList)
+		$('#${map1.entityName}_act').die();
+		 $('#${map1.entityName}_act').live('click', function () {
+				 parent${map1.entityName}DivId="${tableName}_${map1.entityName}_div";
+		         ${tableName}_show_modal_${map1.entityName}("hh", "${entityName}_Modal_Add_${map1.entityName}.html", '${tableName}_${map1.entityName}_div');
+			});
+			$('#${map1.entityName}_act_form_edit').die();
+		$('#${map1.entityName}_act_form_edit').live('click', function () {
+				parent${map1.entityName}DivId="${tableName}_${map1.entityName}_div_add_edit";
+				 ${tableName}_show_modal_${map1.entityName}("hh", "${entityName}_Modal_Add_${map1.entityName}.html", '${tableName}_${map1.entityName}_div_add_edit');
+			});
+        $('#${map1.entityName}_edit_modal_window').die();
+		$('#${map1.entityName}_edit_modal_window').live('click', function () {
+				
+				
+					#if(!${map1.isMultiFieldTrue})
+						${tableName}_show_modal_${map1.entityName}("hh", "${entityName}_Modal_Edit_${map1.entityName}.html", '${tableName}_${map1.entityName}_div_edit');		
+						sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" +${tableName}Idfor${map1.entityName}+ "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "");
+					#end	
+			
+			});
+		#end	
+		$('#${tableName}_grid_view tbody tr td #${tableName}_edit_act').die();
+		$('#${tableName}_grid_view tbody tr td #${tableName}_edit_act').live('click', function (){ 
+			
+ #foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+${tableName}_${includeFile.name}_inline="";
+	${tableName}_${includeFile.name}object="";
+		    ${tableName}_${includeFile.name}id="";
+		    ${tableName}_${includeFile.name}string="";
+		    	
+		#end	
+		#end	
+		#end
+			
+			#set($isReverseMap=0)
+			#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+					#if($includeFile.isReverseMappingExist)
+					#set($isReverseMap=$isReverseMap+1)
+					#end
+				#end
+			#end	
+			#if($isReverseMap>0)
+			refreshAllFk${entityName}List();
+			#end	
+			#foreach($map1 in $reverseMapList)
+			
+			$("#${map1.entityName}TableListEdit tbody").empty();
+			#end
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var aData = ${tableName}Table.fnGetData( aPos );
+			
+			#foreach($map1 in $reverseMapList)
+			${tableName}Idfor${map1.entityName}=aData.${primarykey};		
+			#end
+			#if($isReverseMap>0)
+			window.setTimeout(function(){
+			#end	
+			#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+					#if($includeFile.isReverseMappingExist)
+					if(hasValue(aData.$includeFile.name.$includeFile.viewerName))
+						{
+						jQuery('#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{			
+						value:aData.$includeFile.name.$includeFile.dataName,
+						text:aData.$includeFile.name.$includeFile.viewerName
+						}));
+						}
+					#end
+				#end	
+			#end
+		
+		#foreach($map1 in $reverseMapList)	
+        sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" + aData.${primarykey} + "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "");
+		#end
+		
+		#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equals("address3"))||($includeFile.name.equals("address4")))
+
+		if(!(aData.${includeFile.name}==null))
+		{
+		aData.${includeFile.name}.addressLine1=htmlDecode(aData.${includeFile.name}.addressLine1);
+		$('#edit_${includeFile.name}_${tableName}_Address_act').text(aData.${includeFile.name}.addressLine1);
+		${tableName}_${includeFile.name}id="";
+			${tableName}_${includeFile.name}id=aData.${includeFile.name}.id;						
+				
+sendGETRequest(context+"/rest/Address/search?_s=id=="+${tableName}_${includeFile.name}id+"&date="+new Date()+"&ulimit=1&llimit=0&orderBy=id&orderType=asc","${tableName}_edit_${includeFile.name}_callback","");
+}else
+{	$('#edit_${includeFile.name}_${tableName}_Address_act').text('Add Address');
+	${tableName}_${includeFile.name}string="";
+	${tableName}_${includeFile.name}object="";
+}
+			#end
+			#end
+			#end
+			
+			
+			js2form(document.getElementById('edit_${tableName}_form'),aData,".","",true);
+			
+			
+		${tableName}id=aData.$primarykey;				
+		openEditScreen('${tableName}');	
+		
+		
+		window.setTimeout(function(){
+		 #foreach ($includeFile in $bootsStrapList)
+			#if($includeFile.type.equals("richText"))
+			$("#edit_${tableName}_div #${includeFile.name}").html(htmlDecode(aData.${includeFile.name}));
+		    #end
+		#end
+		},500);	
+		
+			
+			#if($isReverseMap>0)
+			},1000);
+			#end			
+					
+					
+			
+		});
+		$('#${tableName}_grid_view tbody td').die();
+			$('#${tableName}_grid_view tbody td').live('dblclick', function () { // previous click
+if(update_${entityName}_permission){
+	var array=new Array();
+	var visibleLength=0;
+		$('#${tableName}_grid_view tbody tr').each(function() {
+		if($(this).hasClass("active")){
+			$(this).removeClass("active");
+		}
+	});
+            if($(this).hasClass("details")){
+				 $('tr').removeClass("active");
+				 $(this).parents('tr').prev().addClass("active");
+			}else{
+				 $(this).parents('tr').addClass("active");
+				}
+         
+	for(i=0;i<${tableName}Table.fnSettings().aoColumns.length;i++){
+			if(${tableName}Table.fnSettings().aoColumns[i].bVisible){
+				array.push(${tableName}Table.fnSettings().aoColumns[i].sTitle)
+			}
+	}
+	var nTr = $(this).parents('tr')[0];
+	var oSettings=${tableName}Table.fnSettings()
+
+	if(!$(this).hasClass("details")&&array[$(this).index()]!="Action"){
+		if(${tableName}oldnTr!=nTr && ${tableName}oldnTr!=null)
+		{${tableName}_inline_edit=false;
+			${tableName}Table.fnClose( ${tableName}oldnTr );
+		}
+		if(${tableName}Table.fnIsOpen(nTr)){
+				${tableName}Table.fnClose( ${tableName}oldnTr );
+			${tableName}_inline_edit=false;						${tableName}Table.fnDraw();					
+		}
+		else{
+			
+			${tableName}oldnTr=nTr;
+			${tableName}Table.fnOpen( nTr,inline_${tableName}Table(), 'details' );
+			$('.table-condensed tbody').click(function(){
+		$('.datepicker-dropdown').css('display','none');
+		});
+			refreshAllFk${entityName}List();
+			var aData = ${tableName}Table.fnGetData( nTr );
+			${tableName}_inline_edit=true;	
+			
+			#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equals("address3"))||($includeFile.name.equals("address4")))
+
+
+
+
+	${tableName}_${includeFile.name}_inline='{"${includeFile.name}":'+JSON.stringify(aData.${includeFile.name})+'}';
+		#end#end#end	
+			window.setTimeout(function(){
+				#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+					#if($includeFile.isReverseMappingExist)
+					if(hasValue(aData.$includeFile.name.$includeFile.viewerName))
+						{
+						jQuery('#edit_${tableName}_form_inline #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{			
+						value:aData.$includeFile.name.$includeFile.dataName,
+						text:aData.$includeFile.name.$includeFile.viewerName
+						}));
+						}
+					#end
+				#end	
+			#end
+			js2form(document.getElementById('edit_${tableName}_form_inline'),aData,".","",true);
+			#foreach($map1 in $reverseMapList)	
+			sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" + aData.${primarykey} + "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "edit_${tableName}_form_inline");
+			#end
+			},6000);
+			${tableName}Table.fnDraw();					
+			$('#edit_${tableName}_form_inline').validationEngine();
+			$('#edit_${tableName}_form_inline .editdatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+			$('#edit_${tableName}_form_inline .editdatetimetypeclass').datetimepicker({language: 'pt-BR', format:dateTimeFormat
+		});
+	}
+	return false;}} });
+function inline_${tableName}Table()
+{    
+	var sOut = '<div style="width:100%"><form class="form-horizontal" id="edit_${tableName}_form_inline" align="center"><input type="hidden" name="$primarykey" id="$primarykey">#foreach(${map1} in $reverseMapList)#if(!${map1.isMultiFieldTrue})<input type="hidden"  name="${map1.primaryKey}" id="${map1.primaryKey}">#end#end#set( $var=0 )#foreach ($includeFile in $bootsStrapList)#if(!($includeFile.name.equalsIgnoreCase("address")) && !$includeFile.name.equalsIgnoreCase("isdeleted")  &&!($includeFile.name.equalsIgnoreCase("address1"))&&!($includeFile.name.equalsIgnoreCase("address2"))&&!($includeFile.name.equalsIgnoreCase("address3"))&&!($includeFile.name.equalsIgnoreCase("address4")))#if($includeFile.isRequired)#if($includeFile.name!="$primarykey")#if( !$includeFile.name.equalsIgnoreCase("createdTime") && !$includeFile.name.equalsIgnoreCase("modifiedTime") && !$includeFile.name.equalsIgnoreCase("creator") && !$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.contains("domain"))#if($var%2==0 || $var==0) <div class="span4"> #end #if($includeFile.type.equals("richText"))<input type="hidden" class="hide" name="${includeFile.name}" id="${includeFile.name}"/>#end <div class="control-group"> #if(!($includeFile.type.equals("richText")))<label class="control-label" for="$includeFile.dataName"> '+ ${entityName}_lable_${includeFile.name}+' </label>#end <div class="controls"> #if($includeFile.type.equals("text") ) <input type="$includeFile.type" name="$includeFile.dataName" id="$includeFile.dataName" #if($includeFile.isRequired) class="alphanumericallowspecial validate[required#if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end]" #else class="alphanumericallowspecial #if($includeFile.maxLength) validate[maxSize[$includeFile.maxLength]] #end" #end/>#end#if($includeFile.type.equals("integer") || $includeFile.type.equals("long") || $includeFile.type.equals("float") || $includeFile.type.equals("double"))<input type="text" name="$includeFile.dataName" id="$includeFile.dataName" #if($includeFile.type.equals("integer") || $includeFile.type.equals("long")) #if($includeFile.isRequired)class="integers validate[required ,custom[integer] #if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end]" #else class="integers validate[#if($includeFile.maxLength) maxSize[$includeFile.maxLength]#end,custom[integer]] " #end #end #if($includeFile.type.equals("float") || $includeFile.type.equals("double")) #if($includeFile.isRequired)class="integersallow validate[required ,custom[number] #if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end]" #else class="integersallow validate[#if($includeFile.maxLength) maxSize[$includeFile.maxLength]#end,custom[number]] " #end #end/>#end#if($includeFile.type.equals("datetime")) <div class="input-append date editdatetimetypeclass" data-date-format="yyyy-mm-dd" ><input class="span2 timetype #if($includeFile.isRequired)validate[required]#end " size="16" type="text" id="$includeFile.dataName" value="" readonly/><span class="add-on" style="margin-left: 0px;"><i class="icon-th"></i></span></div> #end#if($includeFile.type.equals("date")) <div class="input-append date" data-date-format="yyyy-mm-dd" ><input class="span2 #if($includeFile.isRequired)validate[requireinput-append date editdatetimetyd]#end editdatetype datetype" size="16" type="text" id="$includeFile.dataName" value="" readonly/><span class="add-on" style="margin-left: 0px;"><i class="icon-th"></i></span></div> #end #if($includeFile.type.equals("select") )#if(!$includeFile.isForeignKey)<select name="$includeFile.name" id="$includeFile.viewerName" value="${includeFile.name}.${includeFile.dataName}"#if($includeFile.isRequired)class="validate[required]" #end>#foreach($enum as $includeFile.dataMapEnum) <option name="${enum}" >${enum}</option> #end</select>#else<select name="${includeFile.name}.${includeFile.dataName}" id="${includeFile.name}.${includeFile.viewerName}" value="${includeFile.name}.${includeFile.dataName}" #if($includeFile.isRequired)class="validate[required]"#end></select>#end#end </div></div> #end #set( $var=$var+ 1 )#if($var%2==0) </div> #end#end #else #if($includeFile.isForeignKey) <input type="hidden" class="hide" name="${includeFile.name}.${includeFile.dataName}" id="${includeFile.name}.${includeFile.viewerName}" value=""/> #else #if($includeFile.type.equals("datetime")) <div class="input-append date editdatetimetypeclass" data-date-format="yyyy-mm-dd" ><input class="span2 timetype #if($includeFile.isRequired)validate[required]#end hide" size="16" type="hidden" id="$includeFile.dataName" value="" readonly/></div> #end #if($includeFile.type.equals("date")) <div class="input-append date editdatetypeclass" data-date-format="yyyy-mm-dd" ><input class="span2 #if($includeFile.isRequired)validate[requireinput-append date editdatetimetyd]#end editdatetype hide datetype " size="16" type="hidden" id="$includeFile.dataName" value="" readonly/></div> #else <input type="hidden" class="hide" name="$includeFile.dataName" id="$includeFile.dataName"/>#end#end#end#end#end#if($var%2!=0 )</div>#end#foreach(${map1} in $reverseMapList)#if($map1.isMultiFieldTrue)<select name="add${map1.entityName}" id="${tableName}_${map1.entityName}_edit_inline"  class="inputDown hidden"></select>#end#end<div class="span11" align="right"><button type="button" class="btn btn-mini btn-info" onclick="edit_${tableName}(\'edit_${tableName}_form_inline\')"><!--<i class="icon-save bigger-110"></i>--><span class="bigger-110 no-text-shadow">'+${entityName}_formUpdate+'</span></button><button class="btn btn-mini btn-info" onclick="closeInline${entityName}GridRow()" style="margin-left: 10px;" type="button"><!--<i class="icon-level-up bigger-110"></i>--><span class="bigger-110 no-text-shadow">'+${entityName}_formCancel+'</span></button></div></form></div>';
+
+	return sOut;
+}
+
+$('#${tableName}_grid_view tbody tr td').die();
+$('#${tableName}_grid_view tbody tr td').live( 'hover' , function (e) {
+	
+	var isDetail = $(this).hasClass('Action');
+	var isAction = $(this).hasClass('details');
+	try{
+		if(!isDetail || !isAction)
+		{
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var index=${tableName}Table.fnGetPosition(this);
+			index=index[2];
+			var aData = ${tableName}Table.fnGetData( aPos );
+			var jsonKey=${tableName}Table.fnSettings().aoColumns[index].contextType
+			
+			
+			var tooltiptext=eval("aData."+jsonKey);
+			if(jsonKey=="datetime"){					
+				jsonKey=${tableName}Table.fnSettings().aoColumns[index].mData;
+				tooltiptext=eval("aData."+jsonKey);
+			
+				tooltiptext=localizeDateTimeString(new Date(tooltiptext),dateFormat);
+			}
+			else if(jsonKey=="date"){
+				jsonKey=${tableName}Table.fnSettings().aoColumns[index].mData;
+				tooltiptext=eval("aData."+jsonKey);
+			
+				tooltiptext=localizeDateString(new Date(tooltiptext),dateFormat);
+			}
+			
+			if(jsonKey.toUpperCase()=="AMOUNT"||jsonKey.toUpperCase()=="TOTAL")
+			{
+				tooltiptext=formatValueinKandM(tooltiptext);
+			}	
+			$('td').removeAttr( 'id',"tooltip");
+			// this.setAttribute( 'id',"tooltip" );
+		
+		
+		if(hasValue($(this).text())){
+			if($(this).text().length!=0){
+				$("#tooltip").tooltipster(
+				{
+				'theme':'.tooltipster-punk',
+				'fixedWidth':2,
+				"content":tooltiptext
+				});
+			}
+		}
+		}
+	}catch(e){}
+});
+
+		#if($isFileAttach)
+		$('#${tableName}_grid_view tbody tr td #${tableName}_file_upload_act').die();
+		$('#${tableName}_grid_view tbody tr td #${tableName}_file_upload_act').live( 'click' , function () {
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var aData = ${tableName}Table.fnGetData( aPos );					
+			// ${tableName}_show_modal_window(aData.${primarykey},"fileUpload.html",'${tableName}contentmodel');
+			show${entityName}AddAttachModal(aData.${primarykey});
+		});
+		#end
+		#if($isComment)
+		$('#${tableName}_grid_view tbody tr td #${tableName}_comment_act').die();
+		$('#${tableName}_grid_view tbody tr td #${tableName}_comment_act').live( 'click' , function () {
+			var row = $(this).closest('tr').get(0);
+			var aPos = ${tableName}Table.fnGetPosition( row );
+			var aData = ${tableName}Table.fnGetData( aPos );
+			${tableName}resultid=aData.${primarykey};	sendGETRequest(context+"/rest/Comment/search?_s=${tableName}.${primarykey}=="+aData.${primarykey}+"&date="+new Date(),"get_${tableName}_comment_data_callback","","");									
+			// ${tableName}_show_modal_window(aData.${primarykey},"false",'${tableName}commentmodel');
+			show${entityName}AddAndViewCommentModal(aData.${primarykey});
+		});
+		#end
+		RemoveUniqueLoading();
+		}
+		function ${tableName}ContextMenu(){
+		
+		var oTable = $('#${tableName}_grid_view').dataTable();
+			var settings=oTable.fnSettings();
+		var bVis=false;
+			var temp;
+		      for( var i = 0; i<settings.aoColumns.length; i++)
+			{
+				
+				
+				bVis = settings.aoColumns[i].bVisible;
+				
+				if(bVis==true)
+				{
+					temp=settings.aoColumns[i].contextid+'chk_${tableName}';					
+					$('#'+temp).attr('checked', true);
+				}
+				else{
+				temp=settings.aoColumns[i].contextid+'chk_${tableName}';					
+					$('#'+temp).attr('checked', false);
+				
+				}
+			}	
+		}
+	function ${tableName}_fnShowHide(colname,contextid)
+			{
+			 #* #if($dbType.equalsIgnoreCase("oracle"))
+			 colname = eval(colname);
+			 #end *#
+			 colname = eval(colname);
+				$('#${tableName}quickFilterDiv').css('display','none');
+				$('#${tableName}quickFilter').val('');
+				var oTable = $('#${tableName}_grid_view').dataTable();
+				var index=getIndexOfTableByName(oTable.fnSettings(),colname);
+				var bVis = oTable.fnSettings().aoColumns[index].bVisible;
+				oTable.fnSetColumnVis( index, bVis ? false : true );
+			}
+		
+	function delete_${tableName}_callback(XMLHttpRequest, data, rpcRequest){
+	RemoveUniqueLoading();
+			if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{	
+		if(XMLHttpRequest.status==204)
+			{		//openListScreen('${tableName}');
+					$('#MsgBoxBack').css("display","none");
+					get${tableName}TotalCount();
+					refreshAll${entityName}List();
+					${tableName}Table.fnDraw();					
+					showCenteredLoading(${tableName}_success_delete);
+				
+			}
+		else{
+			alert("Error in retriving entities");
+			}		
+		}
+		}
+		}	
+	
+	
+	function create_${tableName}(id){
+	removeAllInstanceOfEditor();
+		#foreach ($includeFile in $bootsStrapList)#if(!$includeFile.name.equalsIgnoreCase("$primarykey") && !$includeFile.name.equalsIgnoreCase("isdeleted")  &&!$includeFile.name.contains("domain") && !($includeFile.name.equalsIgnoreCase("address"))&&!($includeFile.name.equalsIgnoreCase("address1"))&&!($includeFile.name.equalsIgnoreCase("address2"))&&!($includeFile.name.equalsIgnoreCase("address3"))&&!($includeFile.name.equalsIgnoreCase("address4")) && !$includeFile.name.equalsIgnoreCase("modifiedTime")&&!$includeFile.name.equalsIgnoreCase("createdTime")&&!$includeFile.name.equalsIgnoreCase("creator")&&!$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.equalsIgnoreCase($modifiedby))#if($includeFile.type.equals("richText"))
+		var ${includeFile.name}=$('#'+id+' #${includeFile.name}').html();
+		#else#if($includeFile.isForeignKey)
+		var ${includeFile.name}=$('#'+id+' #${includeFile.name}\\.${includeFile.viewerName}').val();
+		#else
+		#if($includeFile.type=="date" || $includeFile.type=="datetime")
+		#if($includeFile.type=="date")
+		var ${includeFile.name}=formatAsJSONdateFormat($('#'+id+' #${includeFile.name}').val(),dateFormat);
+		#else
+		var ${includeFile.name}=formatAsJSONdateTimeFormat($('#'+id+' #${includeFile.name}').val(),dateTimeFormat);
+		#end
+		#else
+		var ${includeFile.name}=$('#'+id+' #${includeFile.name}').val();
+		#end#end#end#end#end
+			var create${entityName}JsonString = "{";
+		#foreach ($includeFile in $bootsStrapList)#if($includeFile.type.equals("richText"))
+		if(hasValue(${includeFile.name}))
+			create${entityName}JsonString+="\"${includeFile.name}\":"+JSON.stringify(${includeFile.name})+",";
+			#else#if(!$includeFile.name.equalsIgnoreCase("$primarykey")&&!$includeFile.name.contains("domain") && !($includeFile.name.equalsIgnoreCase("address"))&&!($includeFile.name.equalsIgnoreCase("address1"))&&!($includeFile.name.equalsIgnoreCase("address2"))&&!($includeFile.name.equalsIgnoreCase("address3"))&&!($includeFile.name.equalsIgnoreCase("address4"))  && !$includeFile.name.equalsIgnoreCase("modifiedTime")&&!$includeFile.name.equalsIgnoreCase("createdTime")&&!$includeFile.name.equalsIgnoreCase("creator")&&!$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.equalsIgnoreCase("isdeleted") )#if($includeFile.isForeignKey)
+			if(hasValue(${includeFile.name}))
+			create${entityName}JsonString+="\"${includeFile.name}\":{\"${includeFile.dataName}\":\""+${includeFile.name}+"\"},";
+			#else
+			if(hasValue(${includeFile.name}))
+			create${entityName}JsonString += "\"${includeFile.name}\":\""+${includeFile.name}+"\",";
+			#end#end#end #end
+		create${entityName}JsonString=create${entityName}JsonString.substring(0, (create${entityName}JsonString.length-1));
+		create${entityName}JsonString+="}";
+
+window.setTimeout( function(){},500 );
+	if(jQuery('#'+id).validationEngine('validate'))
+		{
+		
+			var formData =create${entityName}JsonString;
+			
+		#foreach($map1 in $reverseMapList)
+		
+		#if(${map1.isMultiFieldTrue})
+				#if(${map1.isNullable})
+					if(!($("#${tableName}_${map1.entityName}").multipleSelect("getSelects").length>0))
+					{
+						showErrorLoading("please add one or multiple ${map1.entityName}");
+						return;
+					}
+				#end
+		#end
+	
+		#if(!${map1.isMultiFieldTrue})
+				#if(${map1.isNullable})
+					if(!(${tableName}_${map1.entityName}_json.length>0))
+					{
+						showErrorLoading("please add ${map1.entityName}");
+						return;
+					}
+				#end
+		#end
+					 #if(!${map1.isMultiFieldTrue})		
+				if(${tableName}_${map1.entityName}_json.length>0)
+				{
+				#end		
+			var ${map1.entityName}List="";	
+        formData = formData.substring(0, formData.length - 1);
+        #if(!${map1.isMultiFieldTrue})
+					{
+        formData += ",\"${map1.entityName.substring(0,1).toLowerCase()}${map1.entityName.substring(1)}s\":";
+			}
+		#else
+					{
+        formData += ",\"${map1.entityName.substring(0,1).toLowerCase()}${map1.entityName.substring(1)}s\":[";
+			}
+		#end
+		#if(!${map1.isDependent})
+		#if($map1.isMultiFieldTrue)	
+		for(var i=0;i<$("#${tableName}_${map1.entityName}").multipleSelect("getSelects").length;i++)
+		{
+			var pro=$("#${tableName}_${map1.entityName}").multipleSelect("getSelects")[i];
+			 if(pro.indexOf("index_")!=-1)
+			       {
+					  var getIndex=pro.split("index_");
+					  var index=getIndex[1];
+					   ${map1.entityName}List+=${tableName}_${map1.entityName}_json[index]+",";
+					}
+			else{
+				  ${map1.entityName}List+="{\"${map1.primaryKey}\":"+pro+"},";
+				}			
+		}
+		#else
+			for(var i=0;i<${tableName}_${map1.entityName}_json.length;i++)
+					{
+						if(hasValue(${tableName}_${map1.entityName}_json[i]))
+						{			
+						${map1.entityName}List+=${tableName}_${map1.entityName}_json[i]+",";
+						}
+					}
+		#end			
+		#else
+				#if($map1.isMultiFieldTrue)	
+				for(var i=0;i<$("#${tableName}_${map1.entityName}").multipleSelect("getSelects").length;i++)
+				{
+					var pro=$("#${tableName}_${map1.entityName}").multipleSelect("getSelects")[i];
+					 if(pro.indexOf("index_")!=-1)
+						   {
+							  var getIndex=pro.split("index_");
+							  var index=getIndex[1];
+							   ${map1.entityName}List+=${tableName}_${map1.entityName}_json[index]+",";
+							}
+					else{
+						  ${map1.entityName}List+="{\"${map1.primaryKey}\":"+pro+"},";
+						}			
+				}
+				#else
+					for(var i=0;i<${tableName}_${map1.entityName}_json.length;i++)
+					{
+						if(hasValue(${tableName}_${map1.entityName}_json[i]))
+						{			
+						${map1.entityName}List+=${tableName}_${map1.entityName}_json[i]+",";
+						}
+					}
+				#end	
+		#end
+	
+		${tableName}_${map1.entityName}_json=[];
+        
+		 ${map1.entityName}List = ${map1.entityName}List.substring(0, ${map1.entityName}List.length - 1);
+		formData+=${map1.entityName}List;
+		   #if(!${map1.isMultiFieldTrue})
+					{
+        formData += "}";
+			}
+		#else
+					{
+         formData += "]}";
+			}
+		#end	
+       #if(!${map1.isMultiFieldTrue})		
+			}
+				#end		
+		#end
+			
+		
+		var jsons="";
+	if(!(${tableName}_no_address==0))
+	{
+		
+		if(!(jsonvariable==""))
+	{jsons=jsonvariable.split('|');
+	
+	
+	
+	for(var i=0;i<jsons.length;i++)
+	{
+	formData =  mergeTwoJSON(formData, jsons[i]);
+	}
+		
+	if((${tableName}_no_address==jsons.length))
+		{//alert("string ..................."+JSON.stringify(formData));
+		sendPOSTRequest(context+"/rest/${entityName}/create/",formData,"create_${tableName}_callback","");
+	}
+	}else
+	{
+	#set( $isrequiredtrue = 0 )
+	#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+	#if($includeFile.isRequired)
+		#set( $isrequiredtrue = $isrequiredtrue+ 1 )
+			#end
+	#end
+	#end
+	#end
+	var addressRequired=${isrequiredtrue};
+	if(addressRequired==0)
+	{sendPOSTRequest(context+"/rest/${entityName}/create/",formData,"create_${tableName}_callback","");
+	}else
+	{showErrorLoading("Address is required");		
+	}
+	
+	
+	}}else
+	{
+	sendPOSTRequest(context+"/rest/${entityName}/create/",formData,"create_${tableName}_callback","");
+	}	
+		jsonvariable="";
+		
+		
+	
+		}
+		
+		}
+		
+		function create_${tableName}_callback(XMLHttpRequest, data, rpcRequest){
+		RemoveUniqueLoading();
+		#foreach($map1 in $reverseMapList)
+			#if($map1.isMultiFieldTrue)
+				#if($map1.isDependent)
+				$("#${tableName}_${map1.entityName}").empty();
+				#end
+				$("#${tableName}_${map1.entityName}").multipleSelect("uncheckAll");
+			#end	
+		#end			
+			if(!checkException(XMLHttpRequest.responseText))
+			{	
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{
+		if(XMLHttpRequest.status==200)
+			{		//openListScreen('${tableName}');
+					get${tableName}TotalCount();
+					refreshAllFk${entityName}List();
+					refreshAll${entityName}List();
+					${tableName}Table.fnDraw();					
+					showCenteredLoading(${tableName}_success_create);
+				
+			}
+		else{
+			alert("Error in retriving entities");
+			}	
+			}	
+		}
+		}	
+
+	function edit_${tableName}(form){
+	removeAllInstanceOfEditor();
+	var $primarykey=$('#'+form+' #${primarykey}').val();
+#foreach ($includeFile in $bootsStrapList)#if(!($includeFile.name.equals("$primarykey"))  &&!$includeFile.name.equalsIgnoreCase("isdeleted") && !$includeFile.name.contains("domain") && !($includeFile.name.equalsIgnoreCase("address"))&&!($includeFile.name.equalsIgnoreCase("address1"))&&!($includeFile.name.equalsIgnoreCase("address2"))&&!($includeFile.name.equalsIgnoreCase("address3"))&&!($includeFile.name.equalsIgnoreCase("address4")) && !$includeFile.name.equalsIgnoreCase("modifiedTime")&&!$includeFile.name.equalsIgnoreCase("createdTime")&&!$includeFile.name.equalsIgnoreCase("creator")&&!$includeFile.name.equalsIgnoreCase("lastModifier") )#if($includeFile.type.equals("richText"))
+		var ${includeFile.name}="";
+		if(${tableName}_inline_edit)
+		{
+		${includeFile.name}=$('#'+form+' #${includeFile.name}').val();
+		}else{
+		${includeFile.name}=$('#'+form+' #${includeFile.name}').html();
+		}
+#else#if($includeFile.isForeignKey)
+		var ${includeFile.name}=$('#'+form+' #${includeFile.name}\\.${includeFile.viewerName}').val();
+#else #if($includeFile.type=="date")
+		var ${includeFile.name}=formatAsJSONdateFormat($('#'+form+' #${includeFile.name}').val(),dateFormat);
+#else #if($includeFile.type=="datetime")
+		var ${includeFile.name}=formatAsJSONdateTimeFormat($('#'+form+' #${includeFile.name}').val(),dateTimeFormat);
+		#else
+		var ${includeFile.name}=$('#'+form+' #${includeFile.name}').val();
+#end#end#end#end#end#end
+
+		var edit${entityName}JsonString = "{";
+		if(hasValue(${primarykey}))
+		edit${entityName}JsonString += "\"${primarykey}\":\""+${primarykey}+"\",";
+#foreach ($includeFile in $bootsStrapList)#if($includeFile.type.equals("richText"))
+		if(hasValue(${includeFile.name}))
+			edit${entityName}JsonString+="\"${includeFile.name}\":"+JSON.stringify(${includeFile.name})+",";
+			#else#if(!$includeFile.name.contains("domain") && !($includeFile.name.equalsIgnoreCase("address"))&&!($includeFile.name.equalsIgnoreCase("address1"))&&!($includeFile.name.equalsIgnoreCase("address2"))&&!($includeFile.name.equalsIgnoreCase("address3"))&&!($includeFile.name.equalsIgnoreCase("address4")) && !$includeFile.name.equalsIgnoreCase("modifiedTime")&&!$includeFile.name.equalsIgnoreCase("createdTime")&&!$includeFile.name.equalsIgnoreCase("creator")&&!$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.equalsIgnoreCase("isdeleted"))#if($includeFile.isForeignKey)
+		if(hasValue(${includeFile.name}))
+		edit${entityName}JsonString+="\"${includeFile.name}\":{\"${includeFile.dataName}\":\""+${includeFile.name}+"\"},";
+		#else
+		if(hasValue(${includeFile.name}))
+		edit${entityName}JsonString += "\"${includeFile.name}\":\""+${includeFile.name}+"\",";
+#end#end#end #end
+		
+		edit${entityName}JsonString=edit${entityName}JsonString.substring(0, (edit${entityName}JsonString.length-1));
+		edit${entityName}JsonString+="}";
+if(jQuery('#'+form).validationEngine('validate'))
+		{
+		var formData =edit${entityName}JsonString;
+			#foreach($map1 in $reverseMapList)	
+				#if(${map1.isMultiFieldTrue})
+				#if(${map1.isNullable})
+					if(!($("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects").length>0))
+					{
+						showErrorLoading("please add one or multiple ${map1.entityName}");
+						return;
+					}
+				#end
+		#end
+	
+		#if(!${map1.isMultiFieldTrue})
+				#if(${map1.isNullable})
+					if(!(${tableName}_${map1.entityName}_json.length>0))
+					{
+						showErrorLoading("please add ${map1.entityName}");
+						return;
+					}
+				#end
+		#end
+					
+			var ${map1.entityName}List="";
+        formData = formData.substring(0, formData.length - 1);
+		
+		 #if(!${map1.isMultiFieldTrue})
+			var pro =$('#'+form+' #${map1.primaryKey}').val();
+			if(${tableName}_${map1.entityName}_json.length>0||hasValue(pro))
+			{
+				formData += ",\"${map1.entityName.substring(0,1).toLowerCase()}${map1.entityName.substring(1)}s\":";
+			
+		#else
+				formData += ",\"${map1.entityName.substring(0,1).toLowerCase()}${map1.entityName.substring(1)}s\":[";
+			
+		#end
+		
+			#if(${map1.isDependent})
+					#if(!${map1.isMultiFieldTrue})
+					if(hasValue(pro))
+							{
+					formData +="{\"${map1.primaryKey}\":"+pro+"}}"
+							}
+							else
+							{
+								
+								
+									if(hasValue(${tableName}_${map1.entityName}_json[0]))
+										{			
+											${map1.entityName}List+=${tableName}_${map1.entityName}_json[0];
+										}
+										${tableName}_${map1.entityName}_json=[];						
+										formData+=${map1.entityName}List;		
+									}
+					#else
+						if(form=="edit_${tableName}_form")
+						{
+						for(var i=0;i<$("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects").length;i++)
+						{
+						var pro=$("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects")[i];
+						if(pro.indexOf("index_")!=-1)
+						{
+						var getIndex=pro.split("index_");
+						var index=getIndex[1];
+						${map1.entityName}List+=${tableName}_${map1.entityName}_json[index]+",";
+						}
+						else
+						{
+						${map1.entityName}List+="{\"${map1.primaryKey}\":"+pro+"},";
+						}			
+						}
+						}
+						else
+						{
+							$('#'+form+' #${tableName}_${map1.entityName}_edit_inline > option').each(function(){
+								
+									${map1.entityName}List+="{\"${map1.primaryKey}\":"+this.value+"},";
+									
+								});
+						
+						
+						}
+						${tableName}_${map1.entityName}_json=[];       
+						${map1.entityName}List = ${map1.entityName}List.substring(0, ${map1.entityName}List.length - 1);
+						formData+=${map1.entityName}List;	
+ 
+					#end
+					
+			#else		    
+		
+		#if(!${map1.isMultiFieldTrue})
+					
+					if(hasValue(pro))
+							{
+					formData +="{\"${map1.primaryKey}\":"+pro+"}}"
+							}
+							else
+							{
+								
+								
+									if(hasValue(${tableName}_${map1.entityName}_json[0]))
+										{			
+											${map1.entityName}List+=${tableName}_${map1.entityName}_json[0];
+										}
+										${tableName}_${map1.entityName}_json=[];						
+										formData+=${map1.entityName}List;		
+									}
+					#else
+			if(form=="edit_${tableName}_form")
+						{		
+		for(var i=0;i<$("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects").length;i++)
+			{
+				var pro=$("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects")[i];
+				if(pro.indexOf("index_")!=-1)
+				{
+					var getIndex=pro.split("index_");
+					var index=getIndex[1];
+					${map1.entityName}List+=${tableName}_${map1.entityName}_json[index]+",";
+				}
+				else
+				{
+					${map1.entityName}List+="{\"${map1.primaryKey}\":"+pro+"},";
+				}			
+		}
+		}
+		else{
+			$('#'+form+' #${tableName}_${map1.entityName}_edit_inline > option').each(function(){
+					${map1.entityName}List+="{\"${map1.primaryKey}\":"+this.value+"},";
+									
+				});
+			}
+	
+		${tableName}_${map1.entityName}_json=[];       
+		${map1.entityName}List = ${map1.entityName}List.substring(0, ${map1.entityName}List.length - 1);
+		formData+=${map1.entityName}List;
+		#end
+		
+		#end
+ 
+		 #if(!${map1.isMultiFieldTrue})
+					{
+       formData += "}";
+       }} else{
+       formData += "}";
+	   }
+		#else
+					{
+		formData += "]}";
+			}
+		#end
+       
+		#end
+		
+			
+		if(!(${tableName}_no_address==0))
+	{
+		
+		if(${tableName}_inline_edit)
+	{
+	if(!( ${tableName}_creator_inline==""))
+	{	formData =  mergeTwoJSON(formData,  ${tableName}_creator_inline);
+	}		#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+	
+		formData =  mergeTwoJSON(formData, ${tableName}_${includeFile.name}_inline);
+	#end
+	#end
+	#end
+		sendPUTRequest(context+"/rest/${entityName}/update/",formData,"edit_${tableName}_callback","");
+		
+		${tableName}_inline_edit=false;
+${tableName}_creator_inline=="";
+#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+	
+		 ${tableName}_${includeFile.name}_inline="";
+	#end
+	#end
+	#end
+		}else{
+		
+		
+		var jsonsfieldname=editjsonvariable.split('|');
+		
+		if(jsonsfieldname == "")
+		{	
+		#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+					if(hasValue(${tableName}_${includeFile.name}string))
+					{
+						formData =  mergeTwoJSON(formData,'{"${includeFile.name}":'+${tableName}_${includeFile.name}string+'}');
+					
+					}
+					#end
+					#end
+					#end
+		
+		
+			sendPUTRequest(context+"/rest/${entityName}/update/",formData,"edit_${tableName}_callback","");
+		
+			
+			}else{
+				if(jsonsfieldname.length==${tableName}_no_address)
+				{
+					var jsons=jsonvariable.split('|');
+					for(var i=0;i<jsons.length;i++)
+					{
+					formData =  mergeTwoJSON(formData, jsons[i]);
+					}
+					sendPUTRequest(context+"/rest/${entityName}/update/",formData,"edit_${tableName}_callback","");
+		
+				editjsonvariable="";
+				jsonvariable="";
+				}
+				else{
+					var jsons=jsonvariable.split('|');
+					#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+					if(checkStringInArray(jsonsfieldname,'address'))
+					{
+						var j=getIndexStringInArray(jsonsfieldname,'address');
+							formData =  mergeTwoJSON(formData, jsons[j]);
+					}else
+					{
+						formData =  mergeTwoJSON(formData,'{"${includeFile.name}":'+${tableName}_${includeFile.name}string+'}');
+					
+					}
+					#end
+					#end
+					#end
+					sendPUTRequest(context+"/rest/${entityName}/update/",formData,"edit_${tableName}_callback","");
+		
+						editjsonvariable="";
+				jsonvariable="";
+				
+				#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+				${tableName}_${includeFile.name}string="";
+			#end
+			#end
+			#end
+				}
+				
+				
+				
+				
+				}
+		
+		
+		
+		
+		
+		
+			
+			
+		}}else{
+			if(!( ${tableName}_creator_inline==""))
+	{	formData =  mergeTwoJSON(formData,  ${tableName}_creator_inline);
+	}	
+		${tableName}_inline_edit=false;
+${tableName}_creator_inline=="";
+
+			sendPUTRequest(context+"/rest/${entityName}/update/",formData,"edit_${tableName}_callback","");
+		
+			}
+		
+		
+		
+		
+		}
+		}
+	function edit_${tableName}_callback(XMLHttpRequest, data, rpcRequest)
+		{
+		RemoveUniqueLoading();
+		#foreach($map1 in $reverseMapList)
+					get${entityName}All${map1.entityName}Data();
+		#end	
+				
+	if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{	
+			if(XMLHttpRequest.status == 200)
+				{	
+					//openListScreen('${tableName}');
+					refreshAll${entityName}List();
+					${tableName}Table.fnDraw();					
+					showCenteredLoading(${tableName}_success_update);
+				}
+				else{
+						alert("error");
+					}
+					}
+				}
+		}
+	function search${entityName}Data(formId)
+	{
+	$('#${tableName}pagenovalue').html(1); 
+	uperLimit=eval($('#${tableName}_pagination_value').val());
+	pageulimit=uperLimit-1;
+	pagellimit=DEFAULT_PAGE_LOWERLIMIT;
+	$('#${tableName}_pagination #${tableName}_page_llimit').val(pagellimit);
+	$('#${tableName}_pagination #${tableName}_page_ulimit').val(pageulimit);	
+		
+	
+			showRegularLoading();
+				${tableName}SortByHighLightSelectedHeader('${tableName}');
+				var fiql=searchDataByFIQL(formId);
+				
+				fiql${entityName}Param=fiql;
+				sendGETRequest(context+"/rest/${entityName}/search"+fiql+"&date="+new Date(),"getfiql_${tableName}_data","","");
+	window.setTimeout(function(){
+			setSort('${tableName}',$("#fiql_${tableName}_form #sort_${tableName}").val());
+			setDefaultTypeSorting('${tableName}',"sort_type_${tableName}");
+			},1000);	
+   $("#fiql_${tableName}_form .ms-choice>span").each(function() {$( this ).text('All');});
+	}
+	
+	function getfiql_${tableName}_data(XMLHttpRequest, data, rpcRequest){
+		if(!checkException(XMLHttpRequest.responseText))
+			{	
+	if(XMLHttpRequest.status==200)
+			{
+			    $("#${tableName}filterTab").slideUp();
+				${tableName}TableRowData=data;
+				${entityName}flag=${tableName}TableRowData.length;	
+				var ${tableName}_pagination_value=$("#${tableName}_pagination_value").val();
+				$("#${tableName}_pagination  #content").text(pagination_showing + " " + 1 + " " + pagination_to + " " + ( ${tableName}_pagination_value) + " " + pagination_entries + " ");				
+				${tableName}ViewTable();
+				${tableName}Table.fnDraw();	
+				// $("#${tableName}_pagination_totalRecord").text("Total Records : "+${tableName}Table.fnSettings().fnRecordsDisplay());
+				$("#${tableName}_pagination_totalRecord").text(TOTAL_COUNT_TEXT_VAR);		
+			}
+			}
+	
+	}
+	#if($isFileAttach)
+	function get_${tableName}_file_Attach_data_callback(XMLHttpRequest, data, rpcRequest){
+				if(!checkException(XMLHttpRequest.responseText))
+				{	
+					if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{
+					if(XMLHttpRequest.status==200)
+					{
+						 ${tableName}TableRowData=data;	
+						var d = document.getElementById('${tableName}_task_tab');
+						var olddiv = document.getElementById('${tableName}_tasks');
+						if(olddiv!=null)
+						{
+							d.removeChild(olddiv);			
+						}	
+						 ${tableName}FileAttachList(data);
+					}
+					}
+				}	
+	}
+
+function ${tableName}FileAttachList(data)
+{
+	$("#${tableName}AttachmentViewCountBadge").html("").html("Attachments (" + parseInt(data.length) + ")");
+	$("#${tableName}AttachmentEditCountBadge").html("").html("Attachments (" + parseInt(data.length) + ")");
+
+	$("#${tableName}_task_tab").append("<ul id='${tableName}_tasks' class='item-list ui-sortable'></ul>");
+	for(i=0;i<data.length;i++)
+	{
+		$("#${tableName}_tasks").append("<li>"+ data[i].filename + "<div class='pull-right action-buttons'>	<a href='javascript:void(0)' onclick='attachment_download("+data[i].id+",\""+data[i].filename+"\")' class='blue'><i class='icon-download bigger-130'></i></a><a href='javascript:void(0)' onclick='attachment_delete_${tableName}("+data[i].id+")' class='red'><i class='icon-trash bigger-130'></i></a></div></li>") ;
+	}
+	if(i==0) {
+	  $("#${tableName}_tasks").append("<li>"+${entityName}NoAttachmentstoshow+"</li>");
+	}
+}
+
+function attachment_delete_${tableName}(id)
+{	
+			${tableName}AttachId=id;
+			// commonDialogBox("Do you want to delete attachment ?","delete${entityName}Attach()");
+
+			$('#${tableName}_attach_delete_dialog').modal('show');
+			$("#${tableName}_attach_delete_dialog .modal-body img").attr("src", getImagePath('warning-icon.png'));
+			$("#${tableName}_attach_delete_dialog .modal-body span").html(DELETE_ATTACHMENT_CONFIRM_MSG_VAR);
+
+	
+}
+function attachment_download(id,filename)
+{	
+showRegularLoading();
+	var url =  context+"/attachment.jsp?attachment="+id+"&filename="+filename;
+    window.open(url);	
+    RemoveUniqueLoading();
+}
+
+
+function delete_${tableName}_file_attach_callback(XMLHttpRequest, data, rpcRequest)
+{
+RemoveUniqueLoading();
+	$('#${tableName}_attach_delete_dialog').fadeOut();
+	refreshAll${entityName}List();
+	if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+					{	
+		if(XMLHttpRequest.status==204)
+			{		
+				sendGETRequest(context+"/rest/${entityName}Attach/search?_s=${tableName}.${primarykey}=="+${tableName}resultid+"&ulimit=49&llimit=0","get_${tableName}_file_Attach_data_callback","","");
+									
+					showCenteredLoading(fileattachment_delete_success_message);
+				
+			}
+		else{
+			alert("Error in deleting files");
+			}	
+			}	
+		}
+	
+}
+#end
+
+#if($isComment)
+
+function ${tableName}CommentList(data)
+{
+	$("#${tableName}_comment_tabdiv").empty();
+	$("#${tableName}commentmodeldata").empty();
+	$("#${tableName}CommentViewCountBadge").html("Comments (" + parseInt(data.length) + ")");
+	$("#${tableName}CommentEditCountBadge").html("Comments (" + parseInt(data.length) + ")");
+	if(data.length>0)
+	{
+		for(i=0;i<data.length;i++)
+		{
+			var row = data[i];
+     		var name = row.users.firstname
+			var time = formatStreamDate(row.creationtime,true);
+			//var time = row.creationtime;
+			var message = row.comment;
+			var userId = row.users.userid;
+		
+			$("#${tableName}_comment_tabdiv").append("<div class='itemdiv commentdiv'><div class='user'><img alt='"+name+"&#39;s Avatar' onerror=\"this.src='../images/avatar2.png'\" src="+context+"/rest/Users/getUserImageById/"+userId+"></div><div class='body'><div class='name'><a href='javascript:void(0);'>"+name+"</a></div><div class='time'><i class='icon-time'></i><div class='red' style='display: inline;'> "+time+"</div></div><div class='text' style='word-wrap: break-word;max-width: 72%;'>"+message+"</div></div>"+"<div class='tools'><a href='javascript:void(0);' onclick='${tableName}_delete_comment("+data[i].id+")'class='btn btn-minier-prev btn-danger'><i class='icon-only icon-trash'></i></a></div>"+"</div>");
+
+			$("#${tableName}commentmodeldata").append("<div class='itemdiv commentdiv'><div class='user'><img alt='"+name+"&#39;s Avatar' onerror=\"this.src='../images/avatar2.png'\" src="+context+"/rest/Users/getUserImageById/"+userId+"></div><div class='body'><div class='name'><a href='javascript:void(0);'>"+name+"</a></div><div class='time'><i class='icon-time'></i><span class='red'> "+time+"</span></div><div class='text' style='word-wrap: break-word;max-width: 72%;'>"+message+"</div></div>"+"<div class='tools'><a href='javascript:void(0);' onclick='${tableName}_delete_comment("+data[i].id+")'class='btn btn-minier-prev btn-danger'><i class='icon-only icon-trash'></i></a></div>"+"</div>");
+			// <i style='color: #a7a7a7;' class='icon-quote-right'></i>
+		}
+	}
+	else
+	{
+		 $("#${tableName}_comment_tabdiv").append("<ul id='${tableName}_comments' class='item-list ui-sortable'><li>"+${entityName}NoCommentstoshow+"</li></ul>");
+	}
+ 
+}
+
+function get_${tableName}_comment_data_callback(XMLHttpRequest, data, rpcRequest){
+	if(!checkException(XMLHttpRequest.responseText))
+	{	
+		if(statuscheck(XMLHttpRequest.status,'${tableName}'))
+		{
+			if(XMLHttpRequest.status==200)
+			{
+				${tableName}CommentList(data);
+			}
+		}
+	}	
+}
+
+
+function ${tableName}_delete_comment(id)
+{
+	${tableName}CommentId=id;
+	// commonDialogBox("Do you want to delete comment ?","delete${entityName}Comment()");
+	$('#${tableName}_comment_delete_dialog').modal('show');
+	$("#${tableName}_comment_delete_dialog .modal-body img").attr("src", getImagePath('warning-icon.png'));
+	$("#${tableName}_comment_delete_dialog .modal-body span").html(DELETE_COMMENT_CONFIRM_MSG_VAR);
+
+	var d = document.getElementById('${tableName}_comment_tabdiv');	
+	var olddiv = document.getElementById('${tableName}_comments');	
+	// d.removeChild(olddiv);
+}
+
+function delete${tableName}CommentCallback(XMLHttpRequest, data,rpcRequest)
+{
+	RemoveUniqueLoading();
+	$('#${tableName}_comment_delete_dialog').fadeOut();
+	refreshAll${entityName}List();
+	if(statuscheck(XMLHttpRequest.status,'${tableName}')) {
+		if(XMLHttpRequest.status == 204) {		  sendGETRequest(context+"/rest/Comment/search?_s=${tableName}.${primarykey}=="+${tableName}resultid,"get_${tableName}_comment_data_callback","","");	 
+			showCenteredLoading(comment_delete_success_message);
+		}
+		else{
+		  if(hasValue(XMLHttpRequest.responseText))
+			 {
+				load_completer();
+				showErrorLoading(getServerErrorMsg(XMLHttpRequest.responseText));						
+			 }					
+		}
+	}	
+}
+
+#end
+
+#if($isComment||$isFileAttach)
+
+var ${tableName}AttachId;
+var ${tableName}CommentId;
+function delete${entityName}Comment(){
+	if(hasValue(${tableName}CommentId)){
+		sendDELETERequest(context+"/rest/Comment/" + ${tableName}CommentId,"","delete${tableName}CommentCallback","");	
+	 
+	}
+}
+var ${tableName}AttachId;	
+function delete${entityName}Attach(){
+	if(hasValue(${tableName}AttachId)){
+	sendDELETERequest(context+"/rest/${entityName}Attach/"+${tableName}AttachId,"","delete_${tableName}_file_attach_callback","");
+	 var d = document.getElementById('${tableName}_task_tab');
+			var olddiv = document.getElementById('${tableName}_tasks');
+			d.removeChild(olddiv);
+	}
+}	
+
+
+function ${tableName}_show_modal_window(id,html_page,div_id)
+{
+hasSession();
+uploadid=id;
+uploadName="$entityName";
+primaryKey="$primarykey";
+foreignKey="$entityName.substring(0,1).toLowerCase()$entityName.substring(1)";
+upload_div_id="${tableName}_uploader_div";
+upid="${tableName}";
+	if(html_page!="false"){
+	var url=context+"/pages"+htmlFolder+"/"+html_page;
+	jQuery.get(url,function(data){
+		$('#'+div_id+'').html(data);
+	
+		});
+		}
+}
+#end
+
+#if($history.equalsIgnoreCase("true"))
+function ${tableName}HistoryTable(data){
+	
+	$("#${tableName}_history_tabdiv").empty();
+
+	if(data.length>0)
+	{
+		for(i=0;i<data.length;i++)
+		{
+			var row = data[i];
+     		var name = row.changed_by;
+			//var time = localizeDateString(new Date(row.changed_on),dateFormat);
+			//var time = row.creationtime;
+			var time = row.changed_on;
+			var time1=time.split(' ');
+			if(time1.length>2)
+				time=time1[2]+" "+time1[1]+" "+time1[5];
+			
+			var message = row.changes;
+			
+			/* Changes done for NEW UI table like view */
+			if(message.indexOf('Created with') !== -1) {
+				var createdItemArray = message.split("<br/>");
+				var createdItemArrayLen = createdItemArray.length;
+				var message = "<div style='margin-left: -5%;'>";
+
+				message += '<span style="margin-left: 5%;">'+createdItemArray[0]+'</span>';
+
+				for(var i=1; i<createdItemArrayLen; i++)
+				{
+					var elem = createdItemArray[i].split(":");
+					message += '<div class="profile-info-row">';
+					message += '<div class="profile-info-name">'+elem[0]+'</div>';
+					message += '<div class="profile-info-value"><span>'+elem[1]+'</span></div>';
+					message += '</div>';
+				}
+				message += '</div>';
+			}
+			else {
+				message = '<span style="color: #6b6b6b;">'+message+'</span>';
+			}
+
+			$("#${tableName}_history_tabdiv").append("<div class='itemdiv commentdiv'><div class='body' style='margin-left: 10px;'><div class='name'><a href='javascript:void(0);'>"+name+"</a></div><div class='time' style='float: right;'><i class='icon-time'></i><div class='red' style='display: inline;'> "+time+"</div></div><div class='text' style='word-wrap: break-word;max-width:100%;color: #6b6b6b;'>"+message+"</div></div>"+"</div>");
+		}
+	}
+	else {
+		 $("#${tableName}_history_tabdiv").append("<ul id='${tableName}_history' class='item-list ui-sortable'><li>No History to show</li></ul>");
+	}
+}
+
+function get_${tableName}_history_data_callback(XMLHttpRequest, data, rpcRequest) {
+	if(!checkException(XMLHttpRequest.responseText)) {
+		if(statuscheck(XMLHttpRequest.status,'${tableName}')) {
+			if(XMLHttpRequest.status == 200) {
+				${tableName}TableRowData=data;
+				${tableName}HistoryTable(data);				
+			}
+		}
+	}	
+}
+
+#end
+#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+	
+	$('#add_${includeFile.name}_${tableName}_Address_act').click(function(){	
+		var url=context+"/pages/addgeneratedAddressform.html";
+	jQuery.get(url,function(data){
+		$('#${includeFile.name}_add_${tableName}_Address_modal').html(data);
+	
+		});
+		
+	});
+
+function ${tableName}_edit_${includeFile.name}(id)
+{
+	table=${tableName};
+	hiddenid=id;
+	window.setTimeout( function(){},500 );
+
+	var url=context+"/pages/editgeneratedAddressform.html";
+
+	jQuery.get(url,function(data) {
+		$('#${includeFile.name}_${tableName}_edit_Address_modal').html(data);
+		if(hasValue(${tableName}_${includeFile.name}id)) {
+			$('#edit_user_generated_Address_form')[0].reset();
+			js2form(document.getElementById('edit_user_generated_Address_form'),${tableName}_${includeFile.name}object,".","",true);
+			window.setTimeout(function() {
+				// to remove label show in input box where value is setted in html on blur function is called
+				jQuery('.form-without-label input[type="text"]').blur();
+			},200);
+		}
+	});
+}
+
+function ${tableName}_edit_${includeFile.name}_callback(XMLHttpRequest, data, rpcRequest){
+	RemoveUniqueLoading();
+	if(XMLHttpRequest.status==200) {
+		${tableName}_${includeFile.name}string=JSON.stringify(data[0]);
+		${tableName}_${includeFile.name}object=data[0];
+	}
+}
+
+#end
+#end
+#end
+function ${tableName}_set_table_value_id(id)
+{
+table="${tableName}";
+hiddenid=id;
+}
+function delete${entityName}Entity(){
+	if(hasValue(${tableName}id)){
+		#if($isdeleted)
+		sendDELETERequest(context+"/rest/${entityName}/softdeleted/"+${tableName}id,"","delete_${tableName}_callback","");
+		#else
+		sendDELETERequest(context+"/rest/${entityName}/delete/"+${tableName}id,"","delete_${tableName}_callback","");
+		#end
+	}
+}	
+
+
+var jsonvariableonetomany="";
+#foreach($map1 in $reverseMapList)
+
+function create_${tableName}_${map1.entityName}(id,formDiv) {
+
+ if(formDiv=='add')
+ {
+    window.setTimeout(function () {}, 500);
+    if (true) {
+
+        var formData = JSON.stringify(convertFormDataToJSON(id));
+
+        var jsons = "";
+        if (!(${map1.entityName}_no_address == 0)) {
+
+            if (!(jsonvariableonetomany == "")) {
+                jsons = jsonvariableonetomany.split('|');
+
+
+
+                for (var i = 0; i < jsons.length; i++) {
+                    formData = mergeTwoJSON(formData, jsons[i]);
+                }
+
+                if ((${map1.entityName}_no_address == jsons.length)) {
+					#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#add_${tableName}_form #${map1.entityName}TableList tbody tr').remove();
+					}
+					#end
+                      ${tableName}_${map1.entityName}_json.push(formData);
+            
+				${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;				
+                jQuery('#add_${tableName}_form #${tableName}_${map1.entityName}_div #${tableName}').append(jQuery('<option>', {
+					text: JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}
+                }));
+                $("#add_${tableName}_form #${map1.entityName}TableList tbody").append('<tr id="index_'+${tableName}_${map1.entityName}_json_index+'"><td >'+JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}+'</td><td><div class="table_close float_left" id="delete_${map1.entityName}_act"  style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div></td></tr>');               
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map1.entityName} added successfully");
+
+                }
+            } else {
+                var addressRequired = 0;
+                if (addressRequired == 0) {
+                	#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#add_${tableName}_form #${map1.entityName}TableList tbody tr').remove();
+					}
+					#end
+                                     ${tableName}_${map1.entityName}_json.push(formData);
+            
+				${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;				
+                jQuery('#add_${tableName}_form #${tableName}_${map1.entityName}_div #${tableName}').append(jQuery('<option>', {
+					text: JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}
+                }));
+                $("#add_${tableName}_form #${map1.entityName}TableList tbody").append('<tr id="index_'+${tableName}_${map1.entityName}_json_index+'"><td >'+JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}+'</td><td><div class="table_close float_left" id="delete_${map1.entityName}_act"  style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div></td></tr>');               
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map1.entityName} added successfully");
+
+
+                } else {
+                    showErrorLoading("Address is required");
+                }
+
+
+            }
+        } else {
+				#if(!${map1.isMultiFieldTrue})
+					
+					    ${tableName}_${map1.entityName}_json=[];
+					
+				#end	
+         
+				${tableName}_${map1.entityName}_json.push(formData);
+				${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;				jQuery('#add_${tableName}_form #${tableName}_${map1.entityName}_div #${tableName}').append(jQuery('<option>', {
+				text: JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}
+				}));
+                
+                #if(${map1.isMultiFieldTrue})
+					var $select = $("#${tableName}_${map1.entityName}"),
+					value = jQuery.trim(JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}),
+					idWO="index_"+${tableName}_${map1.entityName}_json_index;
+					$opt = $("<option />", {
+							value: idWO,
+							text: value
+					});
+					$opt.prop("selected", true);
+					$select.append($opt).multipleSelect("refresh");      
+				#end       
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map1.entityName} added successfully");
+
+
+			}
+        jsonvariableonetomany = "";
+
+
+
+    }
+
+}
+else
+{
+window.setTimeout(function () {}, 500);
+    if (true) {
+
+        var formData = JSON.stringify(convertFormDataToJSON(id));
+
+        var jsons = "";
+        if (!(${map1.entityName}_no_address == 0)) {
+
+            if (!(jsonvariableonetomany == "")) {
+                jsons = jsonvariableonetomany.split('|');
+
+
+
+                for (var i = 0; i < jsons.length; i++) {
+                    formData = mergeTwoJSON(formData, jsons[i]);
+                }
+
+                if ((${map1.entityName}_no_address == jsons.length)) {
+               
+					#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#edit_${tableName}_form #${map1.entityName}TableListEdit tbody tr').remove();
+					}
+					#end
+                
+					 ${tableName}_${map1.entityName}_json.push(formData);
+			${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+				
+			if(hasValue(editabledataFor${map1.entityName}))
+		    {
+			jQuery('#${map1.entityName}TableListEdit tbody tr').each(function () {        
+           
+           if(editabledataFor${map1.entityName}_id==this.id){
+           $(this).remove(); 
+            }
+		    });			
+			}
+			$("#edit_${tableName}_form #${map1.entityName}TableListEdit tbody").append('<tr id="index_'+${tableName}_${map1.entityName}_json_index+'"><td >'+JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}+'</td><td><a href="#${tableName}_${map1.entityName}_modal_edit" style="display:block" title="" class="table_edit float_left" id="${map1.entityName}_edit_act"role="button"  data-toggle="modal"></a><div class="table_close float_left" id="delete_${map1.entityName}_act"  style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div></td></tr>');          
+            $('.modal-header .close').click();
+            showCenteredLoading("${map1.entityName} added successfully");
+
+                }
+            } else {
+                var addressRequired = 0;
+                if (addressRequired == 0) {
+					#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#edit_${tableName}_form #${map1.entityName}TableListEdit tbody tr').remove();
+					}
+					#end
+                    ${tableName}_${map1.entityName}_json.push(formData);
+					${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+				
+			if(hasValue(editabledataFor${map1.entityName}))
+		    {
+			jQuery('#${map1.entityName}TableListEdit tbody tr').each(function () {        
+           
+           if(editabledataFor${map1.entityName}_id==this.id){
+           $(this).remove(); 
+            }
+		    });			
+			}
+		$("#edit_${tableName}_form #${map1.entityName}TableListEdit tbody").append('<tr id="index_'+${tableName}_${map1.entityName}_json_index+'"><td >'+JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}+'</td><td><a href="#${tableName}_${map1.entityName}_modal_edit" style="display:block" title="" class="table_edit float_left" id="${map1.entityName}_edit_act"role="button"  data-toggle="modal"></a><div class="table_close float_left" id="delete_${map1.entityName}_act"  style="display:block"  data-toggle="tooltip" title="Delete"  data-animation="true" ></div></td></tr>');          
+            $('.modal-header .close').click();
+            showCenteredLoading("${map1.entityName} added successfully");
+
+
+                } else {
+                    showErrorLoading("Address is required");
+                }
+
+
+            }
+        } else {
+				#if(!${map1.isMultiFieldTrue})
+					
+					    ${tableName}_${map1.entityName}_json=[];
+					
+				#end	
+         
+					
+					      ${tableName}_${map1.entityName}_json.push(formData);
+						${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+		
+			       
+                #if(${map1.isMultiFieldTrue})
+			var $select = $("#${tableName}_${map1.entityName}_edit"),
+			value = jQuery.trim(JSON.parse(${tableName}_${map1.entityName}_json[${tableName}_${map1.entityName}_json_index]).${map1.viewerField}),
+				idWO="index_"+${tableName}_${map1.entityName}_json_index;
+				$opt = $("<option />", {
+						value: idWO,
+						text: value
+				});
+				$preSelected=$("#${tableName}_${map1.entityName}_edit").multipleSelect("getSelects");
+				$opt.prop("selected", true);
+				$select.append($preSelected); 
+				$select.append($opt).multipleSelect("refresh");	
+				$preSelected.push(idWO);
+				$select.multipleSelect("setSelects",$preSelected);
+			#end	
+			    $('.modal-header .close').click();
+				showCenteredLoading("${map1.entityName} added successfully");
+        }
+        jsonvariableonetomany = "";
+
+
+
+    }
+
+}
+}
+
+
+function edit_${tableName}_${map1.entityName}(id) {
+
+    window.setTimeout(function () {}, 500);
+    if (jQuery('#' + id).validationEngine('validate')) {
+
+        var formData = JSON.stringify(convertFormDataToJSON(id));
+
+        var jsons = "";
+        if (!(${map1.entityName}_no_address == 0)) {
+
+            if (!(jsonvariableonetomany == "")) {
+                jsons = jsonvariableonetomany.split('|');
+
+
+
+                for (var i = 0; i < jsons.length; i++) {
+                    formData = mergeTwoJSON(formData, jsons[i]);
+                }
+
+                if ((${map1.entityName}_no_address == jsons.length)) {
+               
+					#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#edit_${tableName}_form #${map1.entityName}TableListEdit tbody tr').remove();
+					}
+					#end
+                
+					 ${tableName}_${map1.entityName}_json.push(formData);
+			${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+				sendPUTRequest(context+"/rest/${map1.entityName}/update/",formData,"modal_edit_${map1.tableName}_callback","");
+			     
+            $('.modal-header .close').click();
+            showCenteredLoading("${map1.entityName} added successfully");
+
+                }
+            } else {
+                var addressRequired = 0;
+                if (addressRequired == 0) {
+					#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#edit_${tableName}_form #${map1.entityName}TableListEdit tbody tr').remove();
+					}
+					#end
+                    ${tableName}_${map1.entityName}_json.push(formData);
+					${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+				sendPUTRequest(context+"/rest/${map1.entityName}/update/",formData,"modal_edit_${map1.tableName}_callback","");
+		
+            $('.modal-header .close').click();
+            showCenteredLoading("${map1.entityName} added successfully");
+
+
+                } else {
+                    showErrorLoading("Address is required");
+                }
+
+
+            }
+        } else {
+			#if(!${map1.isMultiFieldTrue})
+					{
+					    ${tableName}_${map1.entityName}_json=[];
+						$('#edit_${tableName}_form #${map1.entityName}TableListEdit tbody tr').remove();
+					}
+			#end		
+            ${tableName}_${map1.entityName}_json.push(formData);
+			${tableName}_${map1.entityName}_json_index=${tableName}_${map1.entityName}_json.length-1;
+				sendPUTRequest(context+"/rest/${map1.entityName}/update/",formData,"modal_edit_${map1.tableName}_callback","");
+			 
+            $('.modal-header .close').click();
+            showCenteredLoading("${map1.entityName} added successfully");
+
+
+        }
+        jsonvariableonetomany = "";
+
+
+
+    }
+
+}
+
+function modal_edit_${map1.tableName}_callback(XMLHttpRequest, data, rpcRequest)
+		{
+						RemoveUniqueLoading();
+	if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${map1.tableName}'))
+					{	
+			if(XMLHttpRequest.status == 200)
+				{	
+					get${entityName}All${map1.entityName}Data();
+		if(hasValue(editabledataFor${map1.entityName}))
+		    {
+				jQuery('#${map1.entityName}TableListEdit tbody tr').remove();		
+			}
+			window.setTimeout(function(){ 
+sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${tableName}.${primarykey}=="+${tableName}Idfor${map1.entityName}+ "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "");
+					
+					},2000);
+					
+				}
+				else{
+						alert("error");
+					}
+					}
+				}
+		}
+
+ function delete${tableName}_delete_${map1.entityName}_Entity_Add(){
+    if(hasValue(delete_${tableName}_${map1.entityName})){		sendDELETERequest(context+"/rest/${map1.entityName}/delete/"+delete_${tableName}_${map1.entityName},"","delete_${tableName}_${map1.entityName}_callback","");
+        
+       }
+	}
+	 function delete_${tableName}_${map1.entityName}_callback(XMLHttpRequest, data, rpcRequest){
+      RemoveUniqueLoading();
+		$('#${tableName}_delete_dialog_${map1.entityName}_add').fadeOut();
+		if(!checkException(XMLHttpRequest.responseText))
+			{
+			if(statuscheck(XMLHttpRequest.status,'${map1.tableName}'))
+					{	
+			if(XMLHttpRequest.status==204)
+			{	
+						#foreach($map1 in $reverseMapList)	
+        sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" +${tableName}Idfor${map1.entityName}+ "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "");
+		#end
+					showCenteredLoading(${map1.tableName}_success_delete);
+				
+			}
+		else{
+			alert("Error in retriving entities");
+			}		
+		}
+		}
+     
+     }
+   function delete${tableName}_delete_${map1.entityName}_Entity_Edit(){
+    if(hasValue(delete_${tableName}_${map1.entityName})){
+        $('#${tableName}_delete_dialog_${map1.entityName}_edit').fadeOut();
+       }
+	}
+$('.delete_${map1.entityName}_act').die();
+	$('.delete_${map1.entityName}_act').live('click', function () {  
+	var tableNameData=replaceUnderscore('${tableName}');    
+      commonDialogBox("Do you want to delete the "+tableNameData+" record ?","delete${tableName}_delete_${map1.entityName}_Entity_Add()"); 
+   //     $('#${tableName}_delete_dialog_${map1.entityName}_add').css("display","");
+       delete_${tableName}_${map1.entityName} =$(this).attr("hhh");
+    });
+	
+ $('.${map1.entityName}_edit_act').die();
+ $('.${map1.entityName}_edit_act').live('click', function () {
+		 var id = $(this).attr("hhh");
+		 ${tableName}_show_modal_${map1.entityName}("hh", "${entityName}_Modal_Edit_${map1.entityName}.html", '${tableName}_${map1.entityName}_div_edit');		sendGETRequest(context+"/rest/${map1.entityName}/search?_s=${map1.primaryKey}=="+id+"&orderBy=modifiedTime&orderType=desc&ulimit=9&llimit=0&date="+new Date(),"get${map1.entityName}searchData","");
+		editabledataFor${map1.entityName}_id=id;
+		editIdRowIndexOf${map1.entityName}=$(this).closest('tr').index();
+		
+     });
+     
+         function get${map1.entityName}searchData(XMLHttpRequest, data, rpcRequest) {
+         RemoveUniqueLoading();
+    if (statuscheck(XMLHttpRequest.status, '${map1.tableName}')) {
+        if (!checkException(XMLHttpRequest.responseText)) {
+            if (XMLHttpRequest.status == 200) {
+
+               
+                    editabledataFor${map1.entityName}=data;
+                   
+                    
+                     if(hasValue(editabledataFor${map1.entityName})){		
+		window.setTimeout(function(){ 
+	
+		js2form(document.getElementById('edit_${map1.tableName}_form1'), editabledataFor${map1.entityName}[0], ".", "", true);},1000);    
+			   
+        } 
+       
+
+            } else {
+                alert("error in data");
+            }
+        }
+    }
+} 
+     
+      function ${tableName}_show_modal_${map1.entityName}(id, html_page, div_id) 
+      {
+		
+			if (html_page != "false") {
+				var url = context + "/pages"+htmlFolder+"/" + html_page;
+				jQuery.get(url, function (data) {
+				$('#' + div_id + '').html(data);
+					});
+			}   
+		}  
+
+	
+	
+	/*this function is to get the all ${map1.entityName} list for the ${entityName}*/
+function get${entityName}All${map1.entityName}Data()
+{
+	showRegularLoading();	sendGETRequest(context+"/rest/${map1.entityName}/search?&orderBy=${map1.viewerField}&orderType=asc&ulimit=100&llimit=0&date="+new Date(),"get${entityName}All${map1.entityName}DataCallback","");
+	
+}
+
+/*callback for the all ${map1.entityName} list for the ${entityName}*/
+function get${entityName}All${map1.entityName}DataCallback(XMLHttpRequest, data, rpcRequest)
+{
+	 if (statuscheck(XMLHttpRequest.status,'${map1.tableName}')) {
+        if (!checkException(XMLHttpRequest.responseText)) {
+            if (XMLHttpRequest.status == 200) {
+				#if(${map1.isMultiFieldTrue})
+				#if(!${map1.isDependent})
+			 set${map1.entityName}Valuein${entityName}Form('#add_${tableName}_form  #${tableName}_${map1.entityName}_div #${tableName}_${map1.entityName}',data,"add")
+			       set${map1.entityName}Valuein${entityName}Form('#edit_${tableName}_form #${tableName}_${map1.entityName}_div #${tableName}_${map1.entityName}_edit',data,"edit")
+				#end
+       
+				#end
+					
+               } else {
+                alert("error in data");
+            }
+        }
+    }
+	
+}
+#if(${map1.isMultiFieldTrue})
+/*this function is to set the ${map1.entityName}s in the dropdown*/
+function set${map1.entityName}Valuein${entityName}Form(id,data,ref)
+{
+	
+
+			$(id).empty();	
+			if(ref=="add")
+			{	
+				for(var i=0;i<data.length;i++)
+				{
+				var $select = $(id),
+				value = jQuery.trim(data[i].${map1.viewerField}),
+				$opt = $("<option />", {
+				value: data[i].${map1.primaryKey},
+				text: value
+				});
+
+				$select.append($opt).multipleSelect("refresh");
+				}
+			}
+			else
+			{
+			for(var i=0;i<data.length;i++)
+					{
+					var $select = $(id),
+					value = jQuery.trim(data[i].${map1.viewerField})+'<div hhh="'+data[i].${map1.primaryKey}+'" class="table_close delete_${map1.entityName}_act" style="display: block;margin-right: margin-right: 5px;margin-top:2px;float: right;"id=""  data-toggle="modal" title="Delete" role="button" data-animation="true" ></div><a hhh="'+data[i].${map1.primaryKey}+'" href="#${tableName}_${map1.entityName}_modal_edit" style="display:block;float:right;margin-top: 2px;" title="Edit" class="table_edit ${map1.entityName}_edit_act"  id="" role="button"  data-toggle="modal"></a>',
+					$opt = $("<option />", {
+						value: data[i].${map1.primaryKey},
+						text: value
+				});
+           
+				$select.append($opt).multipleSelect("refresh");
+			}
+			}	
+		
+		RemoveUniqueLoading();
+}
+#end
+/*default functions to load the one to many forms for the ${entityName}*/
+function loadOTM${map1.entityName}In${entityName}()
+{
+	//all the functions related to the ${map1.entityName} calls should come here
+	get${entityName}All${map1.entityName}Data();
+}
+
+/*this function is called from on change of ${map1} dropdown for the add screen*/
+function setValueInAdd${map1.entityName}ListFor${entityName}(dropdown)
+{
+	var selectedId=$(dropdown).find('option:selected').val();
+		if(hasValue(selectedId))
+	{
+	var selectedText=$(dropdown).find('option:selected').text();
+	var is${map1.entityName}Added=true;
+
+	jQuery('#${map1.entityName}TableList tbody tr').each(function () {        
+		if(this.id==selectedId)
+		is${map1.entityName}Added=false
+	});
+	
+		if(is${map1.entityName}Added)
+		{
+		$('#${map1.entityName}TableList tbody').append("<tr id="+selectedId+"><td>"+selectedText+"</td><td><div class='table_close float_left delete_${map1.entityName}_act' id='' style='display:block;margin-left:15px'  data-toggle='tooltip' title='Delete'  data-animation='true' ></div></td></tr>")
+		}
+		else
+		showErrorLoading("${map1.entityName} already added ");
+	}
+	else
+	{
+		showErrorLoading("Please select other value");
+		}	
+	//copy the code
+}
+
+/*this function is called from on change of ${map1} dropdown for the edit screen*/
+function setValueInEdit${map1.entityName}ListFor${entityName}(dropdown)
+{
+	
+	var selectedId=$(dropdown).find('option:selected').val();
+	if(hasValue(selectedId))
+	{
+	var selectedText=$(dropdown).find('option:selected').text();
+	var is${map1.entityName}Added=true;
+
+	jQuery('#${map1.entityName}TableListEdit tbody tr').each(function () {        
+		if(this.id==selectedId)
+		is${map1.entityName}Added=false
+	});
+	
+		if(is${map1.entityName}Added)
+		{
+		$('#${map1.entityName}TableListEdit tbody').append("<tr id="+selectedId+"><td>"+selectedText+"</td><td><a href='#${tableName}_${map1.entityName}_modal_edit' style='display:block' title='' class='table_edit float_left' id='${map1.entityName}_edit_act' role='button'  data-toggle='modal'></a><div class='table_close float_left' id='delete_${map1.entityName}_act'  style='display:block'  data-toggle='tooltip' title='Delete'  data-animation='true' ></div></td></tr>")
+		}
+		else
+		{showErrorLoading("${map1.entityName} already added ");	
+		}
+	}	else
+	{
+		showErrorLoading("Please select other value");
+		}	
+	
+	//copy the code
+}
+
+function get${map1.entityName}Databy${entityName}ID(XMLHttpRequest, data, rpcRequest,param) {
+	var setSelected= new Array();
+    if (statuscheck(XMLHttpRequest.status, '${map1.tableName}')) {
+        if (!checkException(XMLHttpRequest.responseText)) {
+            if (XMLHttpRequest.status == 200) {
+				#if(${map1.isDependent})
+					#if(!${map1.isMultiFieldTrue})
+						if(hasValue(param))
+						{					
+							$('#edit_${tableName}_form_inline #${map1.primaryKey}').val(data[0].${map1.primaryKey})
+						}
+						else{
+						if(hasValue(data[0]))
+							{
+								$('#${tableName}_${map1.entityName}_div_edit_call').css("display","block");
+								$('#${tableName}_${map1.entityName}_div_add_call').css("display","none");
+								
+						window.setTimeout(function(){
+						${map1.entityName}Data=data[0];	
+						${tableName}${map1.entityName}Id=data[0].${map1.primaryKey}
+						$('#edit_${tableName}_form #${map1.primaryKey}').val(data[0].${map1.primaryKey})
+						js2form(document.getElementById('edit_${map1.tableName}_form1'),data[0], ".", "", true);},1000);
+						}
+						else{
+						$('#${tableName}_${map1.entityName}_div_edit_call').css('display','none');
+						$('#${tableName}_${map1.entityName}_div_add_call').css('display','block');	
+						} 
+						}
+					#else
+					  	if(hasValue(param))
+						{	
+							for(var i=0;i<data.length;i++){
+								jQuery('#edit_${tableName}_form_inline #${tableName}_${map1.entityName}_edit_inline').append(jQuery('<option>',{
+								
+								value:data[i].${map1.primaryKey},
+								text:data[i].${map1.primaryKey}
+								}));
+							}
+						}else{
+					      ${map1.entityName}listdata = data;
+					   $("#${tableName}_${map1.entityName}_edit").empty();	
+					 
+					for(var i=0;i<data.length;i++)
+					{
+						
+						setSelected.push(data[i].${map1.primaryKey});
+					var $select = $("#${tableName}_${map1.entityName}_edit"),
+					value = jQuery.trim(data[i].${map1.viewerField})+'<div hhh="'+data[i].${map1.primaryKey}+'" class="table_close delete_${map1.entityName}_act" style="display: block;margin-right: margin-right: 5px;margin-top:2px;float: right;"id=""  data-toggle="modal" title="Delete" role="button" data-animation="true" ></div><a hhh="'+data[i].${map1.primaryKey}+'" href="#${tableName}_${map1.entityName}_modal_edit" style="display:block;float:right;margin-top: 2px;" title="Edit" class="table_edit ${map1.entityName}_edit_act"  id="" role="button"  data-toggle="modal"></a>',
+					$opt = $("<option />", {
+						value: data[i].${map1.primaryKey},
+						text: value
+				});
+           
+				$select.append($opt).multipleSelect("refresh");
+				
+					
+			}
+				if(data.length>0)
+			{
+			$("#${tableName}_${map1.entityName}_edit").multipleSelect("setSelects",setSelected)
+			}
+			else
+			{
+				var $select = $("#${tableName}_${map1.entityName}_edit"),value="",$opt=$("");
+				$select.append($opt).multipleSelect({
+					selectAll: false
+					});
+				}
+			}
+				 
+		
+			
+					#end
+				#else
+						#if(!${map1.isMultiFieldTrue})
+							
+						if(hasValue(param))
+						{					
+							$('#edit_${tableName}_form_inline #${map1.primaryKey}').val(data[0].${map1.primaryKey})
+						}
+						else{
+							if(hasValue(data[0]))
+							{
+								$('#${tableName}_${map1.entityName}_div_edit_call').css("display","block");
+								$('#${tableName}_${map1.entityName}_div_add_call').css("display","none");
+								
+								window.setTimeout(function(){
+								${map1.entityName}Data=data[0];	
+								${tableName}${map1.entityName}Id=data[0].${map1.primaryKey}
+								$('#edit_${tableName}_form #${map1.primaryKey}').val(data[0].${map1.primaryKey})
+								js2form(document.getElementById('edit_${map1.tableName}_form1'),data[0], ".", "", true);},1000); 
+						}
+						else{
+						$('#${tableName}_${map1.entityName}_div_edit_call').css('display','none');
+						$('#${tableName}_${map1.entityName}_div_add_call').css('display','block');	
+						}
+						} 
+					#else
+						if(hasValue(param))
+						{	
+							for(var i=0;i<data.length;i++){
+								jQuery('#edit_${tableName}_form_inline #${tableName}_${map1.entityName}_edit_inline').append(jQuery('<option>',{
+								
+								value:data[i].${map1.primaryKey},
+								text:data[i].${map1.primaryKey}
+								}));
+							}
+						}else{
+                ${map1.entityName}listdata = data;
+                for(var i=0;i < ${map1.entityName}listdata.length;i++){					
+               setSelected.push(${map1.entityName}listdata[i].${map1.primaryKey});
+				}
+				$("#${tableName}_${map1.entityName}_edit").multipleSelect("setSelects",setSelected);
+				}
+					#end
+				#end
+            } else {
+                alert("error in data");
+            }
+        }
+           RemoveUniqueLoading();
+    }
+    }
+    
+ 
+
+
+function get${map1.entityName}Databy${entityName}ID_view(XMLHttpRequest, data, rpcRequest) {
+    if (statuscheck(XMLHttpRequest.status, '${map1.tableName}')) {
+        if (!checkException(XMLHttpRequest.responseText)) {
+            if (XMLHttpRequest.status == 200) {
+
+                ${map1.entityName}listdata = data;
+
+            } else {
+                alert("error in data");
+            }
+        }
+    }
+}
+
+
+
+#end
+
+#foreach($map2 in $notReverseMapList.entrySet())
+
+$('#${map2.key}_add_act').die();
+ $('#${map2.key}_add_act').live('click', function () {
+		         ${map2.key}_show_modal_${entityName}("hh", "${entityName}_Modal_Add_${map2.key}.html", '${entityName}_${map2.key}_div_add');
+			});
+$('#${map2.key}_edit_act').die();
+ $('#${map2.key}_edit_act').live('click', function () {
+		         ${map2.key}_show_modal_${entityName}("hh", "${entityName}_Modal_Add_${map2.key}.html", '${entityName}_${map2.key}_div_edit');
+			});
+
+
+
+  function ${map2.key}_show_modal_${entityName}(id, html_page, div_id) 
+      {
+			refreshAllFk${entityName}List();
+			if (html_page != "false") {
+				var url = context + "/pages"+htmlFolder+"/" + html_page;
+				jQuery.get(url, function (data) {
+				$('#' + div_id + '').html(data);
+					});
+			}   
+		}  
+
+
+function add_${map2.key}_${entityName}(id) {
+
+    window.setTimeout(function () {}, 1000);
+    if (jQuery('#' + id).validationEngine('validate')) {
+
+        var formData = JSON.stringify(convertFormDataToJSON(id));
+
+        var jsons = "";
+        if (!(${tableName}_no_address == 0)) {
+
+            if (!(jsonvariable == "")) {
+                jsons = jsonvariable.split('|');
+
+
+
+                for (var i = 0; i < jsons.length; i++) {
+                    formData = mergeTwoJSON(formData, jsons[i]);
+                }
+
+                if ((${tableName}_no_address == jsons.length)) {
+                      ${map2.key}_${entityName}_json.push(formData);
+					
+			    ${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;
+								
+                sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${entityName} added successfully");
+
+                }
+            } else {
+                var addressRequired = 0;
+                if (addressRequired == 0) {
+                ${map2.key}_${entityName}_json.push(formData);
+            
+				${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;				
+                sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map2.key} added successfully");
+
+                } else {
+                    showErrorLoading("Address is required");
+                }
+
+
+            }
+        } else {
+               ${map2.key}_${entityName}_json.push(formData);
+            
+				${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;		
+							
+				sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map2.key} added successfully");
+			}
+        jsonvariable = "";
+
+
+
+    }
+
+}
+
+
+function edit_${map2.key}_${entityName}(id) {
+
+    window.setTimeout(function () {}, 500);
+    if (jQuery('#' + id).validationEngine('validate')) {
+
+        var formData = JSON.stringify(convertFormDataToJSON(id));
+
+        var jsons = "";
+        if (!(${tableName}_no_address == 0)) {
+
+            if (!(jsonvariable == "")) {
+                jsons = jsonvariable.split('|');
+
+
+
+                for (var i = 0; i < jsons.length; i++) {
+                    formData = mergeTwoJSON(formData, jsons[i]);
+                }
+
+                if ((${tableName}_no_address == jsons.length)) {
+                      ${map2.key}_${entityName}_json.push(formData);
+					
+			    ${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;
+								
+                sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${entityName} added successfully");
+
+                }
+            } else {
+                var addressRequired = 0;
+                if (addressRequired == 0) {
+                ${map2.key}_${entityName}_json.push(formData);
+            
+				${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;				
+                sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map2.key} added successfully");
+
+                } else {
+                    showErrorLoading("Address is required");
+                }
+
+
+            }
+        } else {
+               ${map2.key}_${entityName}_json.push(formData);
+            
+				${map2.key}_${entityName}_json_index=${map2.key}_${entityName}_json.length-1;		
+							
+				sendPOSTRequest(context+"/rest/${map2.key}/create/",formData,"${map2.key}_${entityName}_callback","");	
+                $('.modal-header .close').click();   
+                showCenteredLoading("${map2.key} added successfully");
+			}
+        jsonvariable = "";
+
+
+
+    }
+
+}
+
+
+
+function ${map2.key}_${entityName}_callback(XMLHttpRequest, data, rpcRequest){
+		RemoveUniqueLoading();
+		
+		if(!checkException(XMLHttpRequest.responseText))
+			{	
+			if(statuscheck(XMLHttpRequest.status,'project'))
+					{
+		if(XMLHttpRequest.status==200)
+			{		
+				   
+					refreshAllFk${entityName}List();			
+					showCenteredLoading(${map2.value}_success_create);
+						#foreach ($includeFile in $bootsStrapList)	
+							#if($includeFile.isForeignKey && $includeFile.name.equalsIgnoreCase("${map2.value}"))
+							window.setTimeout(function(){
+				var abc= eval('['+XMLHttpRequest.responseText+']');
+				$("#add_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}").val(abc[0].${includeFile.dataName}) ;
+				$("#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}").val(abc[0].${includeFile.dataName}) ;
+					},2500);
+					#end
+					#end
+				
+			}
+		else{
+			alert("Error in retriving entities");
+			}	
+			}	
+		}
+		}	
+
+
+
+
+#end
+#if($reverseMapList)
+#foreach(${map1} in $reverseMapList)
+function create${map1.entityName}()
+{
+var noofForms=0;
+var validateForms=0;
+	$("#${tableName}_${map1.entityName}_modal #add_${map1.tableName}_div1  form").each(function(){
+		formId=$(this).attr('id');
+	 if (jQuery('#' + formId).validationEngine('validate')) {
+			validateForms++;
+		}
+		noofForms++;
+		});	
+		if(noofForms==validateForms)
+		{
+	$("#${tableName}_${map1.entityName}_modal #add_${map1.tableName}_div1  form").each(function(){
+		formId=$(this).attr('id');
+		create_${tableName}_${map1.entityName}(formId,'add');
+		});	
+}
+}
+
+
+function create${map1.entityName}OnEdit()
+{
+var noofForms=0;
+var validateForms=0;
+
+	$("#${tableName}_${map1.entityName}_div_add_edit #add_${map1.tableName}_div1  form").each(function(){
+		formId=$(this).attr('id');
+	 if (jQuery('#' + formId).validationEngine('validate')) {
+			validateForms++;
+		}
+		noofForms++;
+		});	
+		if(noofForms==validateForms)
+		{
+	$("#${tableName}_${map1.entityName}_div_add_edit #add_${map1.tableName}_div1  form").each(function(){
+		formId=$(this).attr('id');
+		create_${tableName}_${map1.entityName}(formId,'edit');
+		});	
+}
+}
+#end
+#end
+#if($reverseMapList)
+function resetAllModalWindowPagesFor${entityName}()
+	{
+	#foreach(${map1} in $reverseMapList)
+	$('#add_${map1.tableName}_form1').trigger("reset");
+	#end
+	#foreach(${map1} in $reverseMapList)
+	$('#edit_${map1.tableName}_form1').trigger("reset");
+	#end
+	#foreach($map2 in  $notReverseMapList.entrySet())
+	$('#add_${map2.value}_form1').trigger("reset");	
+	#end
+	}
+#end	
+
+function open${entityName}ListScreen(div_id)
+{
+removeAllInstanceOfEditor();
+if(hasValue(check_list_view_screen)){
+check_list_view_screen=false;
+			openListScreen('${tableName}');
+			var orderbycall= $('#fiql_${tableName}_form #sort_${tableName}').val();
+			var ordertypecall= $('#fiql_${tableName}_form #sort_type_${tableName}').val();
+			if(!hasValue(orderbycall))
+			orderbycall="modifiedTime";	
+			if(!hasValue(ordertypecall))
+			ordertypecall="desc";	
+			sendGETRequest(context+"/rest/${entityName}/search?date="+new Date()+"&orderBy="+orderbycall+"&orderType="+ordertypecall+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&date="+new Date(),"get${entityName}Data","");
+		}		
+		else
+		{
+			if(check_elastic_view_screen)
+			{
+				check_elastic_view_screen=false;
+				refreshAll${entityName}List();
+			}
+			if(!$("#list_${tableName}_div").is(':visible')){
+			openListScreen(div_id)
+		}
+		}	
+}
+
+
+								
+function get${entityName}DataEditCallBack(XMLHttpRequest, data, rpcRequest)
+{
+	if(statuscheck(XMLHttpRequest.status,'request'))
+					{	
+			if(!checkException(XMLHttpRequest.responseText))
+			{	
+		if(XMLHttpRequest.status==200)
+			{
+		
+		setDataInEditFromView${entityName}(data);
+		
+			}
+		else
+		{
+		alert("error in data");
+		}
+		}		
+	}
+}
+ 
+ function setDataInEditFromView${entityName}(data){
+ 
+ 
+ #foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+${tableName}_${includeFile.name}_inline="";
+	${tableName}_${includeFile.name}object="";
+		    ${tableName}_${includeFile.name}id="";
+		    ${tableName}_${includeFile.name}string="";
+		    	
+		#end	
+		#end	
+		#end
+ #set($isReverseMap=0)
+			#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+					#if($includeFile.isReverseMappingExist)
+					#set($isReverseMap=$isReverseMap+1)
+					#end
+				#end
+			#end	
+			#if($isReverseMap>0)
+			refreshAllFk${entityName}List();
+			#end	
+			#foreach($map1 in $reverseMapList)
+			
+			$("#${map1.entityName}TableListEdit tbody").empty();
+			#end
+			
+			#foreach($map1 in $reverseMapList)
+			${tableName}Idfor${map1.entityName}=data[0].${primarykey};		
+			#end
+			#if($isReverseMap>0)
+			window.setTimeout(function(){
+			#end	
+			#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.isForeignKey && !$includeFile.name.contains("domain"))
+					#if($includeFile.isReverseMappingExist)
+						jQuery('#edit_${tableName}_form #$includeFile.name\\.${includeFile.viewerName}').append(jQuery('<option>',{			
+						value:data[0].$includeFile.name.$includeFile.dataName,
+						text:data[0].$includeFile.name.$includeFile.viewerName
+						}));
+					#end
+				#end	
+			#end
+		
+		#foreach($map1 in $reverseMapList)	
+        sendGETRequest(context + "/rest/${map1.entityName}/search?_s=${entityName.substring(0,1).toLowerCase()}${entityName.substring(1)}.${primarykey}==" + data[0].${primarykey} + "&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(), "get${map1.entityName}Databy${entityName}ID", "");
+		#end
+		
+		#foreach ($includeFile in $bootsStrapList)	
+		#if($includeFile.isForeignKey)		
+
+#if(($includeFile.name.equalsIgnoreCase("address"))||($includeFile.name.equalsIgnoreCase("address1"))||($includeFile.name.equalsIgnoreCase("address2"))||($includeFile.name.equalsIgnoreCase("address3"))||($includeFile.name.equalsIgnoreCase("address4")))
+
+		if(!(data[0].${includeFile.name}==null))
+		{
+		$('#edit_${includeFile.name}_${tableName}_Address_act').text(data[0].${includeFile.name}.addressLine1);
+		${tableName}_${includeFile.name}id="";
+			${tableName}_${includeFile.name}id=data[0].${includeFile.name}.id;						
+				
+sendGETRequest(context+"/rest/Address/search?_s=id=="+${tableName}_${includeFile.name}id+"&date="+new Date()+"&ulimit=1&llimit=0&orderBy=id&orderType=asc","${tableName}_edit_${includeFile.name}_callback","");
+}
+			#end
+			#end
+			#end
+ 	
+				
+		js2form(document.getElementById('edit_${tableName}_form'),data[0],".","",true);
+		
+		// ${tableName}id=aData.$primarykey;		
+		openEditScreen('${tableName}');
+		
+		window.setTimeout(function(){
+		 #foreach ($includeFile in $bootsStrapList)
+			#if($includeFile.type.equals("richText"))
+			$("#edit_${tableName}_div #${includeFile.name}").html(htmlDecode(data[0].${includeFile.name}));
+		    #end
+		#end
+		},500);	
+#if($isReverseMap>0)
+			},1000);
+			#end	
+ 
+ }
+
+function ViewEdit${tableName}() {
+	${tableName}id = ${tableName}resultid;	sendGETRequest(context+"/rest/${entityName}/search?_s=${primarykey}=="+${tableName}resultid+"&orderBy=modifiedTime&orderType=desc&ulimit=100&llimit=0&date="+new Date(),"get${entityName}DataEditCallBack","");
+}
+
+/*function to open quick filter for text field*/
+var ${tableName}SearchIndex="";
+function open${entityName}TextField(colName){
+	#if($dbType.equalsIgnoreCase("oracle"))
+	colName = eval(colName);
+	#end
+	${tableName}SearchIndex =  get_column_number_For_Quick_Filter(colName,'${tableName}');
+	showQuickFilterDiv(${tableName}SearchIndex,'${tableName}',colName);
+	$("#${tableName}quickFilterDiv").css("display","");
+	$("#${tableName}quickFilter").focus();
+	$("#${tableName}quickFilter").keyup( function () {
+		
+			   ${tableName}Table.fnFilter( this.value,${tableName}SearchIndex );
+			   // $("#${tableName}_pagination_totalRecord").text("Total Records : "+${tableName}Table.fnSettings().fnRecordsDisplay());
+			   $("#${tableName}_pagination_totalRecord").text(TOTAL_COUNT_TEXT_VAR);
+			
+			} );
+	}
+function open${entityName}TextSelectBox(colName,val){
+	$("#${tableName}quickFilterDiv").css("display","none");
+	${tableName}SearchIndex =  get_column_number_For_Quick_Filter(colName,'${tableName}');
+	
+    ${tableName}Table.fnFilter( val, ${tableName}SearchIndex );
+	// $("#${tableName}_pagination_totalRecord").text("Total Records : "+${tableName}Table.fnSettings().fnRecordsDisplay());
+	$("#${tableName}_pagination_totalRecord").text(TOTAL_COUNT_TEXT_VAR);
+			
+	}
+	
+
+
+/*function  to get total count of entity ${entityName}*/
+function get${tableName}TotalCount()
+{
+	sendGETRequest(context+"/rest/${entityName}/totalCount?date="+new Date(),"get${tableName}TotalCountCallBack","");
+}
+	
+/*Call back  of get total count of entity ${entityName}*/
+function get${tableName}TotalCountCallBack(XMLHttpRequest, data, rpcRequest)
+{
+	if(statuscheck(XMLHttpRequest.status,'request'))
+	{	
+		if(!checkException(XMLHttpRequest.responseText))
+			{	
+			if(XMLHttpRequest.status==200)
+			{
+				// $('#${tableName}_totalCount').html(" / "+data);
+				$('#${tableName}_totalCount').html(data);
+			}
+			else
+			{
+				alert("Error in data");
+			}
+		}		
+	}
+}
+
+#if($isFileAttach)
+// to get ${entityName} attachemnts
+function get${entityName}Attachments()
+{
+	sendGETRequest(context+"/rest/${entityName}Attach/search?_s=${tableName}.${primarykey}=="+${tableName}resultid+"&date="+new Date()+"&ulimit=100&llimit=0","get_${tableName}_file_Attach_data_callback","","");
+}
+
+// to show add attachment in ${entityName} modal window
+function show${entityName}AddAttachModal(${tableName}Id)
+{
+	if(!hasValue(${tableName}Id)) ${tableName}Id = ${tableName}id;
+	if(hasValue(${tableName}Id)) {
+		${tableName}_show_modal_window(${tableName}Id,"fileUpload.html",'customercontentmodel');
+	}
+}
+#end
+
+#if($isComment)
+// to get ${entityName} comments
+function get${entityName}Comments()
+{
+	sendGETRequest(context+"/rest/Comment/search?_s=${tableName}.${primarykey}=="+${tableName}resultid+"&date="+new Date(),"get_${tableName}_comment_data_callback","","");
+}
+
+// to show add and view comment in ${entityName} modal window
+function show${entityName}AddAndViewCommentModal(${tableName}Id)
+{
+	if(!hasValue(${tableName}Id)) ${tableName}Id = ${tableName}id;
+	if(hasValue(${tableName}Id)) {
+		${tableName}_show_modal_window(${tableName}Id,"false",'customercommentmodel');
+	}
+}
+#end

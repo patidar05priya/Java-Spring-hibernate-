@@ -1,0 +1,22 @@
+Titanium.include("Login.js");
+
+function ApplicationWindow() {
+	//declare module dependencies
+	var Login = require('ui/common/Login');
+		
+	//create object instance
+	var self = Ti.UI.createWindow({
+		title:'Products',
+		exitOnClose:true,
+		navBarHidden:false,
+		backgroundColor:'#ffffff'
+	});
+	var login=new Login();	
+	self.add(login);
+	
+
+	return self;
+	
+};
+
+module.exports = ApplicationWindow;

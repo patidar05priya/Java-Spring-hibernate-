@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="AddForm" type="DataSource">
+  <attributes>
+    <attr name="dataSource">OrderdetailDataSource</attr>
+    <attr name="numCols">4</attr>
+    <attr name="id">OrderdetailAddForm</attr>
+    <attr name="parentRelationType">no_relation</attr>
+    <attr name="autoDraw">false</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderLineNumber</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">orderLineNumber</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orders</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">orders</attr>
+        <attr name="entityDataSource">OrdersDataSource</attr>
+        <attr name="entityDisplayField">orderNumber</attr>
+        <attr name="entityValueField">orderNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">priceEach</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">priceEach</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">product</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">product</attr>
+        <attr name="entityDataSource">ProductDataSource</attr>
+        <attr name="entityDisplayField">productCode</attr>
+        <attr name="entityValueField">productCode</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">quantityOrdered</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">quantityOrdered</attr>
+        <attr name="required">true</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">CreateButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.create','Create')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    OrderdetailAddForm.addProperties({saveOperationType:"add"});
+						OrderdetailAddForm.submit();
+						}</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">ResetButton</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">button</attr>
+        <attr name="title">getMessage('button','createtab.section.button.reset','Reset')</attr>
+        <attr name="startRow">true</attr>
+        <attr name="rowSpan">2</attr>
+        <attr name="click">function() {
+					    resetOrderdetail = true;
+					    OrderdetailAddForm.clearValues();
+						resetOrderdetail = false;
+						}</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

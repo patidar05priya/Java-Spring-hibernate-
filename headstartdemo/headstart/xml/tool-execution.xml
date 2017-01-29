@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?><ToolExecution>
+<ExposedInputs>
+<InitialSchemaToJpa/>
+<InitialJpaCompile/>
+<InitialEntityClasses>
+<param name="entityClasses">
+<list>
+<class>com.inn.headstartdemo.model.Customer</class>
+<class>com.inn.headstartdemo.model.Office</class>
+<class>com.inn.headstartdemo.model.Orderdetail</class>
+<class>com.inn.headstartdemo.model.Employee</class>
+<class>com.inn.headstartdemo.model.Orders</class>
+<class>com.inn.headstartdemo.model.Product</class>
+<class>com.inn.headstartdemo.model.Payment</class>
+</list>
+</param>
+</InitialEntityClasses>
+<EntityDependenciesGenerator/>
+<SchemaXMLGenerator/>
+<ReverseCustomiserGenerator/>
+<EntityTableRelationship>
+<param name="entityTableLoc">
+<list>
+<entity name="com.inn.headstartdemo.model.Customer" tableName="customer"/>
+<entity name="com.inn.headstartdemo.model.Office" tableName="office"/>
+<entity name="com.inn.headstartdemo.model.Orderdetail" tableName="orderdetail"/>
+<entity name="com.inn.headstartdemo.model.Employee" tableName="employee"/>
+<entity name="com.inn.headstartdemo.model.Orders" tableName="orders"/>
+<entity name="com.inn.headstartdemo.model.Product" tableName="product"/>
+<entity name="com.inn.headstartdemo.model.Payment" tableName="payment"/>
+</list>
+</param>
+</EntityTableRelationship>
+<EntityFileAttachUtilityGenerator/>
+<CommentSqlGenerator/>
+<CrudModifier/>
+<AuditSqlCreatorForHistory/>
+<AddressSqlGenerator/>
+<EntityUserMapping/>
+<SecuritySQLModifier/>
+<SecuritySchemaCreator/>
+<MavenClean/>
+<SchemaToJpa/>
+<JpaCompile/>
+<EntityIdGenerator/>
+<EnumCodeGeneration/>
+<EntityCleanup/>
+<WsdlPomEntryWritter/>
+<reCompile/>
+<EntityClasses>
+<param name="entityClasses">
+<list>
+<class>com.inn.headstartdemo.model.Customer</class>
+<class>com.inn.headstartdemo.model.Address</class>
+<class>com.inn.headstartdemo.model.CustomerAttach</class>
+<class>com.inn.headstartdemo.model.SocialCredentials</class>
+<class>com.inn.headstartdemo.model.ActivityStream</class>
+<class>com.inn.headstartdemo.model.Users</class>
+<class>com.inn.headstartdemo.model.Office</class>
+<class>com.inn.headstartdemo.model.Comment</class>
+<class>com.inn.headstartdemo.model.EmailNotifications</class>
+<class>com.inn.headstartdemo.model.UserConfig</class>
+<class>com.inn.headstartdemo.model.Orderdetail</class>
+<class>com.inn.headstartdemo.model.FileUploads</class>
+<class>com.inn.headstartdemo.model.Employee</class>
+<class>com.inn.headstartdemo.model.Orders</class>
+<class>com.inn.headstartdemo.model.Product</class>
+<class>com.inn.headstartdemo.model.Payment</class>
+</list>
+</param>
+</EntityClasses>
+<AnalyticsPropsGenerator/>
+<ScanAppDB/>
+<AnalyticsGenerator/>
+<EntityDecorator/>
+<NamedQuery/>
+<FileUploadsModelUpdation/>
+<EntityAnnotateHsitory/>
+<ExtendBaseModel/>
+<AbstractUtils/>
+<AbstractDao/>
+<DaoInterface/>
+<DaoImpl>
+<param name="daoImplSrcLoc">
+<list>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/CustomerDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/OfficeDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/OrderdetailDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/EmployeeDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/OrdersDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/ProductDaoImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/dao/impl/PaymentDaoImpl.java</src>
+</list>
+</param>
+</DaoImpl>
+<DatabasePropsCreator/>
+<AbstractService/>
+<ServiceInterface/>
+<ServiceImpl>
+<param name="serviceImplSrcLoc">
+<list>
+<src>src/main/java/com/inn/headstartdemo/service/impl/CustomerServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/OfficeServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/OrderdetailServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/EmployeeServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/OrdersServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/ProductServiceImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/service/impl/PaymentServiceImpl.java</src>
+</list>
+</param>
+</ServiceImpl>
+<AppContextCreator/>
+<AbstractWeb/>
+<RestInterface/>
+<RestImpl>
+<param name="restImplSrcLoc">
+<list>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/CustomerRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/OfficeRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/OrderdetailRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/EmployeeRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/OrdersRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/ProductRestImpl.java</src>
+<src>src/main/java/com/inn/headstartdemo/rest/impl/PaymentRestImpl.java</src>
+</list>
+</param>
+</RestImpl>
+<WebXmlCreator/>
+<AppContext4Rest/>
+<EntityDecorator4Rest/>
+<GenerateMessageProperty/>
+<BootstrapUI/>
+<ApacheConfig/>
+<WroXmlCreater/>
+<UserInterface/>
+<ComponentToStudioForm/>
+<ComponentToStudioGrid/>
+<Component2LayoutXslGenerator/>
+<ComponentTabsetToStudioLayout/>
+<StudioSqlExecutor/>
+<SecurityClassesGenerator/>
+<AttachmentClassesProvider/>
+<SecurityXmlCreator/>
+<TestSecurityXmlCreator/>
+<AppContext4Security/>
+<PersistenceXml4Security/>
+<WebXml4Security/>
+<ExceptionAtDao/>
+<ExceptionAtService/>
+<ExceptionAtRest/>
+<ExhaCfgAtDao/>
+<ExhaCfgAtService/>
+<ExhaCfgAtRest/>
+<ValidationAtEntity/>
+<ValidationAtDao/>
+<ValidationAtService/>
+<ValidationAtRest/>
+<ActivitiAppContextCreator/>
+<ServiceActivitiExposer/>
+<MonitorPersistenceXmlModifier/>
+<MonitorWebXmlModifier/>
+<TestDBUtilCreator/>
+<TestSampleUtilCreator/>
+<DaoUnitTestCreator/>
+<ServiceUnitTestCreator/>
+<APIScriptCreator/>
+<DBScriptCreator/>
+<UITestGenerator/>
+<Javadoc/>
+<JavadocRewriter/>
+<SequenceDiagramGenerator/>
+<SequenceDiagramPublisher/>
+<JRXmlCreator/>
+<ReportPages/>
+<PomXmlRewriter/>
+<FileDelete/>
+<TomcatConfigGenerator/>
+<wro4j/>
+<Package/>
+</ExposedInputs>
+<executedTasks>
+<Task action="add" name="InitialSchemaToJpa" status="SUCCESS"/>
+<Task action="add" name="InitialJpaCompile" status="SUCCESS"/>
+<Task action="add" name="InitialEntityClasses" status="SUCCESS"/>
+<Task action="add" name="EntityDependenciesGenerator" status="SUCCESS"/>
+<Task action="add" name="SchemaXMLGenerator" status="SUCCESS"/>
+<Task action="add" name="ReverseCustomiserGenerator" status="SUCCESS"/>
+<Task action="add" name="EntityTableRelationship" status="SUCCESS"/>
+<Task action="add" name="EntityFileAttachUtilityGenerator" status="SUCCESS"/>
+<Task action="add" name="CommentSqlGenerator" status="SUCCESS"/>
+<Task action="add" name="CrudModifier" status="SUCCESS"/>
+<Task action="add" name="AuditSqlCreatorForHistory" status="SUCCESS"/>
+<Task action="add" name="AddressSqlGenerator" status="SUCCESS"/>
+<Task action="add" name="EntityUserMapping" status="SUCCESS"/>
+<Task action="add" name="SecuritySQLModifier" status="SUCCESS"/>
+<Task action="add" name="SecuritySchemaCreator" status="SUCCESS"/>
+<Task action="add" name="MavenClean" status="SUCCESS"/>
+<Task action="add" name="SchemaToJpa" status="SUCCESS"/>
+<Task action="add" name="JpaCompile" status="SUCCESS"/>
+<Task action="add" name="EntityIdGenerator" status="SUCCESS"/>
+<Task action="add" name="EnumCodeGeneration" status="SUCCESS"/>
+<Task action="add" name="EntityCleanup" status="SUCCESS"/>
+<Task action="add" name="WsdlPomEntryWritter" status="SUCCESS"/>
+<Task action="add" name="reCompile" status="SUCCESS"/>
+<Task action="add" name="EntityClasses" status="SUCCESS"/>
+<Task action="add" name="AnalyticsPropsGenerator" status="SUCCESS"/>
+<Task action="add" name="ScanAppDB" status="SUCCESS"/>
+<Task action="add" name="AnalyticsGenerator" status="SUCCESS"/>
+<Task action="add" name="EntityDecorator" status="SUCCESS"/>
+<Task action="add" name="NamedQuery" status="SUCCESS"/>
+<Task action="add" name="FileUploadsModelUpdation" status="SUCCESS"/>
+<Task action="add" name="EntityAnnotateHsitory" status="SUCCESS"/>
+<Task action="add" name="ExtendBaseModel" status="SUCCESS"/>
+<Task action="add" name="AbstractUtils" status="SUCCESS"/>
+<Task action="add" name="AbstractDao" status="SUCCESS"/>
+<Task action="add" name="DaoInterface" status="SUCCESS"/>
+<Task action="add" name="DaoImpl" status="SUCCESS"/>
+<Task action="add" name="DatabasePropsCreator" status="SUCCESS"/>
+<Task action="add" name="AbstractService" status="SUCCESS"/>
+<Task action="add" name="ServiceInterface" status="SUCCESS"/>
+<Task action="add" name="ServiceImpl" status="SUCCESS"/>
+<Task action="add" name="AppContextCreator" status="SUCCESS"/>
+<Task action="add" name="AbstractWeb" status="SUCCESS"/>
+<Task action="add" name="RestInterface" status="SUCCESS"/>
+<Task action="add" name="RestImpl" status="SUCCESS"/>
+<Task action="add" name="WebXmlCreator" status="SUCCESS"/>
+<Task action="add" name="AppContext4Rest" status="SUCCESS"/>
+<Task action="add" name="EntityDecorator4Rest" status="SUCCESS"/>
+<Task action="add" name="GenerateMessageProperty" status="SUCCESS"/>
+<Task action="add" name="BootstrapUI" status="SUCCESS"/>
+<Task action="add" name="ApacheConfig" status="SUCCESS"/>
+<Task action="add" name="WroXmlCreater" status="SUCCESS"/>
+<Task action="add" name="UserInterface" status="SUCCESS"/>
+<Task action="add" name="ComponentToStudioForm" status="SUCCESS"/>
+<Task action="add" name="ComponentToStudioGrid" status="SUCCESS"/>
+<Task action="add" name="Component2LayoutXslGenerator" status="SUCCESS"/>
+<Task action="add" name="ComponentTabsetToStudioLayout" status="SUCCESS"/>
+<Task action="add" name="StudioSqlExecutor" status="SUCCESS"/>
+<Task action="add" name="SecurityClassesGenerator" status="SUCCESS"/>
+<Task action="add" name="AttachmentClassesProvider" status="SUCCESS"/>
+<Task action="add" name="SecurityXmlCreator" status="SUCCESS"/>
+<Task action="add" name="TestSecurityXmlCreator" status="SUCCESS"/>
+<Task action="add" name="AppContext4Security" status="SUCCESS"/>
+<Task action="add" name="PersistenceXml4Security" status="SUCCESS"/>
+<Task action="add" name="WebXml4Security" status="SUCCESS"/>
+<Task action="add" name="ExceptionAtDao" status="SUCCESS"/>
+<Task action="add" name="ExceptionAtService" status="SUCCESS"/>
+<Task action="add" name="ExceptionAtRest" status="SUCCESS"/>
+<Task action="add" name="ExhaCfgAtDao" status="SUCCESS"/>
+<Task action="add" name="ExhaCfgAtService" status="SUCCESS"/>
+<Task action="add" name="ExhaCfgAtRest" status="SUCCESS"/>
+<Task action="add" name="ValidationAtEntity" status="SUCCESS"/>
+<Task action="add" name="ValidationAtDao" status="SUCCESS"/>
+<Task action="add" name="ValidationAtService" status="SUCCESS"/>
+<Task action="add" name="ValidationAtRest" status="SUCCESS"/>
+<Task action="add" name="ActivitiAppContextCreator" status="SUCCESS"/>
+<Task action="add" name="ServiceActivitiExposer" status="SUCCESS"/>
+<Task action="add" name="MonitorPersistenceXmlModifier" status="SUCCESS"/>
+<Task action="add" name="MonitorWebXmlModifier" status="SUCCESS"/>
+<Task action="add" name="TestDBUtilCreator" status="SUCCESS"/>
+<Task action="add" name="TestSampleUtilCreator" status="SUCCESS"/>
+<Task action="add" name="DaoUnitTestCreator" status="SUCCESS"/>
+<Task action="add" name="ServiceUnitTestCreator" status="SUCCESS"/>
+<Task action="add" name="APIScriptCreator" status="SUCCESS"/>
+<Task action="add" name="DBScriptCreator" status="SUCCESS"/>
+<Task action="add" name="UITestGenerator" status="SUCCESS"/>
+<Task action="add" name="Javadoc" status="SUCCESS"/>
+<Task action="add" name="JavadocRewriter" status="SUCCESS"/>
+<Task action="add" name="SequenceDiagramGenerator" status="SUCCESS"/>
+<Task action="add" name="SequenceDiagramPublisher" status="SUCCESS"/>
+<Task action="add" name="JRXmlCreator" status="SUCCESS"/>
+<Task action="add" name="ReportPages" status="SUCCESS"/>
+<Task action="add" name="PomXmlRewriter" status="SUCCESS"/>
+<Task action="add" name="FileDelete" status="SUCCESS"/>
+<Task action="add" name="TomcatConfigGenerator" status="SUCCESS"/>
+<Task action="add" name="wro4j" status="SUCCESS"/>
+<Task action="add" name="Package" status="SUCCESS"/>
+</executedTasks>
+<executedGroups>
+<Group action="add" name="Entity" status="SUCCESS"/>
+<Group action="add" name="Analytics" status="SUCCESS"/>
+<Group action="add" name="Dao" status="SUCCESS"/>
+<Group action="add" name="Service" status="SUCCESS"/>
+<Group action="add" name="Rest" status="SUCCESS"/>
+<Group action="add" name="GenerateMessageProperty" status="SUCCESS"/>
+<Group action="add" name="BootstrapUI" status="SUCCESS"/>
+<Group action="add" name="MobileAppGeneration" status="SUCCESS"/>
+<Group action="add" name="WroXmlCreater" status="SUCCESS"/>
+<Group action="add" name="UserInterface" status="SUCCESS"/>
+<Group action="add" name="Studio" status="SUCCESS"/>
+<Group action="add" name="Security" status="SUCCESS"/>
+<Group action="add" name="Exception" status="SUCCESS"/>
+<Group action="add" name="Validation" status="SUCCESS"/>
+<Group action="add" name="Activiti" status="SUCCESS"/>
+<Group action="add" name="Monitoring" status="SUCCESS"/>
+<Group action="add" name="Test" status="SUCCESS"/>
+<Group action="add" name="Documentation" status="SUCCESS"/>
+<Group action="add" name="Reporting" status="SUCCESS"/>
+<Group action="add" name="PomXmlRewriter" status="SUCCESS"/>
+<Group action="add" name="FileDelete" status="SUCCESS"/>
+<Group action="add" name="QuartzScheduler" status="SUCCESS"/>
+<Group action="add" name="wro4j" status="SUCCESS"/>
+<Group action="add" name="Package" status="SUCCESS"/>
+</executedGroups>
+<Events>
+<Event name="entitygeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Entity generation successful</EventMsg>
+					          </Event>
+<Event name="analyticsreportgeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Analytics report generation successful</EventMsg>
+					          </Event>
+<Event name="datalayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Data layer generation successful</EventMsg>
+					          </Event>
+<Event name="servicelayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Service layer generation successful</EventMsg>
+					          </Event>
+<Event name="restlayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Rest layer generation successful</EventMsg>
+					          </Event>
+<Event name="userinterfacegeneration">
+						            <Status>Success</Status>
+						            <EventMsg>User interface generation successful</EventMsg>
+					          </Event>
+<Event name="securityaddition">
+						            <Status>Success</Status>
+						            <EventMsg>Security addition successful</EventMsg>
+					          </Event>
+<Event name="monitoringsupport">
+						            <Status>Success</Status>
+						            <EventMsg>Monitoring support addition successful</EventMsg>
+					          </Event>
+<Event name="testcasegeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Test case generation successful</EventMsg>
+					          </Event>
+<Event name="docgeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Document generation successful</EventMsg>
+					          </Event>
+<Event name="wro4jcompression">
+						            <Status>Success</Status>
+						            <EventMsg>wro4j javascript compression successful</EventMsg>
+					          </Event>
+<Event name="applicationpackage">
+						            <Status>Success</Status>
+						            <EventMsg>Application packaging successful</EventMsg>
+					          </Event>
+</Events>
+</ToolExecution>

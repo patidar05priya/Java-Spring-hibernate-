@@ -1,0 +1,135 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+
+Input orderdetail_quantityOrdered
+    [Arguments]    ${quantityOrdered}
+    Input Text    //form[@id='add_orderdetail_form']//input[@id='quantityOrdered']   ${quantityOrdered}
+    
+       
+Select product
+    Select From List By Index    //form[@id='add_orderdetail_form']//select[@id='product.productName']    1
+     
+    
+Input orderdetail_priceEach
+    [Arguments]    ${priceEach}
+    Input Text    //form[@id='add_orderdetail_form']//input[@id='priceEach']   ${priceEach}
+    
+       
+Select orders
+    Select From List By Index    //form[@id='add_orderdetail_form']//select[@id='orders.orderNumber']    1
+     
+    
+Input orderdetail_orderLineNumber
+    [Arguments]    ${orderLineNumber}
+    Input Text    //form[@id='add_orderdetail_form']//input[@id='orderLineNumber']   ${orderLineNumber}
+    
+
+Open orderdetail_Tab
+    Click Link    orderdetail_tab
+
+Open orderdetail_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open orderdetail_UpdatePage
+    Click Element    id=orderdetail_edit_act
+
+Create orderdetail_btn
+    Click Button    add_orderdetail_btn
+
+Update orderdetail_btn
+    Click Button    edit_orderdetail_btn
+
+Delete orderdetail_btn
+    Click Element    orderdetail_delete_act
+
+Search orderdetail_btn
+    Click Link   filterApply
+Input orderdetail_quantityOrdered_update
+    [Arguments]    ${quantityOrdered}
+    Input Text    //form[@id='edit_orderdetail_form']//input[@id='quantityOrdered']   ${quantityOrdered}
+Input orderdetail_priceEach_update
+    [Arguments]    ${priceEach}
+    Input Text    //form[@id='edit_orderdetail_form']//input[@id='priceEach']   ${priceEach}
+Input orderdetail_orderLineNumber_update
+    [Arguments]    ${orderLineNumber}
+    Input Text    //form[@id='edit_orderdetail_form']//input[@id='orderLineNumber']   ${orderLineNumber}
+Search quantityOrdered
+    [Arguments]   ${quantityOrdered}
+    Input Text    //form[@id='fiql_orderdetail_form']//input[@id='quantityOrdered']    ${quantityOrdered}
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    orderdetail_back
+
+Wait for delete button
+    Wait Until Page Contains Element        orderdetail_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        orderdetail_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for orderdetail_tab 
+    Wait Until Page Contains Element    orderdetail_tab    1 min
+
+    
+Click filter button
+    click Element    orderdetail_filter

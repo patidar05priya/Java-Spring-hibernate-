@@ -1,0 +1,28 @@
+@startuml
+title Create EmailNotifications Scenario
+participant User
+User -> CXFServlet: POST, EmailNotifications
+activate CXFServlet
+CXFServlet -> EmailNotifications: << create >>
+activate EmailNotifications
+EmailNotifications -> CXFServlet: << instance >>
+deactivate EmailNotifications
+CXFServlet -> EmailNotificationsRestImpl: create(:emailnotifications)
+activate EmailNotificationsRestImpl
+EmailNotificationsRestImpl -> EmailNotificationsServiceDao: create(:emailnotifications)
+activate EmailNotificationsServiceDao
+EmailNotificationsServiceDao -> EmailNotificationsJPADao: create(:emailnotifications)
+activate EmailNotificationsJPADao
+EmailNotificationsJPADao -> EntityManager: save(:emailnotifications)
+activate EntityManager
+EntityManager -> EmailNotificationsJPADao: << persisted emailnotifications >>
+deactivate EntityManager
+EmailNotificationsJPADao -> EmailNotificationsServiceDao: << persisted emailnotifications >>
+deactivate EmailNotificationsJPADao
+EmailNotificationsServiceDao -> EmailNotificationsRestImpl: << persisted emailnotifications >>
+deactivate EmailNotificationsServiceDao
+EmailNotificationsRestImpl -> CXFServlet: << persisted emailnotifications >>
+deactivate EmailNotificationsRestImpl
+CXFServlet -> User: marshalled emailnotifications XML
+deactivate CXFServlet
+@enduml

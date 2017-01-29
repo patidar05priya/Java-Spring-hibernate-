@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8"?><Definitions>
+	  <TaskDefinitions>
+
+		<!-- JPA -->
+
+		<AddTask class="com.inn.controller.task.entity.SchemaToJpa" name="InitialSchemaToJpa">
+			      <initializer class="com.inn.controller.initializers.openjpa.PersistenceXmlModifier"/>
+			      <taskConfig>
+				        <params>
+					          <param name="directory" value="src/main/java"/>
+					          <param name="accessType" value="fields"/>
+					          <param name="useGenericCollections" value="true"/>
+					          <param name="cp" value="headstart/Properties/reversecustomizer.properties"/>
+					          <param name="metadata" value="none"/>
+					          <param name="annotations" value="true"/>
+					          <param name="innerIdentityClasses" value="false"/>
+					          <param name="useBuiltinIdentityClass" value="true"/>
+					          <param name="primaryKeyOnJoin" value="true"/>
+					          <param name="inverseRelations" value="false"/>
+					          <param name="nullableAsObject" value="true"/>
+					          <param name="typeMap" value="BIGINT=java.lang.Long,DOUBLE=java.lang.Double,BIT(1)=java.lang.Boolean,BYTE=java.lang.Byte,INT=java.lang.Integer,TINYINT UNSIGNED=java.lang.Byte,SMALLINT=java.lang.Integer,MEDIUMINT=java.lang.Float,MEDIUMINT UNSIGNED=java.lang.Integer,SMALLINT UNSIGNED=java.lang.Integer,BIGINT UNSIGNED=java.lang.Long,INT UNSIGNED=java.lang.Integer,TINYINT=java.lang.Boolean,FLOAT=java.lang.Float,DOUBLE=java.lang.Double,DECIMAL=java.lang.Double,NUMERIC=java.lang.Double"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.SchemaToJpa" name="SchemaToJpa">
+			      <taskConfig>
+				        <params>
+					          <param name="directory" value="src/main/java"/>
+					          <param name="accessType" value="fields"/>
+					          <param name="useGenericCollections" value="true"/>
+					          <param name="cp" value="headstart/Properties/reversecustomizer.properties"/>
+					          <param name="metadata" value="none"/>
+					          <param name="annotations" value="true"/>
+					          <param name="innerIdentityClasses" value="false"/>
+					          <param name="useBuiltinIdentityClass" value="true"/>
+					          <param name="primaryKeyOnJoin" value="true"/>
+					          <param name="inverseRelations" value="false"/>
+					          <param name="nullableAsObject" value="true"/>
+					          <param name="typeMap" value="BIGINT=java.lang.Long,DOUBLE=java.lang.Double,BIT(1)=java.lang.Boolean,BYTE=java.lang.Byte,INT=java.lang.Integer,TINYINT UNSIGNED=java.lang.Byte,SMALLINT=java.lang.Integer,MEDIUMINT=java.lang.Float,MEDIUMINT UNSIGNED=java.lang.Integer,SMALLINT UNSIGNED=java.lang.Integer,BIGINT UNSIGNED=java.lang.Long,INT UNSIGNED=java.lang.Integer,TINYINT=java.lang.Boolean,FLOAT=java.lang.Float,DOUBLE=java.lang.Double,DECIMAL=java.lang.Double,NUMERIC=java.lang.Double"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.EntityClassesProvider" name="InitialEntityClasses">
+			      <taskConfig/>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.EntityClassesProvider" name="EntityClasses">
+			      <taskConfig/>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.EntityDependenciesGenerator" name="EntityDependenciesGenerator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="entityDependencyFileName" value="headstart/Properties/entity-dependencies.properties"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.ReverseCustomiserGenerator" name="ReverseCustomiserGenerator" onlyAfter="EntityDependenciesGenerator">
+			      <taskConfig>
+				        <params>
+					          <param name="entityDependencyFileName" value="headstart/Properties/entity-dependencies.properties"/>
+					          <param name="reverseCustomiserFileName" value="headstart/Properties/reversecustomizer.properties"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.entity.EntityDecorator" name="EntityDecorator" onlyAfter="InitialEntityClasses">
+               <taskConfig>
+				        <params>
+					         <param name="history" value="true"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+			 <AddTask class="com.inn.controller.task.entity.NamedQuery" name="NamedQuery" onlyAfter="InitialEntityClasses">
+               <taskConfig>
+				        <params>
+					        
+					           <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+	    <AddTask class="com.inn.controller.task.entity.EntityIdGenerator" name="EntityIdGenerator" onlyAfter="InitialEntityClasses"/>
+                 <AddTask class="com.inn.controller.task.entity.FileUploadsModelUpdation" name="FileUploadsModelUpdation" onlyAfter="InitialEntityClasses">
+             <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+            </AddTask>   
+               
+       <AddTask class="com.inn.controller.task.entity.EnumCodeGeneration" name="EnumCodeGeneration" onlyAfter="InitialEntityClasses"/>  
+       <AddTask class="com.inn.controller.task.entity.ExtendBaseModel" name="ExtendBaseModel" onlyAfter="InitialEntityClasses"/>      
+        
+               	   <AddTask class="com.inn.controller.task.entity.EntityCleanup" name="EntityCleanup" onlyAfter="InitialEntityClasses"/>
+		    <AddTask class="com.inn.controller.task.entity.EntityValidation" name="ValidationAtEntity" onlyAfter="InitialEntityClasses"/>
+
+		    <!-- END OF JPA -->
+		<!-- SCHEMA.XML GENERATION -->
+		<AddTask class="com.inn.controller.task.analytics.SchemaXmlGenerator" name="SchemaXMLGenerator">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <!-- END OF SCHEMA.XML GENERATION -->
+		<!-- DAO/SERVICE -->
+	<AddTask class="com.inn.controller.task.web.AttachmentClassesProvider" name="AttachmentClassesProvider" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        <params>
+							<param name="fileSystem" value="true"/>
+					        <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+		<AddTask class="com.inn.controller.task.daoservice.AbstractDao" name="AbstractDao" onlyAfter="InitialEntityClasses">
+               <taskConfig>
+				        <params>
+					         <param name="history" value="true"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+
+		    <AddTask class="com.inn.controller.task.daoservice.DaoInterface" name="DaoInterface" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.DaoImpl" name="DaoImpl" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.DatabasePropertiesCreator" name="DatabasePropsCreator"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.DaoExha" name="ExceptionAtDao" onlyAfter="DaoImpl"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ExhaCfgDaoGenerator" name="ExhaCfgAtDao" onlyAfter="InitialEntityClasses,ExceptionAtDao"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.DaoValidation" name="ValidationAtDao" onlyAfter="DaoImpl"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.AbstractService" name="AbstractService">
+                <taskConfig>
+				        <params>
+					         <param name="history" value="true"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+		    <AddTask class="com.inn.controller.task.daoservice.ServiceInterface" name="ServiceInterface" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ServiceImpl" name="ServiceImpl" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.AbstractUtils" name="AbstractUtils"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.AppContextCreator" name="AppContextCreator"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ServiceExha" name="ExceptionAtService" onlyAfter="ServiceImpl"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ExhaCfgServiceGenerator" name="ExhaCfgAtService" onlyAfter="InitialEntityClasses,ExceptionAtService"/>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ServiceValidation" name="ValidationAtService" onlyAfter="ServiceImpl"/>
+
+		    <!-- END DAO/SERVICE -->
+
+		<!-- WEB -->
+
+		<AddTask class="com.inn.controller.task.web.RestInterface" name="RestInterface" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.web.RestImpl" name="RestImpl" onlyAfter="InitialEntityClasses">
+               	<taskConfig>
+				        <params>
+					          <param name="CreatedModified" value="true"/>
+					           <param name="isAudit" value="true"/>
+					           <param name="history" value="true"/>
+				        </params>
+			      </taskConfig>
+			      </AddTask>
+
+		    <AddTask class="com.inn.controller.task.web.AbstractWeb" name="AbstractWeb"/>
+		     <AddTask class="com.inn.controller.task.web.ApacheConfig" name="ApacheConfig"/>
+
+		    <AddTask class="com.inn.controller.task.web.AppContextModifier" name="AppContext4Rest" onlyAfter="InitialEntityClasses">
+               <taskConfig>
+				        <params>
+ 						<param name="isAudit" value="true"/>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+			</AddTask>
+		    <AddTask class="com.inn.controller.task.web.WebXmlCreator" name="WebXmlCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="restUrlPattern" value="/rest/*"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.web.EntityDecorator" name="EntityDecorator4Rest" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.web.RestExha" name="ExceptionAtRest" onlyAfter="RestImpl"/>
+
+		    <AddTask class="com.inn.controller.task.web.ExhaCfgRestGenerator" name="ExhaCfgAtRest" onlyAfter="InitialEntityClasses,ExceptionAtRest"/>
+
+		    <AddTask class="com.inn.controller.task.web.RestValidation" name="ValidationAtRest" onlyAfter="RestImpl"/>
+
+		    <!-- END WEB -->
+
+		<!-- USER INTERFACE -->
+
+		<AddTask class="com.inn.controller.task.ui.UserInterface" name="UserInterface" onlyAfter="InitialEntityClasses">
+			<!--  initializer class="com.inn.controller.initializers.crud.UITemplateDownloader">
+				<params>
+					<param name="templateUrl" value="http://gui-box//ui-templates/2.4/ver2"/>
+				</params>
+			</initializer-->
+			<initializer class="com.inn.controller.initializers.crud.CrudTemplateModifier">
+				<params>
+					<param name="builderSupport" value="false"/>
+					<param name="visualBuilderUrl" value=""/>
+					<param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				</params>
+			</initializer>
+			<taskConfig>
+				        <params>
+					          <param default="headstart/ui-templates" name="templatePath" value=""/>
+					          <param default="CRUD_PARENT.xml" name="templateFile" value=""/>
+					          <param default="CRUD_PARENT_REPORT.xml" name="templateFile_report" value=""/>
+							  <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <!--  END OF USER INTERFACE -->
+		    
+		     <!-- START BOOTSTRAP TASK  -->
+		   
+		     <AddTask class="com.inn.controller.task.ui.GenerateMessageProperty" name="GenerateMessageProperty" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        <params>
+					                <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param default="headstart/ui-templates" name="templatePath" value=""/>
+					            <param default="messageprop.vm" name="messageFile" value=""/>
+				        </params>
+			      </taskConfig>
+				</AddTask>
+				<AddTask class="com.inn.controller.task.ui.PomXmlRewriter" name="PomXmlRewriter">
+				</AddTask>
+					<AddTask class="com.inn.controller.task.ui.WsdlPomEntryWritter" name="WsdlPomEntryWritter">
+				</AddTask>
+		    <AddTask class="com.inn.controller.task.wro4j.WroXmlCreater" name="WroXmlCreater" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        <params>
+					        <param default="headstart/ui-templates" name="templatePath" value=""/>   
+				        </params>
+			      </taskConfig>
+				</AddTask>
+				
+			<AddTask class="com.inn.controller.task.cleanup.FileDelete" name="FileDelete" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        
+			      </taskConfig>
+				</AddTask>
+		    
+		    <!-- END WRO4J TASK  -->
+		    <!-- START Mobile App TASK  -->
+		    	    <AddTask class="com.inn.controller.task.ui.MobileAppGeneration" name="MobileAppGeneration" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        <params>
+					          <param name="CreatedModified" value="true"/>
+					          <param default="headstart/ui-templates" name="templatePath" value=""/>
+					           <param default="headstart/mobile-app" name="mobileappDirectory" value=""/>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					         <param name="isAudit" value="true"/>
+					           <param name="history" value="true"/>
+					            <param name="isSocial" value="true"/>
+					            <param default="boot_index.vm" name="templateFile" value=""/>
+				        </params>
+			      </taskConfig>
+				</AddTask>
+		    <!-- END Mobile App TASK  -->
+		<!-- START WRO4J TASK  -->
+		    <AddTask class="com.inn.controller.task.ui.BootstrapUI" name="BootstrapUI" onlyAfter="InitialEntityClasses">
+				<taskConfig>
+				        <params>
+					          <param name="CreatedModified" value="true"/>
+					          <param default="headstart/ui-templates" name="templatePath" value=""/>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					         <param name="isAudit" value="true"/>
+					           <param name="history" value="true"/>
+					            <param name="isSocial" value="true"/>
+					            <param default="boot_index.vm" name="templateFile" value=""/>
+				        </params>
+			      </taskConfig>
+				</AddTask>
+		    
+		    <!-- END BOOTSTRAP TASK  -->
+
+		<!-- STUDIO TASKS -->
+
+		<AddTask class="com.inn.controller.task.common.XSLTTransformationTask" name="ComponentToStudioForm" onlyAfter="UserInterface">
+			      <taskConfig>
+				        <params>
+					          <param default="" name="xslFilePath" value="headstart/meta/maps/component2StudioForm.xsl"/>
+					          <param default="" name="xmlSourceDirectory" value="headstart/meta/components"/>
+					          <param default="" name="xmlTargetDirectory" value="headstart/meta/studioxml/widget"/>
+					          <param default="" name="filePatternsToLookFor" value="\w+CreateForm.xml"/>
+							   <param default="" name="sche" value="\w+CreateForm.xml"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.common.XSLTTransformationTask" name="ComponentToStudioGrid" onlyAfter="UserInterface">
+			      <taskConfig>
+				        <params>
+					          <param default="" name="xslFilePath" value="headstart/meta/maps/component2StudioGrid.xsl"/>
+					          <param default="" name="xmlSourceDirectory" value="headstart/meta/components"/>
+					          <param default="" name="xmlTargetDirectory" value="headstart/meta/studioxml/widget"/>
+					          <param default="" name="filePatternsToLookFor" value="\w+ListGrid.xml"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+			   <AddTask class="com.inn.controller.task.studio.StudioXslGeneratorTask" name="Component2LayoutXslGenerator">
+			      <taskConfig>
+				        <params>
+					          <param default="" name="vmTemplate" value="studio/component2StudioLayout.vm"/>
+							        <param default="" name="targetFile" value="headstart/meta/maps/component2StudioLayout.xsl"/>
+					       </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.common.XSLTTransformationTask" name="ComponentTabsetToStudioLayout" onlyAfter="UserInterface">
+			      <taskConfig>
+				        <params>
+					          <param default="" name="xslFilePath" value="headstart/meta/maps/component2StudioLayout.xsl"/>
+					          <param default="" name="xmlSourceDirectory" value="headstart/meta/components"/>
+					          <param default="" name="xmlTargetDirectory" value="headstart/meta/"/>
+					          <param default="" name="filePatternsToLookFor" value="CrudMainTabSet.xml"/>
+							        <param name="xslParams" type="map">
+							           <key name="targetDir" value="headstart/meta/studioxml/layout"/>
+							        </param>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.studio.StudioSqlExecutor" name="StudioSqlExecutor">
+			      <taskConfig>
+				        <params>
+					          <param default="" name="schemaFileName" value="headstart/sql/studio_modules.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <!-- END OF STUDIO TASKS -->
+
+		<!-- UI TEST CASE GENERATOR -->
+
+		<AddTask class="com.inn.controller.task.test.UITestGeneratorTask" name="UITestGenerator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="CreatedModified" value="true"/>
+					          <param default="headstart/ui-templates" name="templatePath" value=""/>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					         <param name="isAudit" value="true"/>
+					           <param name="history" value="true"/>
+					            <param name="isSocial" value="true"/>
+					            <param default="boot_index.vm" name="templateFile" value=""/>
+					        
+					          <param default="headstart/ui-templates/TestConfig.xml" name="testConfigFileLoc" value=""/>
+					          <param default="headstart/ui-templates/meta/meta.xml" name="metaXmlFileLoc" value=""/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+
+		    <!-- END OF  UI TEST CASE GENERATOR-->
+
+		<!-- MAVEN TASKS -->
+
+		<AddTask class="com.inn.controller.task.maven.MavenExecutor" name="InitialJpaCompile" pause="true">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn clean compile -q "/>
+					          <param name="linuxcommand" value="mvn clean compile -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="JpaCompile">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn clean compile -q "/>
+					          <param name="linuxcommand" value="mvn clean compile -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="reCompile">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn clean compile -q "/>
+					          <param name="linuxcommand" value="mvn clean compile -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+			<AddTask class="com.inn.controller.task.maven.MavenExecutor" name="wro4j">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvncmd.bat wro4j:run "/>
+					          <param name="linuxcommand" value="mvn wro4j:run "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="Package">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn package -DskipTests=true -q "/>
+					          <param name="linuxcommand" value="mvn package -DskipTests=true -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="Javadoc">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn javadoc:javadoc -q "/>
+					          <param name="linuxcommand" value="mvn javadoc:javadoc -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.utils.JavadocRewriter" name="JavadocRewriter" onlyAfter="Javadoc">
+			      <taskConfig>
+				       
+			      </taskConfig>
+		    </AddTask>
+		    
+
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="SequenceDiagramPublisher" onlyAfter="SequenceDiagramGenerator">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn plantuml:generate -Dplantuml.outputDirectory=headstart/artifacts/plantuml/images -q"/>
+					          <param name="linuxcommand" value="mvn plantuml:generate -Dplantuml.outputDirectory=headstart/artifacts/plantuml/images -q"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="MavenClean">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="mvn clean -q "/>
+					          <param name="linuxcommand" value="mvn clean -q "/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+             <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="mobileAppBuild">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="sh  headstart/mobile-app/build.sh run"/>
+					          <param name="linuxcommand" value="sh headstart/mobile-app/build.sh run"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		     <AddTask class="com.inn.controller.task.maven.MavenExecutor" name="mobileApkGeneration">
+			      <taskConfig>
+				        <params>
+					          <param name="wincommand" value="sh headstart/mobile-app/apkGenScript.sh run"/>
+					          <param name="linuxcommand" value="sh headstart/mobile-app/apkGenScript.sh run"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <!-- END OF MAVEN TASKS -->
+
+
+		<!-- SECURITY -->
+
+		<AddTask class="com.inn.controller.task.security.SecurityXmlCreator" name="SecurityXmlCreator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="bootUI" value="true"/>
+					          <param name="securityXmlPath" value="applicationContext/security.xml"/>
+					          <param name="securityProps" type="properties" value="headstart/Properties/security.properties"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.task.security.TestSecurityXmlCreator" name="TestSecurityXmlCreator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="bootUI" value="true"/>
+					          <param name="securityXmlPath" value="applicationContext/security.xml"/>
+					          <param name="securityProps" type="properties" value="headstart/Properties/security.properties"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.security.AppContextModifier" name="AppContext4Security"/>
+
+<AddTask class="com.inn.controller.task.common.TomcatConfigGenerator" name="TomcatConfigGenerator" onlyAfter="FileDelete"/>
+			
+<AddTask class="com.inn.controller.task.scheduler.QuartzSchedulerXMLGenerator" name="QuartzSchedulerXMLGenerator"/>
+<AddTask class="com.inn.controller.task.scheduler.TestQuartzSchedulerXMLGenerator" name="TestQuartzSchedulerXMLGenerator"/>
+<AddTask class="com.inn.controller.task.scheduler.GenerateGenericQuartzJobAndTestRunnableJobClasses" name="GenerateGenericQuartzJobAndTestRunnableJobClasses"/>
+
+               
+               
+               
+		    <AddTask class="com.inn.controller.task.security.PersistenceXmlModifier" name="PersistenceXml4Security" onlyAfter="InitialEntityClasses">
+               	<taskConfig>
+				        <params>
+							 <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+               </AddTask>
+
+		    <AddTask class="com.inn.controller.task.security.WebXmlModifier" name="WebXml4Security"/>
+
+		    <AddTask class="com.inn.controller.task.security.SecuritySQLModifier" name="SecuritySQLModifier" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+							<param name="isAudit" value="true"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					            <param name="auditschemaFile" value="headstart/sql/audit_schema_nonsas.sql"/>
+					          <param name="isSocial" value="true"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		 
+
+		    <AddTask class="com.inn.controller.task.security.SecuritySchemaCreator" name="SecuritySchemaCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					            <param name="auditschemaFile" value="headstart/sql/audit_schema_nonsas.sql"/>
+					           <param name="history" value="true"/>
+					    </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.security.SecurityClassesGenerator" name="SecurityClassesGenerator">
+                <taskConfig>
+				        <params>
+							<param name="fileSystem" value="true"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					           <param name="isAudit" value="true"/>
+					           <param name="history" value="true"/>
+					            <param name="isSocial" value="true"/>
+					           <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>
+			   </AddTask>
+		    <AddTask class="com.inn.controller.task.security.DomainAspectGenerator" name="DomainAspectGenerator" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.db.EntityTableRelationshipGenerator" name="EntityTableRelationship" onlyAfter="InitialEntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.db.SaasConstraintSQLGenerator" name="SaasConstraintSQLGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="domainTable" value="domain"/>
+					          <param name="domainColumn" value="domainid"/>
+					          <param name="domainColumnType" value="int UNSIGNED"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    	    <AddTask class="com.inn.controller.task.db.EntityFileAttachUtility" name="EntityFileAttachUtilityGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="domainTable" value="domain"/>
+					          <param name="domainColumn" value="domainid"/>
+					          <param name="domainColumnType" value="int UNSIGNED"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					          <param name="fileSystem" value="true"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		     <AddTask class="com.inn.controller.task.db.AddressSqlGenerator" name="AddressSqlGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					         <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="domainTable" value="address"/>
+					          <param name="domainColumn" value="id"/>
+					          <param name="domainColumnType" value="int UNSIGNED"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					          <param name="fileSystem" value="true"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    	    <AddTask class="com.inn.controller.task.db.CommentSqlGenerator" name="CommentSqlGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="domainTable" value="domain"/>
+					          <param name="domainColumn" value="domainid"/>
+					          <param name="domainColumnType" value="int UNSIGNED"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+					          <param name="fileSystem" value="true"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    
+		     <AddTask class="com.inn.controller.task.db.EntityAnnotateHsitory" name="EntityAnnotateHsitory" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					     </params>
+			      </taskConfig>
+		    </AddTask>
+		    
+		     <AddTask class="com.inn.controller.task.db.EntityUserMapping" name="EntityUserMapping" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="domainTable" value="users"/>
+					          <param name="domainColumn" value="userid"/>
+					          <param name="domainColumnType" value="int UNSIGNED"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    
+<AddTask class="com.inn.controller.task.db.CreatedSQLGenerator" name="CreatedSQLGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="createdTable" value="users"/>
+					          <param name="createdColoumn" value="userid"/>
+					          <param name="createdColoumnType" value="int UNSIGNED"/>
+					          <param name="DateColoumn" value="createdTime"/>
+					          <param name="DateColoumnType" value="datetime"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    
+		    		    
+<AddTask class="com.inn.controller.task.db.AuditSqlCreatorForHistory" name="AuditSqlCreatorForHistory" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="createdTable" value="users"/>
+					          <param name="createdColoumn" value="userid"/>
+					          <param name="createdColoumnType" value="int UNSIGNED"/>
+					          <param name="DateColoumn" value="createdTime"/>
+					          <param name="DateColoumnType" value="datetime"/>
+					          <param name="auditFile" value="headstart/sql/auditchange.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.task.db.ModifiedSQLGenerator" name="ModifiedSQLGenerator" onlyAfter="EntityTableRelationship">
+			      <taskConfig>
+				        <params>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="sequenceSupported" value="true"/>
+					          <param name="modifiedTable" value="users"/>
+					          <param name="modifiedColoumn" value="userid"/>
+					          <param name="modifiedColoumnType" value="int UNSIGNED"/>
+					          <param name="DateColoumn" value="modifiedTime"/>
+					          <param name="DateColoumnType" value="datetime"/>
+					          <param name="schemaFile" value="headstart/sql/security_schema_nonsas.sql"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <!-- END OF SECURITY -->
+
+		<!-- ACTIVITI -->
+
+		<AddTask class="com.inn.controller.task.daoservice.ActivitiAppContextCreator" name="ActivitiAppContextCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="activitiAppContextPath" value="applicationContext/activitiContext.xml"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.daoservice.ServiceActivitiExposer" name="ServiceActivitiExposer" onlyAfter="EntityClasses,ServiceImpl"/>
+
+		    <!-- END OF ACTIVITI -->
+
+		<!-- Monitoring -->
+
+		<AddTask class="com.inn.controller.task.monitor.PersistenceXmlModifier" name="MonitorPersistenceXmlModifier"/>
+
+		    <AddTask class="com.inn.controller.task.monitor.WebXmlModifier" name="MonitorWebXmlModifier"/>
+
+		    <!-- END OF Monitoring -->
+
+		<!-- Reporting -->
+
+		<AddTask class="com.inn.controller.task.report.JRXmlCreator" name="JRXmlCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="jrXmlLocation" value="report/JRXML"/>
+					          <param name="jasperProperties" type="properties" value="headstart/Properties/jasper.properties"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.report.ReportPagesGenerator" name="ReportPages" onlyIf="UserInterface">
+			      <taskConfig/>
+		    </AddTask>
+
+		    <!-- END OF Reporting -->
+
+		<!-- Documentation -->
+
+		<AddTask class="com.inn.controller.task.SequenceDiagramTmplGenerator" name="SequenceDiagramGenerator" onlyAfter="EntityClasses">
+			      <taskConfig>
+				        <params>
+					          <param name="templateDirectory" value="src/main/plantuml/templates"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <!-- END OF Documentation -->
+
+		<!-- TEST -->
+
+		<AddTask class="com.inn.controller.task.test.GenerateTestDBUtilTask" name="TestDBUtilCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="templateScript" value="DBUtil.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.test.GenerateTestSampleUtilTask" name="TestSampleUtilCreator">
+			      <taskConfig>
+				        <params>
+					          <param name="templateScript" value="SampleUtil.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.test.GenerateDaoUnitTestTask" name="DaoUnitTestCreator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					         <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				             <param name="templateScript" value="TestEntityDaoImpl.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.test.GenerateServiceUnitTestTask" name="ServiceUnitTestCreator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+					            <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				                <param name="templateScript" value="TestEntityServiceImpl.vm"/>
+				                <param name="templateAttachScript" value="TestEntityAttachServiceImpl.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.task.test.GenerateSOAPUIScriptTask" name="APIScriptCreator" onlyAfter="InitialEntityClasses" onlyIf="EntityDecorator4Rest">
+			      <taskConfig>
+				        <params>
+							  <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="templateScript1" value="TestEntityRestImpl.vm"/>
+					          <param name="templateScript2" value="TestEntityRestXML.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+		    <AddTask class="com.inn.controller.task.test.GenerateDBUnitTestTask" name="DBScriptCreator" onlyAfter="InitialEntityClasses">
+			      <taskConfig>
+				        <params>
+							  <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+					          <param name="templateScript" value="TestEntityDB.vm"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+
+		    <!-- END OF TEST -->
+
+		<!-- START DATA_ANALYTICS -->
+		<AddTask class="com.inn.controller.task.analytics.PropertiesGenerator" name="AnalyticsPropsGenerator" onlyAfter="SchemaXMLGenerator">
+			      <taskConfig/>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.analytics.ScanGenApplicationDB" name="ScanAppDB" onlyAfter="AnalyticsPropsGenerator">
+			      <taskConfig/>
+		    </AddTask>
+
+		    <AddTask class="com.inn.controller.task.analytics.AnalyticsGenerator" name="AnalyticsGenerator" onlyAfter="ScanAppDB">
+			      <taskConfig>
+				        <params>
+					        <param name="schemaRelPath" value="headstart/xml/schema.xml"/>
+					        <param name="processRelPath" value="headstart/xml/process.xml"/>
+					        <param name="jsrelpath" value="console/admin/js/data_analytics/{user}/{appname}/chartmeta.js"/>
+							<param name="jsmetarelpath" value="src/main/webapp/scripts/chartmeta.js"/>
+							<param name="jsReportrelpath" value="console/admin/js/data_analytics/{user}/{appname}/reportmeta.js"/>
+							<param name="jsReportmetarelpath" value="src/main/webapp/scripts/reportmeta.js"/>
+				        </params>
+			      </taskConfig>
+		    </AddTask>
+
+		    <!-- END DATA_ANALYTICS -->
+
+		<!-- START WorkList -->
+
+		<AddTask class="com.inn.controller.task.worklist.GenericCode" name="WorkListGenericCodeGenerator"/>
+
+		    <AddTask class="com.inn.controller.task.worklist.RestService" name="WorkListRestServiceGenerator" onlyAfter="EntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.worklist.WorkItemDecorator" name="WorkListWorkItemDecorator" onlyAfter="EntityClasses"/>
+
+		    <AddTask class="com.inn.controller.task.worklist.AppContextModifier" name="AppContext4WorkList" onlyAfter="EntityClasses"/>
+               
+                <AddTask class="com.inn.controller.task.security.CrudModifier" name="CrudModifier">
+			 <taskConfig>
+				        <params>
+					         <param name="history" value="true"/>
+					         <param name="fileSystem" value="true"/>
+					          <param name="isAudit" value="true"/>
+					          <param name="schemaFileName" value="headstart/xml/schema.xml"/>
+				        </params>
+			      </taskConfig>	
+			  </AddTask>
+
+		    <!-- END WorkList -->
+
+	</TaskDefinitions>
+
+	  <GroupDefinitions>
+
+		    <Group name="Entity">
+			      <Task mode="on" name="InitialSchemaToJpa"/>
+			      <Task mode="on" name="InitialJpaCompile"/>
+			      <Task mode="on" name="InitialEntityClasses"/>
+			      <Task mode="on" name="EntityDependenciesGenerator"/>
+			      <!-- Security related changes from here -->
+				  <Task mode="on" name="SchemaXMLGenerator"/>
+			      <Task mode="on" name="ReverseCustomiserGenerator"/>			
+			      <Task mode="on" name="EntityTableRelationship"/>
+			      <Task mode="off" name="SaasConstraintSQLGenerator"/>
+			      <Task mode="on" name="EntityFileAttachUtilityGenerator"/>
+			      <Task mode="on" name="CommentSqlGenerator"/>
+			      <Task mode="on" name="CrudModifier"/>
+			         <Task mode="on" name="AuditSqlCreatorForHistory"/> 
+			      <Task mode="on" name="AddressSqlGenerator"/> 
+			      <Task mode="on" name="EntityUserMapping"/>
+			      <Task mode="on" name="SecuritySQLModifier"/>
+			      <Task mode="on" name="SecuritySchemaCreator"/>
+			      <!-- Security related changes till here -->
+				  <Task mode="on" name="MavenClean"/>
+			      <Task mode="on" name="SchemaToJpa"/>
+			      <Task mode="on" name="JpaCompile"/>
+			      <Task mode="on" name="EntityIdGenerator"/>
+			     
+			      <Task mode="on" name="EnumCodeGeneration"/>
+			
+			      <Task mode="on" name="EntityCleanup"/>
+				 <Task mode="on" name="WsdlPomEntryWritter"/>
+			      <Task mode="on" name="reCompile"/>
+			      <Task mode="on" name="EntityClasses" pause="false" pausemessage="Generation is paused as model classes were modified. Please execute generation command again."/>
+			
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="entitygeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Entity generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="entitygeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Entity generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Analytics">
+			      <Task mode="on" name="AnalyticsPropsGenerator"/>
+			      <Task mode="on" name="ScanAppDB"/>
+			      <Task mode="on" name="AnalyticsGenerator"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="analyticsreportgeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Analytics report generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="analyticsreportgeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Analytics report generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Dao">
+			      <Task mode="on" name="EntityDecorator"/>
+			      <Task mode="on" name="NamedQuery"/>
+			      <Task mode="on" name="FileUploadsModelUpdation"/>
+			      <Task mode="on" name="EntityAnnotateHsitory"/>
+			      <Task mode="on" name="ExtendBaseModel"/>
+			      <Task mode="on" name="AbstractUtils"/>
+			      <Task mode="on" name="AbstractDao"/>
+			      <Task mode="on" name="DaoInterface"/>
+			      <Task mode="on" name="DaoImpl"/>
+			      <Task mode="on" name="DatabasePropsCreator"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="datalayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Data layer generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="datalayergeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Data layer generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Service">
+			      <Task mode="on" name="AbstractService"/>
+			      <Task mode="on" name="ServiceInterface"/>
+			      <Task mode="on" name="ServiceImpl"/>
+			      <Task mode="on" name="AppContextCreator"/>
+
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="servicelayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Service layer generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="servicelayergeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Service layer generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Rest">
+			      <Task mode="on" name="AbstractWeb"/>
+			      <Task mode="on" name="RestInterface"/>
+			      <Task mode="on" name="RestImpl"/>
+			      <Task mode="on" name="WebXmlCreator"/>
+			      <Task mode="on" name="AppContext4Rest"/>
+			      <Task mode="on" name="EntityDecorator4Rest"/>
+
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="restlayergeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Rest layer generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="restlayergeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Rest layer generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+		      <Group name="GenerateMessageProperty">
+			   <Task mode="on" name="GenerateMessageProperty"/>
+			  </Group> 
+		     <Group name="BootstrapUI">
+		      <Task mode="on" name="BootstrapUI"/>
+		      <Task mode="on" name="ApacheConfig"/>
+		      
+			</Group> 
+			 <Group name="MobileAppGeneration">
+		      <Task mode="off" name="MobileAppGeneration"/>
+		       <Task mode="off" name="mobileAppBuild"/>
+		       <Task mode="off" name="mobileApkGeneration"/>
+			</Group>   
+		     <Group name="WroXmlCreater">
+		      <Task mode="on" name="WroXmlCreater"/>
+			</Group>  
+			
+			
+		    <Group name="UserInterface">
+			      <Task mode="on" name="UserInterface"/>
+			      
+			
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="userinterfacegeneration">
+						            <Status>Success</Status>
+						            <EventMsg>User interface generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="userinterfacegeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>User interface generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+			   <Group name="Studio">
+
+				     <Task mode="on" name="ComponentToStudioForm"/>
+			      <Task mode="on" name="ComponentToStudioGrid"/>
+  				  <Task mode="on" name="Component2LayoutXslGenerator"/>
+			      <Task mode="on" name="ComponentTabsetToStudioLayout"/>
+			      <Task mode="on" name="StudioSqlExecutor"/>
+			   </Group>
+
+
+
+
+		    <Group name="Security">
+			      <Task mode="on" name="SecurityClassesGenerator"/>
+			      <Task mode="on" name="AttachmentClassesProvider"/>
+			      <Task mode="off" name="DomainAspectGenerator"/>
+			      <Task mode="on" name="SecurityXmlCreator"/>
+			      <Task mode="on" name="TestSecurityXmlCreator"/>
+			      <Task mode="on" name="AppContext4Security"/>
+			      <Task mode="on" name="PersistenceXml4Security"/>
+			      <Task mode="on" name="WebXml4Security"/>
+
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="securityaddition">
+						            <Status>Success</Status>
+						            <EventMsg>Security addition successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="securityaddition">
+						            <Status>Failure</Status>
+						            <EventMsg>Security addition failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+			
+		    </Group>
+
+		    <Group name="Exception" type="flexible">
+			      <Task mode="on" name="ExceptionAtDao"/>
+			      <Task mode="on" name="ExceptionAtService"/>
+			      <Task mode="on" name="ExceptionAtRest"/>
+			      <Task mode="on" name="ExhaCfgAtDao"/>
+			      <Task mode="on" name="ExhaCfgAtService"/>
+			      <Task mode="on" name="ExhaCfgAtRest"/>
+		    </Group>
+
+		    <Group name="Validation" type="flexible">
+			      <Task mode="on" name="ValidationAtEntity"/>
+			      <Task mode="on" name="ValidationAtDao"/>
+			      <Task mode="on" name="ValidationAtService"/>
+			      <Task mode="on" name="ValidationAtRest"/>
+		    </Group>
+
+		    <Group name="WorkList" type="flexible">
+			      <Task mode="on" name="WorkListGenericCodeGenerator"/>
+			      <Task mode="on" name="WorkListRestServiceGenerator"/>
+			      <Task mode="on" name="WorkListWorkItemDecorator"/>
+			      <Task mode="on" name="AppContext4WorkList"/>
+
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="worklistfeatureaddition">
+						            <Status>Success</Status>
+						            <EventMsg>Worlist feature addition successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="worklistfeatureaddition">
+						            <Status>Failure</Status>
+						            <EventMsg>Worlist feature addition failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+
+		    </Group>
+
+		    <Group name="Activiti">
+			      <Task mode="on" name="ActivitiAppContextCreator"/>
+			      <Task mode="on" name="ServiceActivitiExposer"/>
+		    </Group>
+
+		    <Group name="Monitoring">
+			      <Task mode="on" name="MonitorPersistenceXmlModifier"/>
+			      <Task mode="on" name="MonitorWebXmlModifier"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="monitoringsupport">
+						            <Status>Success</Status>
+						            <EventMsg>Monitoring support addition successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="monitoringsupport">
+						            <Status>Failure</Status>
+						            <EventMsg>Monitoring support addition failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Test" type="flexible">
+			      <Task mode="on" name="TestDBUtilCreator"/>
+			      <Task mode="on" name="TestSampleUtilCreator"/>
+			      <Task mode="on" name="DaoUnitTestCreator"/>
+			      <Task mode="on" name="ServiceUnitTestCreator"/>
+			      <Task mode="on" name="APIScriptCreator"/>
+			      <Task mode="on" name="DBScriptCreator"/>
+            <Task mode="on" name="UITestGenerator"/>
+
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="testcasegeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Test case generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="testcasegeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Test case generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Documentation">
+				  <Task mode="on" name="Javadoc"/>
+				  <Task mode="on" name="JavadocRewriter"/>
+			      <Task mode="on" name="SequenceDiagramGenerator"/>
+			      <Task mode="on" name="SequenceDiagramPublisher"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="docgeneration">
+						            <Status>Success</Status>
+						            <EventMsg>Document generation successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="docgeneration">
+						            <Status>Failure</Status>
+						            <EventMsg>Document generation failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+		    <Group name="Reporting">
+			      <Task mode="on" name="JRXmlCreator"/>
+			      <Task mode="on" name="ReportPages"/>
+		    </Group>
+			<Group name="PomXmlRewriter">  
+		     <Task mode="on" name="PomXmlRewriter"/>
+		    </Group>
+		     <Group name="FileDelete">
+		      <Task mode="on" name="FileDelete"/>
+		     <Task mode="on" name="TomcatConfigGenerator"/>
+		      
+			</Group> 
+			
+			<Group name="QuartzScheduler">
+		      <Task mode="off" name="QuartzSchedulerXMLGenerator"/>
+		      <Task mode="off" name="TestQuartzSchedulerXMLGenerator"/>
+		      <Task mode="off" name="GenerateGenericQuartzJobAndTestRunnableJobClasses"/>
+		     </Group> 
+		     
+			<Group name="wro4j">
+			      <Task mode="on" name="wro4j"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="wro4jcompression">
+						            <Status>Success</Status>
+						            <EventMsg>wro4j javascript compression successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="applicationpackage">
+						            <Status>Failure</Status>
+						            <EventMsg>wro4j javascript compression failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+		    <Group name="Package">
+				 <Task mode="on" name="PersistenceXml4Security"/>
+			      <Task mode="on" name="Package"/>
+			      <EventDefs>
+				        <EventGroup action="add" type="Success">
+					          <Event name="applicationpackage">
+						            <Status>Success</Status>
+						            <EventMsg>Application packaging successful</EventMsg>
+					          </Event>
+				        </EventGroup>
+				        <EventGroup action="add" type="Failure">
+					          <Event name="applicationpackage">
+						            <Status>Failure</Status>
+						            <EventMsg>Application packaging failed</EventMsg>
+					          </Event>
+				        </EventGroup>
+			      </EventDefs>
+		    </Group>
+
+	  </GroupDefinitions>
+</Definitions>

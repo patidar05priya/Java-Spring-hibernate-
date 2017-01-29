@@ -1,0 +1,28 @@
+@startuml
+title Create FileUploads Scenario
+participant User
+User -> CXFServlet: POST, FileUploads
+activate CXFServlet
+CXFServlet -> FileUploads: << create >>
+activate FileUploads
+FileUploads -> CXFServlet: << instance >>
+deactivate FileUploads
+CXFServlet -> FileUploadsRestImpl: create(:fileuploads)
+activate FileUploadsRestImpl
+FileUploadsRestImpl -> FileUploadsServiceDao: create(:fileuploads)
+activate FileUploadsServiceDao
+FileUploadsServiceDao -> FileUploadsJPADao: create(:fileuploads)
+activate FileUploadsJPADao
+FileUploadsJPADao -> EntityManager: save(:fileuploads)
+activate EntityManager
+EntityManager -> FileUploadsJPADao: << persisted fileuploads >>
+deactivate EntityManager
+FileUploadsJPADao -> FileUploadsServiceDao: << persisted fileuploads >>
+deactivate FileUploadsJPADao
+FileUploadsServiceDao -> FileUploadsRestImpl: << persisted fileuploads >>
+deactivate FileUploadsServiceDao
+FileUploadsRestImpl -> CXFServlet: << persisted fileuploads >>
+deactivate FileUploadsRestImpl
+CXFServlet -> User: marshalled fileuploads XML
+deactivate CXFServlet
+@enduml

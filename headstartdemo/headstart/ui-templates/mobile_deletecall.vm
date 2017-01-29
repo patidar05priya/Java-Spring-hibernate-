@@ -1,0 +1,29 @@
+Titanium.include("common.js");
+function deletecall(id,tableName)
+{
+
+
+
+var clientdelete = Ti.Network.createHTTPClient({
+ 	
+     // function called when the response data is available
+     onload : function() {
+         Ti.API.info("Received text info: delete" + this.responseText);
+        alert("delete succefully");
+         
+             },
+             // function called when an error occurs, including a timeout
+     onerror : function(e) {
+         Ti.API.debug("Received text: " + this.responseData);
+         alert('error');
+     },
+     timeout : 5000  // in milliseconds
+ });
+ var url=deployurl+"/rest/"+tableName+"/delete/"+id;
+
+ clientdelete.open("DELETE",url);
+ 
+ clientdelete.send();
+
+ 	
+}

@@ -1,0 +1,396 @@
+<!--the structure of xml file contain following component with id-->
+<!--	header final layout : HeaderVLayout-->
+<!--	header layout contain logo and right layout: HeaderHLayout-->
+<!--	company logo : CompanyLogoImage-->
+<!--	header right side vlayout : HeaderRightSectionVLayout-->
+<!--	header side first row layout : HeaderRightSectionFirstRow-->
+<!--	header side second row layout : HeaderRightSectionSecondRow-->
+<!--	theme selector menu form : ThemeSelectorMenu-->
+<!--	locale selector menu form : LocaleSelectorMenu-->
+<!--	user login info label : UserLoginLabel-->
+<!--	dashboard shortcut button : DashboardButton-->
+<!--	worklist shortcut button : WorklistButton-->
+<!--	report shoortcut button : ReportsButton-->
+<!--	user management button : UserMgmtButton-->
+<!--	logout dynamic form  : logout-->
+<!--	application menu  : ApplicationMenu-->
+
+<ComponentRepository>
+<!--Header Final Layout start-->
+    <Component name="HeaderVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/header.js" />
+					<param name="id" value="HeaderVLayout" />
+					<param name="width" value="100%" />
+					<param name="layoutTopMargin" value="3" />
+					<param name="height" value="6%" />
+				</init-params>
+				<for-once>
+				  <Component ref="HeaderHLayout"/>
+				 </for-once>
+	 </Component>
+<!--Header Final Layout end-->
+
+<!--Header Hlayout contain logo and right side layout start-->
+	  <Component name="HeaderHLayout" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderHLayout" />
+					<param name="membersMargin" value="2" />
+					<param name="layoutTopMargin" value="0" />
+					<param name="layoutMargin" value="0" />
+					<param name="top" value="0" />
+				</init-params>
+				<for-once>
+				  <Component ref="CompanyLogo"/>
+				  <Component ref="HeaderRightSectionVLayout"/>
+				</for-once>
+	 </Component>
+<!--Header Hlayout contain logo and right side layout end-->
+
+<!--Company Logo start-->
+	 <Component name="CompanyLogo" type="Img">
+		<init-params>
+			<param name="id" value="CompanyLogoImage" />
+		    <param name="src" valueprovider="textcontent">"${company_logo_path}"</param>
+			<param name="width" value="181" />
+			<param name="height" value="50" />
+			<param name="layoutAlign" value="left" />
+		</init-params>
+	</Component>
+<!--Company Logo end-->
+
+<!--Right Side actions layout start-->
+	 <Component name="HeaderRightSectionVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/header.js" />
+					<param name="id" value="HeaderRightSectionVLayout" />
+					<param name="membersMargin" value="5" />
+					<param name="layoutRightMargin" value="5" />
+				</init-params>
+				<for-once>
+				  <Component ref="HeaderRightSectionFirstRow"/>
+				    <Component ref="HeaderRightSectionSecondRow"/>
+   				 </for-once>
+	 </Component>
+<!--Right Side actions layout end-->
+
+<!--Right side action first row start-->
+	  <Component name="HeaderRightSectionFirstRow" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderRightSectionFirstRow" />
+					<param name="membersMargin" value="10" />
+				    <param name="align" value="right" />
+				</init-params>
+				<for-once>
+				   <Component ref="UserInfoLbl"/>
+				   <Component ref="DashboardButton"/>
+				  <Component ref="WorklistButton"/>
+				#if($isAudit=="true") 
+				 <Component ref="AuditButton"/>
+				  #end
+				  <Component ref="ReportsButton"/>
+				  <Component ref="UserMgmtButton"/>
+				  <Component ref="UserProfileButton"/>
+				   <Component ref="LogoutButton"/>
+ 				</for-once>
+	 </Component>
+<!--Right side action first row end-->
+<!--Login info label start-->
+	<Component name="UserInfoLbl" type="Label">
+		<init-params>
+			<param name="id" value="UserInfoLbl" />
+			<param name="contents" valueprovider="textcontent">&lt;span style='font-weight: bold;color:#0000FF;font-size: 12px;text-decoration:underline;' &gt;"+getMessage('label','label.welcome','Welcome')+" &lt;/span&gt;&lt;span  style='color:#0000FF;font-weight: bold;font-size: 12px;text-decoration:underline;'&gt;"+getCookie("ag_username").substring(0, getCookie("ag_username").lastIndexOf("::")) + "&lt;/span&gt;</param>
+			<param name="height" value="100%"/>
+			<param name="width" value="100%"/>
+			<param name="align" value="right"/>
+		</init-params>
+	</Component>
+<!--Login info label end-->
+
+<!--Right side actions second row start-->
+ 	  <Component name="HeaderRightSectionSecondRow" type="HLayout">
+				<init-params>
+					<param name="id" value="HeaderRightSectionSecondRow" />
+					<param name="membersMargin" value="10" />
+					<param name="align" value="right" />
+					<param name="width" value="100%" />
+					<param name="height" value="15" />
+					</init-params>
+				<for-once>
+				 <Component ref="ApplicationMenu"/>
+				  <Component ref="ThemeSelectorMenu"/>
+				    <Component ref="LocaleSelectorMenu"/>
+			  	</for-once>
+	 </Component>
+<!--Right side actions second row end-->
+
+<!--theme selector dynamic form start-->
+	<Component name="ThemeSelectorMenu" type="Menu">
+		<init-params>
+			<param name="id" value="ThemeSelectorMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Themes"/>
+			<param name="itemClick" valueprovider="textcontent">function (item){
+								var url = window.location.protocol + "//" +  window.location.hostname +":"+ window.location.port +window.location.pathname;
+        						 window.location.assign(url + "?requestedSkin="+item.name );
+							}
+						</param>
+		</init-params>
+		<for-once>
+			<Component name="EnterpriseBlue" type="MenuItem">
+				<init-params>
+					<param name="name" value="EnterpriseBlue"/>
+					<param name="displayName" value="EnterpriseBlue"/>
+				</init-params>
+			</Component>
+			<Component name="BlackOps" type="MenuItem">
+				<init-params>
+					<param name="name" value="BlackOps"/>
+					<param name="displayName" value="BlackOps"/>
+				</init-params>
+			</Component>
+			<Component name="Cupertino" type="MenuItem">
+				<init-params>
+					<param name="name" value="Cupertino"/>
+					<param name="displayName" value="Cupertino"/>
+				</init-params>
+			</Component>	
+			<Component name="Enterprise" type="MenuItem">
+				<init-params>
+					<param name="name" value="Enterprise"/>
+					<param name="displayName" value="Enterprise"/>
+				</init-params>
+			</Component>	
+			<Component name="Simplicity" type="MenuItem">
+				<init-params>
+					<param name="name" value="Simplicity"/>
+					<param name="displayName" value="Simplicity"/>
+				</init-params>
+			</Component>	
+			<Component name="Graphite" type="MenuItem">
+				<init-params>
+					<param name="name" value="Graphite"/>
+					<param name="displayName" value="Graphite"/>
+				</init-params>
+			</Component>	
+			<Component name="SilverWave" type="MenuItem">
+				<init-params>
+					<param name="name" value="SilverWave"/>
+					<param name="displayName" value="SilverWave"/>
+				</init-params>
+			</Component>	
+			<Component name="TreeFrog" type="MenuItem">
+				<init-params>
+					<param name="name" value="TreeFrog"/>
+					<param name="displayName" value="TreeFrog"/>
+				</init-params>
+			</Component>	
+		
+		</for-once>
+	</Component>
+<!--theme selector dynamic form end-->
+
+<!--locale dynamic form start-->
+	<Component name="LocaleSelectorMenu" type="Menu">
+		<init-params>
+			<param name="id" value="LocaleSelectorMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Locale"/>
+			<param name="itemClick" valueprovider="textcontent">function (item){
+								var url = window.location.protocol + "//" +  window.location.hostname +":"+ window.location.port +window.location.pathname;
+        						 window.location.assign(url + "?requestedSkin="+item.name );
+							}
+						</param>
+		</init-params>
+		<for-once>
+			<Component name="en" type="MenuItem">
+				<init-params>
+					<param name="name" value="en"/>
+					<param name="icon" value="US.png"/>
+					<param name="displayName" value="English"/>
+					<param name="subMenu" value="false"/>
+				</init-params>
+			</Component>
+			<Component name="fr" type="MenuItem">
+				<init-params>
+					<param name="name" value="fr"/>
+					<param name="icon" value="FR.png"/>
+					<param name="displayName" value="French"/>
+					<param name="subMenu" value="false"/>
+				</init-params>
+			</Component>	
+		</for-once>
+	</Component>
+<!--locale dynamic form end-->
+<!--Login info label start-->
+	<Component name="UserLoginInfo" type="Label">
+		<init-params>
+			<param name="id" value="UserLoginLabel" />
+			<param name="contents" valueprovider="textcontent">&lt;span style='font-weight: normal;color:#00008B;font-size: 1.0em;' &gt;"+getMessage('label','label.welcome','Welcome')+", &lt;/span&gt;&lt;span  style='color:#00008B;font-weight: normal;font-size: 1.0em;'&gt;"+getCookie("ag_username").substring(0, getCookie("ag_username").lastIndexOf("::")) + "/" + getCookie("ag_username").substring(getCookie("ag_username").lastIndexOf("::") + 2, getCookie("ag_username").length) + "&lt;/span&gt;</param>
+			<param name="icon" valueprovider="textcontent">"person.png"</param>
+			<param name="height" value="5%"/>
+			<param name="width" value="(Page.getScreenWidth() * 10)/100"/>
+			<param name="align" value="right"/>
+		</init-params>
+	</Component>
+<!--Login info label end-->
+
+
+<!--Dashboard button start-->
+	 <Component name="DashboardButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="DashboardButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ ImageDir +"/dashboard.png"</param>
+			<param name="prompt" value="Dashboard" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("ChartTab")==null) 
+				CrudTabSet.addTab({ID:"ChartTab",title:getMessage('tabtitles','tab.charts','Dashboard'),pane:"chartPortalContentArea",canClose:true});
+
+			CrudTabSet.selectTab(ChartTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--Dashboard button end-->
+
+<!--Worklist button start-->
+	<Component name="WorklistButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="WorklistButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/worklist.png"</param>
+			<param name="prompt" value="Worklist" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("WorklistTab")==null)
+				CrudTabSet.addTab({ID:"WorklistTab",title:getMessage('tabtitles','tab.worklist','Worklist'),pane:"WorklistSectionStack",canClose:true});
+			CrudTabSet.selectTab(WorklistTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--Worklist button end-->
+
+
+<!--Worklist button start-->
+	<Component name="AuditButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="AuditSearchButton" />
+														
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/brush.png"</param>
+			<param name="prompt" value="Audit" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("AuditSearchTab")==null){
+				getUserDetail();
+				CrudTabSet.addTab({ID:"AuditSearchTab",title:"Audit",pane:"AuditSearchSectionStk",canClose:true});
+				}
+			CrudTabSet.selectTab(AuditSearchTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--Worklist button end-->
+<!--Report button start-->
+	<Component name="ReportsButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="ReportsButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/report.png"</param>
+			<param name="prompt" value="Reports" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("ReportsTab")==null)
+				CrudTabSet.addTab({ID:"ReportsTab",title:getMessage('tabtitles','tab.worklist','Reports'),pane:"ReportSectionStack",canClose:true});
+			CrudTabSet.selectTab(ReportsTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--Report button end-->
+
+<!--User Management button start-->
+	<Component name="UserMgmtButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="UserMgmtButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/usermanagement.png"</param>
+			<param name="prompt" value="User Management" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("UserMgmtTab")==null)
+				CrudTabSet.addTab({ID:"UserMgmtTab",title:getMessage('tabtitles','tab.usermgmt','User Management'),pane:"UserMgmtSectionStack",canClose:true});
+			CrudTabSet.selectTab(UserMgmtTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--User Management button end-->
+
+<!--User Profile button start-->
+	<Component name="UserProfileButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="UserProfileButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/profile.png"</param>
+			<param name="prompt" value="My Profile" />
+			<param name="action" valueprovider="textcontent">function(){
+			if(CrudTabSet.getTab("UserProfileTab")==null){
+				getUserDetail();
+				CrudTabSet.addTab({ID:"UserProfileTab",title:"My Profile",pane:"UserProfileSectionStack",canClose:true});
+				}
+			CrudTabSet.selectTab(UserProfileTab);
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--User Profile button end-->
+
+<!--Logout  button start-->
+	<Component name="LogoutButton" type="ImgButton">
+		<init-params>
+			<param name="id" value="LogoutButton" />
+			<param name="src" valueprovider="textcontent">context+"/images/"+ImageDir+"/logout.png"</param>
+			<param name="prompt" value="Logout" />
+			<param name="action" valueprovider="textcontent">function(){
+				logoutRequest();
+			}
+            </param>
+		</init-params>
+	</Component>
+<!--User Profile button end-->
+
+<!--Logout  button start-->
+
+<!--Application menu start-->
+	<Component name="ApplicationMenu" type="Menu">
+		<init-params>
+			<param name="id" value="ApplicationMenu"/>
+			<param name="autoDraw" value="false"/>
+			<param name="displayName" value="Application"/>
+			<param name="itemClick" valueprovider="childComponents">
+							<preString>function (item){
+				</preString>
+					<postString>
+						}</postString>
+							<for-each>
+							<dataprovider ref="entityclasses"/>
+								<Component name="applicationMenuItemClick" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent"> if(item.name=='${class_name}') {
+				if( CrudTabSet.getTab("${class_name}Tab")==null)
+				   CrudTabSet.addTab({ID:"${class_name}Tab",title:'${class_name}',pane:"${class_name}SectionStack",canClose:true});
+				CrudTabSet.selectTab(${class_name}Tab);
+				}
+   											</param>
+											</init-params>
+										</Component>
+								</for-each>
+
+							</param>
+		</init-params>
+		<for-each>
+			<dataprovider ref="entityclasses"/>
+			<Component name="CrudMenuItem" type="MenuItem">
+				<init-params>
+					<param name="name" value="${class_name}"/>
+					<param name="displayName" value="${class_name}"/>
+				</init-params>
+			</Component>
+		</for-each>
+	</Component>
+<!--Application menu end-->
+
+</ComponentRepository>

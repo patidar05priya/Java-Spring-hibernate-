@@ -1,0 +1,175 @@
+
+<script src="../js/generated/modalWindow_${entityName}.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+	callEditor();
+	refreshAllFk${entityName}List();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); //Allow only alphanumeric characters
+	//$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:; "});
+	$('.alphanumericallow').alphanumeric({allow:"., "}); //Allow only alphanumeric characters, and some exceptions like dot(.), comma (,) and space 
+	
+	$('.alphalower').alpha({nocaps:true}); //Allow only lowercase alpha characters
+	
+	$('.alpha').alpha({nocaps:false}); //Allow only alpha characters
+	
+	$('.integers').numeric(); //Allow only numeric characters
+	
+	$('.integersallow').numeric({allow:"."}); //Allow only numeric characters, and some exceptions like dot (.)
+	
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); //Make a custom rule and define only certain characters to prevent, like dot (.), one (1), and a (a)
+	$('#edit_${tableName}_form1').validationEngine();
+	$('#edit_${tableName}_form1 .date .editdatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+	$('.datepicker-days .table-condensed tbody').click(function(){
+		$('.datepicker-dropdown').css('display','none');
+	});
+	richscript("edit_${tableName}_form1","");
+	
+	});
+	
+	 
+</script>
+#set($datepick = 0)
+  <div class="container-fluid" >   
+		
+<div id="edit_${tableName}_div1"  class='grey_block'>
+					<form class="form-horizontal" id="edit_${tableName}_form1" align="center">	
+				<input type="hidden"  name="$primarykey" id="$primarykey">
+				#set( $var = 0 )
+				#foreach ($includeFile in $bootsStrapList)	
+				  #if($includeFile.name!="$primarykey")
+                   
+                   
+						#if($includeFile.name=="createdTime")
+								
+								 
+						#end
+									
+						#if($includeFile.name.equalsIgnoreCase("creator"))
+								
+						#end
+						
+						#if($modelName.equalsIgnoreCase("${includeFile.name}"))
+								 <input  type="hidden" class="hide" name="${includeFile.name}.${includeFile.dataName}" id="$includeFile.viewerName"/>
+						#end
+						
+								
+#if( !$includeFile.type.equals("richText")&& !$includeFile.name.equals("createdTime") && !$includeFile.name.equals("modifiedTime") && !$includeFile.name.equalsIgnoreCase("lastModifier") && !$includeFile.name.equalsIgnoreCase("creator") && !$includeFile.name.contains("domain") && !$modelName.equalsIgnoreCase("${includeFile.name}"))
+					#if($var%4==0 || $var==0)
+					<div class="span4">
+					#end
+					
+					 <div class="control-group">
+                       <label class="control-label" for="$includeFile.dataName">$includeFile.labelName#if($includeFile.isRequired) <span class='required'>*</span>#end</label>
+                           <div class="controls">
+							#if($includeFile.type.equals("text") )
+								
+                              <input type="$includeFile.type"   name="$includeFile.dataName" id="$includeFile.dataName" #if($includeFile.isRequired) class="alphanumericallowspecial validate[required#if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end]" #else class="alphanumericallowspecial #if($includeFile.maxLength) validate[maxSize[$includeFile.maxLength]] #end text-field " #end/>
+                              
+					        #end
+							#if($includeFile.type.equals("integer") || $includeFile.type.equals("long") ||  $includeFile.type.equals("float") ||  $includeFile.type.equals("double"))
+								
+                              <input type="text"  name="$includeFile.dataName" id="$includeFile.dataName" 
+                              #if($includeFile.type.equals("integer") || $includeFile.type.equals("long")) 
+                              #if($includeFile.isRequired)class="integers validate[required ,custom[integer] #if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end  ]" #else class="integers validate[#if($includeFile.maxLength) maxSize[$includeFile.maxLength]#end,custom[integer]] text-field " #end #end #if($includeFile.type.equals("float") || $includeFile.type.equals("double")) 
+                              #if($includeFile.isRequired)class="integersallow validate[required ,custom[number] #if($includeFile.maxLength),maxSize[$includeFile.maxLength] #end  ]" #else class="integersallow validate[#if($includeFile.maxLength) maxSize[$includeFile.maxLength]#end,custom[number]] text-field " #end #end/>
+					
+								
+								
+								#end
+								 
+						
+								
+								#if($includeFile.type.equals("date"))
+								<div class="input-append date"   data-date-format="yyyy-mm-dd" >
+									<input class="span2 editdatetype #if($includeFile.isRequired)validate[required]#end" size="16" type="text" id="$includeFile.dataName" value="" readonly /><span class="add-on  "><i class="icon-th"></i></span>
+								</div>	
+								#end
+								#if($includeFile.type.equals("select") )
+									
+									#if(!$includeFile.isForeignKey)
+										<select name="$includeFile.name" id="$includeFile.viewerName" value="${includeFile.name}.${includeFile.dataName}" class="#if($includeFile.isRequired)validate[required]#end inputDown " >
+										<option value>-Please Select-</option>
+									#foreach($enum as $includeFile.dataMapEnum)
+									<option value="${enum}" > ${enum}</option>
+									#end
+											</select>
+									#else
+						
+										#if(!($includeFile.name.equals("address"))&&!($includeFile.name.equals("address1"))&&!($includeFile.name.equals("address2"))&&!($includeFile.name.equals("address3"))&&!($includeFile.name.equals("address4")))
+									<select name="${includeFile.name}.${includeFile.dataName}" id="${includeFile.name}.${includeFile.viewerName}" value="${includeFile.name}.${includeFile.dataName}"  class="#if($includeFile.isRequired)validate[required] #end inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+									#end
+									#if(($includeFile.name.equals("address"))||($includeFile.name.equals("address1"))||($includeFile.name.equals("address2"))||($includeFile.name.equals("address3"))||($includeFile.name.equals("address4")))
+									<div class="span4" style="float:right" >
+									 <a href="#edit_${includeFile.name}_${tableName}_Address_Modal" id="edit_${includeFile.name}_${tableName}_Address_act" role="button"onclick=" ${tableName}_edit_${includeFile.name}('${includeFile.name}')" class="btn btn-mini btn-grey"style="float:right" data-toggle="modal"><i class="icon-external-link"></i>${includeFile.labelName}</a>
+     
+										</div>
+									#end
+									#end
+								#end
+					
+							</div>
+					</div>
+					    #set( $var = $var+ 1 )  
+					#if($var%4==0)
+					</div>
+					#end
+					 
+#end				
+					#end
+				#end
+				#if($var%4!=0 )
+					</div>
+				#end
+				
+				#foreach ($includeFile in $bootsStrapList)	
+				#if($includeFile.type.equals("richText"))
+						<div class="span4">
+							<div class="control-group">
+							<label class="control-label" for="$includeFile.dataName">$includeFile.labelName#if($includeFile.isRequired) <span class='required'>*</span>#end</label>
+							  
+								 <div class="controls">
+									<input type="text"   name="$includeFile.dataName" id="$includeFile.dataName"  class="#if($includeFile.isRequired)validate[required] #end" />
+								</div>		
+							</div>
+
+						</div>
+				#end
+				#end
+	
+
+
+
+				
+
+		
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+		
+	</div>		
+
+
+<script>
+#if($datepick>0)
+		$('#edit_${tableName}_form1 .dateinput').datepicker('setDate', new Date());	
+	
+	#end
+	
+	 window.setTimeout(function(){
+	#foreach ($includeFile in $bootsStrapList)
+		#if($includeFile.type.equals("richText"))			
+			$('#edit_${tableName}_form1 #$includeFile.dataName').html(editabledataFor${entityName}[0].$includeFile.dataName);
+		#end
+	#end
+	},1000);
+     
+
+ </script>

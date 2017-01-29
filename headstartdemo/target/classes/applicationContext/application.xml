@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+<context:property-placeholder location="classpath*:*.properties"/>
+<context:annotation-config/>
+<context:component-scan base-package="com.inn.headstartdemo"/>
+<!--Transactions way declaration-->
+<tx:annotation-driven/>
+<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+<bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
+<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+<!--Bean Declaration for the Data-Source-->
+<bean class="org.apache.tomcat.jdbc.pool.DataSource" id="dataSource">
+<property name="driverClassName" value="${driverClassName}"/>
+<property name="url" value="${db.connection.url}"/>
+<property name="username" value="${db.connection.username}"/>
+<property name="password" value="${db.connection.password}"/>
+<property name="maxWait" value="1000"/>
+<property name="validationQuery" value="Select 1"/>
+<property name="maxActive" value="${check.out.timeout}"/>
+<property name="testWhileIdle" value="true"/>
+<property name="defaultAutoCommit" value="true"/>
+</bean>
+<!-- Bean Declaration for the JPAVendorAdapter-->
+<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" id="jpaVendorAdapter">
+<property name="showSql" value="false"/>
+</bean>
+<!--Bean Declaration for the EntityManagerFactory-->
+<bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
+<property name="persistenceUnitName" value="DEFAULT"/>
+<property name="dataSource" ref="dataSource"/>
+<property name="persistenceXmlLocation" value="classpath:/META-INF/persistence.xml"/>
+<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+</bean>
+<!--Bean Declaration for the ApplicationContextProvider-->
+<bean class="com.inn.headstartdemo.security.spring.context.ContextProvider" id="contextApplicationContextProvider"/>
+<!--Bean Declaration for the JpaTransactionManager-->
+<bean class="org.springframework.orm.jpa.JpaTransactionManager" name="transactionManager">
+<property name="entityManagerFactory" ref="entityManagerFactory"/>
+</bean>
+<!-- Bean Declaration for the VelocityEngineFactoryBean-->
+<bean class="org.springframework.ui.velocity.VelocityEngineFactoryBean" id="velocityEngine">
+<property name="velocityProperties">
+<props>
+<prop key="velocimacro.library"/>
+<prop key="class.resource.loader.class">org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader</prop>
+<prop key="resource.loader">class</prop>
+</props>
+</property>
+</bean>
+<!-- Importing additional resources i.e. cxf.xml and cxf-servlet.xml-->
+<import resource="classpath:META-INF/cxf/cxf.xml"/>
+<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+<!-- Bean Declaration for the JacksonJsonProvider-->
+<!-- Bean Declaration for the HibernateAwareObjectMapper-->
+<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" id="jsonProvider">
+<property name="mapper">
+<bean class="com.inn.headstartdemo.utils.json.HibernateAwareObjectMapper" id="objectMapper">
+<property name="prettyPrint" value="false"/>
+</bean>
+</property>
+</bean>
+<!-- JAX RS Server cofiguration declaration-->
+<!-- JAX RS Service Beans declaration-->
+<!-- JAX RS extension mapping declaration-->
+<jaxrs:server address="/">
+<jaxrs:providers>
+<ref bean="jsonProvider"/>
+<bean class="com.inn.exha.mapper.UserExceptionMapper" id="userExceptionMapper"/>
+<bean class="com.inn.exha.mapper.ConstraintViolationExceptionMapper" id="ConstraintViolationExceptionMapper"/>
+<bean class="org.apache.cxf.jaxrs.ext.search.SearchContextProvider" id="searchContextProvider"/>
+</jaxrs:providers>
+
+<jaxrs:extensionMappings>
+<entry key="json" value="application/json"/>
+</jaxrs:extensionMappings>
+<jaxrs:serviceBeans>
+<bean class="com.inn.headstartdemo.rest.impl.AddressRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.CustomerRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.OfficeRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.OrderdetailRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.EmployeeRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.OrdersRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.ProductRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.PaymentRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.CustomerAttachRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.CommentRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.DashboardRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.UserConfigRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.ElasticSearchRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.UnauthRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.AuditRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.ActivityStreamRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.PermissionsRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.RolesRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.EmailNotificationsRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.SmtpConfigRestImpl"/>
+<bean class="com.inn.headstartdemo.rest.impl.UsersRestImpl"/>
+</jaxrs:serviceBeans>
+</jaxrs:server>
+</beans>

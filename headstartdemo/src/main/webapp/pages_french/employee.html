@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee</title>
+<meta charset="utf-8">
+<script src="../js/generated/Employee.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getemployeeTotalCount();
+if(update_Employee_permission)
+$('#Employee_formEdit').css('display','block');
+
+ $("#employee_filter_form").click(function (){
+ 	$("#fiql_employee_form").trigger('reset');
+			   $("#employeefilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_employee_form").validationEngine();
+		jQuery("#edit_employee_form").validationEngine();
+		refreshAllEmployeeList();
+		refreshAllFkEmployeeList();
+		jQuery("#employee_formcomment").validationEngine();
+		$("#modifiedTimechk_employee_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('employee',$("#fiql_employee_form #sort_employee").val())},1000);
+				 $('#employee_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.employee_history_slimscroll_div').slimScroll({height: '350px'});
+			});
+</script>
+<style>
+	#employee_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#employee_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#employee_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="employeequickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="employeequickFilter" value="" ></div>	
+<div id="employee_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='emailchk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_email','email');">
+						<span class="lbl" id="Employee_thead_email_Lbl">&nbsp;&nbsp;Email</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='officechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_office','office');">
+						<span class="lbl" id="Employee_thead_office_Lbl">&nbsp;&nbsp;Office</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastNamechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_lastName','lastName');">
+						<span class="lbl" id="Employee_thead_lastName_Lbl">&nbsp;&nbsp;Last Name</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='jobTitlechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_jobTitle','jobTitle');">
+						<span class="lbl" id="Employee_thead_jobTitle_Lbl">&nbsp;&nbsp;Job Title</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='firstNamechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_firstName','firstName');">
+						<span class="lbl" id="Employee_thead_firstName_Lbl">&nbsp;&nbsp;First Name</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='extensionchk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_extension','extension');">
+						<span class="lbl" id="Employee_thead_extension_Lbl">&nbsp;&nbsp;Extension</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='reportsTochk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_reportsTo','reportsTo');">
+						<span class="lbl" id="Employee_thead_reportsTo_Lbl">&nbsp;&nbsp;Reports To</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_creator','creator');">
+						<span class="lbl" id="Employee_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Employee_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Employee_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_employee' type="checkbox" onclick="employee_fnShowHide('Employee_thead_createdTime','createdTime');">
+						<span class="lbl" id="Employee_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openEmployeeListScreen('employee')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Employee</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_employee_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_employee_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Employee</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_employee_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Employee</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_employee_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Employee</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="employee_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="employee_quick_filter" onclick="showHideFilterContent('employee');"/>-->
+						
+						
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="employee_quick_filter" onclick="showHideFilterContent('employee');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="employee_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshEmployeeListFromPaginator();">All</a></li>
+	  	  		
+					<li id="email_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Email')">Email </a></li>
+	
+							 
+	     
+    	  		
+									<li id="office_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Office</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="lastName_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Last Name')">Last Name </a></li>
+	
+							 
+	     
+    	       
+    	  		
+					<li id="jobTitle_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Job Title')">Job Title </a></li>
+	
+							 
+	     
+    	  		
+					<li id="firstName_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('First Name')">First Name </a></li>
+	
+							 
+	     
+    	  		
+					<li id="extension_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Extension')">Extension </a></li>
+	
+							 
+	     
+    	  		
+					<li id="reportsTo_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Reports To')">Reports To </a></li>
+	
+							 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openEmployeeTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="employee_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="employee_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																						
+							<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreen('employee')" style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreen('employee');" data-toggle="tooltip" data-animation="true"></i>
+
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 0px; color:#242424; margin-left: 6px;"><!-- margin-right: 10px; color:#242424; margin-left: 6px; -->
+							<!--<span id="plus_txt" class="bigger-110 no-text-shadow" id="Employee_addEmployee">Employee</span>
+							</a>-->
+
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+		<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="employee_main_div">
+			<div id="list_employee_div" style="padding:10px;">
+					
+				<!-- employee_grid start-->
+										<div id="employee_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- employee_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="employee_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="employee_pagination_totalRecord"></span> <span  id="employee_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="employee_pagination_pre"  onclick="pagPrev('employee_pagination','Employee','getEmployeeDataPagination','employee_page_llimit','employee_page_ulimit','employeepagenovalue','employee',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="employee_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="employeepagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="employeepagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="employee_pagination_next"  onclick="pagNext('employee_pagination','Employee','getEmployeeDataPagination','employee_page_llimit','employee_page_ulimit','employeepagenovalue','employee',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setEmployeePaginationValue(); return false;" id="employee_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="employee_page_llimit" value="">
+								<input type="hidden" id="employee_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_employee_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Employeecreateformheader">
+								Add Employee
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_employee_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Email <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="email" id="email"  class=" alphanumericallowspecial validate[required,maxSize[100] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Office <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="office.officeCode" id="office.cityName" value="office.officeCode" class="validate[required]" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Last Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="lastName" id="lastName"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Job Title <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="jobTitle" id="jobTitle"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>First Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="firstName" id="firstName"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Extension <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="extension" id="extension"  class=" alphanumericallowspecial validate[required,maxSize[10] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Reports To </span><br>
+                           
+																						
+                              <input type="text"  name="reportsTo" id="reportsTo" 
+                                                             class="integers validate[ maxSize[10],custom[integer]] text-field  "   />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																		</div>
+								<!-- add div many to one button and layout -->				
+																																																																																																				
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_employee_btn" type="button" onclick="create_employee('add_employee_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Employee_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Employee_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+				
+														
+		
+				
+
+<div id="edit_employee_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Employeeeditformheader">
+								Edit Employee
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_employee_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="employeeNumber" id="employeeNumber">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Email <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="email" id="email"  class="alphanumericallowspecial validate[required,maxSize[100] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Office <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="office.officeCode" id="office.cityName" value="office.officeCode"  class="validate[required]  inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Last Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="lastName" id="lastName"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													  								                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Job Title <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="jobTitle" id="jobTitle"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>First Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="firstName" id="firstName"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Extension <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="extension" id="extension"  class="alphanumericallowspecial validate[required,maxSize[10] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Reports To</span><br>
+                         
+																						
+                              <input type="text"  name="reportsTo" id="reportsTo" 
+                                                             class="integers validate[ maxSize[10],custom[integer]] text-field "   />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																		</div>
+								
+				
+								
+				
+				
+				
+				
+				
+				
+																																																																																																				
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_employee_btn" type="button" onclick="edit_employee('edit_employee_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Employee_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('employee')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Employee_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_employee_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_employee"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Employee_formEdit"  onclick="ViewEditemployee()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="employee_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Email  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="email" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Office </div>
+
+					<div class="profile-info-value">
+												<span  id="office.cityName"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	                    
+					  								 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Job Title  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="jobTitle" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  First Name  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="firstName" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Extension  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="extension" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Reports To  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="reportsTo" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Employee_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Employee_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Employee_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="employee_history_tab" class="tab-pane active">
+														<div class="employee_history_slimscroll_div">
+															<div id="employee_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+							
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="employeefilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_employee_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#employeefilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="employeefilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																												
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Email</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="email" id="email"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Office</span>
+                  
+                          		
+																																																															
+																		<select multiple name="office.officeCode" id="office.cityName" value="office.officeCode" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Last Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="lastName" id="lastName"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Job Title</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="jobTitle" id="jobTitle"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">First Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="firstName" id="firstName"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Extension</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="extension" id="extension"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="reportsTo" id="reportsTo"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="creator" id="creator"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="employeeSortBy" class="inputDown sortbydropdown" onchange="employeeSortByHighLightSelectedHeader('employee')">
+									 
+									 																										
+																				<option value='email' >Email</option>  
+																																																								
+																														<option value='office.officeCode'>Office</option>
+																																																																		
+																				<option value='lastName' >Last Name</option>  
+																																																																															
+																				<option value='jobTitle' >Job Title</option>  
+																																																								
+																				<option value='firstName' >First Name</option>  
+																																																								
+																				<option value='extension' >Extension</option>  
+																																																								
+																				<option value='reportsTo' >Reports To</option>  
+																																																																																																						
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('employee',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_employee"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_employee"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchEmployeeData(fiql_employee_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_employee_div"></div>
+		<div id="error_500_employee_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="employee_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#employee_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteEmployeeEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="employee_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Employee RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteEmployeeEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setEmployeePaginationValue() {
+		$('#employeepagenovalue').html(1); 
+		$('#fiql_employee_form')[0].reset();
+		pageulimit= eval($('#employee_pagination_value').val()-1);
+		pagellimit=0;
+		$("#employee_pagination_next").css("display", "");
+		$("#employee_pagination_pre").css("display", "");
+		$('#employee_pagination #employee_page_llimit').val(pagellimit);
+		$('#employee_pagination #employee_page_ulimit').val(pageulimit);
+		$("#employee_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_employee_form #sort_employee').val();
+        var ordertypecall= $('#fiql_employee_form #sort_type_value_employee').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlEmployeeParam="";
+				sendGETRequest(context+"/rest/Employee/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getEmployeeDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('employee',$("#fiql_employee_form #sort_employee").val());
+		},1000);
+	}
+
+	$('#employee_main_div #error_404_employee_div').load(context+"/pages/error-404.html");
+	$('#employee_main_div #error_500_employee_div').load(context+"/pages/error-500.html");
+	
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlEmployeeParam ="";
+var Employeeflag=0;
+
+$('#employee_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#employee_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#employee_grid').contextmenu({
+	target: '#employee_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#employee_pagination #employee_page_llimit').val(pagellimit);
+$('#employee_pagination #employee_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Employee_home").html(index_home);
+
+if(hasValue(employee_breadcrumb))
+	$("#Employee_page_breadcrumbs").html(employee_breadcrumb);
+
+if(hasValue(Employee_thead_sortby))
+			$("#employeefilterTab #sortBy_span").html(Employee_thead_sortby);
+if(hasValue(Employee_thead_modifiedTime))
+			$("#employeefilterTab #modifiedTime_span").html(Employee_thead_modifiedTime);
+if(hasValue(Employee_thead_createdTime))
+			$("#employeefilterTab #createdTime_span").html(Employee_thead_createdTime);
+if(hasValue(Employee_viewdetail))
+			$("#details_employee_div #view_Employee").html(Employee_viewdetail);
+if(hasValue(Employee_thead_lastModifier))
+			$("#details_employee_div #Employee_detail_modifier").html(Employee_thead_lastModifier);
+if(hasValue(Employee_thead_creator))
+			$("#details_employee_div #Employee_detail_creator").html(Employee_thead_creator);
+if(hasValue(Employee_formCancel))
+			$("#Employee_formCancel").html(Employee_formCancel);
+if(hasValue(Employee_formUpdate))
+			$("#Employee_formUpdate").html(Employee_formUpdate);
+if(hasValue(Employee_formReset))
+			$("#Employee_formReset").html(Employee_formReset);
+if(hasValue(Employee_formCreate))
+			$("#Employee_formCreate").html(Employee_formCreate);
+
+if(hasValue(Employee_addEmployee))
+			$("#Employee_addEmployee").html(Employee_addEmployee);
+if(hasValue(Employee_head_history))
+			$("#Employee_head_history").html(Employee_head_history);
+if(hasValue(Employee_head_Activities))
+			$("#Employee_head_Activities").html(Employee_head_Activities);
+if(hasValue(Employee_task_tab))
+			$("#employee_task_tab_link").html(Employee_task_tab);
+if(hasValue(Employee_comment_tab))
+			$("#employee_comment_tab_link").html(Employee_comment_tab);
+if(hasValue(Employee_comment_tab))
+			$("#employee_comment_modal #myModalLabel").html(Employee_comment_tab);
+
+if(hasValue(Employee_formEdit))
+			$("#Employee_formEdit").html("<i class='icon-edit bigger-110'></i>"+Employee_formEdit);
+
+if(hasValue(Employeecreateformheader))
+			$("#Employeecreateformheader").html(Employeecreateformheader);
+if(hasValue(Employeeeditformheader))
+			$("#Employeeeditformheader").html(Employeeeditformheader);
+if(hasValue(pagination_page_txt))
+			$("#employee_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Employee_thead_email_Lbl").html(Employee_thead_email);
+            $("#Employee_thead_office_Lbl").html(Employee_thead_office);
+            $("#Employee_thead_lastName_Lbl").html(Employee_thead_lastName);
+              $("#Employee_thead_jobTitle_Lbl").html(Employee_thead_jobTitle);
+            $("#Employee_thead_firstName_Lbl").html(Employee_thead_firstName);
+            $("#Employee_thead_extension_Lbl").html(Employee_thead_extension);
+            $("#Employee_thead_reportsTo_Lbl").html(Employee_thead_reportsTo);
+            $("#Employee_thead_creator_Lbl").html(Employee_thead_creator);
+            $("#Employee_thead_lastModifier_Lbl").html(Employee_thead_lastModifier);
+            $("#Employee_thead_modifiedTime_Lbl").html(Employee_thead_modifiedTime);
+            $("#Employee_thead_createdTime_Lbl").html(Employee_thead_createdTime);
+  
+  	$("#Employee_thead_email_Flt").html(Employee_thead_email);
+    	$("#Employee_thead_office_Flt").html(Employee_thead_office);
+    	$("#Employee_thead_lastName_Flt").html(Employee_thead_lastName);
+      	$("#Employee_thead_jobTitle_Flt").html(Employee_thead_jobTitle);
+    	$("#Employee_thead_firstName_Flt").html(Employee_thead_firstName);
+    	$("#Employee_thead_extension_Flt").html(Employee_thead_extension);
+    	$("#Employee_thead_reportsTo_Flt").html(Employee_thead_reportsTo);
+    	$("#Employee_thead_creator_Flt").html(Employee_thead_creator);
+    	$("#Employee_thead_lastModifier_Flt").html(Employee_thead_lastModifier);
+    	$("#Employee_thead_modifiedTime_Flt").html(Employee_thead_modifiedTime);
+    	$("#Employee_thead_createdTime_Flt").html(Employee_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Employee_permission){
+		$("#employee_breadcrumbs #plus").css("display","");	
+		$("#employee_breadcrumbs #plus_bar").css("display","");
+		$("#employee_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#employee_breadcrumbs #employee_Quick_UL").addClass("pull-right");
+	$("#employee_breadcrumbs #plus").css("display","none");
+	$("#employee_breadcrumbs #plus_bar").css("display","none");
+	$("#employee_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function employeeSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#employeeSortBy').val());
+}
+
+             var employee_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(employee_richtextfields))  
+					{
+					if(create_Employee_permission){
+					$("#employee_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Employee_permission){
+					$("#employee_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#employeequickFilter').blur(function() {
+					$('#employeequickFilterDiv').css('display','none');
+					$('#employeequickFilter').val('');	
+					});	
+					
+					$("#employeefilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

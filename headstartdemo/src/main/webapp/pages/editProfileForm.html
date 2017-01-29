@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title> </title>
+</head>
+<body>
+
+
+<div class="grey-block">
+	<form class="form-horizontal "  id="edit_profile_form">
+	<input type="hidden" id="userid" class="alphanumeric text-field" disabled>
+	<div class="span4"> 
+		 <div class="control-group">
+			  <label class="control-label" for="username">Username</label>
+			   <div class="controls">
+				<input type="text" id="username"  placeholder="" class="alphanumeric text-field" disabled>
+				</div>
+		 </div>  
+		 <div class="control-group">
+			  <label class="control-label" for="email">Email <span class="required">*</span></label>
+			  
+			  <div class="controls">
+				<input type="text" id="email"  placeholder="" class=" validate[required] alphanumeric text-field">
+			  </div>
+		</div>  
+		 <div class="control-group">
+			  <label class="control-label" for="firstname">First Name</label>
+			  
+			  <div class="controls">
+				<input type="text" id="firstname"  placeholder="" class="alphanumeric text-field">
+			  </div>
+			</div>
+	   
+		<div class="control-group">
+			  <label class="control-label" for="lastname">Last Name</label>
+			  
+			  <div class="controls">
+				<input type="text" id="lastname"  placeholder="" class="alphanumeric text-field">
+			  </div>
+			</div>
+	  </div>
+	 
+	   <div class="span4">
+		<div class="control-group">
+			  <label class="control-label" for="userAddress.country">Country</label>
+			  
+			  <div class="controls">
+				<input type="text" id="userAddress.country"  placeholder="" class="alphanumeric text-field" disabled>
+			  </div>
+			</div>
+	   
+			<div class="control-group">
+			  <label class="control-label" for="userAddress.state">State</label>
+			  
+			  <div class="controls">
+				<input type="text" id="userAddress.state"  placeholder="" class="alphanumeric text-field" disabled>
+			  </div>
+			</div>
+	   
+		<div class="control-group">
+			  <label class="control-label" for="userAddress.city">City</label>
+			  
+			  <div class="controls">
+				<input type="text" id="userAddress.city"  placeholder="" class="alphanumeric text-field" disabled>
+			  </div>
+			</div>
+	 <div class="control-group">
+			  <label class="control-label">Telephone</label>
+			  
+			  <div class="controls">
+				<input type="text" id="telephone"  placeholder="" class="alphanumeric text-field">
+			  </div>
+			</div>
+	 
+	  <div class="control-group">
+					 
+	   <div class="controls">
+	 <button class="btn btn-mini btn-primary" type="button" data-dismiss="modal" onclick="updateUserInfoOnIE('edit_profile_form')">
+	<i class="icon-save bigger-110"></i>
+	<span class="bigger-110 no-text-shadow"  id="save" >Save</span>
+	</button>
+				 
+			  </div>
+			</div>
+
+	</div>
+	<div class="clear"></div>
+	</form>
+</div>
+<script>
+	$(document).ready(function() {
+		jQuery("#edit_profile_form").validationEngine();
+	});
+	
+	
+
+</script>
+</body>
+
+
+
+
+
+</html>

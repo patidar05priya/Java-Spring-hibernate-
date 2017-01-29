@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemas>
+    <schema>
+        <table name="customer">
+            <pk name="PRIMARY" column="customerNumber"/>
+            <column name="customerNumber" type="integer" type-name="INT UNSIGNED" not-null="true" size="10"/>
+            <column name="name" type="varchar" not-null="true" size="50"/>
+            <column name="lastName" type="varchar" not-null="true" size="50"/>
+            <column name="firstName" type="varchar" not-null="true" size="50"/>
+            <column name="phone" type="varchar" not-null="true" size="50"/>
+            <column name="creditLimit" type="double" size="22"/>
+            <column name="prioritystatus" type="char" type-name="ENUM" not-null="true" size="8"/>
+            <column name="salesman" type="integer" type-name="INT" size="10"/>
+            <column name="lname_comment" type="varchar" size="45"/>
+            <column name="file_attachment" type="varchar" size="45"/>
+            <column name="customer_address" type="integer" type-name="INT UNSIGNED" size="10"/>
+            <fk name="customer_ibfk_1" delete-action="restrict" to-table="employee" column="salesman"/>
+            <index name="customers_ibfk_1" column="salesman"/>
+        </table>
+        <table name="employee">
+            <pk name="PRIMARY" column="employeeNumber"/>
+            <column name="employeeNumber" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="lastName" type="varchar" not-null="true" size="50"/>
+            <column name="firstName" type="varchar" not-null="true" size="50"/>
+            <column name="extension" type="varchar" not-null="true" size="10"/>
+            <column name="email" type="varchar" not-null="true" size="100"/>
+            <column name="officeid" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="reportsTo" type="integer" type-name="INT" size="10"/>
+            <column name="jobTitle" type="varchar" not-null="true" size="50"/>
+            <fk name="employee_ibfk_1" delete-action="restrict" to-table="office" column="officeid"/>
+            <index name="officeid" column="officeid"/>
+        </table>
+        <table name="office">
+            <pk name="PRIMARY" column="officeCode"/>
+            <column name="officeCode" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="city_name" type="varchar" not-null="true" size="50"/>
+            <column name="phone" type="varchar" not-null="true" size="50"/>
+            <column name="addressLine1" type="varchar" not-null="true" size="50"/>
+            <column name="addressLine2" type="varchar" size="50"/>
+            <column name="state" type="varchar" size="50"/>
+            <column name="country" type="varchar" not-null="true" size="50"/>
+            <column name="postalCode" type="varchar" not-null="true" size="15"/>
+            <column name="territory" type="varchar" not-null="true" size="10"/>
+            <column name="fname_comment" type="varchar" size="45"/>
+            <column name="allow_add_multiple_employee" type="varchar" size="45"/>
+        </table>
+        <table name="orderdetail">
+            <pk name="PRIMARY" column="id"/>
+            <column name="id" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="orderNumber" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="productCode" type="integer" type-name="INT UNSIGNED" not-null="true" size="10"/>
+            <column name="quantityOrdered" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="priceEach" type="double" not-null="true" size="22"/>
+            <column name="orderLineNumber" type="smallint" not-null="true" size="5"/>
+            <fk name="orderdetail_ibfk_1" delete-action="restrict" to-table="orders" column="orderNumber"/>
+            <fk name="orderdetail_ibfk_2" delete-action="restrict" to-table="product" column="productCode"/>
+            <index name="orderNumber" column="orderNumber"/>
+            <index name="productCode" column="productCode"/>
+        </table>
+        <table name="orders">
+            <pk name="PRIMARY" column="orderNumber"/>
+            <column name="orderNumber" type="integer" type-name="INT" not-null="true" size="10"/>
+            <column name="order_date" type="timestamp" type-name="DATETIME" not-null="true" size="19"/>
+            <column name="requiredDate" type="timestamp" type-name="DATETIME" not-null="true" size="19"/>
+            <column name="shippedDate" type="timestamp" type-name="DATETIME" size="19"/>
+            <column name="order_status" type="varchar" not-null="true" size="15"/>
+            <column name="comments" type="longvarchar" type-name="TEXT" size="65535"/>
+            <column name="customerid" type="integer" type-name="INT UNSIGNED" not-null="true" size="10"/>
+            <column name="totalCost" type="double" size="22"/>
+            <fk name="order_customer_constraint" delete-action="restrict" to-table="customer" column="customerid"/>
+            <index name="customerid" column="customerid"/>
+        </table>
+        <table name="payment">
+            <pk name="PRIMARY" column="id"/>
+            <column name="customerid" type="integer" type-name="INT UNSIGNED" not-null="true" size="10"/>
+            <column name="checkNumber" type="varchar" not-null="true" size="50"/>
+            <column name="payment_date" type="timestamp" type-name="DATETIME" not-null="true" size="19"/>
+            <column name="amount" type="double" not-null="true" size="22"/>
+            <column name="id" type="bigint" not-null="true" size="19"/>
+            <fk name="payment_customer_constraint" delete-action="restrict" to-table="customer" column="customerid"/>
+            <index name="payments_ibfk_1" column="customerid"/>
+        </table>
+        <table name="product">
+            <pk name="PRIMARY" column="productCode"/>
+            <column name="productCode" type="integer" type-name="INT UNSIGNED" not-null="true" size="10"/>
+            <column name="productName" type="varchar" not-null="true" size="70"/>
+            <column name="productVendor" type="varchar" not-null="true" size="50"/>
+            <column name="productDescription" type="longvarchar" type-name="TEXT" not-null="true" size="65535"/>
+            <column name="quantityInStock" type="smallint" not-null="true" size="5"/>
+            <column name="buyPrice" type="double" not-null="true" size="22"/>
+            <column name="sellPrice" type="double" not-null="true" size="22"/>
+            <column name="productline" type="char" type-name="ENUM" size="11"/>
+        </table>
+    </schema>
+</schemas>

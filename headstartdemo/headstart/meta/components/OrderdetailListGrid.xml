@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">OrderdetailDataSource</attr>
+    <attr name="id">OrderdetailListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Orderdetail"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Orderdetail",record.id,"id")}
+		}	
+			
+			if(deleteOrderdetail) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orderLineNumber</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">orderLineNumber</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">orders</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">orders</attr>
+        <attr name="dataPath">/orders/orderNumber</attr>
+        <attr name="entityDataSource">OrdersDataSource</attr>
+        <attr name="entityDisplayField">orderNumber</attr>
+        <attr name="entityValueField">orderNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">priceEach</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">priceEach</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">product</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">product</attr>
+        <attr name="dataPath">/product/productCode</attr>
+        <attr name="entityDataSource">ProductDataSource</attr>
+        <attr name="entityDisplayField">productCode</attr>
+        <attr name="entityValueField">productCode</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">quantityOrdered</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">quantityOrdered</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

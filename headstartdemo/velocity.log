@@ -1,0 +1,422 @@
+2015-06-08 18:13:08,658 - ResourceManager : found headstart/ui-templates/UserMgmt_resource.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,658 - ResourceManager : found headstart/ui-templates/UserMgmt.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,659 - ResourceManager : found headstart/ui-templates/UserMgmtRoles_resource.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,660 - ResourceManager : found headstart/ui-templates/UserMgmtRoles.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,661 - ResourceManager : found headstart/ui-templates/UserMgmtPermission_resource.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,661 - ResourceManager : found headstart/ui-templates/UserMgmtPermission.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,663 - ResourceManager : found headstart/ui-templates/Setting_resource.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,663 - ResourceManager : found headstart/ui-templates/Setting.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,669 - ResourceManager : found headstart/ui-templates/resources.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,672 - ResourceManager : found headstart/ui-templates/CRUD_test.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,672 - Null reference [template 'headstart/ui-templates/resources.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 23, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 23, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 23, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 23, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 126, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 126, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 128, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 132, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 135, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 139, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 140, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 143, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 144, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 147, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 148, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 152, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 153, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 169, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,673 - Null reference [template 'headstart/ui-templates/resources.vm', line 169, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/resources.vm', line 169, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/resources.vm', line 169, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 21, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 21, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 21, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 21, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 56, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 56, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 56, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,674 - Null reference [template 'headstart/ui-templates/CRUD_test.vm', line 56, column 263] : $createdby cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 10, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 11, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 12, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 13, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 14, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 15, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 16, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 17, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 18, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 19, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 26, column 20] : ${name} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 27, column 71] : ${name} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 30, column 20] : ${adminUsername} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 31, column 80] : ${adminUsername} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 34, column 20] : ${adminPassword} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 35, column 80] : ${adminPassword} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 38, column 20] : ${primaryemail} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 39, column 79] : ${primaryemail} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 42, column 20] : ${domainDescription} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 43, column 84] : ${domainDescription} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 85, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 85, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 87, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 91, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 94, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 98, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 99, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 102, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 103, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 106, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 107, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 110, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 111, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 114, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 115, column 73] : ${username} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 118, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 119, column 73] : ${password} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 122, column 20] : ${email} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 123, column 70] : ${email} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 168, column 20] : ${expiryNotificationDuration} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 169, column 93] : ${expiryNotificationDuration} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 172, column 20] : ${defaultExpiryInterval} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 173, column 88] : ${defaultExpiryInterval} cannot be resolved.
+2015-06-08 18:13:08,675 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 176, column 20] : ${maxAttempts} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/Setting_resource.vm', line 177, column 78] : ${maxAttempts} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 25, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 26, column 73] : ${username} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 29, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 30, column 73] : ${password} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 33, column 20] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 34, column 74] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 37, column 20] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 38, column 73] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 41, column 20] : ${email} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 42, column 70] : ${email} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 45, column 20] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 46, column 74] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 49, column 20] : ${street} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 50, column 79] : ${street} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 53, column 20] : ${addressLine1} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 54, column 85] : ${addressLine1} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 57, column 20] : ${city} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 58, column 77] : ${city} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 61, column 20] : ${addressLine2} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 62, column 85] : ${addressLine2} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 65, column 20] : ${state} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 66, column 78] : ${state} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 69, column 20] : ${landmark} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 70, column 81] : ${landmark} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 73, column 20] : ${country} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 74, column 80] : ${country} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 77, column 20] : ${pincode} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 78, column 80] : ${pincode} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 81, column 20] : ${latitude} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 82, column 81] : ${latitude} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 85, column 20] : ${longitude} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 86, column 82] : ${longitude} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 89, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 90, column 74] : ${username} cannot be resolved.
+2015-06-08 18:13:08,676 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 93, column 20] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 94, column 75] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 97, column 20] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 98, column 74] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 101, column 20] : ${email} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 102, column 71] : ${email} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 105, column 20] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 106, column 75] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 109, column 20] : ${street} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 110, column 80] : ${street} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 113, column 20] : ${addressLine1} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 114, column 86] : ${addressLine1} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 117, column 20] : ${city} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 118, column 78] : ${city} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 121, column 20] : ${addressLine2} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 122, column 86] : ${addressLine2} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 125, column 20] : ${state} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 126, column 79] : ${state} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 129, column 20] : ${landmark} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 130, column 82] : ${landmark} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 133, column 20] : ${country} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 134, column 81] : ${country} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 137, column 20] : ${pincode} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 138, column 81] : ${pincode} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 141, column 20] : ${latitude} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 142, column 82] : ${latitude} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 145, column 20] : ${longitude} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 146, column 83] : ${longitude} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 149, column 20] : ${newPass} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 150, column 67] : ${newPass} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 153, column 20] : ${confirmPass} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 154, column 71] : ${confirmPass} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 157, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 158, column 74] : ${username} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 161, column 20] : ${email} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 162, column 71] : ${email} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 165, column 20] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 166, column 75] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 169, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 169, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 171, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 175, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 178, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 182, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 183, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 186, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 187, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 190, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 191, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 194, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,677 - Null reference [template 'headstart/ui-templates/UserMgmt_resource.vm', line 195, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 25, column 20] : ${rolename} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 26, column 73] : ${rolename} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 29, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 30, column 76] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 33, column 20] : ${rolename} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 34, column 74] : ${rolename} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 37, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 38, column 77] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 41, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 42, column 77] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 90, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 90, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 92, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 99, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 102, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 106, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 107, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 110, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 111, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 114, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 115, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 118, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtRoles_resource.vm', line 119, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 25, column 20] : ${permissionname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 26, column 86] : ${permissionname} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 29, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 30, column 83] : ${description} cannot be resolved.
+2015-06-08 18:13:08,678 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 33, column 20] : ${permissionname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 34, column 85] : ${permissionname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 37, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 38, column 82] : ${description} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 41, column 20] : ${description} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 42, column 83] : ${description} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 82, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 82, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 84, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 88, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 91, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 95, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 96, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 99, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 100, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 103, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 104, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 107, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/UserMgmtPermission_resource.vm', line 108, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 16, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 17, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 18, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 25, column 20] : ${userFullName} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 26, column 79] : ${userFullName} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 29, column 20] : ${oldPassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 30, column 81] : ${oldPassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 33, column 20] : ${newPassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 34, column 81] : ${newPassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 37, column 20] : ${confirmpassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 38, column 85] : ${confirmpassword} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 41, column 20] : ${email} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 42, column 86] : ${email} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 45, column 20] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 46, column 90] : ${firstname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 49, column 20] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 50, column 89] : ${lastname} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 53, column 20] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 54, column 90] : ${telephone} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 57, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,679 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 57, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 59, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 63, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 66, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 70, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 71, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 74, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 75, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 78, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 79, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 82, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Profile_resource.vm', line 83, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 9, column 1] : ${SERVER} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 10, column 1] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 11, column 1] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 12, column 1] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 13, column 1] : ${VALIDDomain} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 14, column 1] : ${VALIDUSER} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 15, column 1] : ${VALIDPASSWORD} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 16, column 1] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 16, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 17, column 1] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 17, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 18, column 1] : ${ERRORURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 18, column 34] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 25, column 20] : ${userFullName} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 26, column 79] : ${userFullName} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 29, column 21] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 29, column 36] : ${BROWSER} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 31, column 27] : ${DELAY} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 35, column 33] : ${appname} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 38, column 14] : ${LOGINURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 42, column 20] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 43, column 31] : ${domain} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 46, column 20] : ${username} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 47, column 33] : ${username} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 50, column 20] : ${password} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 51, column 33] : ${password} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 54, column 32] : ${WELCOMEURL} cannot be resolved.
+2015-06-08 18:13:08,680 - Null reference [template 'headstart/ui-templates/Audit_resource.vm', line 55, column 24] : ${appname} cannot be resolved.
+2015-06-08 18:13:47,635 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,636 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,637 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,638 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,640 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,641 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,642 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,643 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,644 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,645 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,646 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,647 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,648 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,649 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,650 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,651 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,652 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,653 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,654 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,655 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,656 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,657 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,658 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,659 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,660 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,661 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,662 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,663 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,664 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,665 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,666 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,668 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,669 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,670 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,671 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,672 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,674 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,675 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,676 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,677 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,678 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,679 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,679 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,680 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,681 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,682 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,683 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,684 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,686 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,687 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,687 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,688 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,690 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,691 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,692 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,693 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,694 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,695 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,696 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,697 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,698 - ResourceManager : found Read.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,699 - ResourceManager : found Delete.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,700 - ResourceManager : found Create.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:13:47,701 - ResourceManager : found Update.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:14:09,464 - ResourceManager : found report_run.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:14:09,466 - ResourceManager : found JrxmlList.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2015-06-08 18:14:09,602 - ResourceManager : found headstart/ui-templates/pomupdated.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2015-06-08 18:14:09,602 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 57, column 20] : ${jsf.version} cannot be resolved.
+2015-06-08 18:14:09,602 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 62, column 15] : ${jbossJ2ee.version} cannot be resolved.
+2015-06-08 18:14:09,602 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 73, column 34] : ${spring.elasticsearch.version} cannot be resolved.
+2015-06-08 18:14:09,602 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 78, column 34] : ${fsriver.version} cannot be resolved.
+2015-06-08 18:14:09,602 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 83, column 22] : ${mapper-attachment.version} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 171, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 176, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 181, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 186, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 191, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 196, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 201, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 206, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 211, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 216, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,603 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 221, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 226, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 231, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 242, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 247, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 252, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 257, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 262, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 268, column 34] : ${version.spring} cannot be resolved.
+2015-06-08 18:14:09,604 - Left side (${chkcaptcha}) of '==' operation has null value. If it is a reference, it may not be in the context or its toString() returned null. headstart/ui-templates/pomupdated.vm[line 607, column 36]
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 761, column 30] : ${project.build.directory} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 779, column 31] : ${project.basedir} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 998, column 138] : ${model.package.name} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 1056, column 66] : ${project.name} cannot be resolved.
+2015-06-08 18:14:09,604 - Null reference [template 'headstart/ui-templates/pomupdated.vm', line 1062, column 44] : ${project.name} cannot be resolved.

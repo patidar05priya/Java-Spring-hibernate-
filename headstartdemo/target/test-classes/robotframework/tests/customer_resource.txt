@@ -1,0 +1,202 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+
+Select prioritystatus
+    Select From List By Index    //form[@id='add_customer_form']//select[@id='prioritystatus']    1 
+    
+
+Input customer_name
+    [Arguments]    ${name}
+    Input Text    //form[@id='add_customer_form']//input[@id='name']    ${name}
+    
+
+Input customer_lastName
+    [Arguments]    ${lastName}
+    Input Text    //form[@id='add_customer_form']//input[@id='lastName']    ${lastName}
+    
+
+Input customer_phone
+    [Arguments]    ${phone}
+    Input Text    //form[@id='add_customer_form']//input[@id='phone']    ${phone}
+    
+
+Input customer_firstName
+    [Arguments]    ${firstName}
+    Input Text    //form[@id='add_customer_form']//input[@id='firstName']    ${firstName}
+    
+       
+Select employee
+    Select From List By Index    //form[@id='add_customer_form']//select[@id='employee.firstName']    1
+     
+    
+Input customer_creditLimit
+    [Arguments]    ${creditLimit}
+    Input Text    //form[@id='add_customer_form']//input[@id='creditLimit']   ${creditLimit}
+    
+      
+Click addcustomeraddress
+    Click Link    add_address_customer_Address_act
+ 
+Input customer_address_street
+    [Arguments]    ${street}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='street']    ${street}
+    
+        
+Wait for customer_address_street
+    Wait Until Page Contains Element     //div[@id='address_add_customer_Address_modal']//input[@id='street']    1 min
+    
+    
+Input customer_address_city
+    [Arguments]    ${city}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='city']    ${city}
+    
+Input customer_address_state
+    [Arguments]    ${state}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='state']    ${state}
+    
+    
+Input customer_address_country
+    [Arguments]    ${country}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='country']    ${country}
+    
+Input customer_address_latitude
+    [Arguments]    ${latitude}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='latitude']    ${latitude}
+    
+Input customer_address_addressLine1
+    [Arguments]    ${addressLine1}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='addressLine1']    ${addressLine1}
+    
+Input customer_address_addressLine2
+    [Arguments]    ${addressLine2}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='addressLine2']    ${addressLine2}
+    
+Input customer_address_landmark
+    [Arguments]    ${landmark}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='landmark']    ${landmark}
+    
+Input customer_address_pincode
+    [Arguments]    ${pincode}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='pincode']    ${pincode}
+    
+Input customer_address_longitude
+    [Arguments]    ${longitude}
+    Input Text    //div[@id='address_add_customer_Address_modal']//input[@id='longitude']    ${longitude}
+    
+Click customer_add_address
+    Click Button   //div[@id='address_add_customer_Address_modal']//Button[@id='create_add'] 
+     
+    
+    
+Open customer_Tab
+    Click Link    customer_tab
+
+Open customer_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open customer_UpdatePage
+    Click Element    id=customer_edit_act
+
+Create customer_btn
+    Click Button    add_customer_btn
+
+Update customer_btn
+    Click Button    edit_customer_btn
+
+Delete customer_btn
+    Click Element    customer_delete_act
+
+Search customer_btn
+    Click Link   filterApply
+Input customer_name_update
+    [Arguments]    ${name}
+    Input Text    //form[@id='edit_customer_form']//input[@id='name']    ${name}
+Input customer_lastName_update
+    [Arguments]    ${lastName}
+    Input Text    //form[@id='edit_customer_form']//input[@id='lastName']    ${lastName}
+Input customer_phone_update
+    [Arguments]    ${phone}
+    Input Text    //form[@id='edit_customer_form']//input[@id='phone']    ${phone}
+Input customer_firstName_update
+    [Arguments]    ${firstName}
+    Input Text    //form[@id='edit_customer_form']//input[@id='firstName']    ${firstName}
+Input customer_creditLimit_update
+    [Arguments]    ${creditLimit}
+    Input Text    //form[@id='edit_customer_form']//input[@id='creditLimit']   ${creditLimit}
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    customer_back
+
+Wait for delete button
+    Wait Until Page Contains Element        customer_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        customer_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for customer_tab 
+    Wait Until Page Contains Element    customer_tab    1 min
+
+    
+Click filter button
+    click Element    customer_filter

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">OfficeDataSource</attr>
+    <attr name="id">OfficeListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Office"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Office",record.officeCode,"officeCode")}
+		}	
+			
+			if(deleteOffice) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine1</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">addressLine1</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">addressLine2</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">addressLine2</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">cityName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">cityName</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">country</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">country</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">phone</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">phone</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">postalCode</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">postalCode</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">state</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">state</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">territory</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">territory</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

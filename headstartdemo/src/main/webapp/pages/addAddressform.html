@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add address</title>
+	<meta charset="utf-8">
+	<style>
+        #add_user_Address_form .formError {
+            width: 48% !important;
+        }
+		#add_user_Address_form .formError .formErrorContent {
+			left : -122px;
+		}
+    </style>
+</head>
+<body>
+
+    <form class="form-horizontal form-without-label" id="add_user_Address_form">
+
+        <div class="span4">
+            
+			<div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_street" class="labelinput">Street:</span>
+					<input type="text" maxlength="10" id="street" placeholder="" class="alphanumeric text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+                <label class=""><!-- control-label -->
+					<span id="user_City" class="labelinput">City:</span>
+					<input type="text" id="city" maxlength="45" class="alphanumeric text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+                <label class=""><!-- control-label -->
+					<span id="user_state" class="labelinput">State:</span>
+					<input type="text" id="state" maxlength="45" class="validate[required] alphanumericallow text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+                <label class=""><!-- control-label -->
+					<span id="user_Country" class="labelinput">Country:</span>
+					<input type="text" id="country" maxlength="45" class="validate[required] alphanumericCaps text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+                <label class=""><!-- control-label -->
+					<span id="user_latitude" class="labelinput">Latitude:</span>
+					<input type="text" id="latitude" placeholder="" class="latLong text-field">
+				</label>
+            </div>
+        </div>
+
+        <div class="span4">
+            <!--<div class="control-group">
+                <label class="control-label" for="addressLine1" id="user_address1">
+                    Address Line1 <i class='required'>*</i>:
+                </label>
+                <div class="controls">
+                    <input type="text" id="addressLine1" maxlength="100" placeholder="Address Line1" class="validate[required] alphanumericallowspecial text-field">
+                </div>
+            </div>-->
+
+            <div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_address1" class="labelinput"></span>
+					<input type="text" id="addressLine1" maxlength="100" placeholder="" class="validate[required] alphanumericallowspecial text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_address2" class="labelinput"></span>
+					<input type="text" id="addressLine2" maxlength="100" placeholder="" class="alphanumericallowspecial text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_landmark" class="labelinput">Landmark:</span>
+					<input type="text" id="landmark" placeholder="" maxlength="250" class="alphanumericallowspecial text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_zip" class="labelinput">Pincode:</span>
+					<input type="text" id="pincode" maxlength="9" class="validate[required] integers text-field">
+				</label>
+            </div>
+
+            <div class="control-group">
+				<label class=""><!-- control-label -->
+					<span id="user_longitude" class="labelinput">Longitude:</span>
+					<input type="text" id="longitude" placeholder="" class="latLong text-field">
+				</label>
+            </div>
+
+        </div>
+		
+		<div class='clear'></div>
+    </form>
+
+    <div class="">
+        <button onclick="addAddressforUsernew();" type="button" id="create" class="width-15 btn btn-mini btn-info pull-right">Create</button>
+    </div>
+
+<script>
+	$(document).ready(function() {
+		window.setTimeout(function(){
+			jQuery("#add_user_Address_form").validationEngine();
+			changeValidationEngineMsgPos('add_user_Address_form', 'bottomRight');
+		},1000);
+
+		$('.alphanumeric').alphanumeric({allow:" "}); 
+		$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>-|:; "});
+		$('.alphanumericallow').alphanumeric({allow:"., "}); 
+		$('.latLong').numeric({allow:" °'\"\.NWSE -"});
+		$('.alphanumericCaps').alpha({allcaps:true,allow:" "});
+		$('.integers').numeric({allow:"."}); 
+	});
+	
+	function addAddressforUsernew()
+	{
+		if(jQuery('#add_user_Address_form').validationEngine('validate')) {
+			addAddressForNewUser('add_user_Address_form');
+			$('#AddUser_Address_Modal .close').click();	
+		}
+	}
+
+	/*if (hasValue(user_placeholder_city)) {
+		$("#add_user_Address_form #city").attr('placeholder', user_placeholder_city);
+	}
+	if (hasValue(user_placeholder_country)) {
+		$("#add_user_Address_form #country").attr('placeholder', user_placeholder_country);
+	}
+	if (hasValue(user_placeholder_state)) {
+		$("#add_user_Address_form #state").attr('placeholder', user_placeholder_state);
+	}
+	if (hasValue(user_placeholder_pincode)) {
+		$("#add_user_Address_form #pincode").attr('placeholder', user_placeholder_pincode);
+	}
+	if (hasValue(user_placeholder_street)) {
+		$("#add_user_Address_form #street").attr('placeholder', user_placeholder_street);
+	}
+	if (hasValue(user_placeholder_latitude)) {
+		$("#add_user_Address_form #latitude").attr('placeholder', user_placeholder_latitude);
+	}
+	if (hasValue(user_placeholder_longitude)) {
+		$("#add_user_Address_form #longitude").attr('placeholder', user_placeholder_longitude);
+	}
+	if (hasValue(user_placeholder_landmark)) {
+		$("#add_user_Address_form #landmark").attr('placeholder', user_placeholder_landmark);
+	}
+	if (hasValue(user_placeholder_addressline1)) {
+		$("#add_user_Address_form #addressLine1").attr('placeholder', user_placeholder_addressline1);
+	}
+	if (hasValue(user_placeholder_addressline2)) {
+		$("#add_user_Address_form #addressLine2").attr('placeholder', user_placeholder_addressline2);
+	}*/
+
+	if (hasValue(user_label_city)) {
+	    $("#add_user_Address_form #user_City").html(user_label_city);
+	}
+	if (hasValue(user_label_country)) {
+	    $("#add_user_Address_form #user_Country").html(user_label_country + "<icon class='required'>*</icon>");
+	}
+	if (hasValue(user_label_state)) {
+	    $("#add_user_Address_form #user_state").html(user_label_state + "<icon class='required'>*</icon>");
+	}
+	if (hasValue(user_label_pincode)) {
+	    $("#add_user_Address_form #user_zip").html(user_label_pincode + "<icon class='required'>*</icon>");
+	}
+	if (hasValue(user_label_street)) {
+	    $("#add_user_Address_form #user_street").html(user_label_street + ":");
+	}
+	if (hasValue(user_label_latitude)) {
+	    $("#add_user_Address_form #user_latitude").html(user_label_latitude + "");
+	}
+	if (hasValue(user_label_address1)) {
+	    $("#add_user_Address_form #user_address1").html(user_label_address1 + "<i class='required'>*</i>");
+	}
+	if (hasValue(user_label_address2)) {
+	    $("#add_user_Address_form #user_address2").html(user_label_address2 + "");
+	}
+	if (hasValue(user_label_landmark)) {
+	    $("#add_user_Address_form #user_landmark").html(user_label_landmark + "");
+	}
+	if (hasValue(user_label_longitude)) {
+	    $("#add_user_Address_form #user_longitude").html(user_label_longitude + "");
+	}
+
+	$(function() {
+		var input = document.createElement("input");
+	    if(('placeholder' in input)==false) { 
+			$('[placeholder]').focus(function() {
+				var i = $(this);
+				if(i.val() == i.attr('placeholder')) {
+					i.val('').removeClass('placeholder');
+					if(i.hasClass('password')) {
+						i.removeClass('password');
+						this.type='password';
+					}			
+				}
+			}).blur(function() {
+				var i = $(this);	
+				if(i.val() == '' || i.val() == i.attr('placeholder')) {
+					if(this.type=='password') {
+						i.addClass('password');
+						this.type='text';
+					}
+					i.addClass('placeholder').val(i.attr('placeholder'));
+				}
+			}).blur().parents('form').submit(function() {
+				$(this).find('[placeholder]').each(function() {
+					var i = $(this);
+					if(i.val() == i.attr('placeholder'))
+						i.val('');
+				})
+			});
+		}
+
+		// to set classes on Add address form fields
+		jQuery('.form-without-label input[type="text"]').addClass('lightgrey');
+		jQuery('.form-without-label input[type="text"]').addClass('span4');
+		/* to hide label span shown in input box for form without labels - labels shown in input box start */
+		jQuery('.form-without-label input[type="text"]').blur(function() {
+			if( $(this).val().length >= 1) {
+				$(this).addClass('active');
+			}
+			else {
+				$(this).removeClass('active');
+			}
+		});
+		/* to hide label span shown in input box for form without labels - labels shown in input box end */
+	});
+</script>
+
+</body>
+</html>

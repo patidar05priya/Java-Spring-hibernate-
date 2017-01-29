@@ -1,0 +1,87 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:bundle basename="message">
+	<script>
+	// represents array of messages for tab titles
+    var tabKeys = {
+        "tab.usermgmt":"<fmt:message key='tab.usermgmt'/>",
+		"tab.reports":"<fmt:message key='tab.reports'/>",
+		"tab.subtab.userlist":"<fmt:message key='tab.subtab.userlist'/>",
+		"tab.subtab.create":"<fmt:message key='tab.subtab.create'/>",
+		"tab.subtab.search":"<fmt:message key='tab.subtab.search'/>",
+		"createtab.tabset.view":"<fmt:message key='createtab.tabset.view'/>",
+		"createtab.tabset.edit":"<fmt:message key='createtab.tabset.edit'/>",
+		"searchtab.tabset.view":"<fmt:message key='searchtab.tabset.view'/>",
+		"searchtab.tabset.edit":"<fmt:message key='searchtab.tabset.edit'/>"
+    };
+    // represents list of labels for different screens 
+    var labels = {
+        "label.search":"<fmt:message key='label.search'/>",
+       	"label.username":"<fmt:message key='label.username'/>",
+        "label.password":"<fmt:message key='label.password'/>",
+		"label.welcome":"<fmt:message key='label.welcome'/>",	
+		"label.themes":"<fmt:message key='label.themes'/>",
+		"label.lcoale":"<fmt:message key='label.lcoale'/>",
+		"section.login.label":"<fmt:message key='section.login.label'/>"
+	};
+    
+    // represents section labels.
+    var sections ={
+		"createtab.section.label.addInfo":"<fmt:message key='createtab.section.label.addInfo'/>",
+		"searchtab.section.label.searchInfo":"<fmt:message key='searchtab.section.label.searchInfo'/>"		
+	};
+
+    // represents button labels.
+    var buttons = {
+        "button.logout":"<fmt:message key='button.logout'/>",
+		"createtab.button.add":"<fmt:message key='createtab.button.add'/>",
+		"createtab.button.cancel_Close":"<fmt:message key='createtab.button.cancel_Close'/>",	
+		"createtab.section.button.create":"<fmt:message key='createtab.section.button.create'/>",
+		"createtab.section.button.reset":"<fmt:message key='createtab.section.button.reset'/>",
+		"createtab.tabset.edit.button.update":"<fmt:message key='createtab.tabset.edit.button.update'/>",
+		"searchtab.section.button.search":"<fmt:message key='searchtab.section.button.search'/>",
+		"searchtab.section.button.reset":"<fmt:message key='searchtab.section.button.reset'/>",
+		"searchtab.tabset.edit.button.update":"<fmt:message key='searchtab.tabset.edit.button.update'/>"
+	}; 	
+	 function getMessage(type, key, defaultVal)
+	    {
+	        if(type == 'tabtitles')
+	        {
+	            if(tabKeys[key] != null)
+	                return tabKeys[key];
+	        }
+	        else if(type == 'button')
+	        {
+	            if(buttons[key] != null)
+	                return buttons[key];
+	        }
+	        else if(type == 'section')
+	        {
+	            if(sections[key] != null)
+	                return sections[key];
+	        }
+	        else if(type == 'control')
+	        {
+	            if(controls[key] != null)
+	                return controls[key];
+	        }
+	        else if(type == 'label')
+	        {
+	            if(labels[key] != null)
+	                return labels[key];
+	        }
+	        else if(type == 'message')
+	        {
+	            if(messages[key] != null)
+	                return messages[key];
+	        }
+
+	        // if the type is not configured then return the default value.
+	        // otherwise return the key itself.
+	        if(defaultVal != null && defaultVal != 'undefined')
+	            return defaultVal;
+	        else
+	            return key;
+
+	    }
+	</script>
+</fmt:bundle>

@@ -1,0 +1,40 @@
+*** Settings ***
+Documentation     A test suite containing tests related to User Permission Management.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          UserMgmtPermission_resource.txt
+
+*** Test Cases ***
+Valid permission create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for Administration_Tab
+    Open Administration_Tab
+    Wait for UserManagement_Tab
+    Open UserManagement_Tab
+    Open permission_Tab
+    Open permission_CreatePage
+    Input permission_permissionname    AppSelector
+    Input permission_description    TestString
+    Create permission_btn
+
+Valid permission search
+    Click permission_filter button
+    Input Searchpermission_permissionname    AppSelector
+    Input Searchpermission_description    TestString
+    Click searchpermission_btn
+
+Valid permission view
+    Click permission_Viewbtn
+    Click permission_Backbtn
+
+Valid permission edit
+    Click permission_Editbtn
+    Input editPermission_description    Customer create permission
+    Create updatePermission_btn

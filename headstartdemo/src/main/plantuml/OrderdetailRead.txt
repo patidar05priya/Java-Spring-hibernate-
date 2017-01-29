@@ -1,0 +1,28 @@
+@startuml
+title Find Orderdetail Scenario
+participant User
+User -> CXFServlet: GET, Orderdetail Search Critera XML
+activate CXFServlet
+CXFServlet -> Orderdetail: << create >>
+activate Orderdetail
+Orderdetail -> CXFServlet: << instance >>
+deactivate Orderdetail
+CXFServlet -> OrderdetailRestImpl: getAll(:orderdetail)
+activate OrderdetailRestImpl
+OrderdetailRestImpl -> OrderdetailServiceDao: getAll(:orderdetail)
+activate OrderdetailServiceDao
+OrderdetailServiceDao -> OrderdetailJPADao: getAll(:orderdetail)
+activate OrderdetailJPADao
+OrderdetailJPADao -> EntityManager: getResultList(:orderdetail)
+activate EntityManager
+EntityManager -> OrderdetailJPADao: List<Orderdetail>
+deactivate EntityManager
+OrderdetailJPADao -> OrderdetailServiceDao: List<Orderdetail>
+deactivate OrderdetailJPADao
+OrderdetailServiceDao -> OrderdetailRestImpl: List<Orderdetail>
+deactivate OrderdetailServiceDao
+OrderdetailRestImpl -> CXFServlet: List<Orderdetail>
+deactivate OrderdetailRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

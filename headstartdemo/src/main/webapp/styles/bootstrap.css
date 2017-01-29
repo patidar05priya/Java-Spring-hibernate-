@@ -1,0 +1,35 @@
+.progressbar {
+  background-color: #CDD2CD;
+  border-radius: 7px; /* (height of inner div) / 2 + padding */
+  padding: 3px;
+}
+
+.bar {
+   background-color: red;
+    /* Adjust with JavaScript */
+   width: 10%;
+   height: 8px;
+   border-radius: 3px;
+}
+.bar1 {
+    width: 40%;
+   background-color: green;
+    /* Adjust with JavaScript */
+   height: 8px;
+   border-radius: 3px;
+}
+.bar2 {
+    width: 70%;
+   background-color: blue;
+    /* Adjust with JavaScript */
+   height: 8px;
+   border-radius: 3px;
+}
+.bar3{
+  width: 100%;
+ 
+   background-color: olive;
+    /* Adjust with JavaScript */
+   height: 8px;
+   border-radius: 3px;
+}

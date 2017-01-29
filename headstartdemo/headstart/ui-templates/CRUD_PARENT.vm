@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?><Template>
+	<template-params>
+
+		<param name="root_file_path" value="src/main/webapp"/>
+		<param name="xml_root_path" value="&lt;ABSOLUTE_PATH_UI_MODELLER_WEBAPP&gt;/apps/uploadtest"/>
+	        <param name="app_flower_root_path" value=""/>
+		<param name="velocity_js_file_path" value="scripts"/>
+		<param name="app_name" value="uploadtest"/>
+		<param name="company_logo_path" value="logo.png"/>
+		<param name="sc_skin" value="TreeFrog"/>
+		<param name="package_names" value="com.inn.uploadtest.model"/>
+		<param name="builder_prop_file" value="builder.properties"/>
+		<param name="deploy_dir" value="/home/vipul/Downloads/apache-tomcat-6.0.36/webapps"/>
+		<param name="deploy_url" value="&lt;TOMCAT_URL&gt;"/>
+		<param name="generate_xml" value="false"/>
+		<param name="visualbuilder_url" value="&lt;VISUAL_BUILDER_URL&gt;"/>
+		<param name="uieditor.synclocation" value="/home/vipul/headstart/projects/uploadtest/src/main/webapp"/>
+		<param name="selenium_support" value="true"/>
+		<param name="saasEnabled" value="false"/>
+		<param name="security" value="true"/>
+		<param name="fileupload" value="true"/>
+		<param name="dashboardfeature" value="false"/>
+		<param name="reportfeature" value="true"/>
+		<param name="meta_root" value="headstart/meta/components"/>
+		
+
+	</template-params>
+
+	<layout>
+		<for-once>
+		    <Component ref="CountryStateDS"/>
+			<Component name="CrudCreateVLayout" type="VLayout">
+				<init-params>
+					<param name="autogen_file_name" value="scripts/static/main.js"/>
+                    <param name="generateXmlFile" value="true"/>
+                    <param name="xml_file_path" value=""/>
+                    <param name="id" value="MainVLayout"/>
+					<param name="state_file" value="headstart/ui-templates/meta/meta.xml"/>
+					<param name="autoDraw" value="true"/>
+				</init-params>
+				<for-once>
+					<Component ref="HeaderVLayout"/>
+					<Component name="CrudTabSet" type="TabSet">
+						<init-params>
+							<param name="autogen_file_name" value="scripts/static/CrudTabSet.js"/>
+							<param name="id" value="CrudTabSet"/>
+							<param name="xml_file_name" value="UserInterface.xml"/>
+							<param name="meta_file" value="CrudTabSet.xml"/>
+							<param name="closeClick" valueprovider="textcontent">function(tab) {
+							    CrudTabSet.updateTab(tab,null);
+								CrudTabSet.removeTab(tab);
+							}</param>
+							<param name="tabSelected" valueprovider="childComponents">
+							<preString>function (){
+				</preString>
+					<postString>
+						}</postString>
+							
+
+							</param>
+							
+						</init-params>
+						<for-once>
+						<Component name="ChartTab" type="Tab">
+								<init-params>
+									<param name="id" value="ChartTab"/>
+									<param name="displayName" value="getMessage('tabtitles','tab.charts','Dashboard')"/>
+								
+								</init-params>
+								<for-once>
+	
+			<Component name="ChartsTabVLayout" type="HLayout">
+										<init-params>
+											<param name="id" value="chartPortalContentArea"/>
+											<param name="meta_file" value="ChartsTabVLayout.xml"/>
+										</init-params>																		
+	</Component>	
+				</for-once>
+							</Component>
+						</for-once>
+						<for-each>
+						<dataprovider ref="entityclasses"/>
+					#if($isHistory=="true")
+				<Component ref="CrudHistoryDataSource"/>
+				#end
+				<Component ref="CrudDataSource"/>
+		  			
+				<Component ref="CrudSectionStk">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				#if($isHistory=="true")
+				<Component ref="HistoryVLayout">
+				  <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				#else
+				<Component ref="DetailsViewer">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component> 
+					#end	
+				<Component ref="CrudSearchVLayout">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component ref="AddForm">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component ref="EditForm">
+				   <init-params>
+				      <param name="parentRelationType" value="no_relation"/>
+				   </init-params>
+				</Component>
+				<Component executionMode="afterForEach" name="StudioSqlGenerator" type="VelocityGenerator">
+							   <init-params>
+							      <param name="velocityTemplate" value="headstart/ui-templates/module_insert_sql.vm"/>
+								  <param name="fileToGenerate" value="headstart/sql/studio_modules.sql"/>
+								  <param name="class_names" value="entityNames"/>
+								  <param name="app_name" value="app_name"/>
+							   </init-params>
+				</Component>
+				</for-each>
+						
+			  </Component>
+					<Component name="PermissionCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Permissions/PermissionCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Permissions/PermissionCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="PermissionDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Permissions/PermissionDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Permissions/PermissionDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="RoleCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Roles/RoleCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Roles/RoleCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="RoleDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Roles/RoleDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Roles/RoleDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="UserCreateVLayoutGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/UserCreateVLayout.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/UserCreateVLayout.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="UserProfileGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/userprofile.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/userprofile.js"/>
+						   </init-params>
+					</Component>
+					<Component name="FileUploadJs" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="/fileuploader.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/fileuploader.js"/>
+						   </init-params>
+					</Component>
+					<Component name="UserDataSourceGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/Users/UserDataSource.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/generated/Users/UserDataSource.js"/>
+							  <param name="app_name" value="app_name"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="partsListGridGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="security/partsListGrid.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/partsListGrid.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!security.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="chartJSGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="chart/chart.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/chart.js"/>
+						   </init-params>
+						  <conditional-params>
+						     <if expr="!dashboardfeature.equals('true')">
+								<param name="ignore" value="true"/>
+							 </if>
+						   </conditional-params>
+					</Component>
+					<Component name="reportJSGenerator" type="VelocityGenerator">
+						   <init-params>
+						      <param name="velocityTemplate" value="reports/reports.vm"/>
+							  <param name="fileToGenerate" value="src/main/webapp/scripts/reports.js"/>
+						   </init-params>
+					</Component>
+				</for-once>
+			</Component>
+			<Component name="chartFreeJS" type="JSCode">
+			<init-params>
+					<param name="id" value="chartFreeJS"/>
+					<param name="jsCode" valueprovider="textcontent">
+	function addMembers(i){
+	return isc.SimplePortlet.create
+	({
+		autoDraw:false,
+		width:"100%",
+		height:230,
+		title:chartMeta[i].title,
+		headerControls : 
+		[	"closeButton",
+			"minimizeButton", 
+			"headerLabel", 
+			isc.ImgButton.create
+			({
+				name:""+chartMeta[i].url,
+				width:16,
+				height:14,
+				layoutAlign:"center",
+				src:context + "/images/" + ImageDir +"/zoom.png",
+				autoDraw:false,
+				click: function () 
+				{
+					var curl=this.name;
+					isc.Window.create
+					({
+						name:"url"+curl,
+						isModal:true,
+						showModalMask:true,
+						autoCenter:true,
+						height:"55%",
+						width:"75%",
+						title:"Zoomed View",
+						autoDraw:true,
+						items:
+						[
+							isc.HTMLPane.create
+							({
+								autoDraw:true,
+								width:"100%",
+								height:"100%",
+								contents:'&lt;iframe width="100%" height=250px src="' + curl + '"/&gt;'
+							})
+						]
+					});
+				}
+			})
+		],	
+		items:
+		[
+			isc.HTMLPane.create
+			({
+				autoDraw:false,
+				width:"100%",
+				height:230,
+				overflow:"hidden",
+				contents:'&lt;iframe width="100%" height=250px src="' + chartMeta[i].url + '"/&gt;'
+			})
+		]
+	});
+}	
+var chartNewData = [];
+try
+{
+if(hasValue(chartMeta))
+	chartNewData = chartMeta;
+}catch(e){}	
+    isc.DataSource.create({
+        ID: "DbchartDS",
+        clientOnly: true,
+        testData: chartNewData,
+        fields:[
+			{name:"id",title:"comments",showIf:"false"},
+			{name:"name",title:"comments",showIf:"false"},
+			{name:"title",title:"Chart"}
+        ]
+    });
+
+
+/* END OrdersListGrid */
+/* START OrdersWorkVLayout */
+
+isc.DynamicForm.create({
+	ID:"DbChartForm",
+	autoDraw:false,
+	autoFocus:false,
+	dataSource:"OrdersDataSource",
+	width:400,
+	fields:[
+		{name: "chart",width:400,showHintInField: true,required:true,showTitle:false,showHint:true,title: "",hint:"select chart",displayField: "title",valueField: "id",addUnknownValues:false,editorType: "comboBox",optionDataSource: DbchartDS,textMatchStyle:"substring",changed:function(form, item, value){showChartInDashboard(value)}}
+	]
+});
+
+isc.CustomVLayout.create({
+ID:"simplePortalColumn1",
+autoDraw:false,
+width: "48%",
+membersMargin: 0
+})
+
+isc.CustomVLayout.create({
+ID:"simplePortalColumn2",
+autoDraw:false,
+width: "48%",
+membersMargin: 0
+})
+
+isc.CustomHLayout.create({
+width:"100%",
+ID:"DbMainHLayout",
+width:"100%",
+members:[
+	simplePortalColumn1,simplePortalColumn2
+]
+})
+
+isc.CustomSectionStack.create({
+ID:"DbSectionStack",
+sections:[{title:"Dashboard",canCollapse:false, showHeader:true, expanded:true,controls:[DbChartForm],resizeable:false, hidden:false, items:[DbMainHLayout]}]})
+
+chartPortalContentArea.addMember(DbSectionStack);
+
+						try{
+						var length=chartMeta.length;
+		var count=true;
+		
+	
+		for(var i=0;i&lt;4;i++){
+
+		if(count==true){
+			simplePortalColumn1.addMember(
+				addMembers(i)
+			);
+			count=false;
+		}
+		else if(count==false){
+			simplePortalColumn2.addMember(
+				addMembers(i)
+			);
+			count=true;
+		}
+	
+} 
+WorklistButton.hide();
+	}
+	catch(e)
+	{}
+   					</param>
+					<param name="autogen_file_name" value="scripts/static/CrudTabSet.js"/>
+			</init-params>
+
+			</Component>
+		</for-once>
+	</layout>
+	<references>
+		<include file="Header.xml"/>
+		<include file="CRUD.xml"/>
+		<include file="CLASS_FIELDS_COMPONENTS.xml"/>
+		<include file="COUNTRY_STATE.xml"/>
+	</references>
+	<dataproviders>
+		<dataprovider name="entityclasses" type="class">
+</dataprovider>
+	</dataproviders>
+</Template>

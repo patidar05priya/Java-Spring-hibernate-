@@ -1,0 +1,608 @@
+<ComponentRepository>
+
+	<!--
+		THIS COMPONENT IS SPECIALLY ADDED FOR GETTING DATA SOURCE FIELDS,
+		FIELDS INSIDE DATA SOURCE WILL ONLY PROVIDE NAME FOR FIELDS.
+	-->
+	<Component name="DataSourceFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}" />
+		</init-params>
+		<conditional-params>
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+		</conditional-params> 
+	</Component>
+
+	<Component name="CreateFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}" />
+			<param name="type" value="#{${class_name}.${field_name}.type} [or] ${field_type}" jexlBindName="field_type"/>
+			<param name="displayName" value="#{${class_name}.${field_name}.title} [or] ${field_name}" />
+			<param name="length" value="#{${class_name}.${field_name}.length}" />
+			<param name="mask" value="#{${class_name}.${field_name}.mask}" />
+			<param name="validators" value="#{${class_name}.${field_name}.validators}" />
+			<param name="error" value="#{${class_name}.${field_name}.error}" />
+			
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="#{${field_class_name}.displayField} [or] ${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+				<!-- <param name="dataPath" value="/${field_name}/${entity_value_field}" /> -->
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true" />		
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="fields" valueprovider="textcontent">
+					[{title:
+					"${entity_value_field}",name: "${entity_value_field}",type:
+					"${entity_value_type}", showIf:"false"},
+					{title:
+					"${entity_display_field}",name: "${entity_display_field}",type:
+					"${entity_display_type}"}]</param>
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+			</if>
+			
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}" />
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}" />
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}" />
+				<param name="sectionExpanded" value="true" />
+			</if>
+			<if expr="#{$entity_display_field}.equals('userid')">
+				<param name="entityDisplayField" value="username" />
+			
+			</if>
+			
+			<!--
+			<if expr="is_id_annotated">
+				<param name="type" value="hidden" />
+			</if> -->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+		    <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_type.equals('NotSupported')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="type" value="hidden" />
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="type" value="hidden" />
+			</if>
+			<if expr="field_name.equals('creationtime')">
+				<param name="type" value="hidden" />
+			</if>
+			<if expr="field_name.equals('modifiedtime')">
+				<param name="type" value="hidden" />
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />		
+			</if>
+<!--
+			<if expr="field_name.equals('lastUpdate')">
+			   <param name="type" value="hidden" />
+			</if>
+			
+			<if expr="field_name.equals('state')">
+              	<param name="getPickListFilterCriteria" value="#{${class_name}.${field_name}.getPickListFilterCriteria}" />
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+				<param name="changed" value="#{${class_name}.${field_name}.changed}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if> -->
+
+		</conditional-params>
+	</Component>
+
+	<Component name="EditFields" type="Field">
+			<init-params>
+			<param name="name" value="${field_name}" />
+			<param name="type" value="#{${class_name}.${field_name}.type} [or] ${field_type}" jexlBindName="field_type"/>
+			<param name="displayName" value="#{${class_name}.${field_name}.title} [or] ${field_name}" />
+			<param name="length" value="#{${class_name}.${field_name}.length}" />
+			<param name="mask" value="#{${class_name}.${field_name}.mask}" />
+			<param name="validators" value="#{${class_name}.${field_name}.validators}" />
+			<param name="error" value="#{${class_name}.${field_name}.error}" />
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="fields" valueprovider="textcontent">
+					[{title:
+					"${entity_value_field}",name: "${entity_value_field}",type:
+					"${entity_value_type}", showIf:"false"},
+					{title:
+					"${entity_display_field}",name: "${entity_display_field}",type:
+					"${entity_display_type}"}]</param>
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}" />
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}" />
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}" />
+				<param name="sectionExpanded" value="true" />
+			</if>
+			<!--
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true" />
+			</if>
+			 <if expr="field_name.equals('${class_name}attach')">
+			
+					<param name="name" value="FileButton" />
+					<param name="type" value="button" />requestedTheme
+					<param name="displayName" value="Upload" />
+					<param name="startRow" value="false" />
+					<param name="endRow" value="true" />
+					<param name="click" valueprovider="textcontent">function() {
+					var record = null;
+					if(${class_name}SearchGridVisible)
+						record = ${class_name}SearchResultsGrid.getSelectedRecord();
+					else
+						record =  ${class_name}ListGrid.getSelectedRecord();
+					
+					if(record!=null)
+							showUploadModalWindow("${class_name}",record.${id_fieldname})
+						}
+						</param>
+		
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('creationtime')">
+				<param name="type" value="hidden" />
+			</if>
+			<if expr="field_name.equals('modifiedtime')">
+				<param name="type" value="hidden" />
+			</if>
+			
+			<!--
+			<if expr="field_name.equals('lastUpdate')">
+			   <param name="type" value="hidden" />
+			</if>
+		    
+			<if expr="field_name.equals('state')">
+              	<param name="getPickListFilterCriteria" value="#{${class_name}.${field_name}.getPickListFilterCriteria}" />
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+				<param name="changed" value="#{${class_name}.${field_name}.changed}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="setValue" value="function(newValue){}" />
+			</if> 
+
+			-->
+		</conditional-params>
+	</Component>
+
+	<Component name="SearchFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}" />
+			<param name="type" value="${field_type}" />
+		</init-params>
+		<conditional-params>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('date') ">
+				<param name="type" value="select" />
+				<param name="valueMap" value="{'':'today','0':'Today','1':'Yesterday','7':'This Week','15':'Last 15 days','30':'This Month','90':'This Quarter','365':'This Year'},defaultValue:''"/>
+			</if>
+			<if expr="field_type.equals('Date') ">
+				<param name="type" value="select" />
+				<param name="valueMap" value="{'':'Any time','today':'Today','1':'Yesterday','7':'This Week','15':'Last 15 days','30':'This Month','90':'This Quarter','365':'This Year'},defaultValue:''"/>
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			
+			<if expr="field_type.equals('Enum')">
+				<param name="ignore" value="true"/>
+			</if>
+			<if expr="field_type.equals('checkbox') or field_type.equals('radioGroup')">
+				<param name="valueMap" value="#{${class_name}.${field_name}.valueMap}" />
+			</if>
+			<if expr="field_type.equals('section')">
+				<param name="itemIds" value="#{${class_name}.${field_name}.itemIds}" />
+				<param name="sectionExpanded" value="true" />
+			</if>
+			
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			<if expr="#{${entity_display_field}}.equals('userid')">
+				<param name="entityDisplayField" value="username" />
+			
+			</if>
+			<if expr="required">
+				<param name="required" value="true"/>
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true" />
+			</if>
+			
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				<param name="displayName" value="Created By" />		
+			</if>
+			<if expr="field_name.equals('${modifiedBy}')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				<param name="displayName" value="Updated By" />		
+			</if>
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true" />		
+			</if>
+		</conditional-params>
+	</Component>
+
+	<Component name="ListGridFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}" />
+			<param name="type" value="${field_type}" />
+			<param name="displayName" value="${field_name}" />
+		</init-params>
+		<conditional-params>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true" />		
+			</if>
+			<if expr="field_type.equals('date')">
+					<param name="type" value="timestamp" />		
+			</if>
+			<if expr="field_type.equals('Date')">
+					<param name="type" value="timestamp" />		
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+				<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="type" value="icon" />
+				<param name="icon" valueprovider="textcontent">Page.getSkinDir()+"/images/actions/view.png"
+				</param>
+				<param name="recordClick" valueprovider="childComponents">
+					<preString>function (viewer, record, recorNum, field, fieldNum,
+						value, rawValue){
+				</preString>
+					<postString>
+						}</postString>
+
+					<for-once>
+						<Component name="MEWindow" type="Window">
+							<init-params>
+								<param name="id" value="MEWindow" />
+								<param name="displayName" value="${field_name} inside ${class_name}" />
+								<param name="autoSize" value="true" />
+								<param name="autoCenter" value="true" />
+								<param name="dismissOnEscape" value="true" />
+								<param name="isModal" value="true" />
+								<param name="canDragReposition" value="true" />
+								<param name="canDragResize" value="true" />
+								<param name="showModalMask" value="true" />
+								<param name="width" value="Page.getScreenWidth()*60/100" />
+								<param name="height" value="Page.getScreenHeight()*40/100" />
+							</init-params>
+							<for-once>
+								<Component name="MEVLayout" type="VLayout">
+									<init-params>
+										<param name="id" value="${class_name}_${field_name}VLayout" />
+										<param name="layoutLeftMargin" value="10" />
+										<param name="layoutTopMargin" value="10" />
+										<param name="membersMargin" value="5" />
+										<param name="overflow" value="visible" />
+										<param name="width" value="95%" />
+										<param name="height" value="95%" />
+									</init-params>
+									<for-once>
+										<Component name="deleteRecordJS" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent">
+													var params="?";
+
+													if(record.${field_name})
+													{
+													if(record.${field_name}.length)
+													{
+													for (var i=0; i &lt; record.${field_name}.length ; i++)
+													{
+													params =
+													params+"${entity_id_field}="+record.${field_name}[i].${entity_id_field}+"&amp;";
+													}
+													}
+													else
+													{
+													params =
+													params+"${entity_id_field}="+record.${field_name}.${entity_id_field}+"&amp;";
+													}
+													}
+												</param>
+											</init-params>
+										</Component>
+										<Component name="MEListGrid" type="ListGrid">
+											<init-params>
+												<param name="id" value="${class_name}_${field_name}ListGrid" />
+												<param name="dataSource" value="${field_class_name}DataSource" />
+												<param name="height" value="Page.getScreenHeight()*50/100" />
+
+											</init-params>
+											<for-each>
+												<dataprovider type="class-fields">
+													<classKey>${field_class_full_name}</classKey>
+												</dataprovider>
+												<Component name="MEfields" type="Field">
+													<init-params>
+														<param name="name" value="${field_name}" />
+														<param name="type" value="${field_type}" />
+													</init-params>
+													<conditional-params>
+														<if expr="field_type.equals('singleEntity')">
+															<param name="entityDataSource" value="${field_class_name}DataSource" />
+															<param name="entityDisplayField" value="${entity_display_field}" />
+															<param name="entityValueField" value="${entity_value_field}" />
+															<param name="dataPath" value="/${field_name}/${entity_value_field}" />
+															<param name="title" value="${entity_display_field}" />										
+														</if>
+													</conditional-params>
+												</Component>
+											</for-each>
+										</Component>
+										<Component name="fetchMEListGrid" type="JSCode">
+											<init-params>
+												<param name="jsCode" valueprovider="textcontent">
+													${_MEListGrid_id}.getDataSource().addProperties({fetchDataURL:
+													"/${app_name}/rest/${field_class_name}Service/${field_class_name}ByIds"+params});
+													${_MEListGrid_id}.fetchData();
+												</param>
+											</init-params>
+										</Component>
+									</for-once>
+								</Component>
+							</for-once>
+						</Component>
+						<Component name="MEWindowDrawJS" type="JSCode">
+							<init-params>
+								<param name="id" value="MEWindowDrawJS" />
+								<param name="jsCode" valueprovider="textcontent">
+									${_MEWindow_id}.draw();
+									return false;
+								</param>
+							</init-params>
+						</Component>
+					</for-once>
+
+				</param>
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}" />
+			</if>
+			<!--if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+				<param name="type" value="hidden" />
+			</if>-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('${createdBy}')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				<param name="displayName" value="Created By" />			
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				
+			</if>
+				<if expr="field_name.equals('${modifiedBy}')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				<param name="displayName" value="Modified By" />	
+			</if>
+			<if expr="#{${entity_display_field}}.equals('userid')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+			
+			</if>
+			<!--
+			<if expr="field_name.equals('state')">
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+			</if>-->
+		</conditional-params>
+	</Component>
+
+	<Component name="ViewerFields" type="Field">
+		<init-params>
+			<param name="name" value="${field_name}" />
+			<param name="type" value="${field_type}" />
+		</init-params>
+		<conditional-params>
+			<if expr="field_name.equals('${class_name}attach')">
+					<param name="ignore" value="true" />		
+			</if>
+			<if expr="field_type.equals('date')">
+					<param name="type" value="timestamp" />		
+			</if>
+			<if expr="field_type.equals('Date')">
+					<param name="type" value="timestamp" />		
+			</if>
+			<if expr="field_type.equals('singleEntity')">
+				<param name="entityDataSource" value="${field_class_name}DataSource" />
+				<param name="entityDisplayField" value="${entity_display_field}" />
+				<param name="entityValueField" value="${entity_value_field}" />
+				<param name="dataPath" value="/${field_name}/${entity_display_field}" />
+				<param name="additionalInfo1" value="${field_class_name}"/>
+				<param name="additionalInfo2" value="foreign"/>
+				<param name="title" value="${entity_display_field}" />	
+			</if>
+			<if expr="field_type.equals('multiEntity')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_type.equals('Enum')">
+				<param name="valueMap" value="${enum_value_map}" />
+			</if>
+			<!--if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+				<param name="type" value="hidden" />
+			</if-->
+			<if expr="is_id_annotated">
+				<param name="primaryKey" value="true" />
+			</if>
+			 <if expr="#{${class_name}.${field_name}.transient}">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="transient">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.equals('state')">
+              	<param name="entityDataSource" value="StateDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="stateId" />
+			</if>
+			<if expr="field_name.equals('country')">
+              	<param name="entityDataSource" value="CountryDataSource" />
+				<param name="entityDisplayField" value="name" />
+				<param name="entityValueField" value="countryId" />
+			</if>
+
+			<if expr="field_name.equals('domain')">
+				<param name="ignore" value="true" />
+			</if>
+			<if expr="field_name.contains('users')">
+				<param name="entityDisplayField" value="username" />
+				<param name="dataPath" value="/${field_name}/userid" />
+				<param name="entityValueField" value="userid" />
+				
+			</if>
+		</conditional-params>
+	</Component>
+
+</ComponentRepository>

@@ -1,0 +1,28 @@
+@startuml
+title Create Customer Scenario
+participant User
+User -> CXFServlet: POST, Customer
+activate CXFServlet
+CXFServlet -> Customer: << create >>
+activate Customer
+Customer -> CXFServlet: << instance >>
+deactivate Customer
+CXFServlet -> CustomerRestImpl: create(:customer)
+activate CustomerRestImpl
+CustomerRestImpl -> CustomerServiceDao: create(:customer)
+activate CustomerServiceDao
+CustomerServiceDao -> CustomerJPADao: create(:customer)
+activate CustomerJPADao
+CustomerJPADao -> EntityManager: save(:customer)
+activate EntityManager
+EntityManager -> CustomerJPADao: << persisted customer >>
+deactivate EntityManager
+CustomerJPADao -> CustomerServiceDao: << persisted customer >>
+deactivate CustomerJPADao
+CustomerServiceDao -> CustomerRestImpl: << persisted customer >>
+deactivate CustomerServiceDao
+CustomerRestImpl -> CXFServlet: << persisted customer >>
+deactivate CustomerRestImpl
+CXFServlet -> User: marshalled customer XML
+deactivate CXFServlet
+@enduml

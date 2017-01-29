@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment</title>
+<meta charset="utf-8">
+<script src="../js/generated/Payment.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getpaymentTotalCount();
+if(update_Payment_permission)
+$('#Payment_formEdit').css('display','block');
+
+ $("#payment_filter_form").click(function (){
+ 	$("#fiql_payment_form").trigger('reset');
+			   $("#paymentfilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_payment_form").validationEngine();
+		jQuery("#edit_payment_form").validationEngine();
+		refreshAllPaymentList();
+		refreshAllFkPaymentList();
+		jQuery("#payment_formcomment").validationEngine();
+		$("#modifiedTimechk_payment_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('payment',$("#fiql_payment_form #sort_payment").val())},1000);
+				 $('#payment_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.payment_history_slimscroll_div').slimScroll({height: '350px'});
+			});
+</script>
+<style>
+	#payment_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#payment_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#payment_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="paymentquickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="paymentquickFilter" value="" ></div>	
+<div id="payment_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='amountchk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_amount','amount');">
+						<span class="lbl" id="Payment_thead_amount_Lbl">&nbsp;&nbsp;Amount</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='paymentDatechk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_paymentDate','paymentDate');">
+						<span class="lbl" id="Payment_thead_paymentDate_Lbl">&nbsp;&nbsp;Payment Date</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='checkNumberchk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_checkNumber','checkNumber');">
+						<span class="lbl" id="Payment_thead_checkNumber_Lbl">&nbsp;&nbsp;Check Number</span>
+					</span>
+				</div>
+			</li>
+        	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='customerchk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_customer','customer');">
+						<span class="lbl" id="Payment_thead_customer_Lbl">&nbsp;&nbsp;Customer</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_creator','creator');">
+						<span class="lbl" id="Payment_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Payment_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Payment_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_payment' type="checkbox" onclick="payment_fnShowHide('Payment_thead_createdTime','createdTime');">
+						<span class="lbl" id="Payment_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openPaymentListScreen('payment')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Payment</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_payment_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_payment_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Payment</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_payment_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Payment</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_payment_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Payment</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="payment_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="payment_quick_filter" onclick="showHideFilterContent('payment');"/>-->
+						
+						
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="payment_quick_filter" onclick="showHideFilterContent('payment');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="payment_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshPaymentListFromPaginator();">All</a></li>
+	  	  		
+					<li id="amount_filter"><a tabindex="-1" href="javascript:openPaymentTextField('Amount')">Amount </a></li>
+	
+							 
+	     
+    	  		
+					<li id="paymentDate_filter"><a tabindex="-1" href="javascript:openPaymentTextField('Payment Date')">Payment Date </a></li>
+	
+							 
+	     
+    	  		
+					<li id="checkNumber_filter"><a tabindex="-1" href="javascript:openPaymentTextField('Check Number')">Check Number </a></li>
+	
+							 
+	     
+    	       
+    	  		
+									<li id="customer_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Customer</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openPaymentTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openPaymentTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="payment_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="payment_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 																		 																		 																		 																						
+							<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreen('payment')" style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreen('payment');" data-toggle="tooltip" data-animation="true"></i>
+
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('payment')" style="margin-right: 0px; color:#242424; margin-left: 6px;"><!-- margin-right: 10px; color:#242424; margin-left: 6px; -->
+							<!--<span id="plus_txt" class="bigger-110 no-text-shadow" id="Payment_addPayment">Payment</span>
+							</a>-->
+
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+		<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="payment_main_div">
+			<div id="list_payment_div" style="padding:10px;">
+					
+				<!-- payment_grid start-->
+										<div id="payment_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- payment_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="payment_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="payment_pagination_totalRecord"></span> <span  id="payment_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="payment_pagination_pre"  onclick="pagPrev('payment_pagination','Payment','getPaymentDataPagination','payment_page_llimit','payment_page_ulimit','paymentpagenovalue','payment',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="payment_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="paymentpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="paymentpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="payment_pagination_next"  onclick="pagNext('payment_pagination','Payment','getPaymentDataPagination','payment_page_llimit','payment_page_ulimit','paymentpagenovalue','payment',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setPaymentPaginationValue(); return false;" id="payment_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="payment_page_llimit" value="">
+								<input type="hidden" id="payment_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_payment_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Paymentcreateformheader">
+								Add Payment
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_payment_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Amount <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="amount" id="amount" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Payment Date <i class='required'>*</i></span><br>
+                           
+																						 
+								
+															<div class="input-prepend input-group adddatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="paymentDate" class="form-control validate[required]" value="" readonly> 
+							 </div>		
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Check Number <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="checkNumber" id="checkNumber"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Customer <i class='required'>*</i></span><br>
+                           
+																						 
+								
+																								
+																	
+																		
+																		<select name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber" class="validate[required]" >
+									<option value>-Please select-</option>
+										
+									</select>
+																																											
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																		</div>
+								<!-- add div many to one button and layout -->				
+																																																																												
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_payment_btn" type="button" onclick="create_payment('add_payment_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Payment_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Payment_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+										
+		
+		
+				
+
+<div id="edit_payment_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Paymenteditformheader">
+								Edit Payment
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_payment_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="id" id="id">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Amount <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="amount" id="amount" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Payment Date <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																								
+							<div class="input-prepend input-group editdatetimetypeclass" style="margin-left:-70px !important;">
+							   <span class="add-on input-group-addon"><i class="icon-th"></i></span><input type="text" style="width: 160px" id="paymentDate" class="form-control timetype validate[required]" value=""> 
+							 </div>		
+																					
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Check Number <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="checkNumber" id="checkNumber"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													  								                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Customer <i class='required'>*</i></span><br>
+                         
+																						 
+						
+								
+																																	
+																											<select name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber"  class="validate[required]  inputDown" >
+									<option value>-Please Select-</option>
+										
+									</select>
+																																																	
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																		</div>
+								
+				
+								
+				
+				
+				
+				
+				
+				
+																																																																												
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_payment_btn" type="button" onclick="edit_payment('edit_payment_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Payment_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('payment')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Payment_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_payment_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_payment"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Payment_formEdit"  onclick="ViewEditpayment()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="payment_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Amount  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="amount" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Payment Date  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="paymentDate" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Customer </div>
+
+					<div class="profile-info-value">
+												<span  id="customer.firstName"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Payment_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Payment_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Payment_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="payment_history_tab" class="tab-pane active">
+														<div class="payment_history_slimscroll_div">
+															<div id="payment_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+							
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="paymentfilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_payment_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#paymentfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="paymentfilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Amount</span>
+                  
+                          		
+																						
+                                               
+                              <input type="text" class="integersallow text-field" name="amount" id="amount" />
+																																																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Payment Date</span>
+                  
+                          		
+																																																					  <div class="paymentDateSelectBox">
+									<select id="paymentDate-selectId" class="inputDown" onchange="checkDatePlugin(this.value,id,'payment')">  
+										<option value='none'>Any Time</option>
+										<option value='between'>Between dates</option>
+										<option value='before'>On and before date</option> 
+										<option value='after'>On and after date</option> 
+										<option value='15'>Last 15 Days</option>  
+										<option value='specific'>Specific Date</option>								 
+										<option value='7'>This Week</option>									
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										<option value='0'>Today</option>	
+										<option value='1'>Yesterday</option>
+									  </select> 
+								 </div>
+								<div class="row-fluid input-prepend paymentDateBetweenDate" style="width: 200px; display:none" >
+									<span class= "add-on"> <i class= "icon-calendar "></i> </span>
+									<input class="paymentDateBW" style="width: 135px;" type="text" name="paymentDate-betweendate" id="paymentDate-betweendate" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('paymentDateSelectBox','paymentDateBetweenDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>
+
+								<!--<div class="input-append date paymentDateOneDate"  data-date-format="yyyy-mm-dd" style="display:none" >
+									<input class="span2 validate[required] dateinput" size="16" type="text" id="paymentDate-date" value="" readonly/><span class="add-on"><i class="icon-th"></i></span>
+									<div class="table_close float_left" style="float: right;margin-right: -17px;margin-top: 8px;"onclick="openSelectBox('paymentDateSelectBox','paymentDateOneDate')" data-toggle="tooltip" title="Close" data-animation="true"></div>	
+								</div>-->
+
+								<div class="row-fluid input-prepend paymentDateOneDate" style="width: 200px; display:none">
+									<span class="add-on"> <i class="icon-calendar"></i> </span>
+									<input class="validate[required] dateinput" style="width: 135px;" type="text" name="paymentDate-date" id="paymentDate-date" data-date-format="yyyy-mm-dd" readonly>
+									<div class="table_date_delete float_left" onclick="openSelectBox('paymentDateSelectBox','paymentDateOneDate')" style="float: right; margin-top: 6px;" data-toggle="tooltip" title="Close" data-animation="true"></div>
+								</div>					 
+									 
+																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Check Number</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="checkNumber" id="checkNumber"/>
+							
+																																																												
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Customer</span>
+                  
+                          		
+																																																															
+																		<select multiple name="customer.customerNumber" id="customer.firstName" value="customer.customerNumber" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Creator</span>
+                  
+                          		
+																																																															
+																		<select multiple name="creator.userid" id="creator.username" value="creator.userid" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Last Modifier</span>
+                  
+                          		
+																																																															
+																		<select multiple name="lastModifier.userid" id="lastModifier.username" value="lastModifier.userid" class="inputDown">
+									<option value='null'>All</option>
+										
+									</select>
+									
+																
+														
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="paymentSortBy" class="inputDown sortbydropdown" onchange="paymentSortByHighLightSelectedHeader('payment')">
+									 
+									 																										
+																				<option value='amount' >Amount</option>  
+																																																								
+																				<option value='paymentDate' >Payment Date</option>  
+																																																								
+																				<option value='checkNumber' >Check Number</option>  
+																																																																															
+																														<option value='customer.customerNumber'>Customer</option>
+																																																																																																																
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('payment',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_payment"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_payment"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchPaymentData(fiql_payment_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_payment_div"></div>
+		<div id="error_500_payment_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="payment_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#payment_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deletePaymentEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="payment_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Payment RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deletePaymentEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setPaymentPaginationValue() {
+		$('#paymentpagenovalue').html(1); 
+		$('#fiql_payment_form')[0].reset();
+		pageulimit= eval($('#payment_pagination_value').val()-1);
+		pagellimit=0;
+		$("#payment_pagination_next").css("display", "");
+		$("#payment_pagination_pre").css("display", "");
+		$('#payment_pagination #payment_page_llimit').val(pagellimit);
+		$('#payment_pagination #payment_page_ulimit').val(pageulimit);
+		$("#payment_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_payment_form #sort_payment').val();
+        var ordertypecall= $('#fiql_payment_form #sort_type_value_payment').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlPaymentParam="";
+				sendGETRequest(context+"/rest/Payment/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getPaymentDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('payment',$("#fiql_payment_form #sort_payment").val());
+		},1000);
+	}
+
+	$('#payment_main_div #error_404_payment_div').load(context+"/pages/error-404.html");
+	$('#payment_main_div #error_500_payment_div').load(context+"/pages/error-500.html");
+	
+		    
+	    var today = localizeDateString(new Date(),dateFormat);
+		$('#add_payment_form .adddatetype').attr("value",today);
+		$('#add_payment_form .adddatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+		$('#edit_payment_form .editdatetype').daterangepicker({singleDatePicker: true, format:dateFormat });
+		$('#add_payment_form .adddatetimetypeclass').datetimepicker({language: 'pt-BR', format:dateTimeFormat
+		});
+		$('#edit_payment_form .editdatetimetypeclass').datetimepicker({language: 'pt-BR', format:dateTimeFormat
+		});
+		$('.datepicker-days .table-condensed tbody').click(function(){
+		$('.datepicker-dropdown').css('display','none');
+		});
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlPaymentParam ="";
+var Paymentflag=0;
+
+$('#payment_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#payment_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#payment_grid').contextmenu({
+	target: '#payment_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#payment_pagination #payment_page_llimit').val(pagellimit);
+$('#payment_pagination #payment_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Payment_home").html(index_home);
+
+if(hasValue(payment_breadcrumb))
+	$("#Payment_page_breadcrumbs").html(payment_breadcrumb);
+
+if(hasValue(Payment_thead_sortby))
+			$("#paymentfilterTab #sortBy_span").html(Payment_thead_sortby);
+if(hasValue(Payment_thead_modifiedTime))
+			$("#paymentfilterTab #modifiedTime_span").html(Payment_thead_modifiedTime);
+if(hasValue(Payment_thead_createdTime))
+			$("#paymentfilterTab #createdTime_span").html(Payment_thead_createdTime);
+if(hasValue(Payment_viewdetail))
+			$("#details_payment_div #view_Payment").html(Payment_viewdetail);
+if(hasValue(Payment_thead_lastModifier))
+			$("#details_payment_div #Payment_detail_modifier").html(Payment_thead_lastModifier);
+if(hasValue(Payment_thead_creator))
+			$("#details_payment_div #Payment_detail_creator").html(Payment_thead_creator);
+if(hasValue(Payment_formCancel))
+			$("#Payment_formCancel").html(Payment_formCancel);
+if(hasValue(Payment_formUpdate))
+			$("#Payment_formUpdate").html(Payment_formUpdate);
+if(hasValue(Payment_formReset))
+			$("#Payment_formReset").html(Payment_formReset);
+if(hasValue(Payment_formCreate))
+			$("#Payment_formCreate").html(Payment_formCreate);
+
+if(hasValue(Payment_addPayment))
+			$("#Payment_addPayment").html(Payment_addPayment);
+if(hasValue(Payment_head_history))
+			$("#Payment_head_history").html(Payment_head_history);
+if(hasValue(Payment_head_Activities))
+			$("#Payment_head_Activities").html(Payment_head_Activities);
+if(hasValue(Payment_task_tab))
+			$("#payment_task_tab_link").html(Payment_task_tab);
+if(hasValue(Payment_comment_tab))
+			$("#payment_comment_tab_link").html(Payment_comment_tab);
+if(hasValue(Payment_comment_tab))
+			$("#payment_comment_modal #myModalLabel").html(Payment_comment_tab);
+
+if(hasValue(Payment_formEdit))
+			$("#Payment_formEdit").html("<i class='icon-edit bigger-110'></i>"+Payment_formEdit);
+
+if(hasValue(Paymentcreateformheader))
+			$("#Paymentcreateformheader").html(Paymentcreateformheader);
+if(hasValue(Paymenteditformheader))
+			$("#Paymenteditformheader").html(Paymenteditformheader);
+if(hasValue(pagination_page_txt))
+			$("#payment_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Payment_thead_amount_Lbl").html(Payment_thead_amount);
+            $("#Payment_thead_paymentDate_Lbl").html(Payment_thead_paymentDate);
+            $("#Payment_thead_checkNumber_Lbl").html(Payment_thead_checkNumber);
+              $("#Payment_thead_customer_Lbl").html(Payment_thead_customer);
+            $("#Payment_thead_creator_Lbl").html(Payment_thead_creator);
+            $("#Payment_thead_lastModifier_Lbl").html(Payment_thead_lastModifier);
+            $("#Payment_thead_modifiedTime_Lbl").html(Payment_thead_modifiedTime);
+            $("#Payment_thead_createdTime_Lbl").html(Payment_thead_createdTime);
+  
+  	$("#Payment_thead_amount_Flt").html(Payment_thead_amount);
+    	$("#Payment_thead_paymentDate_Flt").html(Payment_thead_paymentDate);
+    	$("#Payment_thead_checkNumber_Flt").html(Payment_thead_checkNumber);
+      	$("#Payment_thead_customer_Flt").html(Payment_thead_customer);
+    	$("#Payment_thead_creator_Flt").html(Payment_thead_creator);
+    	$("#Payment_thead_lastModifier_Flt").html(Payment_thead_lastModifier);
+    	$("#Payment_thead_modifiedTime_Flt").html(Payment_thead_modifiedTime);
+    	$("#Payment_thead_createdTime_Flt").html(Payment_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Payment_permission){
+		$("#payment_breadcrumbs #plus").css("display","");	
+		$("#payment_breadcrumbs #plus_bar").css("display","");
+		$("#payment_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#payment_breadcrumbs #payment_Quick_UL").addClass("pull-right");
+	$("#payment_breadcrumbs #plus").css("display","none");
+	$("#payment_breadcrumbs #plus_bar").css("display","none");
+	$("#payment_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function paymentSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#paymentSortBy').val());
+}
+
+             var payment_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(payment_richtextfields))  
+					{
+					if(create_Payment_permission){
+					$("#payment_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Payment_permission){
+					$("#payment_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#paymentquickFilter').blur(function() {
+					$('#paymentquickFilterDiv').css('display','none');
+					$('#paymentquickFilter').val('');	
+					});	
+					
+					$("#paymentfilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

@@ -1,0 +1,38 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to Profile.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          Profile_resource.txt
+
+*** Test Cases ***
+Valid profile_ChangePassword
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Click profile
+    Open profile
+    Click profile_change_password
+    Input profile_oldPassword    admin
+    Input profile_newPassword    admin
+    Input profile_confirmpassword    admin
+    Create profile_change_password_btn
+    
+Valid edit profile
+    Open editprofile_btn
+    Input editprofile_email    admin@changeit.com
+    Input editprofile_firstname    App
+    Input editprofile_lastname    Admin
+    Input editprofile_telephone    9827427013
+    CLick edit_save_btn    
+
+Valid profile_change_language
+    Click profile_change_language
+    Select profile_language
+    Create save_language_btn
+
+

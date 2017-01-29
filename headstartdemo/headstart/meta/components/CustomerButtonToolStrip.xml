@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="CrudButtonToolStrip" type="ToolStrip">
+  <attributes>
+    <attr name="id">CustomerButtonToolStrip</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="width">30</attr>
+    <attr name="membersMargin">10</attr>
+    <attr name="vertical">true</attr>
+  </attributes>
+  <ComponentContainer/>
+</Component>
+

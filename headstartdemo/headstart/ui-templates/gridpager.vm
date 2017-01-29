@@ -1,0 +1,194 @@
+isc.ClassFactory.defineClass("GridPager", "VLayout");
+
+isc.GridPager.addProperties({
+	currentLowerLimit:0,
+	currentUpperLimit:0,
+
+	_DefaultPageSize:10,
+	_PageSize:0,
+	_ButtonContainer:null,
+    _EventIdentifier:null,
+	_PreviousData:true,
+    initWidget : function () {
+    
+        this.Super("initWidget", arguments)
+        if (!this.grid) {
+            this.logWarn("GridPager class requires a specified 'grid' property");
+            return;
+        }
+
+        if (!this.pageSize){
+			this.currentUpperLimit=this._DefaultPageSize-1;
+			this._PageSize=this._DefaultPageSize;
+		}
+		else{
+			this.currentUpperLimit=this.pageSize-1;
+			this._PageSize=this.pageSize;
+		}
+
+        // handle being passed an ID
+        if (isc.isA.String(this.grid)) this.grid = window[this.grid];
+        
+        // Observer initialize the page controls
+        this.observe(this.grid, "dataChanged", "observer.firstPage()");
+
+        // grid shows up at the top of the VLayout
+        //this.addMember(this.grid);
+
+        // create the footer - HLayout to contain controls / totals information
+        this.makeFooter();
+        this.addMember(this.footer);
+        
+       
+        // have the paging controls be right-aligned in the footer
+        this.footer.addMember(isc.LayoutSpacer.create({width:"*"}));
+        
+        // create the pager controls
+        this.pagerControls = this.makePagerControls();
+        this.footer.addMember(this.pagerControls);
+        
+        
+        return this.Super("initWidget", arguments);
+    },
+    
+   
+    // Footer - will contain total label and page navigation controls
+    footerHeight:20,
+    
+    makeFooter : function () {
+        // Footer: an HLayout containing the 'total' label and the paging controls
+        this.footer = isc.HLayout.create({
+            autoDraw:false,
+            height:this.footerHeight, overflow:"hidden",
+            memberMargin:10,
+            layoutLeftMargin:5, layoutRightMargin:5
+        });
+        return this.footer;
+    },
+
+    // pager navigation controls
+    pagerButtonWidth:20,
+    
+    makePagerControls : function () {
+       
+        buttons = [];
+		this._ButtonContainer=buttons;
+		buttonsProp=buttons;
+        buttons.add(isc.Label.create({
+            autoDraw:false,
+            width:this.pagerButtonWidth,            
+            align:"center",            
+            cursor:"hand",
+			icon: '[SKIN]actions/prev.png',
+            gridPager:this,
+            click:function () {
+				this.gridPager.previousPage();
+            }
+        }));
+        
+        buttons.add(isc.Label.create({
+            autoDraw:false,
+            contents:this.currentLowerLimit,
+            align:"center",            
+            width:this.pagerButtonWidth,            
+            gridPager:this
+        }));
+
+        buttons.add(isc.Label.create({
+            autoDraw:false,
+            contents:" - ",
+            align:"center",            
+            width:this.pagerButtonWidth,            
+            gridPager:this
+        }));
+
+        buttons.add(isc.Label.create({
+            autoDraw:false,
+            contents:this.currentLowerLimit,
+            align:"center",            
+            width:this.pagerButtonWidth,            
+            gridPager:this
+        }));
+		
+        buttons.add(isc.Label.create({
+            autoDraw:false,
+            align:"center",            
+            width:this.pagerButtonWidth,            
+            cursor:"hand",
+			icon: '[SKIN]actions/next.png',
+            gridPager:this,
+            click:function () {
+				this.gridPager.nextPage();
+            }
+        }));
+        
+        return isc.ToolStrip.create({
+            width:1, overflow:"visible",
+            styleName:"normal",
+            members:buttons,
+            autoDraw:false
+        })
+    },
+    firstPage : function () {
+			this.currentLowerLimit=0;
+			this.currentUpperLimit=this._PageSize-1;
+			this._ButtonContainer[1].setContents(this.currentLowerLimit+1);
+			this._ButtonContainer[3].setContents(this.currentUpperLimit+1);
+			this.ignore(this.grid,"dataChanged");
+    },
+
+    nextPage : function () {
+			this.currentLowerLimit=parseInt(this._ButtonContainer[3].contents);
+			this.currentUpperLimit=parseInt(this._ButtonContainer[3].contents)+this._PageSize-1;
+
+			var emptyArray2=[];
+			this.grid.setData(emptyArray2);
+
+			this.grid.fetchData(null,
+				function (dsResponse,data, dsRequest){
+					if (data.isEmpty()){
+						dsRequest.gridPager.grid.setData(dsRequest.gridPager._PreviousData);
+
+						dsRequest.gridPager.currentUpperLimit=parseInt(dsRequest.gridPager._ButtonContainer[1].contents)-1-1;
+						dsRequest.gridPager.currentLowerLimit=parseInt(dsRequest.gridPager._ButtonContainer[1].contents)-dsRequest.gridPager._PageSize-1;
+						isc.warn("No more data to fetch.");
+
+					}
+					else{
+						dsRequest.gridPager._ButtonContainer[1].setContents(dsRequest.gridPager.currentLowerLimit+1);
+						dsRequest.gridPager._ButtonContainer[3].setContents(dsRequest.gridPager.currentUpperLimit+1);  
+						dsRequest.gridPager._PreviousData=data;
+
+					}
+
+				},	{
+					"gridPager" :	this
+					}
+			);
+		},
+
+    previousPage : function () {
+
+			if(this.currentLowerLimit <= 0){
+				isc.warn("No more data to fetch.");
+				return;
+			}
+			this.currentUpperLimit=parseInt(this._ButtonContainer[1].contents)-1-1;
+			this.currentLowerLimit=parseInt(this._ButtonContainer[1].contents)-this._PageSize-1;
+
+			var emptyArray1 = [];
+			this.grid.setData(emptyArray1);
+			this.grid.fetchData();
+
+			this._ButtonContainer[1].setContents(this.currentLowerLimit+1);
+			this._ButtonContainer[3].setContents(this.currentUpperLimit+1);
+	},
+
+    setInitialLimit : function () {
+			this.currentLowerLimit=0;
+			this.currentUpperLimit=this._PageSize-1;
+			this._ButtonContainer[1].setContents(this.currentLowerLimit+1);
+			this._ButtonContainer[3].setContents(this.currentUpperLimit+1);
+			this._PreviousData=this.grid.data;
+	}
+});

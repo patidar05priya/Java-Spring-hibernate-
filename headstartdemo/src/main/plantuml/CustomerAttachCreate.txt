@@ -1,0 +1,28 @@
+@startuml
+title Create CustomerAttach Scenario
+participant User
+User -> CXFServlet: POST, CustomerAttach
+activate CXFServlet
+CXFServlet -> CustomerAttach: << create >>
+activate CustomerAttach
+CustomerAttach -> CXFServlet: << instance >>
+deactivate CustomerAttach
+CXFServlet -> CustomerAttachRestImpl: create(:customerattach)
+activate CustomerAttachRestImpl
+CustomerAttachRestImpl -> CustomerAttachServiceDao: create(:customerattach)
+activate CustomerAttachServiceDao
+CustomerAttachServiceDao -> CustomerAttachJPADao: create(:customerattach)
+activate CustomerAttachJPADao
+CustomerAttachJPADao -> EntityManager: save(:customerattach)
+activate EntityManager
+EntityManager -> CustomerAttachJPADao: << persisted customerattach >>
+deactivate EntityManager
+CustomerAttachJPADao -> CustomerAttachServiceDao: << persisted customerattach >>
+deactivate CustomerAttachJPADao
+CustomerAttachServiceDao -> CustomerAttachRestImpl: << persisted customerattach >>
+deactivate CustomerAttachServiceDao
+CustomerAttachRestImpl -> CXFServlet: << persisted customerattach >>
+deactivate CustomerAttachRestImpl
+CXFServlet -> User: marshalled customerattach XML
+deactivate CXFServlet
+@enduml

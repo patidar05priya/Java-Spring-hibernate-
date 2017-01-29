@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://easy-themes.tk/themes/preview/ace/profile.html -->
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>User Profile Page</title>
+		<meta name="description" content="3 styles with inline editable feature">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--page specific plugin styles-->
+		<!--fonts-->
+	</head>
+
+	<body>
+
+		<div class="newbreadcumb" id="breadcrumbs">
+			<div class="breadcrumb-button">
+				<i class="icon-user bredCrumICon"></i>
+				<span class="breadcrumb-label" id="profile_page_breadcrumbs"></span>
+			</div>
+		</div>
+
+		<div class="page-content">
+			<div style='display:none'>
+				<h1 id="profile_UserTitle"></h1>
+			</div><!--/.page-header-->
+		</div>
+
+		<!-- Profile detail start-->
+		<div style="padding: 20px 20px 20px 45px;"> <!-- class="user-detail-view" -->
+		    <div class="user-info-box">
+
+		        <div class="row white-bg">
+		            <div class="span2" align="center">
+		                <div class="user-img">
+		                    <img id="headerUserImage" style="width:100%;height:100%" src="../rest/Users/getUserImage" onerror="ImgError(this);" title="" alt="">
+		                </div>
+		            </div>
+
+		            <div class="span9">
+						<!-- user-details start-->
+		                <div class="user-details" id="userDetail">
+		                    <div class="span8">
+		                        <!--<h1 id="headerUserName"></h1>
+									<span id="headerUserRole"></span>
+									<div class="user-details-profile" ><span><i class="icon-envelope"></i>&nbsp; <span id="headerUserEmail"></span></span> <span><i class="icon-phone"></i>&nbsp;<span id="headerUserTelephone"></span> </span> <span><span class="role"></span> <span id="headerUserRolesSmall"></span></span></div>-->
+		                        <div class="">
+		                            <!--user-details-profile-->
+		                            <div>
+		                                	<h2 id="headerUserName" class="blue smaller"></h2>
+		
+		                                	<h4 id="headerUserRole" class="smaller"></h4>
+		
+		                                	<h4 id="headerUserEmail" class="smaller"></h4>
+		
+		                                	<h4 id="headerUserTelephone" class="smaller"></h4>
+				
+											<span>
+												<span class="role"></span>
+												<span id="headerUserRolesSmall"></span>
+											</span>
+		                            </div>
+		                        </div>
+		                        <div class="tabheadermobile">
+		                            <div id="profile_change" class="btn btn-mini btn-info" style="padding: 2px;text-align: center; display: inline; margin: 10px;">	<a href="#Change_profile_pic" id="change_profile_act" style='margin-left: 10px;' data-toggle="modal"><span id="profile_ChangeProfilePic" class='white'>Change Profile Picture</span></a>
+		
+		                            </div>
+		                            <div id="password_change" class="btn btn-mini btn-info" style="padding: 2px; text-align: center; display: inline; margin: 10px;">	<a href="#Change_profile_password" id="change_password_act" style='margin-left: 10px;' data-toggle="modal"><span class='white' id="profile_ChangePassword">Change Password</span></a>
+		
+		                            </div>
+		                            <div id="language_change" class="btn btn-mini btn-info" style="padding: 2px; text-align: center; display: inline; margin: 10px;">	<a href="#Change_profile_language" id="change_language_act" onclick="setUserDataPrefrences()" style='margin-left: 10px;' data-toggle="modal"><span class='white' id="profile_Changelanguage">Change Preferences</span></a>
+		
+		                            </div>
+		                            <div id="address_change" class="btn btn-mini btn-info" style="padding: 2px; text-align: center; display: inline; margin: 10px;">	<a href="#profile_Address_Modal" id="change_address_act" style='margin-left: 10px;' data-toggle="modal"><span class='white' id="profile_ChangeAddress">Edit Address</span></a>
+		
+		                            </div>
+		                        </div>
+		
+		                        <div style="display:none;" class="buttonmobile">
+									<a href="#Change_profile_pic" id="change_profile_act" class="password-contact-links" style='margin-left: 10px;' data-toggle="modal"><i class="icon-user white"></i></a>
+									
+									<a href="#Change_profile_password" id="change_password_act" class="password-contact-links" style='margin-left: 10px;' data-toggle="modal"><i class="icon-key white"></i></a>
+		
+									<a href="#Change_profile_language" id="change_language_act" onclick="setUserDataPrefrences()" class="password-contact-links" style='margin-left: 10px;' data-toggle="modal"><i class="icon-lightbulb white"></i></a>
+									
+									<a href="#profile_Address_Modal" id="change_address_act" class="password-contact-links" style='margin-left: 10px;' data-toggle="modal"><i class="icon-save white"></i></a>
+		                        </div>
+		                    </div>
+		
+		                    <div class="span1">
+		                        <div class="pull-right">
+		                            <!--Edit-->
+		                            <img src="../images/edit_view.png" id="edit_Profile_button" onclick="openEditScreenForProfile();" style="margin-top: 50%; margin-left: 20%;" alt="Edit" title="Edit" class="cursor-pointer">
+		                        </div>
+		                    </div>
+		                </div>
+		                <!-- user-details end-->
+		            </div>
+		            <!-- span9 end-->
+		        </div>
+		
+		        <div class="row white-bg" style="margin-top: 1%;">
+		            <!--Personal Information view start-->
+		            <div class="personal-info-form" id="userProfileDiv">
+						<h1 id="view_personal_info_label">Personal Information</h1>
+		
+		                <form class=" form-horizontal pull-left">
+		                    <div class="pi-form" id="personalInfoDiv">
+		                        <div class="form-row">
+		                            <div class="col-1-labels" id="profile_UserName"></div>
+		                            <div class="col-2-fields"><span id="username"></span></div>
+		                        </div>
+		                        <div class="form-row">
+		                            <div class="col-1-labels" id="profile_Email"></div>
+		                            <div class="col-2-fields"><span id="email"></span></div>
+		                        </div>
+		                        <div class="form-row">
+		                            <div class="col-1-labels" id="profile_FirstName"></div>
+		                            <div class="col-2-fields"><span id="firstname"></span></div>
+		                        </div>
+		                        <div class="form-row">
+		                            <div class="col-1-labels" id="profile_LastName"></div>
+		                            <div class="col-2-fields"><span id="lastname"></span></div>
+		                        </div>
+		                        <div class="form-row">
+		                            <div class="col-1-labels" id="profile_Telephone"></div>
+		                            <div class="col-2-fields"><span id="telephone"></span></div>
+		                        </div>
+		                        <span class="hide" id="userid"></span>
+								<span class="hide" id="enabled"></span>
+		                    </div>
+		                </form>
+		                <div class="clear"></div>
+		            </div>
+		
+		            <!--Personal Information Edit start-->
+		            <div class="personal-info-form" id="userProfileDivEdit" style="display:none;">
+						<h1 id="edit_personal_info_label">Personal Information</h1>
+		
+		                <div class="top-edit-btn" style="float:right; margin-top:-35px;"><a href="javascript:void(0)" onclick="openViewScreenForProfile()" class="btn btn-mini btn-info width-60">Cancel</a></div>
+		
+		                <div class="top-edit-btn top-edit-btn_margin" style="float:right; margin-top:-35px; margin-right: 15px;"><a href="javascript:void(0)" onclick="updateUserInfo()" class="btn btn-mini btn-info width-60">Save</a></div>
+		
+		                <form class=" form-horizontal pull-left" id="profileEdit">
+		                    <div class="pi-form" id="personalInfoDiv">
+		                        <div class="form-row1">
+		                            <div class="col-1-labels" id="profile_UserNameEdit"></div>
+		                            <div class="col-2-fields">
+		                                <input type="text" id="username" disabled />
+		                            </div>
+		                        </div>
+		                        <div class="form-row1">
+		                            <div class="col-1-labels" id="profile_EmailEdit"></div>
+		                            <div class="col-2-fields">
+		                                <input type="text" id="email" class="validate[required,custom[email]]" />
+		                            </div>
+		                        </div>
+		                        <div class="form-row1">
+		                            <div class="col-1-labels" id="profile_FirstNameEdit"></div>
+		                            <div class="col-2-fields">
+		                                <input type="text" id="firstname" class="validate[required]">
+		                            </div>
+		                        </div>
+		                        <div class="form-row1">
+		                            <div class="col-1-labels" id="profile_LastNameEdit"></div>
+		                            <div class="col-2-fields">
+		                                <input type="text" id="lastname" class="validate[required]" />
+		                            </div>
+		                        </div>
+		                        <div class="form-row1">
+		                            <div class="col-1-labels" id="profile_TelephoneEdit"></div>
+		                            <div class="col-2-fields">
+		                                <input type="text" id="telephone" class="validate[required,custom[onlyNumberSp],maxSize[10],minSize[10]] integers]" />
+		                            </div>
+		                        </div>
+		                        <input class="hide" id="userid" />
+		                        <input class="hide" id="enabled" />
+		                    </div>
+		                </form>
+		                <div class="clear"></div>
+		            </div>
+		        </div>
+
+		    </div>
+	    </div>
+		<!-- Profile detail end-->	
+
+		<!-- Modal window starts -->
+		<div id="edit_profile_Modal" class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:381px;left:40%;width:910px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$('#edit_profile_Modal').fadeOut();"><i class="icon-remove red"></i></button>
+				 <h3 id="myModalLabel"> Edit Profile </h3>
+			</div>
+			<div class="modal-body">
+				<div id="edit_profile_modal" class="grey_block"></div>
+			</div>
+		</div>
+
+		<div id="Change_profile_password" class="modal hide fade cmnt addressModal profileResetPasswModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 32%; height: 38%;">
+			<div class="">
+				<!-- previous class 'modal-header' NEW UI -->
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+				<h4 class="header blue lighter bigger" id="profile_ModalPassword"> <!-- previous class red NEW UI -->
+					Change Password
+				</h4>
+			</div>
+			<div class="modal-body" style="overflow:hidden;">
+				<div id="change_form"></div>
+			</div>
+		</div>
+		
+		<div id="Change_profile_language"  class="modal hide fade cmnt addressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 30%; left: 55%;">
+			 <div class=""> <!-- previous class 'modal-header' NEW UI -->
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+				<!-- <h4 class="red lighter bigger" id=""> Change Preferences </h4> -->
+				<h4 class="header blue lighter bigger" id="profile_Modallanguage"> <!-- previous class 'red' NEW UI -->
+					Change Preferences
+				</h4>
+			</div>
+			 <div class="modal-body" >
+				<div id="change_formlanguage">
+						<div class="control-group">
+							<select name="userlanguage" id="userlanguage" class="width-100">
+								<option value="" id="select_language_label">Select Language</option>
+								<option value="en">English</option>
+								<option value="sp">Spanish</option>
+								<option value="fr">French</option>
+							</select>
+						</div>
+					
+						<div class="control-group">
+							<select name="userCurrency" id="userCurrency" class="width-100">
+								<option value="">Select Currency Format</option>
+								<option value="indian">Indian</option>
+								<option value="europian">Europian</option>
+							</select>
+						</div>
+					
+						<div class="control-group">
+							<select name="userDateFormat" id="userDateFormat" class="width-100">				
+								<option value="">Select Date Format</option>
+								<option value="mmddyyyy_slash">MM/DD/YYYY</option>
+								<option value="yyyymmdd_dash">YYYY-MM-DD</option>
+								<!-- <option value="ddMMyyyy_dash">DD-MMM-YYYY</option>
+								<option value="ddMMyy_dash">DD-MM-YYYY</option>
+								<option value="mmddyy_slash">DD/MM/YY</option>
+								-->
+								<option value="yymmdd_slash">YYYY/MM/DD</option>
+							</select>
+						</div>
+						
+						<div class="offset1">
+							<button onclick="changeUserLanguage();" type="button" class="width-25 btn btn-mini btn-info" id="change_language_save_button_label">
+								Save
+							</button>
+							<button onclick="resetPrefrencestoDefault();" type="button" class="width-70 btn btn-mini btn-info">
+								Restore defaults
+							</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	
+		<div id="Change_profile_pic" class="modal hide fade cmnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
+			<div class="">
+				<!-- previous class 'modal-header' NEW UI -->
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+				<h4 class="header blue lighter bigger" id="profile_ModalPic">Edit Profile Picture</h4>
+			</div>
+			<div class="modal-body" style="overflow:hidden;">
+				<div id="change_form1"></div>
+			</div>
+		</div>
+
+		<div id="profile_Address_Modal" class="modal hide fade cmnt addressmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="">
+				<!-- previous class 'modal-header' NEW UI -->
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+				<h4 class="header blue lighter bigger" id="myModalLabel"> <!-- NEW UI -->
+					Edit Address
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="profile_Address_div" class="">
+					<!-- grey_block -->
+				</div>
+			</div>
+		</div>
+
+	<script src="../js/select2.min.js"></script>
+	<script src="../js/static/Profile.js"></script>
+	<script src="../js/fuelux.spinner.min.js"></script>
+	<script src="../js/bootstrap-editable.min.js"></script>
+	<script src="../js/ace-editable.min.js"></script>
+	<script src="../js/jquery.maskedinput.min.js"></script>
+
+	<!--ace scripts-->
+
+	<!--inline scripts related to this page-->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//jQuery('#profileEdit').validationEngine();
+			if (hasValue(profile_ChangeAddress))
+				$("#profile_ChangeAddress").html(profile_ChangeAddress);
+
+			if (UserLang == "spanish")
+				$("#userlanguage").val('sp');
+			else if (UserLang == "french")
+				$("#userlanguage").val('fr');
+			else
+				$("#userlanguage").val('en');
+				
+			sendGETRequest(context + "/rest/Users/getUserImage?date=" + new Date(), "get_User_Image_Callback", "", "");
+	
+			if (BrowserDetect.browser == "Explorer") {
+				$('#edit_profile').css('display', '');
+				$('#saveButton').css('display', 'none');
+			}
+			getUserProfileDetails();
+
+			if (hasValue(editAddress_profile))
+				$("#profile_Address_Modal #myModalLabel").html(editAddress_profile);
+			if (hasValue(user_label_personal_information))
+				$("#userProfileDiv #view_personal_info_label").html(user_label_personal_information);
+			if (hasValue(user_label_personal_information))
+				$("#userProfileDivEdit #edit_personal_info_label").html(user_label_personal_information);
+				
+			if (hasValue(profile_h1_userProfilePage))
+				$("#profile_UserTitle").html(profile_h1_userProfilePage);
+			if (hasValue(profile_a_changeProfilePic))
+				$("#profile_ChangeProfilePic").html(profile_a_changeProfilePic);
+			if (hasValue(profile_a_changePassword))
+				$("#profile_ChangePassword").html(profile_a_changePassword);
+			
+			if (hasValue(profile_div_username)) {
+				$("#profile_UserName").html(profile_div_username);
+				$("#profile_UserNameEdit").html(profile_div_username + ":<icon class='required'>*</icon>");
+			}
+			if (hasValue(profile_div_email)) {
+				$("#profile_Email").html(profile_div_email);
+				$("#profile_EmailEdit").html(profile_div_email + ":<icon class='required'>*</icon>");
+			}
+			if (hasValue(profile_div_firstname)) {
+				$("#profile_FirstName").html(profile_div_firstname);
+				$("#profile_FirstNameEdit").html(profile_div_firstname + ":<icon class='required'>*</icon>");
+			}
+			if (hasValue(profile_div_lastname)) {
+				$("#profile_LastName").html(profile_div_lastname);
+				$("#profile_LastNameEdit").html(profile_div_lastname + ":<icon class='required'>*</icon>");
+			}
+			if (hasValue(profile_div_Country)) {
+				$("#profile_Country").html(profile_div_Country);
+				$("#profile_CountryEdit").html(profile_div_Country + ":<icon class='required'>*</icon>");
+			}
+
+			if (hasValue(profile_Changelanguage))
+				$("#Change_profile_language #profile_Modallanguage").html(profile_Changelanguage);
+				$("#profile_Changelanguage").html(profile_Changelanguage);
+
+			if (hasValue(select_language_label))
+				$("#change_formlanguage #select_language_label").html(select_language_label);
+
+			if (hasValue(change_language_save_button_label))
+				// $("#change_formlanguage #change_language_save_button_label").html("<i class='icon-lightbulb'></i>"+change_language_save_button_label);
+				$("#change_formlanguage #change_language_save_button_label").html(change_language_save_button_label);
+
+			if (hasValue(profile_div_telephone)) {
+				$("#profile_Telephone").html(profile_div_telephone);
+				$("#profile_TelephoneEdit").html(profile_div_telephone + ":<icon class='required'>*</icon>");
+			}
+
+			if (hasValue(profile_a_changeProfilePic))
+				$("#profile_ModalPic").html(profile_a_changeProfilePic);
+
+			if (hasValue(profile_a_changePassword))
+				// $("#profile_ModalPassword").html('<i class="icon-key"></i>'+profile_a_changePassword);
+				$("#profile_ModalPassword").html(profile_a_changePassword);
+
+			if (hasValue(profile_breadcrumb))
+				$("#profile_page_breadcrumbs").html(profile_breadcrumb);
+			
+			if (hasValue(profile_div_city)) {
+				$("#profile_City").html(profile_div_city);
+				$("#profile_CityEdit").html(profile_div_city + ":<icon class='required'>*</icon>");
+			}
+
+			if (hasValue(profile_div_state)) {
+				$("#profile_State").html(profile_div_state);
+				$("#profile_StateEdit").html(profile_div_state + ":<icon class='required'>*</icon>");
+			}
+			
+			if (hasValue(profile_button_save))
+				$("#savebtn").html(profile_button_save);
+
+			/*if (hasValue(profile_edit_label))
+				// $("#userProfileDiv #profile_edit_label").html("<i class='icon-save bigger-110'></i>"+profile_edit_label);
+				$("#userProfileDiv #profile_edit_label").html(profile_edit_label);*/
+		});
+
+		function changeUserLanguage() {
+			var userLanguage = $('#userlanguage').val();
+			var userCurrency = $('#userCurrency').val();
+			var userDateFormat = $('#userDateFormat').val();
+			var userConfig = LOGIN_USER_CONFIG_LANGUAGE_JSON;
+			var id;
+			var timeZone = "IST";
+			if (hasValue(userConfig)) {
+				id = userConfig.id;
+			}
+			var userlanguageJsonString = "{";
+			if (hasValue(userLanguage))
+				userlanguageJsonString += "\"userLanguage\":\"" + userLanguage + "\",";
+			if (hasValue(userCurrency))
+				userlanguageJsonString += "\"currencyFormat\":\"" + userCurrency + "\",";
+			if (hasValue(userDateFormat))
+				userlanguageJsonString += "\"dateFormat\":\"" + userDateFormat + "\",";
+			if (hasValue(LOGIN_USER_ID))
+				userlanguageJsonString += "\"userid\":{\"userid\":\"" + LOGIN_USER_ID + "\"},";
+			if (hasValue(id))
+				userlanguageJsonString += "\"id\":\"" + id + "\",";
+			userlanguageJsonString += "\"timeZone\":\"" + timeZone + "\",";
+			userlanguageJsonString = userlanguageJsonString.substring(0, (userlanguageJsonString.length - 1));
+			userlanguageJsonString += "}";
+			sendPUTRequest(context + "/rest/UserConfig/update/", userlanguageJsonString, "changeUserLanguageCallback", "");
+		}
+
+		function changeUserLanguageCallback(XMLHttpRequest, data, rpcRequest) {
+			RemoveUniqueLoading();
+			if (!checkException(XMLHttpRequest.responseText)) {
+				if (statuscheck(XMLHttpRequest.status, 'office')) {
+					if (XMLHttpRequest.status == 200) {
+						$('#Change_profile_language').fadeOut();
+						$('.close').click();
+						showCenteredLoading("Language changed successfuly");
+						window.location.href = context + "/jsp/index.jsp";
+					}
+				}
+			}
+		}
+	</script>
+
+	<iframe name="UploadImgIFrame" style='display:none;'>parent.document.imageUploaded(true);</iframe>
+
+</body>
+</html>

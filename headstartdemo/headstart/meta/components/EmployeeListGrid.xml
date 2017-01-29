@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">EmployeeDataSource</attr>
+    <attr name="id">EmployeeListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Employee"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Employee",record.employeeNumber,"employeeNumber")}
+		}	
+			
+			if(deleteEmployee) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">email</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">email</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">extension</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">extension</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">firstName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">firstName</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">jobTitle</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">jobTitle</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">lastName</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">lastName</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">office</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">office</attr>
+        <attr name="dataPath">/office/officeCode</attr>
+        <attr name="entityDataSource">OfficeDataSource</attr>
+        <attr name="entityDisplayField">officeCode</attr>
+        <attr name="entityValueField">officeCode</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">reportsTo</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">int</attr>
+        <attr name="title">reportsTo</attr>
+        <attr name="keyPressFilter">[0-9]</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

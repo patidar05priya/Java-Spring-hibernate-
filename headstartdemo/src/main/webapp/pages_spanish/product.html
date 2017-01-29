@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product</title>
+<meta charset="utf-8">
+<script src="../js/generated/Product.js"></script>
+<!--link rel=" stylesheet" href="../styles/font/ace.min.css"-->
+<script type="text/javascript">
+$(document).ready(function() {
+callEditor();
+getproductTotalCount();
+if(update_Product_permission)
+$('#Product_formEdit').css('display','block');
+
+ $("#product_filter_form").click(function (){
+ 	$("#fiql_product_form").trigger('reset');
+			   $("#productfilterTab").slideToggle();
+	});
+if(BrowserDetect.browser == "Firefox" || BrowserDetect.browser == "Explorer"){
+	$(".address-input").css("margin-left","0px");
+	$(".input-append").css("margin-left","0px");
+	$(".association").css("margin-left","0px");
+	}
+if(BrowserDetect.browser != "Explorer")
+	placeholderDisplay();
+    $('.alphanumericallowsearchform').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;-_ "});
+    $('.searchrestriction').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@~{}<>|:-_ "});
+	$('.alphanumericallowspecial').alphanumeric({allow:"/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;%-_ "});
+	$('.alphanumeric').alphanumeric(); 
+	
+	$('.alphanumericallow').alphanumeric({allow:"., "}); 
+	
+	$('.alphalower').alpha({nocaps:true}); 
+	
+	$('.alpha').alpha({nocaps:false}); 
+	$('.integers').numeric();
+	$('.integersallow').numeric({allow:"."});
+	$('.alphanumericcustom').alphanumeric({ichars:'.1a'}); 
+	jQuery("#add_product_form").validationEngine();
+		jQuery("#edit_product_form").validationEngine();
+		refreshAllProductList();
+		refreshAllFkProductList();
+		jQuery("#product_formcomment").validationEngine();
+		$("#modifiedTimechk_product_sort").attr('checked',true);
+		window.setTimeout(function(){
+		setSort('product',$("#fiql_product_form #sort_product").val())},1000);
+				 $('#product_details_view_slimscroll_div').slimScroll({height: '360px'});
+		  $('.product_history_slimscroll_div').slimScroll({height: '350px'});
+			});
+</script>
+<style>
+	#product_grid tbody td {
+		white-space: nowrap !important;
+		overflow:hidden ;
+		height: 1.5em;
+		max-width:30px !important;
+		text-overflow:ellipsis !important;
+	}	
+	#product_grid thead th{
+		word-wrap: break-word !important;
+		overflow:hidden !important;
+		text-overflow:ellipsis !important;
+		text-overflow:initial !important\9;
+	}
+	#product_grid thead .Action{
+		text-align: center !important;
+		text-align: center \9!important;
+	}
+</style>
+</head>
+<body>
+	
+ <div id="productquickFilterDiv" style="display:none; position: absolute;width: 150px;margin-top: 46px;"><input type="text" id="productquickFilter" value="" ></div>	
+<div id="product_context_menu">
+   <ul class="dropdown-menu" role="menu" style="padding: 10px;height: 200px; overflow-y: auto; overflow-x: hidden;">
+	  	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='productVendorchk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_productVendor','productVendor');">
+						<span class="lbl" id="Product_thead_productVendor_Lbl">&nbsp;&nbsp;Product Vendor</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='sellPricechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_sellPrice','sellPrice');">
+						<span class="lbl" id="Product_thead_sellPrice_Lbl">&nbsp;&nbsp;Sell Price</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='quantityInStockchk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_quantityInStock','quantityInStock');">
+						<span class="lbl" id="Product_thead_quantityInStock_Lbl">&nbsp;&nbsp;Quantity In Stock</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='productNamechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_productName','productName');">
+						<span class="lbl" id="Product_thead_productName_Lbl">&nbsp;&nbsp;Product Name</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='buyPricechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_buyPrice','buyPrice');">
+						<span class="lbl" id="Product_thead_buyPrice_Lbl">&nbsp;&nbsp;Buy Price</span>
+					</span>
+				</div>
+			</li>
+        	      	      	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='productlinechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_productline','productline');">
+						<span class="lbl" id="Product_thead_productline_Lbl">&nbsp;&nbsp;Productline</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='creatorchk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_creator','creator');">
+						<span class="lbl" id="Product_thead_creator_Lbl">&nbsp;&nbsp;Creator</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='lastModifierchk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_lastModifier','lastModifier');">
+						<span class="lbl" id="Product_thead_lastModifier_Lbl">&nbsp;&nbsp;Last Modifier</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='modifiedTimechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_modifiedTime','modifiedTime');">
+						<span class="lbl" id="Product_thead_modifiedTime_Lbl">&nbsp;&nbsp;Modified Time</span>
+					</span>
+				</div>
+			</li>
+        	  
+	        <li>
+				<div class="select_context">
+					<span>
+					   									
+
+						<input name="enabled" id='createdTimechk_product' type="checkbox" onclick="product_fnShowHide('Product_thead_createdTime','createdTime');">
+						<span class="lbl" id="Product_thead_createdTime_Lbl">&nbsp;&nbsp;Created Time</span>
+					</span>
+				</div>
+			</li>
+            </ul>
+  
+</div>
+
+
+<div class="newbreadcumb">
+        <div class="breadcrumb-button" onclick="openProductListScreen('product')">
+			<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label">Product</span>
+        </div>
+
+         <div class="breadcrumb-button" id="home_product_breadcumbs"  >
+          <span class="breadcrumb-label">&nbsp;</span>
+          <span class="breadcrumb-arrow" style="display:none;"><span></span></span>
+        </div>
+            <div class="breadcrumb-button"  id="add_product_breadcumbs" style="display:none">
+              <span class="breadcrumb-label">				  
+               >&nbsp;&nbsp;&nbsp;<span>Add Product</span> <!-- NEW UI CSS -->
+              </span>
+              <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button" id="edit_product_breadcumbs" style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>Edit Product</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     																	 														   <div class="breadcrumb-button" id="view_product_breadcumbs"  style="display:none">
+          <span class="breadcrumb-label">
+         >&nbsp;&nbsp;&nbsp;&nbsp;<span>View Product</span> <!-- NEW UI CSS -->
+          </span>
+          <span class="breadcrumb-arrow" style="display:none"><span></span></span>
+        </div>
+     
+      </div>
+ 
+				<div class="nav-search" style="display:inline-flex;margin-top: 4px;" id="product_breadcrumbs">
+
+						<!--<img src="../images/filter.png" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="product_quick_filter" onclick="showHideFilterContent('product');"/>-->
+						
+						
+												
+						<i class="icon-custom-filter nav-search-icon" data-toggle="dropdown" title="Filter" href="javascript:void(0)" class="dropdown-toggle admin" id="product_quick_filter" onclick="showHideFilterContent('product');"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+							 <ul class="dropdown-menu quickFilter" role="menu"  id="product_Quick_UL">
+		<li><a tabindex="-1" href="javascript:refreshProductListFromPaginator();">All</a></li>
+	  	  		
+					<li id="productVendor_filter"><a tabindex="-1" href="javascript:openProductTextField('Product Vendor')">Product Vendor </a></li>
+	
+							 
+	     
+    	  		
+					<li id="sellPrice_filter"><a tabindex="-1" href="javascript:openProductTextField('Sell Price')">Sell Price </a></li>
+	
+							 
+	     
+    	  		
+					<li id="quantityInStock_filter"><a tabindex="-1" href="javascript:openProductTextField('Quantity In Stock')">Quantity In Stock </a></li>
+	
+							 
+	     
+    	  		
+					<li id="productName_filter"><a tabindex="-1" href="javascript:openProductTextField('Product Name')">Product Name </a></li>
+	
+							 
+	     
+    	  		
+					<li id="buyPrice_filter"><a tabindex="-1" href="javascript:openProductTextField('Buy Price')">Buy Price </a></li>
+	
+							 
+	     
+    	       
+    	       
+    	  		
+												                
+                                    
+                                    
+                     	                      				<li id="productline_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Productline</a>
+                                         <ul class="dropdown-menu">
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Trucks')">Trucks</a></li>
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Motorcycles')">Motorcycles</a></li>
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Cars')">Cars</a></li>
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Planes')">Planes</a></li>
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Ships')">Ships</a></li>
+																		 <li><a tabindex="-1" href="javascript:openProductTextSelectBox('Productline','Trains')">Trains</a></li>
+																		</ul>
+                                    </li>
+                    
+                     					
+											
+									 
+	     
+    	  		
+									<li id="creator_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Creator</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+									<li id="lastModifier_filter" class="dropdown-submenu pull-left">
+                                         <a tabindex="-1" href="#">Last Modifier</a>
+                                         <ul class="dropdown-menu">
+									
+		</ul>
+         </li>
+									 
+	     
+    	  		
+					<li id="modifiedTime_filter"><a tabindex="-1" href="javascript:openProductTextField('Modified Time')">Modified Time </a></li>
+	
+							 
+	     
+    	  		
+					<li id="createdTime_filter"><a tabindex="-1" href="javascript:openProductTextField('Created Time')">Created Time </a></li>
+	
+							 
+	     
+                    </ul>
+						<!--<img  id="product_filter_form" src="../images/search1.png" style='cursor: pointer;' data-toggle="tooltip" title="Search" data-animation="true"  />-->
+						<i id="product_filter_form" class="icon-custom-search nav-search-icon" style='cursor: pointer;' title="Search" data-toggle="tooltip" data-animation="true"></i>
+
+						<span style="font-size: 24px; color: #A8A5A5;font-weight: normal;" class="sideBarBreadCrumbSpan">|</span>
+						
+															 										 																		 																		 																		 																		 																		 										
+										 										 																		 																		 																		 																		 																		 																		 																						<!--<img id="plus_bar" src="../images/add.png" title="add" onclick="openAddScreenInline('product',product_richtextfields);resetTestEditor('add_product_form') "style="display:block" data-toggle="tooltip" title="Edit" data-animation="true"/>-->
+							<i id="plus_bar" title="Add" class="icon-custom-add nav-search-icon" style='cursor: pointer; display:block;' onclick="openAddScreenInline('product',product_richtextfields);resetTestEditor('add_product_form');" data-toggle="tooltip" data-animation="true"></i>
+							
+							<!--<a id="plus" data-toggle="tooltip" title="add" onclick="openAddScreen('employee')" style="margin-right: 10px; color:#242424; margin-left: 6px;">-->
+							<!--<a  id="plus" data-toggle="tooltip" title="add" onclick="openAddScreenInline('product',product_richtextfields);resetTestEditor('add_product_form')" style="margin-right: 6px; color:#242424; margin-left: 6px;">		
+							<span id="plus_txt" class="bigger-110 no-text-shadow" id="Product_addProduct">Product</span>
+							</a>-->
+							
+															
+						</div><!--#nav-search  add button-->
+
+	
+		
+	
+	
+		<!-- code for Comment and FileAttachment end for modal-->	
+	
+	<div id="product_main_div">
+			<div id="list_product_div" style="padding:10px;">
+					
+				<!-- product_grid start-->
+										<div id="product_grid" class=""></div>
+													
+				<!-- orders_grid end-->
+				<script type="text/javascript">
+									var $path_base = "/";
+								</script>						
+				<!-- product_grid end-->
+				
+				
+				
+				<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="product_pagination" class="ui-pager-control " role="group">
+		<table class="ui-pg-table paginationDivClass">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left" >
+						<div dir="ltr" style="text-align:left;margin-left:10px; font-size:16px;" class="ui-paging-info"><span  id="product_pagination_totalRecord"></span> <span  id="product_totalCount"></span> </div></td><td id="grid-pager_center"  style="white-space: nowrap; width: 341px;text-align:center"><table  style="table-layout:auto;border:0px;padding:0px" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="product_pagination_pre"  onclick="pagPrev('product_pagination','Product','getProductDataPagination','product_page_llimit','product_page_ulimit','productpagenovalue','product',false)"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"><a id="product_page_txt" style='padding-right:10px; font-size:15px;'>Page</a> <span id="productpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span> <!--<input class="ui-pg-input text-field-pagination" id="productpagenovalue" style='width:40px;margin-top:5px; text-align:center;' type="text" size="2" maxlength="7" value="1" disabled>--></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="product_pagination_next"  onclick="pagNext('product_pagination','Product','getProductDataPagination','product_page_llimit','product_page_ulimit','productpagenovalue','product',false)"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px; margin-right: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox"  onChange="setProductPaginationValue(); return false;" id="product_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td>
+																					<td id="grid-pager_right" style="text-align:right;">										
+		<!--<div dir="ltr" id="content"  style="text-align:right;margin-right:10px; font-size:20px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="product_page_llimit" value="">
+								<input type="hidden" id="product_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+
+				
+				
+				
+				
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div id="add_product_div"  class="AddEditBOX">
+			 <div class="page-header-custom" >
+							<h1 class="newheader" id="Productcreateformheader">
+								Add Product
+							</h1>
+						</div>
+					<form class="form-horizontal formular" id="add_product_form" style="text-align:center">	
+				<div class="span12">
+												
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-dark-edit">
+															
+					 
+						<div class="column left">
+                       <span>Product Vendor <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="productVendor" id="productVendor"  class=" alphanumericallowspecial validate[required,maxSize[50] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Sell Price <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="sellPrice" id="sellPrice" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Quantity In Stock <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="quantityInStock" id="quantityInStock" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[5]   ]"   />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+					
+					
+					
+																				<div class="row-light-edit">
+					
+															
+					 
+						<div class="column left">
+                       <span>Product Name <i class='required'>*</i></span><br>
+                           
+															
+                              <input type="text"   name="productName" id="productName"  class=" alphanumericallowspecial validate[required,maxSize[70] ] text-field" />
+                              
+					        															 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Buy Price <i class='required'>*</i></span><br>
+                           
+																						
+                              <input type="text"  name="buyPrice" id="buyPrice" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+								
+																								
+													
+							</div>
+					
+														       
+													
+				                     
+                   
+									
+													
+				  								
+				                     
+                   
+									
+					
+					
+					
+															
+					 
+						<div class="column left">
+                       <span>Productline </span><br>
+                           
+																						 
+								
+																								
+																	
+																			<select name="productline" id="productline" value="productline.productline" >
+										<option value="">-Please select-</option>
+																		<option value="Trucks" > Trucks</option>
+																		<option value="Motorcycles" > Motorcycles</option>
+																		<option value="Cars" > Cars</option>
+																		<option value="Planes" > Planes</option>
+																		<option value="Ships" > Ships</option>
+																		<option value="Trains" > Trains</option>
+																				</select>
+																
+													
+							</div>
+					
+															</div>
+									       
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+													
+				                     
+                   
+									
+																	<!-- add div many to one button and layout -->				
+																																																				    						<div class="row-dark-edit" style="height: 170px;">
+													<div class="left">
+							<span  class="richspan">Product Description <i class='required'>*</i></span>
+
+					<div  id="productDescription"  class="editorcheck validate[required]"  contenteditable="false"  data-prompt-position="topRight:-20,30" type='richDiv'> </div>
+
+								
+							</div>
+
+						</div>
+																																																								
+	
+<!--create ${map1.entityName} one to many dropdown end-->					
+<div class="span10 buttonsBarCustom"  style="margin-top: 10px;text-align:right">
+<button class="btn btn-mini btn-info" id="add_product_btn" type="button" onclick="create_product('add_product_form')">
+<!--<i class="icon-save bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Product_formCreate">Create</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="reset" onclick=" resetTestEditor(this.form.id)">
+<!--<i class="icon-level-up bigger-110"></i>--> <!-- NEW UI -->
+<span class="bigger-110 no-text-shadow" id="Product_formReset">Reset</span>
+</button>	
+</div>
+
+</div><!--end span12 -->
+
+<div class="MandatoryNote" >
+<span><i class="required">*</i> Fields are mandatory</span>
+
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+			
+																		
+		
+				
+
+<div id="edit_product_div" class="AddEditBOX">
+<div class="page-header-custom" >
+							<h1 class="newheader" id="Producteditformheader">
+								Edit Product
+							</h1>
+						</div>
+					<form class="form-horizontal" id="edit_product_form" style="text-align:center">	
+				<div class="span12">
+				<input type="hidden"  name="productCode" id="productCode">
+												                     
+                   
+									
+					
+																				<div class="row-dark-edit">
+															
+					 <div class="column left">
+                       <span>Product Vendor <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="productVendor" id="productVendor"  class="alphanumericallowspecial validate[required,maxSize[50] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Sell Price <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="sellPrice" id="sellPrice" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Quantity In Stock <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="quantityInStock" id="quantityInStock" 
+                                                            class="integers validate[required ,custom[integer] ,maxSize[5]   ]"   />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+					
+																				<div class="row-light-edit">
+					
+															
+					 <div class="column left">
+                       <span>Product Name <i class='required'>*</i></span><br>
+                         
+															
+                              <input type="text"   name="productName" id="productName"  class="alphanumericallowspecial validate[required,maxSize[70] ]" />
+                              
+					        															 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Buy Price <i class='required'>*</i></span><br>
+                         
+																						
+                              <input type="text"  name="buyPrice" id="buyPrice" 
+                                                             class="integersallow validate[required ,custom[number] ,maxSize[22]   ]"  />
+					
+								
+								
+																 
+						
+								
+																													
+							</div>
+					
+					    										 
+													                     
+                   
+									
+													  								                     
+                   
+									
+					
+															
+					 <div class="column left">
+                       <span>Productline</span><br>
+                         
+																						 
+						
+								
+																																	
+																			<select name="productline" id="productline" value="productline.productline" class=" inputDown " >
+										<option value="">-Please Select-</option>
+																		<option value="Trucks" > Trucks</option>
+																		<option value="Motorcycles" > Motorcycles</option>
+																		<option value="Cars" > Cars</option>
+																		<option value="Planes" > Planes</option>
+																		<option value="Ships" > Ships</option>
+																		<option value="Trains" > Trains</option>
+																				</select>
+																						
+							</div>
+					
+					    										</div>
+										 
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+													                     
+                   
+									
+																	
+				
+								
+				
+				
+				
+				
+				
+				
+																																																				  						<div class="row-dark-edit" style="height: 170px;">
+													<div class="left">
+							<span   class="richspan">Product Description <i class='required'>*</i></span>
+							
+							<div  id="productDescription"  class="editorcheck validate[required]"  contenteditable="false"  data-prompt-position="topRight:-20,30" type='richDiv'>
+							</div>
+
+									</div>																					
+								</div>
+						
+																																																								
+
+
+
+				
+<div class="span10 buttonsBarCustom" style="text-align:right; margin-top: 10px;">
+<button class="btn btn-mini btn-info" id="edit_product_btn" type="button" onclick="edit_product('edit_product_form')">
+<!--<i class="icon-save bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Product_formUpdate">Update</span>
+</button>	
+
+<button class="btn btn-mini btn-info" type="button" onclick="openListScreen('product')">
+<!--<i class="icon-level-up bigger-110"></i>-->
+<span class="bigger-110 no-text-shadow" id="Product_formCancel">Cancel</span>
+</button>	
+</div>
+				</div>
+				
+<div class="MandatoryNote" >
+	<span><i class="required">*</i> Fields are mandatory</span>
+</div>
+					</form>
+					<div class='clear'></div>
+			</div>		
+
+
+
+
+
+
+
+
+
+
+
+<div style=" padding: 20px 0px 0px 10px; margin-left: 0px; "  style="margin-top: 2%;" id="details_product_div" >
+<div class="profile-user-info profile-user-info-striped" >
+							<h1 class="newheader">
+								<!--View--> <span id="details_view_product"></span> <!--details-->
+							</h1>
+						
+							<div style="margin-top: -10%; float: right;">
+						<img src="../images/edit_view.png" id="Product_formEdit"  onclick="ViewEditproduct()" style="margin-right: 35px;display:none;" alt="Edit" title="Edit" class="cursor-pointer">
+						
+												
+						
+						</div>
+						<!--slimscroll_div begins -->
+						<div id="product_details_view_slimscroll_div">
+										 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Product Vendor  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="productVendor" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Sell Price  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="sellPrice" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Quantity In Stock  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="quantityInStock" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Buy Price  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="buyPrice" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Product Description  </div>
+
+										<div class="profile-info-value" style="overflow-y: auto;height: 55px;">
+																									<span  id="productDescription" ></span>
+																		</div>
+					</div> 
+																                     					
+													 	                    
+					  								 	 						
+						
+					                      
+                                         
+					
+																                    <div class="profile-info-row">
+					<div class="profile-info-name"> Productline </div>
+
+					<div class="profile-info-value">
+												<span  id="productline"></span>
+					   					</div>
+					</div> 
+								                     					
+													 	 						
+						
+					                      
+                     						  <div class="profile-info-row">
+					<div class="profile-info-name" id="Product_detail_creator">Creator </div>
+
+					<div class="profile-info-value">
+						<span  id="creator.username"></span>
+					</div>
+					</div>    
+                     					
+													 	 						
+						
+					 												  <div class="profile-info-row">
+					<div class="profile-info-name"  id="Product_detail_modifier">Modifier </div>
+
+					<div class="profile-info-value">
+						<span  id="lastModifier.username"></span>
+					</div>
+					</div>    
+                      
+                                          
+                                         
+					
+															
+																	                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Last Modified Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="modifiedTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													 	 						
+						
+					                      
+                                         
+					
+															
+																	 <div class="profile-info-row">
+								<div class="profile-info-name">  Created Time  </div>
+
+										<div class="profile-info-value" >
+																									<span  id="createdTime" type="datetime"></span>
+																		</div>
+					</div> 
+																                     					
+													
+								</div>
+				</div> <!--slimscroll_div ends -->
+			
+								<!-- Code for histroy start-->
+				<div  width="45%"><!-- span5 for histroy start -->
+								<div class="profile-user-info profile-user-info-striped" id="recent-box"><!--widget-box histroy div start-->
+										<div><!--widget-header histroy div start-->
+											<h1  class="newheader" id="Product_head_history">
+												<i ></i>
+												HISTORY
+											</h1>
+											
+										</div><!--widget-header histroy div end-->
+										<div  style="overflow-x:hidden;">
+										<!--widget-body histroy div start-->
+											<div class="widget-main padding-4">
+												<div class="tab-content overflow-visible">
+													<div id="product_history_tab" class="tab-pane active">
+														<div class="product_history_slimscroll_div">
+															<div id="product_history_tabdiv" class="comments white-bg" style="padding: 11px;"></div>
+														</div>
+													</div>	
+												</div><!--/widget-main-->
+											</div>
+										</div>
+										<!--widget-body histroy div end-->
+								 </div><!--widget-box histroy div end-->
+				</div><!-- span5 for histroy end -->
+				
+				<!-- Code for histroy end-->
+								
+							
+	</div>
+		
+		<!--- filter tab starts here-->
+		
+		
+			<!--FilterTab div Starts here-->
+<div class="filterList" id="productfilterTab" style="display:none;"> 
+		       	<form class="form-horizontal" id="fiql_product_form" style="text-align:center">					
+			  <button type="button" class="close" onclick='$("#productfilterTab").slideToggle();' style="/*margin-right: 10px;*/margin-left: 27%; float: none;"><!--<i class="icon-remove red"></i>--> <img id="productfilterCrossImg" src="" /></button>
+		       <!-- List of Building Type Site Category and Rack Type starts on this div-->                
+	
+																																																												
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Product Vendor</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="productVendor" id="productVendor"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Sell Price</span>
+                  
+                          		
+																						
+                                               
+                              <input type="text" class="integersallow text-field" name="sellPrice" id="sellPrice" />
+																																																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Quantity In Stock</span>
+                  
+                          		
+																														<select name="quantityInStock" id="quantityInStock" class="inputDown integersearch">
+									<option value>All</option>
+									<option value="=le=-1">less than 0</option>
+									<option value="==0">equal to 0</option>
+									<option value="=ge=1">greater than 0</option>
+									<option value="=le=100;quantityInStock=ge=0">between 0-100</option>
+								</select>        
+                              <!--<input type="integer" class="integers text-field" name="quantityInStock" id="quantityInStock"/>-->
+																																														
+
+				</div>		
+												
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Product Name</span>
+                  
+                          		
+														
+                            <input type="text" class="searchrestriction text-field" name="productName" id="productName"/>
+							
+																																																												
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+												 
+				 <div class="columnnew left">
+				 	<span style="float: left;">Buy Price</span>
+                  
+                          		
+																						
+                                               
+                              <input type="text" class="integersallow text-field" name="buyPrice" id="buyPrice" />
+																																																						
+
+				</div>		
+												
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+														
+															</div>
+					                   
+					
+					   
+															  										
+						  										
+						                     
+									                 
+										<div class="filterListlevel" >
+										
+									  <input type="hidden" name="productline" id="productline"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="creator" id="creator"/>
+										
+										                   
+					
+					   
+															  										
+						                     
+									                 
+										
+									  <input type="hidden" name="lastModifier" id="lastModifier"/>
+										
+															</div>
+					                   
+					
+					   
+															  										
+						                     
+															  										
+						                     
+															  										
+											<div class="filterListlevel" style="margin-top: -20px;">
+										
+						
+					<div class="columnnew left">
+						  <span style="float: left;" id="createdTime_span">Created Time</span>
+						   
+							 
+									  <select id="createdTime" class="inputDown">  
+									  <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+										</select>
+								
+					   </div><!-- div control-group ends Here-->
+					  
+					
+						<div class="columnnew left">
+						<span style="float: left;"  id="modifiedTime_span">Modified Time</span>
+								
+				
+							 
+									<select id="modifiedTime" class="inputDown"> 
+									 <option value='null'>Any Time</option>
+										<option value='0'>Today</option> 
+										<option value='1'>Yesterday</option>  
+										<option value='7'>This Week</option>
+										<option value='15'>Last 15 Days</option>  
+										<option value='30'>This Month</option>  
+										<option value='90'>This Quarter</option>  
+										<option value='365'>This Year</option>
+									 </select>  
+							
+								
+							
+					</div>	
+												
+						<div class="columnnew left">
+								<span style="float: left;" id="sortBy_span">Sort By</span>
+							 
+							 
+									<select id="productSortBy" class="inputDown sortbydropdown" onchange="productSortByHighLightSelectedHeader('product')">
+									 
+									 																										
+																				<option value='productVendor' >Product Vendor</option>  
+																																																								
+																				<option value='sellPrice' >Sell Price</option>  
+																																																								
+																				<option value='quantityInStock' >Quantity In Stock</option>  
+																																																								
+																				<option value='productName' >Product Name</option>  
+																																																								
+																				<option value='buyPrice' >Buy Price</option>  
+																																																																																																						
+																				<option value='productline' >Productline</option>  
+																																																																																																						
+																				<option value='modifiedTime' selected="selected" >Modified Time</option>  
+																																																								
+																				<option value='createdTime' >Created Time</option>  
+																																								
+									 </select>
+								
+							<span class="icon-arrow-up ie-sortby cursor-pointer" style="height:24px; display:inline-block; margin-top: 5px; margin-top:20px\9 !important;/*float: right;*/margin-right: -120px; margin-left: 125px\9 !important;  font-size: 20px;" id="sort_type_product"  onclick="setTypeSorting('product',this.id);"></span>
+								
+					</div>	
+						</div>
+					
+					 <input type="hidden" name="orderBy" value="modifiedTime" id="sort_product"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_product"/>
+	            <div class="text-left columnnew left" style="width: 97%;"><br>
+				  <a href="#" onclick="searchProductData(fiql_product_form)" style="float: right;margin-top: -25px;" id="filterApply"  class="btn btn-mini btn-info" >
+				  Apply<!--<i class="icon-filter"></i>--> <!-- NEW UI -->
+				  </a>
+				</div> 
+	
+	
+	
+              </form>
+              <!-- end of List of Wifi Site Status, technoloy--> 
+</div>
+<!--Filter Tab div ends here-->		
+		
+		
+		<!--- filter tab ends here-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+		<div id="error_404_product_div"></div>
+		<div id="error_500_product_div"></div>
+
+	</div>
+	
+	
+	
+	
+	
+<!--<div id="product_delete_dialog" style="display:none;">
+  <div class="bootbox modal fade in customModel" tabindex="-1" aria-hidden="false">
+  <h1 class="newheader" style="font-size: 20px;margin-left: 4px;border-bottom:1px solid #b6b1b1; width:98%;">Are you sure</h1>
+    <div class="modal-body customModelTitle" > Do you want to delete this record ?</div>
+    <div class="modal-footer customModelFooter">
+      <a data-handler="0" data-bb-handler="cancel" class="btn customModelButton btn-warning" href="#" onclick="$('#product_delete_dialog').fadeOut();" >
+        Cancel
+      </a>
+      <a data-handler="1" data-bb-handler="confirm" class="btn btn-primary customModelButton " href="#" onclick="deleteProductEntity();" >
+        OK
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop fade in">
+  </div>
+</div> -->
+
+	<!-- Start delete modal window NEW UI -->
+	<div id="product_delete_dialog" class="modal hide fade" style="width:33%; top:25%;">
+		<div>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../images/note_deletebut.png"></button>
+			<h4 class="header blue lighter bigger text-left">
+				DELETE Product RECORD
+			</h4>
+		</div>
+		<div class="modal-body">
+			<img src="./warning-icon.png" style="width: 50px;"></img>
+			<span class="grey bigger-110"></span>
+			<div class="offset2">
+				<button onclick="deleteProductEntity();" type="button" class="width-40 btn btn-mini btn-info" data-dismiss="modal" id="delete">OK</button>
+				<button type="reset" data-dismiss="modal" class="width-45 btn btn-mini btn-info">Cancel</button>
+			</div>
+	</div>
+	<!-- End delete modal window NEW UI -->
+
+	<script>
+
+	function setProductPaginationValue() {
+		$('#productpagenovalue').html(1); 
+		$('#fiql_product_form')[0].reset();
+		pageulimit= eval($('#product_pagination_value').val()-1);
+		pagellimit=0;
+		$("#product_pagination_next").css("display", "");
+		$("#product_pagination_pre").css("display", "");
+		$('#product_pagination #product_page_llimit').val(pagellimit);
+		$('#product_pagination #product_page_ulimit').val(pageulimit);
+		$("#product_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+		var orderbycall= $('#fiql_product_form #sort_product').val();
+        var ordertypecall= $('#fiql_product_form #sort_type_value_product').val();
+		showRegularLoading();
+		if(!hasValue(orderbycall))
+		orderbycall="modifiedTime";	
+		if(!hasValue(ordertypecall))
+		ordertypecall="desc";
+		fiqlProductParam="";
+				sendGETRequest(context+"/rest/Product/search?&orderBy="+orderbycall+"&orderType="+ordertypecall+"&date="+new Date()+"&ulimit="+pageulimit+"&llimit="+DEFAULT_PAGE_LOWERLIMIT,"getProductDataPagination","");
+		
+		window.setTimeout(function() {
+			setSort('product',$("#fiql_product_form #sort_product").val());
+		},1000);
+	}
+
+	$('#product_main_div #error_404_product_div').load(context+"/pages/error-404.html");
+	$('#product_main_div #error_500_product_div').load(context+"/pages/error-500.html");
+	
+	var pagellimit=0;
+var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+var fiqlProductParam ="";
+var Productflag=0;
+
+$('#product_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#product_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#product_grid').contextmenu({
+	target: '#product_context_menu',
+	before: function (e) {
+		 if((e.target.className.split(" ")[0]=='DataTables_sort_wrapper')||(e.target.className.split(" ")[0]=='ui-state-default'))
+				{						
+					 return true;						 
+				}		
+	  }
+});
+
+$('#product_pagination #product_page_llimit').val(pagellimit);
+$('#product_pagination #product_page_ulimit').val(pageulimit);
+				
+if(hasValue(index_home))
+	$("#Product_home").html(index_home);
+
+if(hasValue(product_breadcrumb))
+	$("#Product_page_breadcrumbs").html(product_breadcrumb);
+
+if(hasValue(Product_thead_sortby))
+			$("#productfilterTab #sortBy_span").html(Product_thead_sortby);
+if(hasValue(Product_thead_modifiedTime))
+			$("#productfilterTab #modifiedTime_span").html(Product_thead_modifiedTime);
+if(hasValue(Product_thead_createdTime))
+			$("#productfilterTab #createdTime_span").html(Product_thead_createdTime);
+if(hasValue(Product_viewdetail))
+			$("#details_product_div #view_Product").html(Product_viewdetail);
+if(hasValue(Product_thead_lastModifier))
+			$("#details_product_div #Product_detail_modifier").html(Product_thead_lastModifier);
+if(hasValue(Product_thead_creator))
+			$("#details_product_div #Product_detail_creator").html(Product_thead_creator);
+if(hasValue(Product_formCancel))
+			$("#Product_formCancel").html(Product_formCancel);
+if(hasValue(Product_formUpdate))
+			$("#Product_formUpdate").html(Product_formUpdate);
+if(hasValue(Product_formReset))
+			$("#Product_formReset").html(Product_formReset);
+if(hasValue(Product_formCreate))
+			$("#Product_formCreate").html(Product_formCreate);
+
+if(hasValue(Product_addProduct))
+			$("#Product_addProduct").html(Product_addProduct);
+if(hasValue(Product_head_history))
+			$("#Product_head_history").html(Product_head_history);
+if(hasValue(Product_head_Activities))
+			$("#Product_head_Activities").html(Product_head_Activities);
+if(hasValue(Product_task_tab))
+			$("#product_task_tab_link").html(Product_task_tab);
+if(hasValue(Product_comment_tab))
+			$("#product_comment_tab_link").html(Product_comment_tab);
+if(hasValue(Product_comment_tab))
+			$("#product_comment_modal #myModalLabel").html(Product_comment_tab);
+
+if(hasValue(Product_formEdit))
+			$("#Product_formEdit").html("<i class='icon-edit bigger-110'></i>"+Product_formEdit);
+
+if(hasValue(Productcreateformheader))
+			$("#Productcreateformheader").html(Productcreateformheader);
+if(hasValue(Producteditformheader))
+			$("#Producteditformheader").html(Producteditformheader);
+if(hasValue(pagination_page_txt))
+			$("#product_page_txt").html(pagination_page_txt);
+		
+
+
+
+
+
+          $("#Product_thead_productVendor_Lbl").html(Product_thead_productVendor);
+            $("#Product_thead_sellPrice_Lbl").html(Product_thead_sellPrice);
+            $("#Product_thead_quantityInStock_Lbl").html(Product_thead_quantityInStock);
+            $("#Product_thead_productName_Lbl").html(Product_thead_productName);
+            $("#Product_thead_buyPrice_Lbl").html(Product_thead_buyPrice);
+                $("#Product_thead_productline_Lbl").html(Product_thead_productline);
+            $("#Product_thead_creator_Lbl").html(Product_thead_creator);
+            $("#Product_thead_lastModifier_Lbl").html(Product_thead_lastModifier);
+            $("#Product_thead_modifiedTime_Lbl").html(Product_thead_modifiedTime);
+            $("#Product_thead_createdTime_Lbl").html(Product_thead_createdTime);
+  
+  	$("#Product_thead_productVendor_Flt").html(Product_thead_productVendor);
+    	$("#Product_thead_sellPrice_Flt").html(Product_thead_sellPrice);
+    	$("#Product_thead_quantityInStock_Flt").html(Product_thead_quantityInStock);
+    	$("#Product_thead_productName_Flt").html(Product_thead_productName);
+    	$("#Product_thead_buyPrice_Flt").html(Product_thead_buyPrice);
+        	$("#Product_thead_productline_Flt").html(Product_thead_productline);
+    	$("#Product_thead_creator_Flt").html(Product_thead_creator);
+    	$("#Product_thead_lastModifier_Flt").html(Product_thead_lastModifier);
+    	$("#Product_thead_modifiedTime_Flt").html(Product_thead_modifiedTime);
+    	$("#Product_thead_createdTime_Flt").html(Product_thead_createdTime);
+  </script>
+
+<script type="text/javascript">
+$(".date .span2").attr("value",getCurrentDate());
+
+	if(create_Product_permission){
+		$("#product_breadcrumbs #plus").css("display","");	
+		$("#product_breadcrumbs #plus_bar").css("display","");
+		$("#product_breadcrumbs #plus_txt").css("display","");	
+	}
+	else{
+	$("#product_breadcrumbs #product_Quick_UL").addClass("pull-right");
+	$("#product_breadcrumbs #plus").css("display","none");
+	$("#product_breadcrumbs #plus_bar").css("display","none");
+	$("#product_breadcrumbs #plus_txt").css("display","none");
+	
+		
+	}
+function productSortByHighLightSelectedHeader(tableName){
+	setSort(tableName,$('#productSortBy').val());
+}
+
+             var product_richtextfields=[];
+					
+			 										 																		 																		 																		 																		 																		 										 
+									     product_richtextfields.push('productDescription');
+										
+										 																		 																		 																		 																		 																		 																		 												 
+					if(hasValue(product_richtextfields))  
+					{
+					if(create_Product_permission){
+					$("#product_breadcrumbs .richtextbread").css("display","block");
+					
+					}
+					}
+					else{
+					if(create_Product_permission){
+					$("#product_breadcrumbs .norichtextbread").css("display","block");
+                    }
+						}	
+					$('#productquickFilter').blur(function() {
+					$('#productquickFilterDiv').css('display','none');
+					$('#productquickFilter').val('');	
+					});	
+					
+					$("#productfilterCrossImg").attr("src", getImagePath('red_cross.png'));
+						   
+</script>	
+</body>
+</html>

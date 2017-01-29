@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+ <html>
+<head>
+	<title>Site Forge</title>
+	<meta charset="utf-8">
+<!--<script src="../js/static/Notifications.js"></script>-->
+<script>
+
+$(document).ready(function(){
+			
+			
+	showRegularLoading();	
+if(hasValue(currentDomainId)){
+	
+   sendGETRequest(context+"/rest/ActivityStream/FIQLsearch?date="+new Date()+"&domain.domainid="+currentDomainId+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&orderBy=date&orderType=desc","getNotificationData","");
+  
+  }
+  else{
+ sendGETRequest(context+"/rest/ActivityStream/FIQLsearch?date="+new Date()+"&ulimit="+DEFAULT_PAGE_UPPERLIMIT+"&llimit="+DEFAULT_PAGE_LOWERLIMIT+"&orderBy=date&orderType=desc","getNotificationData","");
+   }
+	});
+
+	if(hasValue(notification_breadcrumb))
+			$("#notification_breadcrumb").html(notification_breadcrumb);
+</script>
+</head>
+<body>
+
+
+
+<div class="newbreadcumb" id="breadcrumbs">
+        <div class="breadcrumb-button">
+		<i class="icon-user bredCrumICon"></i>
+          <span class="breadcrumb-label" id="notification_breadcrumb"></span>
+         
+        </div>
+        </div>
+
+				<!-- code for Comment and FileAttachment end for modal-->	
+	<div id="list_notification_grid_div" style="margin-top:10px;">
+		<form class="form-horizontal" id="fiql_notification_grid_form" style="text-align:center">	 
+		<input type="hidden" name="orderBy" value="date" id="sort_notification_grid"/>
+                     <input type="hidden" name="orderType" value="desc" id="sort_type_value_notification_grid"/>	</form>
+	 
+	<div id="notifications_grid" style="margin-top: 15px;cursor:pointer;"></div>	
+	</div>
+
+
+	
+		<div id="grid-pager" style="width: auto;" class="ui-state-default  ui-corner-bottom" dir="ltr">
+<div id="notification_pagination" class="ui-pager-control " role="group">
+		<table  class="ui-pg-table paginationDivClass" style="width:100%;table-layout:fixed;height:100%;padding:0px;border:0px;">
+							<tbody><tr><td id="grid-pager_left" style="text-align:left">
+							<div dir="ltr"  style="text-align:left;margin-left:10px; font-size:15px;" class="ui-paging-info"><span  id="notification_pagination_totalRecord"></span> <span  id="notification_totalCount"></span> </div>
+							</td><td id="grid-pager_center" style="white-space: pre; width: 341px;text-align:center"><table style="table-layout:auto;padding:0px;border:0px;" class="ui-pg-table">
+																		<tbody><tr>
+																			<td id="prev_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-left bigger-140" id="notification_pagination_pre"  onclick="pagPrev('notification_pagination','ActivityStream','getNotificationData','notification_page_llimit','notification_page_ulimit','notificationpagenovalue','notification_grid')"></span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td><td dir="ltr"> <a style='padding-right:10px; font-size:15px;'>Page</a><span id="notificationpagenovalue" style='width:40px;margin-top:5px;font-size: 16px;'>1</span></td><td class="ui-pg-button ui-state-disabled" style="width: 4px; cursor: default;"><span class="ui-separator"></span></td>
+																					<td id="next_grid-pager" class="ui-pg-button ui-corner-all" style="cursor: default;"><span class="ui-icon icon-angle-right bigger-140" id="notification_pagination_next"  onclick="pagNext('notification_pagination','ActivityStream','getNotificationData','notification_page_llimit','notification_page_ulimit','notificationpagenovalue','notification_grid')"></span></td><td dir="ltr"><select style='width: 60px;margin-top: 5px;' class="ui-pg-selbox inputDown-pagination" role="listbox" onChange="setNotificationPaginationValue(); return false;" id="notification_pagination_value"><option value="10" >10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></td></tr></tbody></table></td><td id="grid-pager_right" style="text-align:right">
+																						
+		<!--<div dir="ltr" id="content" style="text-align:right;margin-right:10px;" class="ui-paging-info"></div>-->
+		</td></tr></tbody>
+									</table>
+									<input type="hidden" id="notification_page_llimit" value="">
+								<input type="hidden" id="notification_page_ulimit" value="">
+									
+									</div>
+									
+									
+									
+									
+									
+									</div>
+					
+	
+	<script>
+ var pagellimit=0;
+  var pageulimit=DEFAULT_PAGE_UPPERLIMIT;
+   var fiqlActivityStreamParam;
+  var ActivityStreamflag=0;
+   $('#notification_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#notification_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+   function setNotificationPaginationValue() {
+	   $('#notificationpagenovalue').html(1); 
+		uperLimit= eval($('#notification_pagination_value').val())-1;
+		pagellimit=0;
+		$("#notification_pagination_next").css("display", "");
+		$("#notification_pagination_pre").css("display", "");
+		$('#notification_pagination #notification_page_llimit').val(pagellimit);
+		$('#notification_pagination #notification_page_ulimit').val(pageulimit);
+		// $("#notification_pagination #content").text(pagination_showing+" "+(pagellimit+1)+" "+pagination_to+" "+(uperLimit+1)+" "+pagination_entries+" " );
+		showRegularLoading();
+		sendGETRequest(context+"/rest/ActivityStream/FIQLsearch?&ulimit="+uperLimit+"&llimit="+pagellimit+"&orderBy=date&orderType=desc","getNotificationData","");
+		
+		}
+  $('#notification_pagination #notification_page_llimit').val(pagellimit);
+  $('#notification_pagination #notification_page_ulimit').val(pageulimit);
+  	
+  $('#notification_pagination_value').val(DEFAULT_PAGE_UPPERLIMIT+1);
+$('#notification_ulimit').val(DEFAULT_PAGE_UPPERLIMIT+1);
+// $("#notification_pagination #content").text(pagination_showing+" "+(DEFAULT_PAGE_LOWERLIMIT+1)+" "+pagination_to+" "+(pageulimit+1)+" "+pagination_entries+" " );
+</script>
+</body>
+</html>
+	
+	

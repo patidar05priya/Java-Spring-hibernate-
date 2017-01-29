@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+		#addUserInDomainDiv .formError .formErrorContent {
+			left : -122px;
+		}
+    </style>
+</head>
+
+<body>
+    <div id="addUserInDomainDiv">
+        <form id="addUserDomain" class="form-horizontal" style="/*margin-top:30px;*/">
+                <div class="control-group">
+					<span class="input-icon input-icon-right">
+						<input type="text" id="username" maxlength="20" class="span4 lightgrey validate[required,funcCall[checkdomainUser]] alphanumeric" placeholder="Username">
+						<i class="icon-user smaller-100"></i>
+					</span>
+                </div>
+
+                <div class="control-group">
+                    <span class="input-icon input-icon-right">
+                        <input type="password" id="password" maxlength="20" placeholder="Password" class="span4 lightgrey">
+                        <i class="icon-pencil smaller-100"></i>
+                    </span>
+                </div>
+
+                <div class="control-group">
+                    <span class="input-icon input-icon-right">
+                        <input type="text" id="email" class="span4 lightgrey validate[required,custom[email],funcCall[checkdomainEmail]] alphanumericallowspecial" placeholder="Email">
+                        <i class="icon-envelope-alt smaller-100"></i>
+                    </span>
+                </div>
+        </form>
+
+        <form class="form-horizontal" id="addDomaUserRoleForm">
+            <div class="control-group" id="roleDomainList">
+				<select class="span4 width-100 form-control validate[required] lightgrey" id="roleid"></select>
+            </div>
+        </form>
+ 
+        <div class="clearfix">
+			<button onclick="createNewUserForDomain();" type="button" id="create" class="width-20 pull-right btn btn-small btn-info">Create</button>
+		</div>
+    </div>
+
+    <div id="setting_pswd_info_countusername" style="display:none; margin-right:-57%;margin-bottom: -151px !important; height: 5px !important;">
+        <ul>
+            <li class="invalidUser" id="uservalid" style="margin-left: -6px;">
+                <strong> UserName already exists... </strong>
+            </li>
+        </ul>
+    </div>
+
+    <div id="setting_pswd_info_emailname" style="display:none; margin-right:-57%;margin-bottom: -145px !important; height: 5px !important;">
+        <ul>
+            <li class="invalidUser" id="uservalid" style="margin-left: -6px;">
+                <strong> EmailId already exists... </strong>
+            </li>
+        </ul>
+    </div>
+
+    <div id="pswd_info_for_addUser" style="display:none;top: 105px;left: 337px;">
+        <h4>Password must meet the following requirements:</h4>
+        <ul style="margin:0;padding:0;list-style-type:none;" id="pswd_info_ul_for_domainAddUser">
+        </ul>
+    </div>
+
+    <script>
+        passwordStrengthCheckerappendHtmlForDomainAddUser();
+
+        function createNewUserForDomain() {
+            var roleid = $('#roleid').val();
+            if (jQuery('#addUserDomain').validationEngine('validate') && jQuery('#addDomaUserRoleForm').validationEngine('validate') ) {
+                // if ((setting_countemail == 1) && (setting_countusername == 1)) {
+                var formJson = JSON.stringify(convertFormDataToJSON("addUserDomain"));
+                var roles = formJson.substring(0, formJson.length - 1);
+                roles += ',"domain":{"domainid":"' + userDomainid + '"},"roles":[{"roleid":"' + roleid + '"}]}';
+                sendGETRequest(context + "/rest/Domain/search?_s=success==true&ulimit=1000&llimit=0", "getDomainListData", "", "");
+                sendPOSTRequest(context + "/rest/Users/createbyDomain/", roles, "createUserforDomainCallBack", "");
+                //}
+            }
+        }
+
+        function createUserforDomainCallBack(XMLHttpRequest, data, rpcRequest) {
+            document.getElementById("addUserDomain").reset();
+
+            if (XMLHttpRequest.status == 200) {
+                showCenteredLoading("User created successfully");
+                $(".modal-header .close").click();
+            } else
+                showErrorLoading("Error in retriving entities");
+        }
+
+        $('#addUserDomain #email').keyup(function() {
+            setting_countemail = 0;
+            $(' #setting_pswd_info_emailname').hide();
+        }).blur(function() {
+            newemail = $(this).val();
+            if (newemail.length > 2)
+                jQuery("#addUserDomain").validationEngine();
+            //var url= "../rest/Users/search?_s=domain.domainid=="+userDomainid+";email=="+newemail+"&ulimit=9&llimit=0";
+            //sendGETRequest(url,"getUseremailDataforDomain","");
+        });
+
+        function getUseremailDataforDomain(XMLHttpRequest, data, rpcRequest) {
+            if (XMLHttpRequest.status == 200) {
+                if (data.length == 1) {
+                    $('#setting_pswd_info_emailname').show();
+                    setting_countemail = 0;
+                } else {
+                    $('#setting_pswd_info_emailname').hide();
+                    setting_countemail = 1;
+                }
+            }
+        }
+
+        $('#addUserDomain #username').keyup(function() {
+            setting_countusername = 0;
+            $(' #setting_pswd_info_countusername').hide();
+        }).blur(function() {
+            newname = $(this).val();
+            if (newname.length > 2)
+                jQuery("#addUserDomain").validationEngine();
+            //var url= "../rest/Users/search?_s=domain.domainid=="+userDomainid+";username=="+newname+"&ulimit=9&llimit=0";
+            //sendGETRequest(url,"getUsernameDataforDomain","");
+        });
+
+        function getUsernameDataforDomain(XMLHttpRequest, data, rpcRequest) {
+            if (XMLHttpRequest.status == 200) {
+                if (data.length == 1) {
+                    $('#setting_pswd_info_countusername').show();
+                    setting_countusername = 0;
+                } else {
+                    $('#setting_pswd_info_countusername').hide();
+                    setting_countusername = 1;
+                }
+            }
+        }
+
+        $(document).ready(function() {
+            jQuery("#addUserDomain").validationEngine().validationEngine('hide');
+            jQuery("#addDomaUserRoleForm").validationEngine().validationEngine('hide');
+			changeValidationEngineMsgPos('addUserDomain', 'bottomRight');
+			changeValidationEngineMsgPos('addDomaUserRoleForm', 'bottomRight');
+
+            $('.alphanumeric').alphanumeric(); //Allow only alphanumeric characters
+            $('.alphanumericallowspecial').alphanumeric({
+                allow: "/^[+]?\d*\.?\d*$/!&@#~(){},<>|:;"
+            });
+			$('.alphanumericallow').alphanumeric({ allow: "., " }); //Allow only alphanumeric characters, and some exceptions like dot(.), comma (,) and space 
+
+			$('.integers').numeric({ allow: "." }); //Allow only numeric characters
+        });
+
+        function passwordStrengthCheckerappendHtmlForDomainAddUser() {
+            if (PasswordStrength == "basic") {
+                $('#addUserDomain #password').addClass("validate[required,custom[basicpassword]]");
+            }
+            if (PasswordStrength == "regular") {
+                $('#addUserDomain #password').addClass("validate[required,custom[basicpassword]]");
+            }
+            if (PasswordStrength == "medium") {
+                $('#addUserDomain #password').addClass("validate[required,custom[mediumpassword]]");
+            }
+            if (PasswordStrength == "advance") {
+                $('#addUserDomain #password').addClass("validate[required,custom[advancepassword]]");
+            }
+        }
+
+        function checkdomainUser(field, rules, i, options) {
+            var fieldVal = field.val();
+            if (hasValue(fieldVal)) {
+                var url = context + "/rest/unauthorize/usernameSearch?username=" + fieldVal;
+                if (hasValue(userDomainid)) {
+                    var url = context + "/rest/unauthorize/usernameSearch?username=" + fieldVal;
+                }
+                var msg = undefined;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    headers: { "csrfParam": getCookieClosePortal() },
+                    cache: false,
+                    dataType: "json",
+                    async: false,
+                    success: function(json) {
+                        if (json == true || json == "true") {
+                            msg = "* User already exists.";
+                        }
+                    }
+                });
+                if (msg != undefined) {
+                    return msg;
+                }
+            }
+        }
+
+        function checkdomainEmail(field, rules, i, options) {
+            var fieldVal = field.val();
+            if (hasValue(fieldVal)) {
+                var url = context + "/rest/unauthorize/emailSearch?email=" + fieldVal;
+                if (hasValue(userDomainid)) {
+                    url = context + "/rest/unauthorize/emailSearch?email=" + fieldVal;
+                }
+
+                var msg = undefined;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    headers: { "csrfParam": getCookieClosePortal() },
+                    cache: false,
+                    dataType: "json",
+                    async: false,
+                    success: function(json) {
+                        if (json == true || json == "true") {
+                            msg = "* Email already exists.";
+                        }
+                    }
+                });
+                if (msg != undefined) {
+                    return msg;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

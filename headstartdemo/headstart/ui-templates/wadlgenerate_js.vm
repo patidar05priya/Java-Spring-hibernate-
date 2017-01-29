@@ -1,0 +1,81 @@
+function ${methodPath}(formid)
+{
+	showRegularLoading();
+	#if(${jsonInput})
+		var formData=convertFormDataToJSON(formid);
+		formData=JSON.stringify(formData);
+		#if($methodType.equalsIgnoreCase("POST"))
+			sendPOSTRequest(context+"/rest/WADL${path}/${methodPath}",formData,"${methodPath}Callback","");
+		#elseif($methodType.equalsIgnoreCase("PUT"))
+			sendPOSTRequest(context+"/rest/WADL${path}/${methodPath}",formData,"${methodPath}Callback","");
+		#end
+	#else
+	var ${methodPath}QueryParamUrl="";
+	#foreach($input in $queryParamInputList)
+		var $input.name=$("#"+formid+" #${input.name}").val();	
+		${methodPath}QueryParamUrl+="$input.name="+$input.name+"&";
+	#end
+	#foreach($input in $formParamInputList)
+		var $input.name=$("#"+formid+" #${input.name}").val();	
+		${methodPath}QueryParamUrl+="$input.name="+$input.name+"&";
+	#end
+	#foreach($input in $pathParamInputList)
+		var $input.name=$("#"+formid+" #${input.name}").val();	
+		${methodPath}QueryParamUrl+="$input.name="+$input.name+"&";
+	#end
+	${methodPath}QueryParamUrl=${methodPath}QueryParamUrl.substring(0,${methodPath}QueryParamUrl.length-1);
+	#if($methodType.equalsIgnoreCase("GET"))
+		sendGETRequest(context+"/rest/WADL${path}/${methodPath}?"+${methodPath}QueryParamUrl,"${methodPath}Callback","");
+	#elseif($methodType.equalsIgnoreCase("POST"))			
+	sendPOSTRequest(context+"/rest/WADL${path}/${methodPath}?"+${methodPath}QueryParamUrl,"","${methodPath}Callback","");
+	#elseif($methodType.equalsIgnoreCase("PUT"))
+	sendPUTRequest(context+"/rest/WADL${path}/${methodPath}?"+${methodPath}QueryParamUrl,"","${methodPath}Callback","");
+	#end
+	#end
+}
+function ${methodPath}Callback(XMLHttpRequest, data, rpcRequest)
+{
+	RemoveUniqueLoading();
+	if(!checkException(XMLHttpRequest.responseText))
+	{	
+		if(XMLHttpRequest.status==200)
+		{	
+			setResponse(XMLHttpRequest.responseText);
+									
+		}
+		else
+		{
+			showCenteredLoading("Error in retriving entities");
+		}	
+	}
+}
+
+#if(!$outputType.equalsIgnoreCase("JSON"))
+function setResponse(text)
+{
+		$('#response_${methodPath}_div').css('display','');
+		$('#response_${methodPath}_text').html(text);
+}
+#else
+function setResponse(data)
+{
+	data=isList(data);
+	$('#${methodPath}tablediv').html( '<table  cellpadding="0" cellspacing="0" border="0" class="display mytb table table-striped table-bordered" id="${methodPath}table"></table>' );
+    var reportTable1=$('#${methodPath}table').dataTable(
+		{		
+			"sScrollY": "200px",
+			"bSort":false,
+			"bFilter":false,
+			"bAutoWidth": false,
+			//"aoColumns": [{"sWidth":"100%"},{"sWidth":"10%"},{"sWidth":"10%"}],
+			"aaData": eval(data),
+			"bLengthChange":false,
+			"bPaginate":false,
+			"sPaginationType":"full_numbers",
+			"sDom":'',
+			"aaSorting": [[1, 'asc']],
+			"aoColumns": getColoumnListWADL(data)
+	} );	
+	$('#details_${methodPath}_div').css('display','block');	
+}
+#end

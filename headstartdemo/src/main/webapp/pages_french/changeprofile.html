@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Change profile</title>
+    <meta charset="utf-8">
+    <script>
+        if (hasValue(profile_pic_note_label)) {
+            $("#changeprofileimageform #profile_pic_note_label").html(profile_pic_note_label);
+        }
+        if (hasValue(profile_pic_note_label)) {
+            $("#changeprofileimageform #profile_pic_note_label").html(profile_pic_note_label);
+        }
+        jQuery("#changeprofileimageform").validationEngine();
+    </script>
+
+    <script>
+        var hash = { '.png': 1, '.gif': 1, '.jpg': 1 };
+
+        function check_extension(filename, submitId, size) {
+            var re = /\..+$/;
+            var ext = filename.match(re);
+            var submitEl = document.getElementById(submitId);
+            if (hash[ext] && size < 101.0) {
+                submitEl.disabled = false;
+                return true;
+            } else {
+
+                $('#imgAlert').attr('class', "alert alert-error");
+
+                $('#imgAlert').text('Please select only valid image file or image less than 100KB');
+
+                submitEl.disabled = true;
+                return false;
+            }
+        }
+    </script>
+    
+    <style>
+		.custom-file-input::-webkit-file-upload-button {
+		  visibility: hidden;
+		}
+		.custom-file-input::before {
+			content: 'Choose file';
+			background: #5F666C;
+			border: 1px solid #BFB8B8;
+			border-radius: 3px;
+			padding: 3px 6px;
+			outline: none;
+			white-space: nowrap;
+			-webkit-user-select: none;
+			cursor: pointer;
+			color: white;
+		}
+		input[type=file].custom-file-input {
+		  color: #5f686f;
+		}
+    </style>
+</head>
+
+<body>
+    <div id="imgAlert"></div>
+
+	<div class="row span6">
+
+		<div class="span2">
+			<div class="user-img" style="border-radius: 50%; overflow: hidden; width: 150px; height: 150px;">
+				<img id="headerUserImage" style="width:100%;height:100%" src="../rest/Users/getUserImage" onerror="ImgError(this);" alt="">
+			</div>
+		</div>
+
+		<div class="span3">
+			<div class="space"></div>
+			<div class="space"></div>
+			<form target="UploadImgIFrame" style="width:100%;height:100%;" method="post" name="uploadFrm" id="changeprofileimageform" enctype="multipart/form-data" onsubmit="if(true) $('.modal-backdrop').css('z-index',-3); $('#Change_profile_pic').fadeOut(); return true;" action="../rest/Users/setUserImage">
+
+				<input type="file" id="file_upload" class="custom-file-input" name="pic" data-title="Choose" accept="image/*" onchange='check_extension(this.value,"picUpload",(this.files[0].size/1024));'>
+
+				<!--<input type="button"  id="picUpload" onclick="changeprofileimage()" class="btn btn-mini bint-info" value="Upload">-->
+			</form>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<button onclick="changeprofileimage();" type="button" class="width-20 pull-right btn btn-mini btn-info" id="picUpload">Upload</button>
+	</div>
+	<!--<span style="color:red;" id="profile_pic_note_label">Note: </span>Select the valid image file (PNG, GIF, JPG) of size <b>less than 100KB</b>-->
+</body>
+
+</html>

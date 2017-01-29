@@ -1,0 +1,28 @@
+@startuml
+title Update Office Scenario
+participant User
+User -> CXFServlet: PUT, Office
+activate CXFServlet
+CXFServlet -> Office: << create >>
+activate Office
+Office -> CXFServlet: << instance >>
+deactivate Office
+CXFServlet -> OfficeRestImpl: update(:office)
+activate OfficeRestImpl
+OfficeRestImpl -> OfficeServiceDao: update(:office)
+activate OfficeServiceDao
+OfficeServiceDao -> OfficeJPADao: update(:office)
+activate OfficeJPADao
+OfficeJPADao -> EntityManager: merge(:office)
+activate EntityManager
+EntityManager -> OfficeJPADao: << persisted office >>
+deactivate EntityManager
+OfficeJPADao -> OfficeServiceDao: << persisted office >>
+deactivate OfficeJPADao
+OfficeServiceDao -> OfficeRestImpl: << persisted office >>
+deactivate OfficeServiceDao
+OfficeRestImpl -> CXFServlet: << persisted office >>
+deactivate OfficeRestImpl
+CXFServlet -> User: marshalled office XML
+deactivate CXFServlet
+@enduml

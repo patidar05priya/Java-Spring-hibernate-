@@ -1,0 +1,28 @@
+@startuml
+title Find Office Scenario
+participant User
+User -> CXFServlet: GET, Office Search Critera XML
+activate CXFServlet
+CXFServlet -> Office: << create >>
+activate Office
+Office -> CXFServlet: << instance >>
+deactivate Office
+CXFServlet -> OfficeRestImpl: getAll(:office)
+activate OfficeRestImpl
+OfficeRestImpl -> OfficeServiceDao: getAll(:office)
+activate OfficeServiceDao
+OfficeServiceDao -> OfficeJPADao: getAll(:office)
+activate OfficeJPADao
+OfficeJPADao -> EntityManager: getResultList(:office)
+activate EntityManager
+EntityManager -> OfficeJPADao: List<Office>
+deactivate EntityManager
+OfficeJPADao -> OfficeServiceDao: List<Office>
+deactivate OfficeJPADao
+OfficeServiceDao -> OfficeRestImpl: List<Office>
+deactivate OfficeServiceDao
+OfficeRestImpl -> CXFServlet: List<Office>
+deactivate OfficeRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

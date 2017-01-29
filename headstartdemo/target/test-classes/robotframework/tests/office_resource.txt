@@ -1,0 +1,167 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+*** Variables ***
+${SERVER}         localhost:8076
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}     admin
+${VALIDPASSWORD}    admin
+${LOGINURL}      http://localhost:8080/headstartdemo
+${WELCOMEURL}    http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}      http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+
+Input office_phone
+    [Arguments]    ${phone}
+    Input Text    //form[@id='add_office_form']//input[@id='phone']    ${phone}
+    
+
+Input office_addressLine1
+    [Arguments]    ${addressLine1}
+    Input Text    //form[@id='add_office_form']//input[@id='addressLine1']    ${addressLine1}
+    
+
+Input office_country
+    [Arguments]    ${country}
+    Input Text    //form[@id='add_office_form']//input[@id='country']    ${country}
+    
+
+Input office_cityName
+    [Arguments]    ${cityName}
+    Input Text    //form[@id='add_office_form']//input[@id='cityName']    ${cityName}
+    
+
+Input office_territory
+    [Arguments]    ${territory}
+    Input Text    //form[@id='add_office_form']//input[@id='territory']    ${territory}
+    
+
+Input office_postalCode
+    [Arguments]    ${postalCode}
+    Input Text    //form[@id='add_office_form']//input[@id='postalCode']    ${postalCode}
+    
+
+Input office_addressLine2
+    [Arguments]    ${addressLine2}
+    Input Text    //form[@id='add_office_form']//input[@id='addressLine2']    ${addressLine2}
+    
+
+Input office_state
+    [Arguments]    ${state}
+    Input Text    //form[@id='add_office_form']//input[@id='state']    ${state}
+    
+
+Open office_Tab
+    Click Link    office_tab
+
+Open office_CreatePage
+    Click Button    id=plus
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Open office_UpdatePage
+    Click Element    id=office_edit_act
+
+Create office_btn
+    Click Button    add_office_btn
+
+Update office_btn
+    Click Button    edit_office_btn
+
+Delete office_btn
+    Click Element    office_delete_act
+
+Search office_btn
+    Click Link   filterApply
+Input office_phone_update
+    [Arguments]    ${phone}
+    Input Text    //form[@id='edit_office_form']//input[@id='phone']    ${phone}
+Input office_addressLine1_update
+    [Arguments]    ${addressLine1}
+    Input Text    //form[@id='edit_office_form']//input[@id='addressLine1']    ${addressLine1}
+Input office_country_update
+    [Arguments]    ${country}
+    Input Text    //form[@id='edit_office_form']//input[@id='country']    ${country}
+Input office_cityName_update
+    [Arguments]    ${cityName}
+    Input Text    //form[@id='edit_office_form']//input[@id='cityName']    ${cityName}
+Input office_territory_update
+    [Arguments]    ${territory}
+    Input Text    //form[@id='edit_office_form']//input[@id='territory']    ${territory}
+Input office_postalCode_update
+    [Arguments]    ${postalCode}
+    Input Text    //form[@id='edit_office_form']//input[@id='postalCode']    ${postalCode}
+Input office_addressLine2_update
+    [Arguments]    ${addressLine2}
+    Input Text    //form[@id='edit_office_form']//input[@id='addressLine2']    ${addressLine2}
+Input office_state_update
+    [Arguments]    ${state}
+    Input Text    //form[@id='edit_office_form']//input[@id='state']    ${state}
+Search phone
+    [Arguments]   ${phone}
+    Input Text    //form[@id='fiql_office_form']//input[@id='phone']    ${phone}
+Window close
+    Close Browser
+
+Click BackButton
+    Click Button    office_back
+
+Wait for delete button
+    Wait Until Page Contains Element        office_delete_act        1 min
+
+Wait for Update button
+    Wait Until Page Contains Element        office_edit_act           1 min
+    
+    
+Click delete ok
+    Click Button     bot2-Msg3
+    
+    
+Wait for delete ok
+    Wait Until Page Contains Element    bot2-Msg3    1 min
+
+
+Wait for office_tab 
+    Wait Until Page Contains Element    office_tab    1 min
+
+    
+Click filter button
+    click Element    office_filter

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component name="DetailsListGrid" type="Grid">
+  <attributes>
+    <attr name="dataSource">PaymentDataSource</attr>
+    <attr name="id">PaymentListGrid</attr>
+    <attr name="parentRelationType">ref_by_parent</attr>
+    <attr name="initWidget">function() {
+		this.Super("initWidget");
+			
+			
+		 		if( "Payment"=="Customer" 	    )
+		{	
+			this.canExpandRecords = true;
+			this.canExpandMulitpleRecords = true;
+			this.getExpansionComponent = function(record){ return 							getFileListExpansion("Payment",record.id,"id")}
+		}	
+			
+			if(deletePayment) 
+				this.canRemoveRecords = true;
+			}</attr>
+    <attr name="autoDraw">false</attr>
+    <attr name="autoFetchData">true</attr>
+    <attr name="alternateRecordsStyle">true</attr>
+    <attr name="canRemoveRecords">true</attr>
+  </attributes>
+  <ComponentContainer>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">amount</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">float</attr>
+        <attr name="title">amount</attr>
+        <attr name="keyPressFilter">[0-9.]</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">checkNumber</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">text</attr>
+        <attr name="title">checkNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">customer</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">combo</attr>
+        <attr name="title">customer</attr>
+        <attr name="dataPath">/customer/customerNumber</attr>
+        <attr name="entityDataSource">CustomerDataSource</attr>
+        <attr name="entityDisplayField">customerNumber</attr>
+        <attr name="entityValueField">customerNumber</attr>
+      </attributes>
+    </Component>
+    <Component type="Field">
+      <attributes>
+        <attr name="name">paymentDate</attr>
+        <attr name="parentRelationType">included</attr>
+        <attr name="type">timestamp</attr>
+        <attr name="title">paymentDate</attr>
+        <attr name="dateFormatter">toUSShortDate</attr>
+      </attributes>
+    </Component>
+  </ComponentContainer>
+</Component>
+

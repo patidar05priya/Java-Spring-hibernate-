@@ -1,0 +1,44 @@
+ *** Settings ***
+Documentation     A test suite containing tests related to User Roles Management.
+...
+...               These tests are data-driven by they nature. They use a single
+...               keyword, specified with Test Template setting, that is called
+...               with different arguments to cover different scenarios.
+Suite Teardown    Close Browser
+Resource          UserMgmtRoles_resource.txt
+
+*** Test Cases ***
+Valid roles create
+    Open Browser To Login Page
+        
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Wait for Administration_Tab
+    Open Administration_Tab
+    Wait for UserManagement_Tab
+    Open UserManagement_Tab
+    Open roles_Tab
+    Open roles_CreatePage
+    Input roles_rolename    AppGuest
+    Input roles_discription    TestString
+    Input roles_assign
+    Input roles_DashboardWidgets_assign
+    Create roles_btn
+
+Valid roles search
+    Click roles_filter button
+    Input SearchRoles_rolename    AppGuest
+    Input SearchRoles_description    TestString
+    Click searchRoles_btn
+
+Valid roles view
+    Click roles_Viewbtn
+    Create rolesBack_btn
+
+Valid roles edit
+    Click roles_Editbtn
+    Input editRoles_description    admin role
+    Input editRoles_assign
+    Input editRoles_DashboardWidgets_assign
+    Create updateRoles_btn

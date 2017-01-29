@@ -1,0 +1,28 @@
+@startuml
+title Delete Orders Scenario
+participant User
+User -> CXFServlet: DELETE, Orders
+activate CXFServlet
+CXFServlet -> Orders: << create >>
+activate Orders
+Orders -> CXFServlet: << instance >>
+deactivate Orders
+CXFServlet -> OrdersRestImpl: delete(:orders)
+activate OrdersRestImpl
+OrdersRestImpl -> OrdersServiceDao: delete(:orders)
+activate OrdersServiceDao
+OrdersServiceDao -> OrdersJPADao: delete(:orders)
+activate OrdersJPADao
+OrdersJPADao -> EntityManager: remove(:orders)
+activate EntityManager
+EntityManager -> OrdersJPADao: << persisted orders >>
+deactivate EntityManager
+OrdersJPADao -> OrdersServiceDao: << persisted orders >>
+deactivate OrdersJPADao
+OrdersServiceDao -> OrdersRestImpl: << persisted orders >>
+deactivate OrdersServiceDao
+OrdersRestImpl -> CXFServlet: << persisted orders >>
+deactivate OrdersRestImpl
+CXFServlet -> User: marshalled orders XML
+deactivate CXFServlet
+@enduml

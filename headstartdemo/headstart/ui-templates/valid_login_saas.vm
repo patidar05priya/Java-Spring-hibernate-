@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     A test suite with a single test for valid login.
+...
+...               This test has a workflow that is created using keywords in
+...               the imported resource file.
+Suite Teardown    Close Browser
+Resource          resource.txt
+
+*** Test Cases ***
+Valid Login
+    Open Browser To Login Page
+    Input Domain    default
+    Input Username    admin
+    Input Password    admin
+    Submit Credentials
+    Welcome Page Should Be Open
+    Close Browser

@@ -1,0 +1,128 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<SCRIPT>
+
+    var usermgmt=false;
+	var worklist=false;
+	var reporting = false;
+    var dashboard = false;
+    
+<sec:authorize ifAllGranted="usermgmt">
+		usermgmt = true; 
+	</sec:authorize>
+
+	<sec:authorize ifAllGranted="worklist">
+		worklist = true; 
+	</sec:authorize>
+
+	<sec:authorize ifAllGranted="reporting">
+		reporting = true; 
+	</sec:authorize>
+	
+	<sec:authorize ifAllGranted="Userread">
+		dashboard = true; 
+	</sec:authorize>
+
+#foreach($entity in $entities)
+	var create_${entity}_permission = false;
+	var update_${entity}_permission = false;
+	var read_${entity}_permission = false;
+	var delete_${entity}_permission = false;
+
+	
+	
+	
+#end
+#foreach($includeFile1 in $wsdlMap.entrySet())	
+			#foreach( ${tableName1} in	${includeFile1.value})	
+			  
+			  var ${includeFile1.key}_${tableName1.name}_permission=false;
+			  
+			     #end	
+			#end	
+#foreach($includeFile1 in $wadlMap.entrySet())	
+			#foreach( ${tableName1} in	${includeFile1.value})	
+			  
+			  var ${includeFile1.key}_${tableName1.methodName}_permission=false;
+			  
+			     #end	
+			#end	
+
+#foreach($statuschart in $statusChartList)
+	var view_${statuschart.tableName}_${statuschart.coloumnName}_permission = false;
+#end
+	var view_map_permission=false;
+	var view_recent_activity_permission=false;
+
+#foreach($cmnt in $isComment)
+var comment_${cmnt}_permission = false;
+#end
+
+#foreach($fileatch in $isFileAttach)
+var fileattach_${fileatch}_permission = false;
+
+#end
+
+
+#foreach ($entity in $entities)
+	<sec:authorize ifAllGranted="${entity}create">
+		create_${entity}_permission = true; 
+	</sec:authorize>
+	<sec:authorize ifAllGranted="${entity}update">
+		update_${entity}_permission= true; 
+	</sec:authorize>
+	<sec:authorize ifAllGranted="${entity}read">
+		read_${entity}_permission = true; 
+	 </sec:authorize>
+	<sec:authorize ifAllGranted="${entity}delete">
+		  delete_${entity}_permission= true; 
+	 </sec:authorize>
+
+	
+	
+	 
+#end
+#foreach($statuschart in $statusChartList)
+	
+	<sec:authorize ifAllGranted="canView${statuschart.tableName}${statuschart.coloumnName}">
+		  view_${statuschart.tableName}_${statuschart.coloumnName}_permission= true; 
+	 </sec:authorize>
+#end
+
+<sec:authorize ifAllGranted="canViewUserMap">
+view_map_permission=true;
+ </sec:authorize>
+<sec:authorize ifAllGranted="canViewRecentActivity">
+	view_recent_activity_permission=true;
+ </sec:authorize>
+
+#foreach($cmnt in $isComment)
+<sec:authorize ifAllGranted="${cmnt}comment">
+		  comment_${cmnt}_permission= true; 
+	 </sec:authorize>
+#end
+
+#foreach($fileatch in $isFileAttach)
+<sec:authorize ifAllGranted="${fileatch}file">
+		  fileattach_${fileatch}_permission= true; 
+	 </sec:authorize>
+#end
+
+#foreach($includeFile1 in $wsdlMap.entrySet())	
+			#foreach( ${tableName1} in	${includeFile1.value})	
+			<sec:authorize ifAllGranted="${includeFile1.key}_${tableName1.name}read">
+		 ${includeFile1.key}_${tableName1.name}_permission= true; 
+	 </sec:authorize>  
+			 
+			  
+			     #end	
+			#end	
+#foreach($includeFile1 in $wadlMap.entrySet())	
+			#foreach( ${tableName1} in	${includeFile1.value})	
+			<sec:authorize ifAllGranted="${includeFile1.key}${tableName1.methodName}read">
+		 ${includeFile1.key}_${tableName1.methodName}_permission= true; 
+	 </sec:authorize>  
+			 
+			  
+			     #end	
+			#end	
+</SCRIPT>

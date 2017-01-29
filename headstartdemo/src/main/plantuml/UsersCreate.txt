@@ -1,0 +1,28 @@
+@startuml
+title Create Users Scenario
+participant User
+User -> CXFServlet: POST, Users
+activate CXFServlet
+CXFServlet -> Users: << create >>
+activate Users
+Users -> CXFServlet: << instance >>
+deactivate Users
+CXFServlet -> UsersRestImpl: create(:users)
+activate UsersRestImpl
+UsersRestImpl -> UsersServiceDao: create(:users)
+activate UsersServiceDao
+UsersServiceDao -> UsersJPADao: create(:users)
+activate UsersJPADao
+UsersJPADao -> EntityManager: save(:users)
+activate EntityManager
+EntityManager -> UsersJPADao: << persisted users >>
+deactivate EntityManager
+UsersJPADao -> UsersServiceDao: << persisted users >>
+deactivate UsersJPADao
+UsersServiceDao -> UsersRestImpl: << persisted users >>
+deactivate UsersServiceDao
+UsersRestImpl -> CXFServlet: << persisted users >>
+deactivate UsersRestImpl
+CXFServlet -> User: marshalled users XML
+deactivate CXFServlet
+@enduml

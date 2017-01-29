@@ -1,0 +1,210 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+...
+...               The system specific keywords created here form our own
+...               domain specific language. They utilize keywords provided
+...               by the imported Selenium2Library.
+Library           Selenium2Library
+
+*** Variables ***
+${SERVER}         localhost:8080
+${appname}        headstartdemo
+${BROWSER}        Firefox
+${DELAY}          0.5
+${VALIDDomain}    admin
+${VALIDUSER}      admin
+${VALIDPASSWORD}    admin
+${LOGINURL}       http://localhost:8080/headstartdemo
+${WELCOMEURL}     http://localhost:8080/headstartdemo/jsp/index.jsp
+${ERRORURL}       http://localhost:8080/headstartdemo/jsp/login.jsp?login_error=1
+
+*** Keywords ***
+Submit Credentials
+    Click Button    Login_button
+
+Input domain_name
+    [Arguments]    ${name}
+    Input Text    //form[@id='add_domain_form']//input[@id='name']    ${name}
+
+Input domain_admin_username
+    [Arguments]    ${adminUsername}
+    Input Text    //form[@id='add_domain_form']//input[@id='adminUsername']    ${adminUsername}
+
+Input domain_admin_password
+    [Arguments]    ${adminPassword}
+    Input Text    //form[@id='add_domain_form']//input[@id='adminPassword']    ${adminPassword}
+
+Input domain_primary_email
+    [Arguments]    ${primaryemail}
+    Input Text    //form[@id='add_domain_form']//input[@id='primaryemail']    ${primaryemail}
+
+Input domain_description
+    [Arguments]    ${domainDescription}
+    Input Text    //form[@id='add_domain_form']//input[@id='domainDescription']    ${domainDescription}
+
+Open Setting_Tab
+    Click Link    index_settings
+
+Open domain_Creator
+    Click Element    domainTabLabel
+
+Create domain_btn
+    Click Element    domain_save_button
+
+Open addUser_btn
+    Click Link    update_role_act
+
+Open SMTPConfiguration_Tab
+    Click Element    smtpTab
+
+Open SMTPPort
+    Click Element    port
+
+Click hostName
+    Click Element    hostName
+
+Click userName
+    Click Element    userName
+
+Click password
+    Click Element    password
+
+Open miscellaneous_Tab
+    Click Element    miscellaneousTab
+
+Click miscellaneousSave_btn
+    Click Element    pagination_save_button
+
+Open Sox_Configuration_Tab
+    Click Element    soxTabLabel
+
+Click SaveSoxPaging_btn
+    Click Button    savesoxpaging
+
+Open Browser To Login Page
+    Open Browser    ${LOGINURL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Login Page Should Be Open
+
+Login Page Should Be Open
+    Title Should Be    Login to ${appname}
+
+Go To Login Page
+    Go To    ${LOGINURL}
+    Login Page Should Be Open
+
+Input Domain
+    [Arguments]    ${domain}
+    Input Text    j_domain    ${domain}
+
+Input Username
+    [Arguments]    ${username}
+    Input Text    j_username    ${username}
+
+Input Password
+    [Arguments]    ${password}
+    Input Text    j_password    ${password}
+
+Welcome Page Should Be Open
+    Location Should Contain    ${WELCOMEURL}
+    Title Should Be    ${appname}
+
+Input domain_addUser_name
+    [Arguments]    ${username}
+    Input Text    //form[@id='addUserDomain']//input[@id='username']    ${username}
+
+Input domain_addUser_password
+    [Arguments]    ${password}
+    Input Text    //form[@id='addUserDomain']//input[@id='password']    ${password}
+
+Input domain_addUser_email
+    [Arguments]    ${email}
+    Input Text    //form[@id='addUserDomain']//input[@id='email']    ${email}
+
+Select roles
+    Select From List    xpath=//select[@id='roleid']    103
+
+Select pagination_Value
+    Select From List    xpath=//select[@id='paggingValue']    9
+
+Click SMTPPort_Submit_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn btn-info editable-submit"]
+
+Click SMTPPort_Clear_btn
+    Click Element    xpath=//span[@class="editable-clear-x"]
+
+Click SMTPPort_Cancel_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn editable-cancel"]
+
+Click SMTPHost_Submit_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn btn-info editable-submit"]
+
+Click SMTPHost_Clear_btn
+    Click Element    xpath=//span[@class="editable-clear-x"]
+
+Click SMTPHost_Cancel_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn editable-cancel"]
+
+Click SMTPUsername_Submit_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn btn-info editable-submit"]
+
+Click SMTPUsername_Clear_btn
+    Click Element    xpath=//span[@class="editable-clear-x"]
+
+Click SMTPUsername_Cancel_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn editable-cancel"]
+
+Click SMTPPassword_Submit_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn btn-info editable-submit"]
+
+Click SMTPPassword_Clear_btn
+    Click Element    xpath=//span[@class="editable-clear-x"]
+
+Click SMTPPassword_Cancel_btn
+    Click Button    xpath=//div[@class="editable-buttons"]/button[@class="btn editable-cancel"]
+
+Input SoxConfiguration_expiryNotificationDuration
+    [Arguments]    ${expiryNotificationDuration}
+    Input Text    //form[@id='sox_config_form']//input[@id='expiryNotificationDuration']    ${expiryNotificationDuration}
+
+Input SoxConfiguration_defaultExpiryInterval
+    [Arguments]    ${defaultExpiryInterval}
+    Input Text    //form[@id='sox_config_form']//input[@id='defaultExpiryInterval']    ${defaultExpiryInterval}
+
+Input SoxConfiguration_maxAttempts
+    [Arguments]    ${maxAttempts}
+    Input Text    //form[@id='sox_config_form']//input[@id='maxAttempts']    ${maxAttempts}
+
+Input SMTPPort
+    Input Text    //form[@class="form-inline editableform"]//input[@class='input-medium']    465
+
+Input SMTPHost
+    Input Text    //form[@class="form-inline editableform"]//input[@class='input-medium']    smtp.gmail.com
+
+Input SMTPUsername
+    Input Text    //div[@class="editable-input"]//input[@class='input-medium']    er.vipulchoure@gmail.com
+
+Input SMTPPassword
+    Input Text    //form[@class="form-inline editableform"]//input[@class='input-medium']    vipul_3010
+
+Click SMTPConfiguration_Submit_btn
+    Click Element    xpath=//span[@class="bigger-110 no-text-shadow"]
+
+Create addUser_btn
+    Click Element    update_role_act
+
+Click delete ok
+    Click Link    //div[@id='office_delete_dialog']//a[contains(text(),'OK')]
+
+Wait for AddUser button
+    Wait Until Page Contains Element    update_role_act    1 min
+
+Wait for Settings button
+    Wait Until Page Contains Element    index_settings    1 min
+
+Wait for domain_btn
+    Wait Until Page Contains Element    xpath=//button/span[contains(text(),'Save')]    1 min
+
+Wait for miscellaneousSave_btn
+    Wait Until Page Contains Element    xpath=//span[@class="bigger-110 no-text-shadow"]    1 min

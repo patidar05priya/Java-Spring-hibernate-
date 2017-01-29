@@ -1,0 +1,28 @@
+@startuml
+title Delete Comment Scenario
+participant User
+User -> CXFServlet: DELETE, Comment
+activate CXFServlet
+CXFServlet -> Comment: << create >>
+activate Comment
+Comment -> CXFServlet: << instance >>
+deactivate Comment
+CXFServlet -> CommentRestImpl: delete(:comment)
+activate CommentRestImpl
+CommentRestImpl -> CommentServiceDao: delete(:comment)
+activate CommentServiceDao
+CommentServiceDao -> CommentJPADao: delete(:comment)
+activate CommentJPADao
+CommentJPADao -> EntityManager: remove(:comment)
+activate EntityManager
+EntityManager -> CommentJPADao: << persisted comment >>
+deactivate EntityManager
+CommentJPADao -> CommentServiceDao: << persisted comment >>
+deactivate CommentJPADao
+CommentServiceDao -> CommentRestImpl: << persisted comment >>
+deactivate CommentServiceDao
+CommentRestImpl -> CXFServlet: << persisted comment >>
+deactivate CommentRestImpl
+CXFServlet -> User: marshalled comment XML
+deactivate CXFServlet
+@enduml

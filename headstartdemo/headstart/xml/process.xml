@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- process store instance -->
+	<bean id="processStore" class="com.inn.dataanalytics.process.ProcessStore">
+		<property name="processStoreMap">
+			<map>
+				<entry key="defaultProcessInstance" value-ref="defaultProcess" />
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean id="reportProcessStore" class="com.inn.dataanalytics.process.ProcessStore">
+		<property name="processStoreMap">
+			<map>
+				<entry key="defaultProcessInstance" value-ref="reportProcess" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- process instance -->
+	<bean id="defaultProcess" class="com.inn.dataanalytics.process.Process"
+		init-method="init">
+		<property name="services">
+			<list>
+				<ref bean="loadSchema" />
+				<ref bean="filterTable" />
+				<ref bean="rankColumn" />
+				<ref bean="rankForeignColumn" />
+				<ref bean="fetchStats" />
+				<ref bean="rankColumnOnStats" />
+				<ref bean="generateChartMetaData" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- process instance -->
+	<bean id="reportProcess" class="com.inn.dataanalytics.process.Process"
+		init-method="init">
+		<property name="services">
+			<list>
+				<ref bean="loadSchema" />
+				<ref bean="filterTable" />
+				<ref bean="rankColumn" />
+				<ref bean="rankForeignColumn" />
+				<ref bean="fetchStats" />
+				<ref bean="rankColumnOnStats" />
+				<ref bean="generateChartMetaData" />
+				<ref bean="generateReportMetaData"/>
+			</list>
+		</property>
+	</bean>
+	
+	
+
+	<!-- services -->
+	<bean id="loadSchema" class="com.inn.dataanalytics.service.impl.LoadSchema"
+		init-method="init">
+	</bean>
+	<bean id="filterTable" class="com.inn.dataanalytics.service.impl.FilterTable"
+		init-method="init">
+		<property name="rankDeviation" value="5" />
+		<property name="inputElements">
+			<list>
+				<!-- value>film</value-->
+			</list>
+		</property>
+	</bean>
+	<bean id="rankColumn" class="com.inn.dataanalytics.service.impl.RankColumn"
+		init-method="init">
+		<property name="rankDeviation" value="3" />
+		<!-- property name="rankPercentileDeviation" value="50"/ -->
+		<property name="weightageMap">
+			<map>
+				<entry key="foreignKeyWeightage" value="-100" />
+				<entry key="nonNullFieldWeightage" value="2" />
+				<entry key="uniqueKeyWeightage" value="-2" />
+				<entry key="indexedFieldWeightage" value="1" />
+				<entry key="uniqueKey_IndexedWeightage" value="1" />
+				<entry key="primaryKeyWeightage" value="-100" />
+				<entry key="booleanFieldWeightage" value="2" />
+				<entry key="numericFieldWeightage" value="3" />
+				<entry key="dateFieldWeightage" value="2" />
+				<entry key="nullFieldWeightage" value="-1" />
+				<entry key="smallTextFieldWeightage" value="2" />
+				<entry key="foreignDependencyThreshold" value="2" />
+			</map>
+		</property>
+		<property name="inputElements" ref="inputColumns" />
+	</bean>
+
+	<bean id="rankForeignColumn"
+		class="com.inn.dataanalytics.service.impl.RankForeignColumn"
+		init-method="init">
+		<property name="rankDeviation" value="3" />
+		<property name="weightageMap">
+			<map>
+				<entry key="foreignKeyWeightage" value="-100" />
+				<entry key="nonNullFieldWeightage" value="1" />
+				<entry key="uniqueKeyWeightage" value="1" />
+				<entry key="indexedFieldWeightage" value="1" />
+				<entry key="uniqueKey_IndexedWeightage" value="1" />
+				<entry key="primaryKeyWeightage" value="-100" />
+				<entry key="booleanFieldWeightage" value="1" />
+				<entry key="numericFieldWeightage" value="3" />
+				<entry key="dateFieldWeightage" value="2" />
+				<entry key="nullFieldWeightage" value="-1" />
+				<entry key="smallTextFieldWeightage" value="2" />
+				<entry key="foreignDependencyThreshold" value="2" />
+			</map>
+		</property>
+		<property name="inputElements" ref="inputColumns" />
+
+	</bean>
+
+	<bean id="inputColumns"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<!-- value>film:rental_rate</value-->
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="fetchStats"
+		class="com.inn.dataanalytics.service.impl.FetchStatistics">
+		<property name="statsDao" ref="statsDaoBean" />
+		<property name="schemaName" value="${schema_name}" />
+	</bean>
+
+	<bean id="rankColumnOnStats"
+		class="com.inn.dataanalytics.service.impl.RankColumnOnStats">
+		<property name="fieldDensityUpperThreshold" value="15" />
+		<property name="dateFieldGranularitySelector" value="10"/>
+	</bean>
+
+	<bean id="sqlDialectBean" class="org.jooq.SQLDialect"
+		factory-method="valueOf">
+		<constructor-arg>
+			<value>MYSQL</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="generateChartMetaData"
+		class="com.inn.dataanalytics.service.impl.GraphGeneratorService">
+		<property name="queryGenerator" ref="queryGenBean"></property>
+		<property name="titleGenerator" ref="titleGenBean"></property>
+	</bean>
+	
+	<bean id="generateReportMetaData"
+		class="com.inn.dataanalytics.service.impl.ReportMetadataGeneratorService">
+	</bean>
+
+	<bean id="schemaDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${schema_db_driverClassName}" />
+		<property name="url" value="${schema_db_url}" />
+		<property name="username" value="${schema_db_username}" />
+		<property name="password" value="${schema_db_password}" />
+	</bean>
+
+	<bean id="viewGenerator" class="com.inn.dataanalytics.service.impl.ViewGenerator">
+			<property name="dialect" ref="sqlDialectBean" />
+		</bean>
+		
+		<bean id="viewSplitter" class="com.inn.dataanalytics.service.impl.ViewSplitter">
+			<property name="dialect" ref="sqlDialectBean" />
+		</bean>
+	<!--  data based statistics -->
+
+	<bean id="statsDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${stats_db_driverClassName}" />
+		<property name="url" value="${stats_db_url}" />
+		<property name="username" value="${stats_db_username}" />
+		<property name="password" value="${stats_db_password}" />
+	</bean>
+
+	<bean id="statsDaoBean"
+		class="com.inn.dataanalytics.datastats.dao.impl.SimpleJdbcStatsDAO">
+		<property name="dataSource" ref="statsDataSource" />
+	</bean>
+	<bean id="queryGenBean"
+		class="com.inn.dataanalytics.service.helper.GraphQueryGenerator">
+		<property name="dialect" ref="sqlDialectBean" />
+		<property name="avgAggPrefix" value="average_"></property>
+		<property name="sumAggPrefix" value="sum_"></property>
+		<property name="minAggPrefix" value="min_"></property>
+		<property name="maxAggPrefix" value="max_"></property>
+		<property name="countAggPrefix" value="count_"></property>
+	</bean>
+	<bean id="titleGenBean"
+		class="com.inn.dataanalytics.service.helper.TitleGenerator">
+		<property name="betweenXY" value=" V/S " />
+		<property name="postXTableTitle" value="-" />
+		<property name="postYTableTitle" value="-" />
+		<property name="preTitle" value="Chart: " />
+	</bean>
+
+</beans>

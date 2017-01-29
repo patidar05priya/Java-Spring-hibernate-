@@ -1,0 +1,28 @@
+@startuml
+title Delete CustomerAttach Scenario
+participant User
+User -> CXFServlet: DELETE, CustomerAttach
+activate CXFServlet
+CXFServlet -> CustomerAttach: << create >>
+activate CustomerAttach
+CustomerAttach -> CXFServlet: << instance >>
+deactivate CustomerAttach
+CXFServlet -> CustomerAttachRestImpl: delete(:customerattach)
+activate CustomerAttachRestImpl
+CustomerAttachRestImpl -> CustomerAttachServiceDao: delete(:customerattach)
+activate CustomerAttachServiceDao
+CustomerAttachServiceDao -> CustomerAttachJPADao: delete(:customerattach)
+activate CustomerAttachJPADao
+CustomerAttachJPADao -> EntityManager: remove(:customerattach)
+activate EntityManager
+EntityManager -> CustomerAttachJPADao: << persisted customerattach >>
+deactivate EntityManager
+CustomerAttachJPADao -> CustomerAttachServiceDao: << persisted customerattach >>
+deactivate CustomerAttachJPADao
+CustomerAttachServiceDao -> CustomerAttachRestImpl: << persisted customerattach >>
+deactivate CustomerAttachServiceDao
+CustomerAttachRestImpl -> CXFServlet: << persisted customerattach >>
+deactivate CustomerAttachRestImpl
+CXFServlet -> User: marshalled customerattach XML
+deactivate CXFServlet
+@enduml

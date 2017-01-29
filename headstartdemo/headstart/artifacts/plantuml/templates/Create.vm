@@ -1,0 +1,28 @@
+@startuml
+title Create ${className} Scenario
+participant User
+User -> CXFServlet: POST, ${className}
+activate CXFServlet
+CXFServlet -> ${className}: << create >>
+activate ${className}
+${className} -> CXFServlet: << instance >>
+deactivate ${className}
+CXFServlet -> ${className}RestImpl: create(:${classVariable})
+activate ${className}RestImpl
+${className}RestImpl -> ${className}ServiceDao: create(:${classVariable})
+activate ${className}ServiceDao
+${className}ServiceDao -> ${className}JPADao: create(:${classVariable})
+activate ${className}JPADao
+${className}JPADao -> EntityManager: save(:${classVariable})
+activate EntityManager
+EntityManager -> ${className}JPADao: << persisted ${classVariable} >>
+deactivate EntityManager
+${className}JPADao -> ${className}ServiceDao: << persisted ${classVariable} >>
+deactivate ${className}JPADao
+${className}ServiceDao -> ${className}RestImpl: << persisted ${classVariable} >>
+deactivate ${className}ServiceDao
+${className}RestImpl -> CXFServlet: << persisted ${classVariable} >>
+deactivate ${className}RestImpl
+CXFServlet -> User: marshalled ${classVariable} XML
+deactivate CXFServlet
+@enduml

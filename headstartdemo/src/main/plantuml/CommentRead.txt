@@ -1,0 +1,28 @@
+@startuml
+title Find Comment Scenario
+participant User
+User -> CXFServlet: GET, Comment Search Critera XML
+activate CXFServlet
+CXFServlet -> Comment: << create >>
+activate Comment
+Comment -> CXFServlet: << instance >>
+deactivate Comment
+CXFServlet -> CommentRestImpl: getAll(:comment)
+activate CommentRestImpl
+CommentRestImpl -> CommentServiceDao: getAll(:comment)
+activate CommentServiceDao
+CommentServiceDao -> CommentJPADao: getAll(:comment)
+activate CommentJPADao
+CommentJPADao -> EntityManager: getResultList(:comment)
+activate EntityManager
+EntityManager -> CommentJPADao: List<Comment>
+deactivate EntityManager
+CommentJPADao -> CommentServiceDao: List<Comment>
+deactivate CommentJPADao
+CommentServiceDao -> CommentRestImpl: List<Comment>
+deactivate CommentServiceDao
+CommentRestImpl -> CXFServlet: List<Comment>
+deactivate CommentRestImpl
+CXFServlet -> User: marshalled XML
+deactivate CXFServlet
+@enduml

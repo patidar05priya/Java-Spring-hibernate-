@@ -1,0 +1,126 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link href="./styles/style.css" rel="stylesheet" type="text/css">
+<link href="./styles/fileuploader.css" rel="stylesheet" type="text/css">
+
+<% String userLocale;
+	
+   String localeFromURL=request.getParameter("locale");
+	if(localeFromURL==null){
+		if(session.getAttribute("locale")!=null){
+			String sessionLocale =  session.getAttribute("locale").toString();
+			userLocale=sessionLocale;
+		}
+		else{
+			userLocale="en";
+			session.setAttribute("locale","en");	
+		}		
+	}
+	else{
+		session.setAttribute("locale",localeFromURL);
+		userLocale=localeFromURL;	
+	}
+   String ctx = request.getContextPath();		
+%>
+
+
+<fmt:setLocale value="<%=userLocale%>"/>
+<%@ include file="messages.jsp"%>
+<%@ include file="permission.jsp"%>
+<fmt:bundle basename="message">
+<HTML>
+<HEAD>
+<% 
+	String requestedSkin = request.getParameter ("requestedSkin"); 
+	if (requestedSkin == null)
+		//requestedSkin = "${sc_skin}";
+		requestedSkin = "EnterpriseBlue";
+
+        String modificationRequested = "false";
+	if(request.getParameter("modify")!=null)
+	    modificationRequested=request.getParameter("modify");
+
+%>
+
+
+<SCRIPT>var ImageDir='<%=requestedSkin%>';</SCRIPT>
+<SCRIPT>var isomorphicDir="../isomorphic/";</SCRIPT>
+<SCRIPT>var projectDir='<%=ctx%>'+'/';</SCRIPT>
+<SCRIPT>var json='json';</SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+<SCRIPT SRC=../isomorphic/skins/<%=requestedSkin%>/load_skin.js></SCRIPT>
+<SCRIPT> var modify = <%=modificationRequested%>;</SCRIPT>
+<SCRIPT> var context = '<%=ctx%>';</SCRIPT>
+</HEAD>
+	<BODY>
+	 <SCRIPT>
+var title='<%=ctx%>';
+document.title=title.substring(1,title.length);
+<link rel="shortcut icon" href="images/favicon.ico">
+         function setLocale(locale){
+           window.location.assign('<%=ctx%>/index.jsp?locale='+locale);
+	 }
+         var isAdmin = false;
+	   <sec:authorize ifAllGranted="ADMIN">
+		isAdmin = true;
+	   </sec:authorize>
+	</SCRIPT>
+  <SCRIPT SRC="scripts/smartclientapp.js"></SCRIPT>
+       	 
+	 #if ($reportfeature.equals('true'))
+	  <SCRIPT SRC="scripts/ReportPentaho.js"></SCRIPT>
+	 <SCRIPT SRC="scripts/reports.js"></SCRIPT>
+	 #end
+	 #if ($dashboardfeature.equals('true'))
+	 <SCRIPT SRC="scripts/chartmeta.js"></SCRIPT>
+         <SCRIPT SRC="scripts/chart.js"></SCRIPT>
+	 #end
+
+
+          #foreach ($includeFile in $includeList.includeList)
+			<SCRIPT SRC="${includeFile.jsFilePath}"></SCRIPT>
+          #end
+
+<SCRIPT SRC="scripts/partsListGrid.js"></SCRIPT>
+  	 <SCRIPT SRC="scripts/generated/Users/UserDataSource.js"></SCRIPT>
+  	 <SCRIPT SRC="scripts/generated/Roles/RoleDataSource.js"></SCRIPT>
+   	 <SCRIPT SRC="scripts/generated/Permissions/PermissionDataSource.js"></SCRIPT>
+       	 <SCRIPT SRC="scripts/generated/Roles/RoleCreateVLayout.js"></SCRIPT>
+       	 <SCRIPT SRC="scripts/generated/Permissions/PermissionCreateVLayout.js"></SCRIPT>
+       	   <SCRIPT SRC="scripts/generated/audit/auditDataSource.js"></SCRIPT>
+  	 <SCRIPT SRC="scripts/generated/audit/auditVLayout.js"></SCRIPT>
+       	 <SCRIPT SRC="scripts/generated/Users/UserCreateVLayout.js"></SCRIPT>
+   		<SCRIPT SRC="scripts/generated/Users/userprofile.js"></SCRIPT>
+   		<SCRIPT SRC="scripts/fileuploader.js"></SCRIPT>
+   		<SCRIPT SRC="scripts/jquery-1.8.0.min.js"></SCRIPT>
+           
+         <SCRIPT> 
+   		   var expiry_days_left = get_url_parameter('expiry_days_left');
+			if(expiry_days_left)
+			   alert('Your password will expire in '+expiry_days_left+' days');
+	  	
+		if (!usermgmt)
+		   CrudTabSet.removeTab(UserMgmtTab);
+
+   		if (!worklist)
+		   CrudTabSet.removeTab(WorklistTab);
+
+		 if (!reporting)
+		   CrudTabSet.removeTab(ReportsTab);
+			if(applicationBackColor=="#D0E8EA")
+		MainVLayout.setBackgroundImage("../images/indexbg.png");
+		else
+		MainVLayout.setBackgroundColor(applicationBackColor);
+         </SCRIPT>
+
+ 	 
+
+    </BODY>
+</HTML>
+</fmt:bundle>

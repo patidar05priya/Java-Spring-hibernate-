@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title</title>
+<meta charset="utf-8">
+</head>
+<body>
+<script type="text/javascript">
+	var folder_id= '1'
+	var pid = "1";
+	var bulk_upload="true";
+	var delete_files="false";
+	var deal_room="false";
+	var user_id = "16";
+	var version = false;
+	var version_file_name = "";
+	
+	    
+    var uploader;
+    var filesCounter = 0;
+    var filesname = new Array();
+
+    function checkForDuplicateFiles(fileName){
+		if(checkForFileNameInArray(fileName)){
+			alert("This file is already present in list");
+			return false;
+		}else{
+			filesname[filesname.length] = fileName;
+			filesCounter = filesCounter + 1;
+			return true;
+		}
+    }
+    	    
+    function emptyArrayofFileName(){
+		for(var cnt1 = 0; cnt1 < filesname.length; cnt1++){
+				filesname[cnt1] = '';
+		}
+    }
+    
+    function checkForFileNameInArray(fileName){
+		for(var cnt2 = 0; cnt2 < filesname.length; cnt2++){
+			if(filesname[cnt2] == fileName)
+				return true;
+		}
+		return false;
+    }
+    
+    function checkForFileNameForVersion(fileName){
+		fileName = fileName.replace(/\s/gi,"_");
+		fileName = fileName.replace(/[&\/\\#,+()$~%'":*?<>{}]/g,"_");
+		fileName = '\''+fileName+'\'';
+		if(version_file_name == fileName){
+			filesCounter = filesCounter + 1;
+			return true;
+		}
+		else{
+			alert("File name needs to be same for being uploaded as new version. Please upload correct file");
+			return false;
+		}
+    }
+    
+    function removeFileNameFromArray(fileName){
+		for(var cnt3 = 0; cnt3 < filesname.length; cnt3++){
+			if(filesname[cnt3] == fileName){
+				filesname[cnt3] = '';
+				return true;
+			}
+		}
+    }
+    
+    createUploader();
+
+    function createUploader() {
+        uploader = new qq.FileUploader({
+          element: document.getElementById(upload_div_id),         
+          action: context+"/rest/"+uploadName+"Attach/addattachment/"+uploadid,
+          debug:true,
+		  autoUpload: false,
+		  multiple: !version,
+          // uploadButtonText: '<i class="upload-icon icon-cloud-upload icon-1x"></i> Select Files',
+          uploadButtonText: 'Choose file',
+          onSubmit: function(id, fileName){
+          return checkForDuplicateFiles(fileName);
+		  },
+          onCancel: function(id, fileName){
+				removeFileNameFromArray(fileName);
+				filesCounter = filesCounter - 1;
+		  },
+          onComplete: function(id, fileName, responseJSON) {
+			filesCounter = filesCounter - 1;
+			if(navigator.appName == "Microsoft Internet Explorer"){
+				var displayName = fileName;
+					if (displayName.length > 33){
+						displayName = displayName.slice(0, 19) + '...' + displayName.slice(-13);
+					}
+				var response = responseJSON.toString();
+				var fileId = id.replace("qq-upload-handler-iframe","");	
+				jQuery(".qq-upload-success").each(function(index){
+					if(index.toString() == fileId.toString()){
+						jQuery(this).html('<div class="left txtgrey">' + fileName + '</div> ' + '<div class="fltrt"> ' + responseJSON + '</div> <div class="clear"></div>');
+					}
+					if(jQuery(this).find('span').length > 0){
+						var items = jQuery(this).find('span');
+						
+						if(items.eq(1).html().toString() == fileName.toString());
+							jQuery(this).html('<div class="left txtgrey">' + displayName + '</div> ' + '<div class="fltrt"> ' + responseJSON + '</div> <div class="clear"></div>' );                                                                                          
+					}
+				});
+			}
+			else{
+				var displayName = fileName;
+				if (displayName.length > 33){
+					displayName = displayName.slice(0, 19) + '...' + displayName.slice(-13);
+				}
+				var myResponse = responseJSON.data;
+				if(myResponse==null || myResponse=='' || myResponse ==undefined || myResponse=="null" || myResponse =="undefined")
+					myResponse = responseJSON;
+					
+				jQuery(".qq-upload-success").each(function(index){
+					if(index.toString() == id.toString()){	
+							jQuery(this).html('<div class="left txtgrey">' + displayName + '</div> ' + '<div class="fltrt"> ' + myResponse + '</div> <div class="clear"></div>' );
+					}
+					if(jQuery(this).find('span').length > 0){
+						var items = jQuery(this).find('span');
+						//alert(items.eq(1).text());
+						if(items.eq(1).html().toString() == fileName.toString());
+						jQuery(this).html('<div class="left txtgrey">' + displayName + '</div> ' + '<div class="fltrt"> ' + myResponse + '</div> <div class="clear"></div>' );                                                                                          
+					}
+				})                                       
+			}
+		  	if(filesCounter==0 || filesCounter=="0" )
+			{
+				eval("refreshAll"+uploadName+"List()")
+				showCenteredLoading("File uploaded successfully");
+				closeRequirementDialog();
+			}	
+			
+		},
+		showMessage: function(id,message) {
+			// Using Bootstrap's classes and jQuery selector and DOM manipulation16.
+			jQuery('#file-' + id).append('<div class="alert alert-success">' + message + '</div>');
+		}
+	});
+    }
+    
+	//binding an event to the upload button
+      jQuery('#'+upid+'_triggerUpload').click(function() {
+			if(filesCounter != 0){
+				uploader.uploadStoredFiles();
+				$('#'+upid+'_file_upload_modal').fadeOut();
+				$('.modal-backdrop').css('z-index',-3);
+             }
+			else
+				showErrorLoading("Please select files to upload");
+		});
+	
+</script>
+</body>
+</html>	

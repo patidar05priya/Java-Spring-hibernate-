@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<service_definition xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.inn.com/test/service_definition/1.0">
+	<class name="com.inn.headstartdemo.service.impl.CustomerServiceImpl" label="CustomerServiceImpl">
+		<methods>
+			<method name="create" return_type="Customer" label="create">
+				<params>
+					<param name="Customer" type="com.inn.headstartdemo.model.Customer"/>
+				</params>
+			</method>
+			<method name="update" return_type="Customer" label="update">
+				<params>
+					<param name="Customer" type="com.inn.headstartdemo.model.Customer"/>
+				</params>
+			</method>
+			<method name="remove" return_type="void" label="remove">
+				<params>
+					<param name="Customer" type="com.inn.headstartdemo.model.Customer"/>
+				</params>
+			</method>
+			<method name="removeById" return_type="void" label="removeById">
+				<params>
+					<param name="Customer" type="com.inn.headstartdemo.model.Customer"/>
+				</params>
+			</method>
+		</methods>
+	</class>
+</service_definition>

@@ -1,0 +1,146 @@
+
+Titanium.include("common.js");
+Titanium.include("createcall.js");
+var ${tableName}CreateView = Ti.UI.createScrollView({
+
+});
+function ${tableName}Create() {
+var ${tableName}lay =10 ;
+
+                          
+	
+								
+						#foreach ($includeFile in $bootsStrapList)	
+							#if($includeFile.isForeignKey )
+							
+							var ${includeFile.name} = Ti.UI.createLabel({
+									color : '#900',
+									font : {
+										fontSize : 18
+									},
+									shadowColor : '#aaa',
+									top : ${tableName}lay,
+									shadowOffset : {
+										x : 5,
+										y : 5
+									},
+									text : '${includeFile.name}',
+									left : "10%",
+									textAlign : Ti.UI.TEXT_ALIGNMENT_CENTER,
+									width : 'auto',
+									height : 'auto'
+								});					
+						   
+							
+
+							var ${includeFile.name}_picker = Ti.UI.createPicker({
+								selectionIndicator: true,
+								top:${tableName}lay,
+								right:"10%"
+							});
+							${tableName}lay =${tableName}lay + 80;
+							var ${includeFile.name}_column1 = Ti.UI.createPickerColumn();
+							
+
+							
+							for (var i = 0; i < ${includeFile.name}_foriegn_${tableName}.length; i++){
+								var ${includeFile.name}_row1 = Ti.UI.createPickerRow({
+									title:${includeFile.name}_foriegn_${tableName}[i].${includeFile.viewerName},
+									value:${includeFile.name}_foriegn_${tableName}[i].${includeFile.dataName}
+									
+								});
+								${includeFile.name}_column1.addRow(${includeFile.name}_row1);
+							}
+
+							
+							${includeFile.name}_picker.add(${includeFile.name}_column1);
+
+							${includeFile.name}_picker.addEventListener('change', function(e){
+								Ti.API.info(e.row.title);
+								
+							});
+
+							
+										
+									#else
+								var ${includeFile.name} = Ti.UI.createLabel({
+									color : '#900',
+									font : {
+										fontSize : 18
+									},
+									shadowColor : '#aaa',
+									top : ${tableName}lay,
+									shadowOffset : {
+										x : 5,
+										y : 5
+									},
+									text : '${includeFile.name}',
+									left : "10%",
+									textAlign : Ti.UI.TEXT_ALIGNMENT_CENTER,
+									width : 'auto',
+									height : 'auto'
+								});
+								var ${includeFile.name}_txtField = Ti.UI.createTextField({
+									color : '#900',
+									font : {
+										fontSize : 14
+									},
+									top : ${tableName}lay,
+									right : "10%",
+									borderStyle : Ti.UI.INPUT_BORDERSTYLE_BEZEL,
+									textAlign : Ti.UI.TEXT_ALIGNMENT_CENTER,
+									width : '40%',
+									height : '6%'
+								});
+								${tableName}lay  = ${tableName}lay + 60;
+								
+									#end
+						#end
+		           
+
+	
+	var createbtn = Ti.UI.createButton({
+		title : 'create',
+		left : "50%",
+		font : {
+			fontSize : 15
+		},
+		width : "25%",
+		height : "auto",
+		top : ${tableName}lay
+	});
+
+	createbtn.addEventListener('click', function(e) {
+ 
+ 
+        var json ="{";
+		#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey )
+		json+='"${includeFile.name}":{"${includeFile.dataName}":"'+ ${includeFile.name}_picker.getSelectedRow(0).value + '"},';
+		
+		#else
+
+			json+= '"${includeFile.name}":"' + ${includeFile.name}_txtField.value + '",';
+		#end 
+		#end	
+    	json =json.substring(0,json.length-1)+'}'
+		createcall(json,'${entityName}');	
+			
+		
+			});
+	
+	#foreach ($includeFile in $bootsStrapList)	
+			#if($includeFile.isForeignKey )
+			${tableName}CreateView.add(${includeFile.name});
+			${tableName}CreateView.add(${includeFile.name}_picker);
+   #else
+    
+	${tableName}CreateView.add(${includeFile.name});
+	${tableName}CreateView.add(${includeFile.name}_txtField);
+   #end 
+   #end	
+	${tableName}CreateView.add(createbtn);
+
+}
+
+
